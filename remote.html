@@ -21,247 +21,188 @@
 }
 
 body{
-
     margin:0;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family:Arial,Helvetica,sans-serif;
     background:#080b12;
-
     color:#fff;
 }
 
 .wrap{
-
     max-width:620px;
-
     margin:auto;
-
     padding:20px;
 }
 
 .top{
-
     background:#111827;
-
     border-radius:14px;
-
     padding:20px;
-
     margin-bottom:14px;
 }
 
 h1{
-
     margin:0 0 8px;
-
     font-size:30px;
 }
 
 .muted{
-
     color:#9ca3af;
 }
 
 .status{
-
     font-weight:800;
-
     margin-top:10px;
 }
 
 .online{
-
     color:#4ade80;
 }
 
 .offline{
-
     color:#f87171;
 }
 
 input,select{
-
     width:100%;
-
     padding:15px;
-
     border-radius:9px;
-
     border:1px solid #4b5563;
-
     background:#1f2937;
-
     color:#fff;
-
     font-size:17px;
 }
 
 button{
-
     min-height:50px;
-
     border:0;
-
     border-radius:10px;
-
     background:#2563eb;
-
     color:#fff;
-
     font-size:17px;
-
     font-weight:800;
-
     cursor:pointer;
-
     padding:10px 15px;
 }
 
 button:active{
-
     transform:scale(.98);
 }
 
 .connect{
-
     display:grid;
-
     grid-template-columns:1fr auto;
-
     gap:8px;
 }
 
 .connect button{
-
     background:#16a34a;
 }
 
+.menuButton{
+    width:100%;
+    background:#374151;
+    font-size:20px;
+    margin-top:12px;
+}
+
+.remoteMenu{
+    display:none;
+    margin-top:12px;
+}
+
+.remoteMenu.open{
+    display:block;
+}
+
+.remoteMenu button{
+    width:100%;
+    margin-bottom:8px;
+    text-align:left;
+}
+
+.remoteMenu .danger{
+    color:#fff;
+    background:#dc2626;
+}
+
 .playerButtons{
-
     display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
+    grid-template-columns:repeat(2,1fr);
     gap:8px;
-
     margin-top:12px;
 }
 
 .playerButtons button.active{
-
     outline:3px solid #60a5fa;
 }
 
 .grid{
-
     display:grid;
-
-    grid-template-columns:
-        repeat(5,1fr);
-
+    grid-template-columns:repeat(5,1fr);
     gap:8px;
 }
 
 .grid button{
-
     min-height:58px;
-
     font-size:20px;
 }
 
 .strike{
-
-    grid-column:
-        span 5;
-
+    grid-column:span 5;
     background:#1d4ed8;
 }
 
 .spare{
-
-    grid-column:
-        span 5;
-
+    grid-column:span 5;
     background:#7c3aed;
 }
 
 .nav{
-
     display:grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
+    grid-template-columns:1fr 1fr;
     gap:8px;
-
     margin-top:8px;
 }
 
 .danger{
-
     background:#dc2626;
 }
 
 .wide{
-
     width:100%;
-
     margin-top:8px;
 }
 
 .score{
-
     font-size:23px;
-
     font-weight:800;
-
     text-align:center;
-
     background:#1f2937;
-
     padding:16px;
-
     border-radius:10px;
-
     margin-top:12px;
 }
 
 .small{
-
     font-size:14px;
-
     color:#9ca3af;
 }
 
 .sectionTitle{
-
     font-size:20px;
-
     font-weight:800;
-
     margin-bottom:10px;
 }
 
 @media(max-width:400px){
 
     .grid{
-
-        grid-template-columns:
-            repeat(3,1fr);
-
+        grid-template-columns:repeat(3,1fr);
     }
 
     .strike,
     .spare{
-
-        grid-column:
-            span 3;
-
+        grid-column:span 3;
     }
 
 }
@@ -274,6 +215,8 @@ button:active{
 
 <div class="wrap">
 
+
+<!-- HEADER -->
 
 <div class="top">
 
@@ -293,6 +236,8 @@ button:active{
 </div>
 
 
+<!-- CONNECTION -->
+
 <div
     class="top"
     id="connectBox"
@@ -304,12 +249,11 @@ button:active{
 
     <div class="small">
 
-        On the iPad scoreboard,
-        open ☰ MENU and copy the
+        On the iPad scoreboard, open
+        ☰ MENU and copy the
         6-character Remote Code.
 
     </div>
-
 
     <div
         class="connect"
@@ -332,11 +276,86 @@ button:active{
 </div>
 
 
+<!-- REMOTE -->
+
 <div
     id="remoteUI"
     style="display:none"
 >
 
+
+<!-- REMOTE MENU -->
+
+<div class="top">
+
+    <button
+        id="menuButton"
+        class="menuButton"
+    >
+        ☰ MENU
+    </button>
+
+
+    <div
+        id="remoteMenu"
+        class="remoteMenu"
+    >
+
+        <button
+            onclick="goPage('players')"
+        >
+            👥 Players
+        </button>
+
+
+        <button
+            onclick="goPage('score')"
+        >
+            🎳 Score
+        </button>
+
+
+        <button
+            onclick="goPage('editor')"
+        >
+            ✏️ Score Editor
+        </button>
+
+
+        <button
+            onclick="goPage('recap')"
+        >
+            📊 Recap
+        </button>
+
+
+        <button
+            onclick="goPage('backgrounds')"
+        >
+            🖼️ Backgrounds
+        </button>
+
+
+        <button
+            onclick="goBack()"
+        >
+            ◀ Back
+        </button>
+
+
+        <button
+            class="danger"
+            onclick="endGame()"
+        >
+            🛑 End Game
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- PLAYERS -->
 
 <div class="top">
 
@@ -351,6 +370,8 @@ button:active{
 
 </div>
 
+
+<!-- CURRENT SCORE -->
 
 <div class="top">
 
@@ -370,6 +391,8 @@ button:active{
 
 </div>
 
+
+<!-- BOWLING CONTROLS -->
 
 <div class="top">
 
@@ -470,7 +493,6 @@ button:active{
         END GAME
     </button>
 
-
 </div>
 
 
@@ -482,15 +504,14 @@ button:active{
 <script>
 
 let peer = null;
-
 let conn = null;
-
 let state = null;
-
 
 const $ = id =>
     document.getElementById(id);
 
+
+/* STATUS */
 
 function setStatus(text,ok){
 
@@ -504,7 +525,7 @@ function setStatus(text,ok){
 }
 
 
-/* ---------------- SEND COMMAND ---------------- */
+/* SEND COMMAND */
 
 function send(action,value){
 
@@ -525,7 +546,55 @@ function send(action,value){
 }
 
 
-/* ---------------- SCORE CALCULATION ---------------- */
+/* MENU */
+
+$("menuButton").onclick = () => {
+
+    $("remoteMenu")
+        .classList.toggle("open");
+
+};
+
+
+/* PAGE CONTROL */
+
+function goPage(page){
+
+    send("page",page);
+
+    $("remoteMenu")
+        .classList.remove("open");
+
+}
+
+
+function goBack(){
+
+    send("page","score");
+
+    $("remoteMenu")
+        .classList.remove("open");
+
+}
+
+
+/* END GAME */
+
+function endGame(){
+
+    if(confirm("End the game?")){
+
+        send("end");
+
+        $("remoteMenu")
+            .classList.remove("open");
+
+    }
+
+}
+
+
+/* SCORE FRAMES */
 
 function getFrames(rolls){
 
@@ -587,8 +656,11 @@ function getFrames(rolls){
 
 
     return f;
+
 }
 
+
+/* SCORE CALCULATION */
 
 function scores(rolls){
 
@@ -614,8 +686,6 @@ function scores(rolls){
 
         }
 
-
-        /* 10th frame */
 
         if(i === 9){
 
@@ -764,10 +834,11 @@ function scores(rolls){
 
 
     return out;
+
 }
 
 
-/* ---------------- DISPLAY ---------------- */
+/* RENDER */
 
 function render(){
 
@@ -855,7 +926,7 @@ function render(){
 }
 
 
-/* ---------------- CONNECT ---------------- */
+/* CONNECT */
 
 function connect(){
 
@@ -963,7 +1034,7 @@ function connect(){
 }
 
 
-/* ---------------- BUTTONS ---------------- */
+/* CONNECT BUTTON */
 
 $("connect").onclick =
     connect;
@@ -980,6 +1051,8 @@ $("code").addEventListener(
 );
 
 
+/* NUMBER BUTTONS */
+
 document
     .querySelectorAll("[data-roll]")
     .forEach(b => {
@@ -993,6 +1066,8 @@ document
     });
 
 
+/* STRIKE */
+
 $("strike").onclick =
     () => send(
         "addRoll",
@@ -1000,28 +1075,29 @@ $("strike").onclick =
     );
 
 
+/* SPARE */
+
 $("spare").onclick =
     () => send("spare");
 
 
-$("prev").onclick =
-    () => send("prev");
-
+/* NEXT */
 
 $("next").onclick =
     () => send("next");
 
 
+/* PREVIOUS */
+
+$("prev").onclick =
+    () => send("prev");
+
+
+/* RESET */
+
 $("reset").onclick =
     () => send("reset");
 
-
-$("end").onclick = () => {
-
-    if(confirm("End the game?"))
-        send("end");
-
-};
 
 </script>
 
