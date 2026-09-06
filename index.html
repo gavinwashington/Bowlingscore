@@ -3,377 +3,865 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bowling Scoreboard</title>
+
 <style>
-    * {
-        box-sizing: border-box;
-    }
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #111827;
-        color: white;
-    }
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111827;
+    color: white;
+}
+
+/* HEADER */
+
+header {
+    height: 70px;
+    background: #080b12;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.menu-button {
+    background: #2563eb;
+    border: none;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* MENU */
+
+.menu {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 65px;
+    width: 220px;
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 10px;
+    padding: 8px;
+    z-index: 100;
+}
+
+.menu.open {
+    display: block;
+}
+
+.menu button {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.menu button:hover {
+    background: #374151;
+}
+
+/* CONTENT */
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* SCORE */
+
+.scoreboard {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    overflow-x: auto;
+}
+
+.frame {
+    min-width: 85px;
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.frame-title {
+    text-align: center;
+    padding: 7px;
+    background: #374151;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.rolls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+}
+
+.roll {
+    padding: 12px 5px;
+    border-right: 1px solid #374151;
+    font-size: 20px;
+    font-weight: bold;
+    min-height: 48px;
+}
+
+.roll:last-child {
+    border-right: none;
+}
+
+.frame-score {
+    border-top: 1px solid #374151;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 10px;
+    min-height: 45px;
+}
+
+.controls {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.controls button,
+.action-button {
+    border: none;
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #2563eb;
+    color: white;
+}
+
+.reset {
+    background: #dc2626 !important;
+}
+
+/* PLAYERS */
+
+.player-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.player {
+    background: #1f2937;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.player button {
+    background: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+/* RECAP */
+
+.recap-box {
+    background: #1f2937;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.recap-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #374151;
+    padding: 12px 0;
+}
+
+/* BACKGROUNDS */
+
+.backgrounds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.background-option {
+    height: 100px;
+    border-radius: 10px;
+    border: 3px solid transparent;
+    cursor: pointer;
+}
+
+.background-option:hover {
+    border-color: white;
+}
+
+.bg-dark {
+    background: #111827;
+}
+
+.bg-blue {
+    background: linear-gradient(135deg, #172554, #2563eb);
+}
+
+.bg-purple {
+    background: linear-gradient(135deg, #2e1065, #7e22ce);
+}
+
+.bg-red {
+    background: linear-gradient(135deg, #450a0a, #dc2626);
+}
+
+.bg-green {
+    background: linear-gradient(135deg, #052e16, #16a34a);
+}
+
+.bg-light {
+    background: #e5e7eb;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
     header {
-        background: #0b0f19;
-        padding: 20px;
-        text-align: center;
-        font-size: 30px;
-        font-weight: bold;
-    }
-    .container {
-        max-width: 1100px;
-        margin: auto;
-        padding: 20px;
-    }
-    .scoreboard {
-        display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        gap: 5px;
-        overflow-x: auto;
-    }
-    .frame {
-        min-width: 85px;
-        background: #1f2937;
-        border: 1px solid #374151;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-    .frame-title {
-        text-align: center;
-        padding: 7px;
-        background: #374151;
-        font-weight: bold;
-    }
-    .rolls {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        text-align: center;
-    }
-    .roll {
-        padding: 12px 5px;
-        border-right: 1px solid #374151;
         font-size: 20px;
-        font-weight: bold;
-        min-height: 48px;
     }
-    .roll:last-child {
-        border-right: none;
+
+    .scoreboard {
+        grid-template-columns: repeat(10, 85px);
     }
-    .frame-score {
-        border-top: 1px solid #374151;
-        text-align: center;
-        font-size: 22px;
-        font-weight: bold;
-        padding: 10px;
-        min-height: 45px;
-    }
-    .controls {
-        margin-top: 20px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-    }
-    button {
-        border: none;
-        border-radius: 8px;
-        padding: 14px 20px;
-        font-size: 17px;
-        font-weight: bold;
-        cursor: pointer;
-        background: #2563eb;
-        color: white;
-    }
-    button:hover {
-        background: #1d4ed8;
-    }
-    .reset {
-        background: #dc2626;
-    }
-    .reset:hover {
-        background: #b91c1c;
-    }
-    .alert-box {
-        margin-top: 30px;
-        background: #1f2937;
-        padding: 20px;
-        border-radius: 10px;
-    }
-    .alert-box h2 {
-        margin-top: 0;
-    }
-    .alert-form {
-        display: flex;
-        gap: 10px;
-    }
-    input {
-        flex: 1;
-        padding: 14px;
-        border-radius: 8px;
-        border: 1px solid #4b5563;
-        background: #111827;
-        color: white;
-        font-size: 16px;
-    }
-    .news-container {
-        margin-top: 15px;
-        height: 55px;
-        overflow: hidden;
-        background: #050505;
-        border: 2px solid #ef4444;
-        display: flex;
-        align-items: center;
-        position: relative;
-    }
-    .news-alert {
-        white-space: nowrap;
-        font-size: 21px;
-        font-weight: bold;
-        position: absolute;
-        left: 100%;
-    }
-    .animate-news {
-        animation: newsSlide 8s linear;
-    }
-    @keyframes newsSlide {
-        from {
-            left: 100%;
-        }
-        to {
-            left: -100%;
-        }
-    }
-    @media (max-width: 700px) {
-        .scoreboard {
-            grid-template-columns: repeat(10, 85px);
-        }
-        .alert-form {
-            flex-direction: column;
-        }
-    }
+}
 </style>
 </head>
+
 <body>
+
 <header>
-    🎳 BOWLING SCOREBOARD
+
+    <div>🎳 BOWLING</div>
+
+    <button class="menu-button" onclick="toggleMenu()">
+        ☰ MENU
+    </button>
+
 </header>
-<div class="container">
-    <div id="scoreboard" class="scoreboard"></div>
-    <div class="controls" id="controls"></div>
-    <div class="controls">
-        <button class="reset" onclick="resetGame()">RESET GAME</button>
-    </div>
-    <div class="alert-box">
-        <h2>📢 Alert Maker</h2>
-        <div class="alert-form">
-            <input
-                id="alertInput"
-                type="text"
-                maxlength="120"
-                placeholder="Type your alert..."
-            >
-            <button onclick="sendAlert()">
-                SEND ALERT
-            </button>
-        </div>
-        <div class="news-container">
-            <div id="newsAlert"></div>
-        </div>
-    </div>
+
+
+<!-- MENU -->
+
+<div id="menu" class="menu">
+
+    <button onclick="showPage('players')">
+        👥 Players
+    </button>
+
+    <button onclick="showPage('score')">
+        🎳 Score
+    </button>
+
+    <button onclick="showPage('recap')">
+        📊 Recap
+    </button>
+
+    <button onclick="showPage('backgrounds')">
+        🖼️ Backgrounds
+    </button>
+
 </div>
+
+
+<div class="container">
+
+
+<!-- PLAYERS -->
+
+<section id="players" class="page">
+
+    <h1>Players</h1>
+
+    <input
+        id="playerInput"
+        placeholder="Player name"
+        style="
+            padding:14px;
+            width:100%;
+            max-width:400px;
+            border-radius:8px;
+            border:1px solid #374151;
+            background:#1f2937;
+            color:white;
+            font-size:16px;
+        "
+    >
+
+    <button
+        class="action-button"
+        onclick="addPlayer()"
+        style="margin-top:10px;"
+    >
+        ADD PLAYER
+    </button>
+
+    <div id="playerList" class="player-list"></div>
+
+</section>
+
+
+<!-- SCORE -->
+
+<section id="score" class="page active">
+
+    <h1>Score</h1>
+
+    <div id="scoreboard" class="scoreboard"></div>
+
+    <div id="controls" class="controls"></div>
+
+    <div class="controls">
+
+        <button
+            class="reset"
+            onclick="resetGame()"
+        >
+            RESET GAME
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- RECAP -->
+
+<section id="recap" class="page">
+
+    <h1>Recap</h1>
+
+    <div class="recap-box">
+
+        <div class="recap-row">
+            <span>Rolls</span>
+            <strong id="recapRolls">0</strong>
+        </div>
+
+        <div class="recap-row">
+            <span>Strikes</span>
+            <strong id="recapStrikes">0</strong>
+        </div>
+
+        <div class="recap-row">
+            <span>Spares</span>
+            <strong id="recapSpares">0</strong>
+        </div>
+
+        <div class="recap-row">
+            <span>Total Score</span>
+            <strong id="recapScore">0</strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- BACKGROUNDS -->
+
+<section id="backgrounds" class="page">
+
+    <h1>Backgrounds</h1>
+
+    <p>Choose a background for your bowling scoreboard.</p>
+
+    <div class="backgrounds">
+
+        <div
+            class="background-option bg-dark"
+            onclick="setBackground('#111827')">
+        </div>
+
+        <div
+            class="background-option bg-blue"
+            onclick="setBackground('linear-gradient(135deg,#172554,#2563eb)')">
+        </div>
+
+        <div
+            class="background-option bg-purple"
+            onclick="setBackground('linear-gradient(135deg,#2e1065,#7e22ce)')">
+        </div>
+
+        <div
+            class="background-option bg-red"
+            onclick="setBackground('linear-gradient(135deg,#450a0a,#dc2626)')">
+        </div>
+
+        <div
+            class="background-option bg-green"
+            onclick="setBackground('linear-gradient(135deg,#052e16,#16a34a)')">
+        </div>
+
+        <div
+            class="background-option bg-light"
+            onclick="setBackground('#e5e7eb')">
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+
 <script>
+
 let rolls = [];
-/* =========================
-   SCORE CALCULATION
-========================= */
+let players = [];
+
+
+/* MENU */
+
+function toggleMenu() {
+
+    document
+        .getElementById("menu")
+        .classList.toggle("open");
+
+}
+
+
+function showPage(page) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(p => p.classList.remove("active"));
+
+    document
+        .getElementById(page)
+        .classList.add("active");
+
+    document
+        .getElementById("menu")
+        .classList.remove("open");
+
+    updateRecap();
+}
+
+
+/* SCORE CALCULATION */
+
 function calculateScores() {
+
     let scores = [];
     let total = 0;
-    let rollIndex = 0;
+    let index = 0;
+
     for (let frame = 0; frame < 10; frame++) {
-        if (rollIndex >= rolls.length) {
+
+        if (index >= rolls.length) {
             scores.push(null);
             continue;
         }
-        let first = rolls[rollIndex];
-        // Strike
+
+        let first = rolls[index];
+
         if (first === 10) {
-            if (rollIndex + 2 < rolls.length) {
-                total += 10 +
-                    rolls[rollIndex + 1] +
-                    rolls[rollIndex + 2];
+
+            if (index + 2 < rolls.length) {
+
+                total +=
+                    10 +
+                    rolls[index + 1] +
+                    rolls[index + 2];
+
                 scores.push(total);
+
             } else {
                 scores.push(null);
             }
-            rollIndex++;
-        }
-        // Normal frame / spare
-        else {
-            if (rollIndex + 1 < rolls.length) {
-                let second = rolls[rollIndex + 1];
-                let frameTotal = first + second;
-                if (frameTotal === 10) {
-                    if (rollIndex + 2 < rolls.length) {
-                        total += 10 + rolls[rollIndex + 2];
+
+            index++;
+
+        } else {
+
+            if (index + 1 < rolls.length) {
+
+                let second = rolls[index + 1];
+
+                if (first + second === 10) {
+
+                    if (index + 2 < rolls.length) {
+
+                        total +=
+                            10 +
+                            rolls[index + 2];
+
                         scores.push(total);
+
                     } else {
                         scores.push(null);
                     }
+
                 } else {
-                    total += frameTotal;
+
+                    total += first + second;
                     scores.push(total);
+
                 }
-                rollIndex += 2;
+
+                index += 2;
+
             } else {
+
                 scores.push(null);
-                rollIndex++;
+                index++;
+
             }
         }
     }
+
     return scores;
 }
-/* =========================
-   DISPLAY SCOREBOARD
-========================= */
+
+
+/* SCOREBOARD */
+
 function renderScoreboard() {
-    const board = document.getElementById("scoreboard");
+
+    const board =
+        document.getElementById("scoreboard");
+
     board.innerHTML = "";
+
     const scores = calculateScores();
-    let rollIndex = 0;
+
+    let index = 0;
+
     for (let frame = 0; frame < 10; frame++) {
-        const box = document.createElement("div");
+
+        const box =
+            document.createElement("div");
+
         box.className = "frame";
-        const title = document.createElement("div");
-        title.className = "frame-title";
-        title.textContent = "FRAME " + (frame + 1);
-        box.appendChild(title);
-        const rollsBox = document.createElement("div");
+
+        box.innerHTML = `
+            <div class="frame-title">
+                FRAME ${frame + 1}
+            </div>
+        `;
+
+        const rollsBox =
+            document.createElement("div");
+
         rollsBox.className = "rolls";
+
         if (frame < 9) {
-            let first = rolls[rollIndex];
-            let second = rolls[rollIndex + 1];
+
+            const first = rolls[index];
+            const second = rolls[index + 1];
+
             let firstText = "";
             let secondText = "";
+
             if (first !== undefined) {
-                if (first === 10) {
-                    firstText = "X";
-                } else {
-                    firstText = first;
-                }
+
+                firstText =
+                    first === 10 ? "X" : first;
             }
+
             if (first === 10) {
-                rollIndex++;
+
+                index++;
+
             } else if (second !== undefined) {
-                if (first + second === 10) {
-                    secondText = "/";
-                } else {
-                    secondText = second;
-                }
-                rollIndex += 2;
+
+                secondText =
+                    first + second === 10
+                        ? "/"
+                        : second;
+
+                index += 2;
             }
+
             rollsBox.innerHTML = `
                 <div class="roll">${firstText}</div>
                 <div class="roll">${secondText}</div>
             `;
+
         } else {
-            // 10th frame
+
             for (let i = 0; i < 3; i++) {
-                let value = rolls[rollIndex + i];
-                let text = "";
-                if (value !== undefined) {
-                    text = value === 10 ? "X" : value;
-                }
-                const roll = document.createElement("div");
+
+                const value =
+                    rolls[index + i];
+
+                const roll =
+                    document.createElement("div");
+
                 roll.className = "roll";
-                roll.textContent = text;
+
+                roll.textContent =
+                    value === undefined
+                        ? ""
+                        : value === 10
+                            ? "X"
+                            : value;
+
                 rollsBox.appendChild(roll);
             }
-            rollIndex = rolls.length;
+
+            index = rolls.length;
         }
+
         box.appendChild(rollsBox);
-        const score = document.createElement("div");
+
+        const score =
+            document.createElement("div");
+
         score.className = "frame-score";
+
         score.textContent =
-            scores[frame] === null ||
-            scores[frame] === undefined
-                ? ""
-                : scores[frame];
+            scores[frame] ?? "";
+
         box.appendChild(score);
+
         board.appendChild(box);
     }
-    renderControls();
+
+    updateRecap();
 }
-/* =========================
-   BOWLING BUTTONS
-========================= */
+
+
+/* BUTTONS */
+
 function renderControls() {
-    const controls = document.getElementById("controls");
+
+    const controls =
+        document.getElementById("controls");
+
     controls.innerHTML = "";
+
     for (let i = 0; i <= 10; i++) {
-        const button = document.createElement("button");
-        button.textContent = i === 10 ? "STRIKE (X)" : i;
-        button.onclick = function () {
-            addRoll(i);
-        };
+
+        const button =
+            document.createElement("button");
+
+        button.textContent =
+            i === 10 ? "STRIKE X" : i;
+
+        button.onclick =
+            () => addRoll(i);
+
         controls.appendChild(button);
     }
 }
-/* =========================
-   ADD ROLL
-========================= */
+
+
+/* ADD ROLL */
+
 function addRoll(value) {
-    if (rolls.length >= 21) {
+
+    if (rolls.length >= 21)
         return;
-    }
-    // Don't allow impossible second-roll totals
+
     if (rolls.length > 0) {
-        let last = rolls[rolls.length - 1];
-        if (last !== 10 && last + value > 10) {
-            alert("That roll would make the frame exceed 10!");
+
+        const last =
+            rolls[rolls.length - 1];
+
+        if (
+            last !== 10 &&
+            last + value > 10
+        ) {
             return;
         }
     }
+
     rolls.push(value);
+
     renderScoreboard();
 }
-/* =========================
-   RESET
-========================= */
+
+
+/* RESET */
+
 function resetGame() {
+
     rolls = [];
+
     renderScoreboard();
 }
-/* =========================
-   NEWS ALERT
-========================= */
-function sendAlert() {
-    const input = document.getElementById("alertInput");
-    const news = document.getElementById("newsAlert");
-    const message = input.value.trim();
-    if (message === "") {
+
+
+/* PLAYERS */
+
+function addPlayer() {
+
+    const input =
+        document.getElementById("playerInput");
+
+    const name =
+        input.value.trim();
+
+    if (!name)
         return;
-    }
-    news.classList.remove("animate-news");
-    // Force animation restart
-    void news.offsetWidth;
-    news.textContent =
-        "🚨 BREAKING NEWS  •  " +
-        message +
-        "  •  🚨";
-    news.classList.add("animate-news");
+
+    players.push(name);
+
     input.value = "";
+
+    renderPlayers();
 }
-/* Allow Enter to send alert */
-document
-    .getElementById("alertInput")
-    .addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            sendAlert();
-        }
+
+
+function renderPlayers() {
+
+    const list =
+        document.getElementById("playerList");
+
+    list.innerHTML = "";
+
+    players.forEach((name, index) => {
+
+        const player =
+            document.createElement("div");
+
+        player.className = "player";
+
+        player.innerHTML = `
+            <span class="player-name">
+                ${escapeHTML(name)}
+            </span>
+
+            <button onclick="removePlayer(${index})">
+                REMOVE
+            </button>
+        `;
+
+        list.appendChild(player);
     });
+}
+
+
+function removePlayer(index) {
+
+    players.splice(index, 1);
+
+    renderPlayers();
+}
+
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+/* RECAP */
+
+function updateRecap() {
+
+    document.getElementById("recapRolls")
+        .textContent = rolls.length;
+
+    document.getElementById("recapStrikes")
+        .textContent =
+            rolls.filter(x => x === 10).length;
+
+    let spares = 0;
+    let index = 0;
+
+    while (index < rolls.length - 1) {
+
+        if (
+            rolls[index] !== 10 &&
+            rolls[index] + rolls[index + 1] === 10
+        ) {
+            spares++;
+            index += 2;
+        } else if (rolls[index] === 10) {
+            index++;
+        } else {
+            index += 2;
+        }
+    }
+
+    document.getElementById("recapSpares")
+        .textContent = spares;
+
+    const scores = calculateScores();
+
+    const completed =
+        scores.filter(x => x !== null);
+
+    document.getElementById("recapScore")
+        .textContent =
+            completed.length
+                ? completed[completed.length - 1]
+                : 0;
+}
+
+
+/* BACKGROUNDS */
+
+function setBackground(background) {
+
+    document.body.style.background =
+        background;
+}
+
+
+/* START */
+
+renderControls();
 renderScoreboard();
+renderPlayers();
+
 </script>
+
 </body>
 </html>
