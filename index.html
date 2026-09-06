@@ -4,57 +4,110 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bowling Scoreboard</title>
+<title>King Gavin Lanes</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background: #111827;
     color: white;
+    transition: background 0.5s;
 }
 
-/* HEADER */
+/* =========================
+   WELCOME SCREEN
+========================= */
 
-header {
-    height: 70px;
+#welcomeScreen {
+    position: fixed;
+    inset: 0;
     background: #080b12;
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 9999;
+    transition: opacity 2s ease;
+}
+
+#welcomeScreen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.welcome-content h1 {
+    font-size: clamp(38px, 7vw, 75px);
+    margin: 0;
+}
+
+.welcome-content p {
+    font-size: 22px;
+    color: #9ca3af;
+    margin-top: 15px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    height: 72px;
+    background: #080b12;
+
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
-    font-size: 25px;
+
+    padding: 0 25px;
+
+    font-size: 27px;
     font-weight: bold;
 }
 
 .menu-button {
     background: #2563eb;
-    border: none;
     color: white;
-    padding: 12px 18px;
-    border-radius: 8px;
-    font-size: 16px;
+
+    border: none;
+    border-radius: 9px;
+
+    padding: 13px 21px;
+
+    font-size: 17px;
     font-weight: bold;
+
     cursor: pointer;
 }
 
-/* MENU */
+/* =========================
+   MENU
+========================= */
 
 .menu {
     display: none;
+
     position: absolute;
+
     right: 20px;
-    top: 65px;
-    width: 220px;
+    top: 68px;
+
+    width: 250px;
+
     background: #1f2937;
+
     border: 1px solid #374151;
-    border-radius: 10px;
+
+    border-radius: 12px;
+
     padding: 8px;
-    z-index: 100;
+
+    z-index: 500;
 }
 
 .menu.open {
@@ -63,13 +116,20 @@ header {
 
 .menu button {
     width: 100%;
-    text-align: left;
+
     background: transparent;
     color: white;
+
     border: none;
-    padding: 14px;
-    border-radius: 7px;
-    font-size: 16px;
+
+    text-align: left;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    font-size: 17px;
+
     cursor: pointer;
 }
 
@@ -77,12 +137,23 @@ header {
     background: #374151;
 }
 
-/* CONTENT */
+.menu .end {
+    color: #f87171;
+}
+
+.menu .back {
+    border-bottom: 1px solid #374151;
+    margin-bottom: 5px;
+}
+
+/* =========================
+   MAIN
+========================= */
 
 .container {
-    max-width: 1100px;
+    max-width: 1450px;
     margin: auto;
-    padding: 20px;
+    padding: 40px;
 }
 
 .page {
@@ -93,43 +164,221 @@ header {
     display: block;
 }
 
-/* SCORE */
+h1 {
+    font-size: 40px;
+    margin-top: 0;
+}
+
+/* =========================
+   PLAYER SETUP
+========================= */
+
+.setup-box {
+    max-width: 650px;
+
+    background: #1f2937;
+
+    border-radius: 14px;
+
+    padding: 25px;
+}
+
+.name-input {
+    width: 100%;
+
+    padding: 15px;
+
+    border-radius: 9px;
+
+    border: 1px solid #4b5563;
+
+    background: #111827;
+
+    color: white;
+
+    font-size: 17px;
+}
+
+.primary-button {
+    margin-top: 12px;
+
+    background: #2563eb;
+    color: white;
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 14px 20px;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.start-button {
+    background: #16a34a;
+}
+
+.player-list {
+    margin-top: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+.player {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    background: #111827;
+
+    padding: 14px;
+
+    border-radius: 9px;
+}
+
+.player-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.remove-player {
+    background: #dc2626;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 9px 13px;
+
+    cursor: pointer;
+}
+
+/* =========================
+   PLAYER SELECTOR
+========================= */
+
+.player-selector {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+}
+
+.player-select {
+    background: #1f2937;
+
+    border: 2px solid #374151;
+
+    color: white;
+
+    border-radius: 8px;
+
+    padding: 11px 16px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.player-select.active {
+    border-color: #2563eb;
+    background: #1e40af;
+}
+
+/* =========================
+   SCOREBOARD
+========================= */
+
+.score-title {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.current-player {
+    font-size: 21px;
+
+    color: #93c5fd;
+
+    font-weight: bold;
+}
 
 .scoreboard {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 5px;
+
+    grid-template-columns:
+        repeat(10, minmax(100px, 1fr));
+
+    gap: 6px;
+
     overflow-x: auto;
 }
 
 .frame {
-    min-width: 85px;
+    min-width: 100px;
+
     background: #1f2937;
+
     border: 1px solid #374151;
-    border-radius: 8px;
+
+    border-radius: 9px;
+
     overflow: hidden;
 }
 
 .frame-title {
     text-align: center;
-    padding: 7px;
+
+    padding: 9px;
+
     background: #374151;
+
     font-weight: bold;
-    font-size: 12px;
+
+    font-size: 14px;
 }
 
 .rolls {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
-    text-align: center;
+
+    min-height: 62px;
+}
+
+.frame.tenth .rolls {
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .roll {
-    padding: 12px 5px;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
     border-right: 1px solid #374151;
-    font-size: 20px;
+
+    font-size: 23px;
+
     font-weight: bold;
-    min-height: 48px;
 }
 
 .roll:last-child {
@@ -138,97 +387,168 @@ header {
 
 .frame-score {
     border-top: 1px solid #374151;
+
     text-align: center;
-    font-size: 22px;
+
+    font-size: 24px;
+
     font-weight: bold;
-    padding: 10px;
-    min-height: 45px;
+
+    padding: 12px;
+
+    min-height: 52px;
 }
 
+/* =========================
+   ROLL BUTTONS
+========================= */
+
 .controls {
-    margin-top: 20px;
+    margin-top: 25px;
+
     display: flex;
+
     flex-wrap: wrap;
-    gap: 8px;
+
+    gap: 9px;
+
     justify-content: center;
 }
 
-.controls button,
-.action-button {
+.roll-button {
     border: none;
-    border-radius: 8px;
-    padding: 14px 20px;
+
+    border-radius: 9px;
+
+    padding: 15px 22px;
+
     font-size: 17px;
+
     font-weight: bold;
+
     cursor: pointer;
+
     background: #2563eb;
+
     color: white;
+}
+
+.roll-button:hover {
+    background: #1d4ed8;
+}
+
+.spare {
+    background: #7c3aed;
 }
 
 .reset {
-    background: #dc2626 !important;
-}
-
-/* PLAYERS */
-
-.player-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.player {
-    background: #1f2937;
-    padding: 15px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.player-name {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.player button {
     background: #dc2626;
-    color: white;
+
     border: none;
-    border-radius: 6px;
-    padding: 8px 12px;
+
+    border-radius: 9px;
+
+    padding: 15px 22px;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 17px;
+
+    cursor: pointer;
 }
 
-/* RECAP */
+/* =========================
+   SCORE EDITOR
+========================= */
+
+.editor {
+    max-width: 900px;
+
+    background: #1f2937;
+
+    padding: 25px;
+
+    border-radius: 12px;
+}
+
+.editor-frame {
+    display: grid;
+
+    grid-template-columns: 100px 1fr;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #374151;
+}
+
+.editor-frame input {
+    width: 70px;
+
+    padding: 10px;
+
+    background: #111827;
+
+    border: 1px solid #4b5563;
+
+    border-radius: 7px;
+
+    color: white;
+
+    font-size: 17px;
+}
+
+/* =========================
+   RECAP
+========================= */
 
 .recap-box {
     background: #1f2937;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    max-width: 650px;
 }
 
 .recap-row {
     display: flex;
+
     justify-content: space-between;
+
+    padding: 15px 0;
+
     border-bottom: 1px solid #374151;
-    padding: 12px 0;
+
+    font-size: 18px;
 }
 
-/* BACKGROUNDS */
+/* =========================
+   BACKGROUNDS
+========================= */
 
 .backgrounds {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    margin-top: 20px;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(150px, 1fr));
+
+    gap: 15px;
 }
 
 .background-option {
-    height: 100px;
-    border-radius: 10px;
+    height: 110px;
+
+    border-radius: 12px;
+
     border: 3px solid transparent;
+
     cursor: pointer;
 }
 
@@ -241,71 +561,166 @@ header {
 }
 
 .bg-blue {
-    background: linear-gradient(135deg, #172554, #2563eb);
+    background:
+        linear-gradient(135deg,
+        #172554,
+        #2563eb);
 }
 
 .bg-purple {
-    background: linear-gradient(135deg, #2e1065, #7e22ce);
+    background:
+        linear-gradient(135deg,
+        #2e1065,
+        #7e22ce);
 }
 
 .bg-red {
-    background: linear-gradient(135deg, #450a0a, #dc2626);
+    background:
+        linear-gradient(135deg,
+        #450a0a,
+        #dc2626);
 }
 
 .bg-green {
-    background: linear-gradient(135deg, #052e16, #16a34a);
+    background:
+        linear-gradient(135deg,
+        #052e16,
+        #16a34a);
 }
 
 .bg-light {
     background: #e5e7eb;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 700px) {
 
+    .container {
+        padding: 20px;
+    }
+
     header {
-        font-size: 20px;
+        font-size: 21px;
+    }
+
+    h1 {
+        font-size: 31px;
     }
 
     .scoreboard {
-        grid-template-columns: repeat(10, 85px);
+        grid-template-columns:
+            repeat(10, 100px);
     }
+
 }
+
 </style>
 </head>
 
 <body>
 
+
+<!-- =========================
+     WELCOME
+========================= -->
+
+<div id="welcomeScreen">
+
+    <div class="welcome-content">
+
+        <h1>
+            🎳 Welcome To<br>
+            King Gavin Lanes
+        </h1>
+
+        <p>
+            Bowling Score System
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
 
-    <div>🎳 BOWLING</div>
+    <div>
+        🎳 KING GAVIN LANES
+    </div>
 
-    <button class="menu-button" onclick="toggleMenu()">
+    <button
+        class="menu-button"
+        onclick="toggleMenu()">
+
         ☰ MENU
+
     </button>
 
 </header>
 
 
-<!-- MENU -->
+<!-- =========================
+     MENU
+========================= -->
 
 <div id="menu" class="menu">
 
-    <button onclick="showPage('players')">
+    <button
+        class="back"
+        onclick="goBack()">
+
+        ◀ Back
+
+    </button>
+
+    <button
+        onclick="showPage('players')">
+
         👥 Players
+
     </button>
 
-    <button onclick="showPage('score')">
+    <button
+        onclick="showPage('score')">
+
         🎳 Score
+
     </button>
 
-    <button onclick="showPage('recap')">
+    <button
+        onclick="showPage('editor')">
+
+        ✏️ Score Editor
+
+    </button>
+
+    <button
+        onclick="showPage('recap')">
+
         📊 Recap
+
     </button>
 
-    <button onclick="showPage('backgrounds')">
+    <button
+        onclick="showPage('backgrounds')">
+
         🖼️ Backgrounds
+
+    </button>
+
+    <button
+        class="end"
+        onclick="endGame()">
+
+        🛑 End Game
+
     </button>
 
 </div>
@@ -314,57 +729,49 @@ header {
 <div class="container">
 
 
-<!-- PLAYERS -->
+<!-- =========================
+     PLAYER SETUP
+========================= -->
 
-<section id="players" class="page">
+<section
+    id="players"
+    class="page">
 
-    <h1>Players</h1>
+    <h1>👥 Players</h1>
 
-    <input
-        id="playerInput"
-        placeholder="Player name"
-        style="
-            padding:14px;
-            width:100%;
-            max-width:400px;
-            border-radius:8px;
-            border:1px solid #374151;
-            background:#1f2937;
-            color:white;
-            font-size:16px;
-        "
-    >
+    <div class="setup-box">
 
-    <button
-        class="action-button"
-        onclick="addPlayer()"
-        style="margin-top:10px;"
-    >
-        ADD PLAYER
-    </button>
+        <p>
+            Add the players before the game starts.
+        </p>
 
-    <div id="playerList" class="player-list"></div>
-
-</section>
-
-
-<!-- SCORE -->
-
-<section id="score" class="page active">
-
-    <h1>Score</h1>
-
-    <div id="scoreboard" class="scoreboard"></div>
-
-    <div id="controls" class="controls"></div>
-
-    <div class="controls">
+        <input
+            id="playerInput"
+            class="name-input"
+            maxlength="30"
+            placeholder="Enter player name..."
+        >
 
         <button
-            class="reset"
-            onclick="resetGame()"
-        >
-            RESET GAME
+            class="primary-button"
+            onclick="addPlayer()">
+
+            + ADD PLAYER
+
+        </button>
+
+        <div
+            id="playerList"
+            class="player-list">
+        </div>
+
+        <button
+            id="startButton"
+            class="primary-button start-button"
+            onclick="startGame()">
+
+            🎳 START BOWLING
+
         </button>
 
     </div>
@@ -372,46 +779,137 @@ header {
 </section>
 
 
-<!-- RECAP -->
+<!-- =========================
+     SCORE
+========================= -->
 
-<section id="recap" class="page">
+<section
+    id="score"
+    class="page">
 
-    <h1>Recap</h1>
+    <div class="score-title">
 
-    <div class="recap-box">
+        <div>
 
-        <div class="recap-row">
-            <span>Rolls</span>
-            <strong id="recapRolls">0</strong>
+            <h1>Score</h1>
+
+            <div
+                id="currentPlayer"
+                class="current-player">
+            </div>
+
         </div>
 
-        <div class="recap-row">
-            <span>Strikes</span>
-            <strong id="recapStrikes">0</strong>
-        </div>
+    </div>
 
-        <div class="recap-row">
-            <span>Spares</span>
-            <strong id="recapSpares">0</strong>
-        </div>
+    <div
+        id="playerSelector"
+        class="player-selector">
+    </div>
 
-        <div class="recap-row">
-            <span>Total Score</span>
-            <strong id="recapScore">0</strong>
-        </div>
+    <div
+        id="scoreboard"
+        class="scoreboard">
+    </div>
+
+    <div
+        id="controls"
+        class="controls">
+    </div>
+
+    <div class="controls">
+
+        <button
+            class="reset"
+            onclick="resetCurrentPlayer()">
+
+            RESET PLAYER
+
+        </button>
 
     </div>
 
 </section>
 
 
-<!-- BACKGROUNDS -->
+<!-- =========================
+     SCORE EDITOR
+========================= -->
 
-<section id="backgrounds" class="page">
+<section
+    id="editor"
+    class="page">
 
-    <h1>Backgrounds</h1>
+    <h1>✏️ Score Editor</h1>
 
-    <p>Choose a background for your bowling scoreboard.</p>
+    <div class="editor">
+
+        <p>
+            Select a player and manually edit their rolls.
+        </p>
+
+        <select
+            id="editorPlayer"
+            onchange="renderEditor()"
+            style="
+            padding:13px;
+            background:#111827;
+            color:white;
+            border:1px solid #4b5563;
+            border-radius:8px;
+            font-size:16px;
+            ">
+        </select>
+
+        <div
+            id="editorContent"
+            style="margin-top:20px;">
+        </div>
+
+        <button
+            class="primary-button"
+            onclick="saveEditor()">
+
+            SAVE SCORES
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     RECAP
+========================= -->
+
+<section
+    id="recap"
+    class="page">
+
+    <h1>📊 Recap</h1>
+
+    <div
+        id="recapContent"
+        class="recap-box">
+    </div>
+
+</section>
+
+
+<!-- =========================
+     BACKGROUNDS
+========================= -->
+
+<section
+    id="backgrounds"
+    class="page">
+
+    <h1>🖼️ Backgrounds</h1>
+
+    <p>
+        Choose a background for King Gavin Lanes.
+    </p>
 
     <div class="backgrounds">
 
@@ -454,11 +952,35 @@ header {
 
 <script>
 
-let rolls = [];
+/* =========================
+   GAME DATA
+========================= */
+
 let players = [];
 
+let currentPlayerIndex = 0;
 
-/* MENU */
+let currentPage = "players";
+
+let gameStarted = false;
+
+
+/* =========================
+   WELCOME SCREEN
+========================= */
+
+setTimeout(() => {
+
+    document
+        .getElementById("welcomeScreen")
+        .classList.add("hidden");
+
+}, 3000);
+
+
+/* =========================
+   MENU
+========================= */
 
 function toggleMenu() {
 
@@ -473,266 +995,67 @@ function showPage(page) {
 
     document
         .querySelectorAll(".page")
-        .forEach(p => p.classList.remove("active"));
+        .forEach(p =>
+            p.classList.remove("active")
+        );
 
     document
         .getElementById(page)
         .classList.add("active");
 
+    currentPage = page;
+
     document
         .getElementById("menu")
         .classList.remove("open");
 
-    updateRecap();
-}
+    if (page === "score") {
 
+        renderScore();
 
-/* SCORE CALCULATION */
-
-function calculateScores() {
-
-    let scores = [];
-    let total = 0;
-    let index = 0;
-
-    for (let frame = 0; frame < 10; frame++) {
-
-        if (index >= rolls.length) {
-            scores.push(null);
-            continue;
-        }
-
-        let first = rolls[index];
-
-        if (first === 10) {
-
-            if (index + 2 < rolls.length) {
-
-                total +=
-                    10 +
-                    rolls[index + 1] +
-                    rolls[index + 2];
-
-                scores.push(total);
-
-            } else {
-                scores.push(null);
-            }
-
-            index++;
-
-        } else {
-
-            if (index + 1 < rolls.length) {
-
-                let second = rolls[index + 1];
-
-                if (first + second === 10) {
-
-                    if (index + 2 < rolls.length) {
-
-                        total +=
-                            10 +
-                            rolls[index + 2];
-
-                        scores.push(total);
-
-                    } else {
-                        scores.push(null);
-                    }
-
-                } else {
-
-                    total += first + second;
-                    scores.push(total);
-
-                }
-
-                index += 2;
-
-            } else {
-
-                scores.push(null);
-                index++;
-
-            }
-        }
     }
 
-    return scores;
-}
+    if (page === "editor") {
 
+        renderEditorPlayers();
 
-/* SCOREBOARD */
+        renderEditor();
 
-function renderScoreboard() {
-
-    const board =
-        document.getElementById("scoreboard");
-
-    board.innerHTML = "";
-
-    const scores = calculateScores();
-
-    let index = 0;
-
-    for (let frame = 0; frame < 10; frame++) {
-
-        const box =
-            document.createElement("div");
-
-        box.className = "frame";
-
-        box.innerHTML = `
-            <div class="frame-title">
-                FRAME ${frame + 1}
-            </div>
-        `;
-
-        const rollsBox =
-            document.createElement("div");
-
-        rollsBox.className = "rolls";
-
-        if (frame < 9) {
-
-            const first = rolls[index];
-            const second = rolls[index + 1];
-
-            let firstText = "";
-            let secondText = "";
-
-            if (first !== undefined) {
-
-                firstText =
-                    first === 10 ? "X" : first;
-            }
-
-            if (first === 10) {
-
-                index++;
-
-            } else if (second !== undefined) {
-
-                secondText =
-                    first + second === 10
-                        ? "/"
-                        : second;
-
-                index += 2;
-            }
-
-            rollsBox.innerHTML = `
-                <div class="roll">${firstText}</div>
-                <div class="roll">${secondText}</div>
-            `;
-
-        } else {
-
-            for (let i = 0; i < 3; i++) {
-
-                const value =
-                    rolls[index + i];
-
-                const roll =
-                    document.createElement("div");
-
-                roll.className = "roll";
-
-                roll.textContent =
-                    value === undefined
-                        ? ""
-                        : value === 10
-                            ? "X"
-                            : value;
-
-                rollsBox.appendChild(roll);
-            }
-
-            index = rolls.length;
-        }
-
-        box.appendChild(rollsBox);
-
-        const score =
-            document.createElement("div");
-
-        score.className = "frame-score";
-
-        score.textContent =
-            scores[frame] ?? "";
-
-        box.appendChild(score);
-
-        board.appendChild(box);
     }
 
-    updateRecap();
-}
+    if (page === "recap") {
 
+        renderRecap();
 
-/* BUTTONS */
-
-function renderControls() {
-
-    const controls =
-        document.getElementById("controls");
-
-    controls.innerHTML = "";
-
-    for (let i = 0; i <= 10; i++) {
-
-        const button =
-            document.createElement("button");
-
-        button.textContent =
-            i === 10 ? "STRIKE X" : i;
-
-        button.onclick =
-            () => addRoll(i);
-
-        controls.appendChild(button);
     }
 }
 
 
-/* ADD ROLL */
+/* =========================
+   BACK BUTTON
+========================= */
 
-function addRoll(value) {
+function goBack() {
 
-    if (rolls.length >= 21)
-        return;
+    document
+        .getElementById("menu")
+        .classList.remove("open");
 
-    if (rolls.length > 0) {
+    if (currentPage === "score") {
 
-        const last =
-            rolls[rolls.length - 1];
+        showPage("players");
 
-        if (
-            last !== 10 &&
-            last + value > 10
-        ) {
-            return;
-        }
+    } else {
+
+        showPage("score");
+
     }
-
-    rolls.push(value);
-
-    renderScoreboard();
 }
 
 
-/* RESET */
-
-function resetGame() {
-
-    rolls = [];
-
-    renderScoreboard();
-}
-
-
-/* PLAYERS */
+/* =========================
+   PLAYERS
+========================= */
 
 function addPlayer() {
 
@@ -742,12 +1065,36 @@ function addPlayer() {
     const name =
         input.value.trim();
 
-    if (!name)
-        return;
+    if (!name) {
 
-    players.push(name);
+        alert("Enter a player name.");
+
+        return;
+    }
+
+    players.push({
+
+        name: name,
+
+        rolls: []
+
+    });
 
     input.value = "";
+
+    renderPlayers();
+}
+
+
+function removePlayer(index) {
+
+    players.splice(index, 1);
+
+    if (currentPlayerIndex >= players.length) {
+
+        currentPlayerIndex =
+            Math.max(0, players.length - 1);
+    }
 
     renderPlayers();
 }
@@ -760,93 +1107,993 @@ function renderPlayers() {
 
     list.innerHTML = "";
 
-    players.forEach((name, index) => {
+    players.forEach((player, index) => {
 
-        const player =
+        const div =
             document.createElement("div");
 
-        player.className = "player";
+        div.className = "player";
 
-        player.innerHTML = `
+        div.innerHTML = `
+
             <span class="player-name">
-                ${escapeHTML(name)}
+                ${escapeHTML(player.name)}
             </span>
 
-            <button onclick="removePlayer(${index})">
+            <button
+                class="remove-player"
+                onclick="removePlayer(${index})">
+
                 REMOVE
+
             </button>
+
         `;
 
-        list.appendChild(player);
+        list.appendChild(div);
+
     });
 }
 
 
-function removePlayer(index) {
+/* =========================
+   START GAME
+========================= */
 
-    players.splice(index, 1);
+function startGame() {
 
-    renderPlayers();
+    if (players.length === 0) {
+
+        alert(
+            "You need to add at least one player before bowling."
+        );
+
+        return;
+    }
+
+    gameStarted = true;
+
+    currentPlayerIndex = 0;
+
+    showPage("score");
+
 }
 
 
-function escapeHTML(text) {
+/* =========================
+   PLAYER SELECTOR
+========================= */
 
-    const div =
-        document.createElement("div");
+function renderPlayerSelector() {
 
-    div.textContent = text;
+    const selector =
+        document.getElementById(
+            "playerSelector"
+        );
 
-    return div.innerHTML;
+    selector.innerHTML = "";
+
+    players.forEach((player, index) => {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "player-select";
+
+        if (index === currentPlayerIndex) {
+
+            button.classList.add("active");
+
+        }
+
+        button.textContent =
+            player.name;
+
+        button.onclick = () => {
+
+            currentPlayerIndex = index;
+
+            renderScore();
+
+        };
+
+        selector.appendChild(button);
+
+    });
 }
 
 
-/* RECAP */
+/* =========================
+   FRAME BUILDER
+========================= */
 
-function updateRecap() {
+function getFrames(rolls) {
 
-    document.getElementById("recapRolls")
-        .textContent = rolls.length;
+    const frames = [];
 
-    document.getElementById("recapStrikes")
-        .textContent =
-            rolls.filter(x => x === 10).length;
-
-    let spares = 0;
     let index = 0;
 
-    while (index < rolls.length - 1) {
+    for (let frame = 0; frame < 9; frame++) {
 
-        if (
-            rolls[index] !== 10 &&
-            rolls[index] + rolls[index + 1] === 10
-        ) {
-            spares++;
-            index += 2;
-        } else if (rolls[index] === 10) {
+        if (index >= rolls.length) {
+
+            frames.push([]);
+
+            continue;
+        }
+
+        const first =
+            rolls[index];
+
+        if (first === 10) {
+
+            frames.push([10]);
+
             index++;
+
         } else {
-            index += 2;
+
+            const second =
+                rolls[index + 1];
+
+            if (second !== undefined) {
+
+                frames.push([
+                    first,
+                    second
+                ]);
+
+                index += 2;
+
+            } else {
+
+                frames.push([first]);
+
+                index++;
+            }
         }
     }
 
-    document.getElementById("recapSpares")
-        .textContent = spares;
+    frames.push(
+        rolls.slice(index, index + 3)
+    );
 
-    const scores = calculateScores();
-
-    const completed =
-        scores.filter(x => x !== null);
-
-    document.getElementById("recapScore")
-        .textContent =
-            completed.length
-                ? completed[completed.length - 1]
-                : 0;
+    return frames;
 }
 
 
-/* BACKGROUNDS */
+/* =========================
+   SCORE CALCULATION
+========================= */
+
+function calculateScores(rolls) {
+
+    const frames =
+        getFrames(rolls);
+
+    const scores = [];
+
+    let total = 0;
+
+    for (let i = 0; i < 10; i++) {
+
+        const frame =
+            frames[i];
+
+        if (!frame.length) {
+
+            scores.push(null);
+
+            continue;
+        }
+
+
+        /* STRIKE */
+
+        if (
+            i < 9 &&
+            frame[0] === 10
+        ) {
+
+            const next =
+                frames[i + 1] || [];
+
+            const after =
+                frames[i + 2] || [];
+
+            if (next.length < 2) {
+
+                scores.push(null);
+
+                continue;
+            }
+
+            let bonus =
+                next[0];
+
+            if (next[0] === 10) {
+
+                if (!after.length) {
+
+                    scores.push(null);
+
+                    continue;
+                }
+
+                bonus += after[0];
+
+            } else {
+
+                bonus += next[1];
+
+            }
+
+            total += 10 + bonus;
+
+            scores.push(total);
+
+            continue;
+        }
+
+
+        /* SPARE */
+
+        if (
+            i < 9 &&
+            frame.length >= 2 &&
+            frame[0] + frame[1] === 10
+        ) {
+
+            const next =
+                frames[i + 1] || [];
+
+            if (!next.length) {
+
+                scores.push(null);
+
+                continue;
+            }
+
+            total +=
+                10 +
+                next[0];
+
+            scores.push(total);
+
+            continue;
+        }
+
+
+        /* NORMAL */
+
+        if (frame.length >= 2) {
+
+            total +=
+                frame[0] +
+                frame[1];
+
+            scores.push(total);
+
+        } else {
+
+            scores.push(null);
+
+        }
+    }
+
+    return scores;
+}
+
+
+/* =========================
+   RENDER SCORE
+========================= */
+
+function renderScore() {
+
+    if (!players.length) {
+
+        showPage("players");
+
+        return;
+    }
+
+    const player =
+        players[currentPlayerIndex];
+
+    document
+        .getElementById("currentPlayer")
+        .textContent =
+        "Bowling: " + player.name;
+
+    renderPlayerSelector();
+
+    const board =
+        document.getElementById(
+            "scoreboard"
+        );
+
+    board.innerHTML = "";
+
+    const frames =
+        getFrames(player.rolls);
+
+    const scores =
+        calculateScores(player.rolls);
+
+
+    for (let i = 0; i < 10; i++) {
+
+        const box =
+            document.createElement("div");
+
+        box.className = "frame";
+
+        if (i === 9) {
+
+            box.classList.add("tenth");
+
+        }
+
+        box.innerHTML = `
+
+            <div class="frame-title">
+                FRAME ${i + 1}
+            </div>
+
+        `;
+
+
+        const rollsBox =
+            document.createElement("div");
+
+        rollsBox.className =
+            "rolls";
+
+
+        const frame =
+            frames[i];
+
+
+        if (i < 9) {
+
+            let first =
+                frame[0];
+
+            let second =
+                frame[1];
+
+
+            let firstText =
+                first === undefined
+                    ? ""
+                    : first === 10
+                        ? "X"
+                        : first;
+
+
+            let secondText = "";
+
+
+            if (
+                second !== undefined
+            ) {
+
+                if (
+                    first +
+                    second === 10
+                ) {
+
+                    secondText = "/";
+
+                } else {
+
+                    secondText =
+                        second;
+
+                }
+
+            }
+
+
+            rollsBox.innerHTML = `
+
+                <div class="roll">
+                    ${firstText}
+                </div>
+
+                <div class="roll">
+                    ${secondText}
+                </div>
+
+            `;
+
+        } else {
+
+            for (
+                let j = 0;
+                j < 3;
+                j++
+            ) {
+
+                const value =
+                    frame[j];
+
+                const roll =
+                    document.createElement(
+                        "div"
+                    );
+
+                roll.className =
+                    "roll";
+
+                roll.textContent =
+                    value === undefined
+                        ? ""
+                        : value === 10
+                            ? "X"
+                            : value;
+
+                rollsBox.appendChild(roll);
+            }
+        }
+
+
+        box.appendChild(rollsBox);
+
+
+        const score =
+            document.createElement("div");
+
+        score.className =
+            "frame-score";
+
+        score.textContent =
+            scores[i] === null
+                ? ""
+                : scores[i];
+
+        box.appendChild(score);
+
+        board.appendChild(box);
+    }
+
+
+    renderRollButtons();
+}
+
+
+/* =========================
+   ROLL BUTTONS
+========================= */
+
+function renderRollButtons() {
+
+    const controls =
+        document.getElementById(
+            "controls"
+        );
+
+    controls.innerHTML = "";
+
+
+    for (
+        let value = 0;
+        value <= 9;
+        value++
+    ) {
+
+        const button =
+            document.createElement(
+                "button"
+            );
+
+        button.className =
+            "roll-button";
+
+        button.textContent =
+            value;
+
+        button.onclick =
+            () => addRoll(value);
+
+        controls.appendChild(button);
+    }
+
+
+    const strike =
+        document.createElement("button");
+
+    strike.className =
+        "roll-button";
+
+    strike.textContent =
+        "STRIKE X";
+
+    strike.onclick =
+        () => addRoll(10);
+
+    controls.appendChild(strike);
+
+
+    const spare =
+        document.createElement("button");
+
+    spare.className =
+        "roll-button spare";
+
+    spare.textContent =
+        "SPARE /";
+
+    spare.onclick =
+        addSpare;
+
+    controls.appendChild(spare);
+}
+
+
+/* =========================
+   CURRENT FRAME
+========================= */
+
+function currentFrame(rolls) {
+
+    const frames =
+        getFrames(rolls);
+
+    for (
+        let i = 0;
+        i < 10;
+        i++
+    ) {
+
+        if (
+            frames[i].length === 0
+        ) {
+
+            return i;
+        }
+
+        if (
+            i < 9 &&
+            frames[i][0] !== 10 &&
+            frames[i].length < 2
+        ) {
+
+            return i;
+        }
+
+        if (
+            i === 9 &&
+            frames[i].length < 3
+        ) {
+
+            return i;
+        }
+    }
+
+    return 10;
+}
+
+
+/* =========================
+   ADD ROLL
+========================= */
+
+function addRoll(value) {
+
+    const player =
+        players[currentPlayerIndex];
+
+    const frame =
+        currentFrame(
+            player.rolls
+        );
+
+    if (frame >= 10) {
+
+        return;
+    }
+
+
+    if (frame < 9) {
+
+        const frames =
+            getFrames(player.rolls);
+
+        const current =
+            frames[frame];
+
+
+        if (current.length === 0) {
+
+            player.rolls.push(value);
+
+        } else {
+
+            if (current[0] === 10) {
+
+                return;
+            }
+
+            if (
+                current[0] + value > 10
+            ) {
+
+                return;
+            }
+
+            player.rolls.push(value);
+        }
+
+    } else {
+
+        const frames =
+            getFrames(player.rolls);
+
+        const current =
+            frames[9];
+
+
+        if (current.length === 0) {
+
+            player.rolls.push(value);
+
+        } else if (
+            current.length === 1
+        ) {
+
+            if (
+                current[0] === 10
+            ) {
+
+                player.rolls.push(value);
+
+            } else if (
+                current[0] + value <= 10
+            ) {
+
+                player.rolls.push(value);
+            }
+
+        } else {
+
+            if (
+                current[0] === 10 ||
+                current[0] +
+                current[1] === 10
+            ) {
+
+                player.rolls.push(value);
+            }
+        }
+    }
+
+
+    renderScore();
+}
+
+
+/* =========================
+   SPARE
+========================= */
+
+function addSpare() {
+
+    const player =
+        players[currentPlayerIndex];
+
+    const frame =
+        currentFrame(
+            player.rolls
+        );
+
+    if (frame >= 10) {
+        return;
+    }
+
+    const frames =
+        getFrames(player.rolls);
+
+    const current =
+        frames[frame];
+
+    if (
+        current.length === 1 &&
+        current[0] !== 10
+    ) {
+
+        player.rolls.push(
+            10 - current[0]
+        );
+
+        renderScore();
+    }
+}
+
+
+/* =========================
+   RESET PLAYER
+========================= */
+
+function resetCurrentPlayer() {
+
+    players[currentPlayerIndex].rolls = [];
+
+    renderScore();
+}
+
+
+/* =========================
+   SCORE EDITOR
+========================= */
+
+function renderEditorPlayers() {
+
+    const select =
+        document.getElementById(
+            "editorPlayer"
+        );
+
+    select.innerHTML = "";
+
+    players.forEach(
+        (player, index) => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value = index;
+
+            option.textContent =
+                player.name;
+
+            select.appendChild(option);
+        }
+    );
+}
+
+
+function renderEditor() {
+
+    const content =
+        document.getElementById(
+            "editorContent"
+        );
+
+    const select =
+        document.getElementById(
+            "editorPlayer"
+        );
+
+    if (!players.length) {
+
+        content.innerHTML =
+            "<p>No players yet.</p>";
+
+        return;
+    }
+
+    const player =
+        players[
+            Number(select.value)
+        ];
+
+    content.innerHTML = "";
+
+
+    player.rolls.forEach(
+        (roll, index) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "editor-frame";
+
+            row.innerHTML = `
+
+                <span>
+                    Roll ${index + 1}
+                </span>
+
+                <input
+                    type="number"
+                    min="0"
+                    max="10"
+                    value="${roll}"
+                    data-roll="${index}"
+                >
+
+            `;
+
+            content.appendChild(row);
+        }
+    );
+
+
+    if (!player.rolls.length) {
+
+        content.innerHTML =
+            "<p>This player has no rolls yet.</p>";
+    }
+}
+
+
+function saveEditor() {
+
+    const select =
+        document.getElementById(
+            "editorPlayer"
+        );
+
+    if (!players.length) {
+        return;
+    }
+
+    const player =
+        players[
+            Number(select.value)
+        ];
+
+    const inputs =
+        document.querySelectorAll(
+            "#editorContent input"
+        );
+
+    const newRolls = [];
+
+    inputs.forEach(input => {
+
+        let value =
+            Number(input.value);
+
+        if (
+            !Number.isFinite(value)
+        ) {
+
+            value = 0;
+        }
+
+        value =
+            Math.max(
+                0,
+                Math.min(10, value)
+            );
+
+        newRolls.push(value);
+    });
+
+    player.rolls =
+        newRolls;
+
+    renderScore();
+
+    showPage("score");
+}
+
+
+/* =========================
+   RECAP
+========================= */
+
+function renderRecap() {
+
+    const recap =
+        document.getElementById(
+            "recapContent"
+        );
+
+    recap.innerHTML = "";
+
+    players.forEach(player => {
+
+        const scores =
+            calculateScores(
+                player.rolls
+            );
+
+        let total = 0;
+
+        scores.forEach(score => {
+
+            if (score !== null) {
+                total = score;
+            }
+        });
+
+
+        const strikes =
+            player.rolls.filter(
+                x => x === 10
+            ).length;
+
+
+        const row =
+            document.createElement(
+                "div"
+            );
+
+        row.className =
+            "recap-row";
+
+        row.innerHTML = `
+
+            <span>
+                ${escapeHTML(player.name)}
+            </span>
+
+            <strong>
+                ${total}
+            </strong>
+
+        `;
+
+        recap.appendChild(row);
+
+    });
+
+
+    if (!players.length) {
+
+        recap.innerHTML =
+            "<p>No players yet.</p>";
+    }
+}
+
+
+/* =========================
+   END GAME
+========================= */
+
+function endGame() {
+
+    const confirmed =
+        confirm(
+            "End the current game?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    players = [];
+
+    currentPlayerIndex = 0;
+
+    gameStarted = false;
+
+    document
+        .getElementById("playerList")
+        .innerHTML = "";
+
+    document
+        .getElementById("welcomeScreen")
+        .classList.remove("hidden");
+
+    currentPage = "players";
+
+    showPage("players");
+
+
+    setTimeout(() => {
+
+        document
+            .getElementById("welcomeScreen")
+            .classList.add("hidden");
+
+    }, 3000);
+}
+
+
+/* =========================
+   BACKGROUNDS
+========================= */
 
 function setBackground(background) {
 
@@ -855,11 +2102,29 @@ function setBackground(background) {
 }
 
 
-/* START */
+/* =========================
+   SAFETY
+========================= */
 
-renderControls();
-renderScoreboard();
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+   START
+========================= */
+
 renderPlayers();
+
+showPage("players");
 
 </script>
 
