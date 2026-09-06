@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+>
+
+<title>King Gavin Lanes Remote</title>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+
+    margin:0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:#080b12;
+
+    color:#fff;
+}
+
+.wrap{
+
+    max-width:620px;
+
+    margin:auto;
+
+    padding:20px;
+}
+
+.top{
+
+    background:#111827;
+
+    border-radius:14px;
+
+    padding:20px;
+
+    margin-bottom:14px;
+}
+
+h1{
+
+    margin:0 0 8px;
+
+    font-size:30px;
+}
+
+.muted{
+
+    color:#9ca3af;
+}
+
+.status{
+
+    font-weight:800;
+
+    margin-top:10px;
+}
+
+.online{
+
+    color:#4ade80;
+}
+
+.offline{
+
+    color:#f87171;
+}
+
+input,select{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:9px;
+
+    border:1px solid #4b5563;
+
+    background:#1f2937;
+
+    color:#fff;
+
+    font-size:17px;
+}
+
+button{
+
+    min-height:50px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    padding:10px 15px;
+}
+
+button:active{
+
+    transform:scale(.98);
+}
+
+.connect{
+
+    display:grid;
+
+    grid-template-columns:1fr auto;
+
+    gap:8px;
+}
+
+.connect button{
+
+    background:#16a34a;
+}
+
+.playerButtons{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:8px;
+
+    margin-top:12px;
+}
+
+.playerButtons button.active{
+
+    outline:3px solid #60a5fa;
+}
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    gap:8px;
+}
+
+.grid button{
+
+    min-height:58px;
+
+    font-size:20px;
+}
+
+.strike{
+
+    grid-column:
+        span 5;
+
+    background:#1d4ed8;
+}
+
+.spare{
+
+    grid-column:
+        span 5;
+
+    background:#7c3aed;
+}
+
+.nav{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:8px;
+
+    margin-top:8px;
+}
+
+.danger{
+
+    background:#dc2626;
+}
+
+.wide{
+
+    width:100%;
+
+    margin-top:8px;
+}
+
+.score{
+
+    font-size:23px;
+
+    font-weight:800;
+
+    text-align:center;
+
+    background:#1f2937;
+
+    padding:16px;
+
+    border-radius:10px;
+
+    margin-top:12px;
+}
+
+.small{
+
+    font-size:14px;
+
+    color:#9ca3af;
+}
+
+.sectionTitle{
+
+    font-size:20px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+}
+
+@media(max-width:400px){
+
+    .grid{
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+    }
+
+    .strike,
+    .spare{
+
+        grid-column:
+            span 3;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+
+<div class="top">
+
+    <h1>🎳 King Gavin Lanes</h1>
+
+    <div class="muted">
+        Remote Control
+    </div>
+
+    <div
+        id="status"
+        class="status offline"
+    >
+        ● Not connected
+    </div>
+
+</div>
+
+
+<div
+    class="top"
+    id="connectBox"
+>
+
+    <div class="sectionTitle">
+        Connect to scoreboard
+    </div>
+
+    <div class="small">
+
+        On the iPad scoreboard,
+        open ☰ MENU and copy the
+        6-character Remote Code.
+
+    </div>
+
+
+    <div
+        class="connect"
+        style="margin-top:12px"
+    >
+
+        <input
+            id="code"
+            maxlength="6"
+            placeholder="ABC123"
+            autocapitalize="characters"
+        >
+
+        <button id="connect">
+            CONNECT
+        </button>
+
+    </div>
+
+</div>
+
+
+<div
+    id="remoteUI"
+    style="display:none"
+>
+
+
+<div class="top">
+
+    <div class="sectionTitle">
+        Players
+    </div>
+
+    <div
+        id="players"
+        class="playerButtons"
+    ></div>
+
+</div>
+
+
+<div class="top">
+
+    <div
+        class="sectionTitle"
+        id="current"
+    >
+        Waiting…
+    </div>
+
+    <div
+        id="score"
+        class="score"
+    >
+        Score: 0
+    </div>
+
+</div>
+
+
+<div class="top">
+
+    <div class="sectionTitle">
+        Bowling Controls
+    </div>
+
+
+    <div class="grid">
+
+
+        <button data-roll="0">
+            0
+        </button>
+
+        <button data-roll="1">
+            1
+        </button>
+
+        <button data-roll="2">
+            2
+        </button>
+
+        <button data-roll="3">
+            3
+        </button>
+
+        <button data-roll="4">
+            4
+        </button>
+
+
+        <button data-roll="5">
+            5
+        </button>
+
+        <button data-roll="6">
+            6
+        </button>
+
+        <button data-roll="7">
+            7
+        </button>
+
+        <button data-roll="8">
+            8
+        </button>
+
+        <button data-roll="9">
+            9
+        </button>
+
+
+        <button
+            class="strike"
+            id="strike"
+        >
+            🎳 STRIKE X
+        </button>
+
+
+        <button
+            class="spare"
+            id="spare"
+        >
+            SPARE /
+        </button>
+
+
+    </div>
+
+
+    <div class="nav">
+
+        <button id="prev">
+            ◀ PREVIOUS
+        </button>
+
+        <button id="next">
+            NEXT ▶
+        </button>
+
+    </div>
+
+
+    <button
+        class="wide"
+        id="reset"
+    >
+        RESET PLAYER
+    </button>
+
+
+    <button
+        class="wide danger"
+        id="end"
+    >
+        END GAME
+    </button>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+let peer = null;
+
+let conn = null;
+
+let state = null;
+
+
+const $ = id =>
+    document.getElementById(id);
+
+
+function setStatus(text,ok){
+
+    $("status").textContent =
+        "● " + text;
+
+    $("status").className =
+        "status " +
+        (ok ? "online" : "offline");
+
+}
+
+
+/* ---------------- SEND COMMAND ---------------- */
+
+function send(action,value){
+
+    if(conn && conn.open){
+
+        conn.send({
+
+            type:"action",
+
+            action,
+
+            value
+
+        });
+
+    }
+
+}
+
+
+/* ---------------- SCORE CALCULATION ---------------- */
+
+function getFrames(rolls){
+
+    let f = [];
+
+    let i = 0;
+
+
+    for(let n = 0; n < 9; n++){
+
+        if(i >= rolls.length){
+
+            f.push([]);
+
+            continue;
+
+        }
+
+
+        if(rolls[i] === 10){
+
+            f.push([10]);
+
+            i++;
+
+        }
+
+        else{
+
+            if(
+                rolls[i + 1] !== undefined
+            ){
+
+                f.push([
+                    rolls[i],
+                    rolls[i + 1]
+                ]);
+
+                i += 2;
+
+            }
+
+            else{
+
+                f.push([rolls[i]]);
+
+                i++;
+
+            }
+
+        }
+
+    }
+
+
+    f.push(
+        rolls.slice(i,i + 3)
+    );
+
+
+    return f;
+}
+
+
+function scores(rolls){
+
+    let f =
+        getFrames(rolls);
+
+    let out = [];
+
+    let total = 0;
+
+
+    for(let i = 0; i < 10; i++){
+
+        let a =
+            f[i] || [];
+
+
+        if(!a.length){
+
+            out.push(null);
+
+            continue;
+
+        }
+
+
+        /* 10th frame */
+
+        if(i === 9){
+
+            if(a.length >= 2){
+
+                const previous =
+                    out.filter(
+                        x => x !== null
+                    ).length
+                    ?
+                    out.filter(
+                        x => x !== null
+                    )[
+                        out.filter(
+                            x => x !== null
+                        ).length - 1
+                    ]
+                    :
+                    0;
+
+
+                total =
+                    previous +
+                    a.reduce(
+                        (x,y) => x + y,
+                        0
+                    );
+
+
+                out.push(total);
+
+            }
+
+            else{
+
+                out.push(null);
+
+            }
+
+            continue;
+
+        }
+
+
+        /* STRIKE */
+
+        if(a[0] === 10){
+
+            let n =
+                f[i + 1] || [];
+
+            let m =
+                f[i + 2] || [];
+
+
+            if(n.length < 2){
+
+                out.push(null);
+
+                continue;
+
+            }
+
+
+            let b;
+
+
+            if(n[0] === 10){
+
+                if(!m.length){
+
+                    out.push(null);
+
+                    continue;
+
+                }
+
+                b =
+                    10 + m[0];
+
+            }
+
+            else{
+
+                b =
+                    n[0] + n[1];
+
+            }
+
+
+            total +=
+                10 + b;
+
+            out.push(total);
+
+        }
+
+
+        /* SPARE */
+
+        else if(
+            a.length >= 2 &&
+            a[0] + a[1] === 10
+        ){
+
+            let n =
+                f[i + 1] || [];
+
+
+            if(!n.length){
+
+                out.push(null);
+
+                continue;
+
+            }
+
+
+            total +=
+                10 + n[0];
+
+            out.push(total);
+
+        }
+
+
+        /* NORMAL */
+
+        else if(a.length >= 2){
+
+            total +=
+                a[0] + a[1];
+
+            out.push(total);
+
+        }
+
+
+        else{
+
+            out.push(null);
+
+        }
+
+    }
+
+
+    return out;
+}
+
+
+/* ---------------- DISPLAY ---------------- */
+
+function render(){
+
+    if(!state)
+        return;
+
+
+    $("remoteUI").style.display =
+        state.players.length
+        ? "block"
+        : "none";
+
+
+    $("players").innerHTML = "";
+
+
+    state.players.forEach((p,i) => {
+
+        let b =
+            document.createElement("button");
+
+
+        b.textContent =
+            p.name;
+
+
+        b.className =
+            i === state.currentPlayer
+            ? "active"
+            : "";
+
+
+        b.onclick = () =>
+            send("select",i);
+
+
+        $("players")
+            .appendChild(b);
+
+    });
+
+
+    if(state.players.length){
+
+        let p =
+            state.players[
+                state.currentPlayer
+            ];
+
+
+        let s =
+            scores(p.rolls);
+
+
+        let total = 0;
+
+
+        s.forEach(x => {
+
+            if(x !== null)
+                total = x;
+
+        });
+
+
+        $("current").textContent =
+            "🎳 " + p.name;
+
+
+        $("score").textContent =
+            "Score: " + total;
+
+    }
+
+    else{
+
+        $("current").textContent =
+            "No players";
+
+        $("score").textContent =
+            "Score: 0";
+
+    }
+
+}
+
+
+/* ---------------- CONNECT ---------------- */
+
+function connect(){
+
+    let code =
+        $("code")
+            .value
+            .trim()
+            .toUpperCase()
+            .replace(
+                /[^A-Z0-9]/g,
+                ""
+            );
+
+
+    if(code.length !== 6){
+
+        alert(
+            "Enter the 6-character code from the iPad."
+        );
+
+        return;
+
+    }
+
+
+    if(peer)
+        peer.destroy();
+
+
+    peer = new Peer();
+
+
+    peer.on("open",() => {
+
+        conn =
+            peer.connect(
+                "kgl-" + code,
+                {
+                    reliable:true
+                }
+            );
+
+
+        conn.on("open",() => {
+
+            setStatus(
+                "CONNECTED 🟢",
+                true
+            );
+
+
+            $("connectBox")
+                .style.display =
+                "none";
+
+        });
+
+
+        conn.on("data",m => {
+
+            if(m.type === "state"){
+
+                state =
+                    m.state;
+
+                render();
+
+            }
+
+        });
+
+
+        conn.on("close",() => {
+
+            setStatus(
+                "Disconnected",
+                false
+            );
+
+
+            $("connectBox")
+                .style.display =
+                "block";
+
+        });
+
+    });
+
+
+    peer.on("error",e => {
+
+        setStatus(
+            "Connection failed: " +
+            e.type,
+            false
+        );
+
+
+        alert(
+            "Couldn't connect. Check the code and make sure the iPad scoreboard is open."
+        );
+
+    });
+
+}
+
+
+/* ---------------- BUTTONS ---------------- */
+
+$("connect").onclick =
+    connect;
+
+
+$("code").addEventListener(
+    "keydown",
+    e => {
+
+        if(e.key === "Enter")
+            connect();
+
+    }
+);
+
+
+document
+    .querySelectorAll("[data-roll]")
+    .forEach(b => {
+
+        b.onclick = () =>
+            send(
+                "addRoll",
+                Number(b.dataset.roll)
+            );
+
+    });
+
+
+$("strike").onclick =
+    () => send(
+        "addRoll",
+        10
+    );
+
+
+$("spare").onclick =
+    () => send("spare");
+
+
+$("prev").onclick =
+    () => send("prev");
+
+
+$("next").onclick =
+    () => send("next");
+
+
+$("reset").onclick =
+    () => send("reset");
+
+
+$("end").onclick = () => {
+
+    if(confirm("End the game?"))
+        send("end");
+
+};
+
+</script>
+
+</body>
+</html>
