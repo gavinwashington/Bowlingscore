@@ -1,1790 +1,812 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>King Gavin Lanes</title>
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>King Gavin Lanes Scoreboard</title>
 
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+box-sizing:border-box;
+}
 
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#111827;
-    color:#fff;
-    transition:background .4s;
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#111827;
+color:#fff;
 }
 
-#welcome{
-    position:fixed;
-    inset:0;
-    background:#080b12;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    z-index:9999;
-    transition:opacity 2s;
+.wrap{
+padding:15px;
+max-width:1000px;
+margin:auto;
 }
 
-#welcome.hide{
-    opacity:0;
-    pointer-events:none;
+.header{
+background:#080b12;
+padding:20px;
+border-radius:14px;
+margin-bottom:15px;
 }
 
-.welcome h1{
-    font-size:clamp(38px,7vw,76px);
-    margin:0;
+.header h1{
+margin:0;
+font-size:27px;
 }
 
-.welcome p{
-    color:#9ca3af;
-    font-size:22px;
+.status{
+margin-top:8px;
+font-weight:800;
 }
 
-header{
-    height:72px;
-    background:#080b12;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 24px;
-    font-size:26px;
-    font-weight:800;
+.online{
+color:#4ade80;
 }
 
-.menuBtn,.primary,.rollBtn{
-    border:0;
-    border-radius:9px;
-    color:#fff;
-    background:#2563eb;
-    padding:13px 19px;
-    font-weight:800;
-    font-size:16px;
-    cursor:pointer;
+.offline{
+color:#f87171;
 }
 
-.menu{
-    display:none;
-    position:absolute;
-    right:18px;
-    top:66px;
-    width:260px;
-    background:#1f2937;
-    border:1px solid #374151;
-    border-radius:12px;
-    padding:8px;
-    z-index:500;
+.connect{
+background:#1f2937;
+padding:18px;
+border-radius:14px;
+margin-bottom:15px;
 }
 
-.menu.open{
-    display:block;
+input{
+width:100%;
+padding:14px;
+border-radius:8px;
+border:1px solid #4b5563;
+background:#111827;
+color:#fff;
+font-size:17px;
 }
 
-.menu button{
-    width:100%;
-    background:transparent;
-    color:#fff;
-    border:0;
-    text-align:left;
-    padding:14px;
-    border-radius:8px;
-    font-size:16px;
-    cursor:pointer;
+button{
+border:0;
+border-radius:8px;
+padding:13px;
+background:#2563eb;
+color:#fff;
+font-weight:800;
+font-size:16px;
 }
 
-.menu button:hover{
-    background:#374151;
+.connectRow{
+display:grid;
+grid-template-columns:1fr auto;
+gap:8px;
+margin-top:10px;
 }
 
-.menu .end{
-    color:#f87171;
-}
-
-.connection{
-    font-size:12px;
-    color:#9ca3af;
-    padding:9px 12px;
-    border-bottom:1px solid #374151;
-    margin-bottom:4px;
-}
-
-.container{
-    max-width:1450px;
-    margin:auto;
-    padding:38px;
-}
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-h1{
-    font-size:40px;
-    margin:0 0 25px;
-}
-
-.setup,.editor,.recap{
-    background:#1f2937;
-    border-radius:13px;
-    padding:24px;
-    max-width:850px;
-}
-
-.input,.editor input,.editor select{
-    padding:13px;
-    border-radius:8px;
-    border:1px solid #4b5563;
-    background:#111827;
-    color:#fff;
-    font-size:16px;
-}
-
-.input{
-    width:100%;
-    max-width:420px;
-}
-
-.playerList{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    margin-top:18px;
-    max-width:600px;
+.players{
+display:flex;
+gap:8px;
+overflow-x:auto;
+margin-bottom:15px;
 }
 
 .player{
-    background:#111827;
-    padding:13px;
-    border-radius:8px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+background:#1f2937;
+border-radius:10px;
+padding:13px 17px;
+font-weight:800;
+white-space:nowrap;
 }
 
-.remove{
-    background:#dc2626;
-    color:#fff;
-    border:0;
-    border-radius:7px;
-    padding:8px 12px;
-    cursor:pointer;
-}
-
-.start{
-    background:#16a34a;
-    margin-left:8px;
-}
-
-.selector{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    margin-bottom:18px;
-}
-
-.selectPlayer{
-    background:#1f2937;
-    color:#fff;
-    border:2px solid #374151;
-    border-radius:8px;
-    padding:11px 15px;
-    font-weight:700;
-}
-
-.selectPlayer.active{
-    border-color:#60a5fa;
-    background:#1e40af;
+.player.active{
+background:#1d4ed8;
+outline:2px solid #60a5fa;
 }
 
 .current{
-    font-size:20px;
-    color:#93c5fd;
-    font-weight:800;
-    margin:-12px 0 20px;
+background:#1f2937;
+border-radius:14px;
+padding:18px;
+margin-bottom:15px;
+}
+
+.currentName{
+font-size:23px;
+font-weight:800;
+}
+
+.total{
+font-size:45px;
+font-weight:900;
+margin-top:5px;
 }
 
 .board{
-    display:grid;
-    grid-template-columns:repeat(10,minmax(100px,1fr));
-    gap:6px;
-    overflow-x:auto;
+display:flex;
+gap:5px;
+overflow-x:auto;
+padding-bottom:8px;
 }
 
 .frame{
-    min-width:100px;
-    background:#1f2937;
-    border:1px solid #374151;
-    border-radius:9px;
-    overflow:hidden;
+min-width:85px;
+background:#1f2937;
+border-radius:9px;
+overflow:hidden;
+border:1px solid #374151;
 }
 
-.fh{
-    text-align:center;
-    padding:9px;
-    background:#374151;
-    font-size:13px;
-    font-weight:800;
+.frameTitle{
+background:#374151;
+padding:8px;
+text-align:center;
+font-size:12px;
+font-weight:800;
 }
 
 .rolls{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    min-height:62px;
+display:grid;
+grid-template-columns:1fr 1fr;
+min-height:50px;
 }
 
 .tenth .rolls{
-    grid-template-columns:repeat(3,1fr);
+grid-template-columns:repeat(3,1fr);
 }
 
 .roll{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-right:1px solid #374151;
-    font-size:23px;
-    font-weight:800;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+font-weight:900;
+border-right:1px solid #374151;
 }
 
-.roll:last-child{
-    border-right:0;
+.score{
+border-top:1px solid #374151;
+padding:10px;
+text-align:center;
+font-size:19px;
+font-weight:900;
 }
 
-.fs{
-    text-align:center;
-    border-top:1px solid #374151;
-    min-height:50px;
-    padding:11px;
-    font-size:23px;
-    font-weight:800;
+.pinsetter{
+background:#1f2937;
+padding:16px;
+border-radius:14px;
+margin-top:15px;
+font-weight:800;
 }
 
-.controls{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    justify-content:center;
-    margin-top:22px;
+@media(max-width:500px){
+
+.frame{
+min-width:72px;
 }
 
-.rollBtn{
-    min-width:55px;
+.roll{
+font-size:17px;
 }
 
-.spare{
-    background:#7c3aed;
+.total{
+font-size:38px;
 }
 
-.reset{
-    background:#dc2626;
 }
 
-.editorRow{
-    display:flex;
-    gap:12px;
-    align-items:center;
-    border-bottom:1px solid #374151;
-    padding:12px 0;
-}
-
-.editorRow input{
-    width:72px;
-}
-
-.recapRow{
-    display:flex;
-    justify-content:space-between;
-    padding:14px 0;
-    border-bottom:1px solid #374151;
-}
-
-.backgrounds{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:14px;
-}
-
-.bg{
-    height:105px;
-    border-radius:12px;
-    border:3px solid transparent;
-    cursor:pointer;
-}
-
-.bg:hover{
-    border-color:#fff;
-}
-
-.dark{
-    background:#111827;
-}
-
-.blue{
-    background:linear-gradient(135deg,#172554,#2563eb);
-}
-
-.purple{
-    background:linear-gradient(135deg,#2e1065,#7e22ce);
-}
-
-.red{
-    background:linear-gradient(135deg,#450a0a,#dc2626);
-}
-
-.green{
-    background:linear-gradient(135deg,#052e16,#16a34a);
-}
-
-.light{
-    background:#e5e7eb;
-}
-
-@media(max-width:700px){
-
-    header{
-        font-size:20px;
-    }
-
-    .container{
-        padding:20px;
-    }
-
-    h1{
-        font-size:31px;
-    }
-
-    .board{
-        grid-template-columns:repeat(10,100px);
-    }
-}
 </style>
+
 </head>
 
 <body>
 
-<div id="welcome">
-    <div class="welcome">
-        <h1>🎳 Welcome To<br>King Gavin Lanes</h1>
-        <p>Bowling Score System</p>
-    </div>
+<div class="wrap">
+
+
+<div class="header">
+
+<h1>🎳 KING GAVIN LANES</h1>
+
+<div>
+Live Phone Scoreboard
 </div>
 
-<header>
-    <div>🎳 KING GAVIN LANES</div>
-    <button class="menuBtn" id="menuBtn">☰ MENU</button>
-</header>
+<div
+id="status"
+class="status offline">
 
-<div id="menu" class="menu">
-
-    <div class="connection" id="connection">
-        Remote: starting…
-    </div>
-
-    <button data-page="players">👥 Players</button>
-    <button data-page="score">🎳 Score</button>
-    <button data-page="editor">✏️ Score Editor</button>
-    <button data-page="recap">📊 Recap</button>
-    <button data-page="backgrounds">🖼️ Backgrounds</button>
-
-    <button id="backBtn">◀ Back</button>
-
-    <button class="end" id="endBtn">
-        🛑 End Game
-    </button>
+● Not connected
 
 </div>
 
-<main class="container">
-
-<section id="players" class="page active">
-
-    <h1>👥 Players</h1>
-
-    <div class="setup">
-
-        <p>Add all players before bowling starts.</p>
-
-        <input
-            id="playerInput"
-            class="input"
-            maxlength="30"
-            placeholder="Enter player name"
-        >
-
-        <br>
-
-        <button
-            id="addPlayer"
-            class="primary"
-            style="margin-top:10px"
-        >
-            + ADD PLAYER
-        </button>
-
-        <div id="playerList" class="playerList"></div>
-
-        <button id="start" class="primary start">
-            🎳 START BOWLING
-        </button>
-
-    </div>
-
-</section>
+</div>
 
 
-<section id="score" class="page">
+<div
+class="connect"
+id="connectBox">
 
-    <h1>Score</h1>
+<strong>
+Connect to Bowl Site
+</strong>
 
-    <div id="current" class="current"></div>
+<div
+style="color:#9ca3af;margin-top:7px">
 
-    <div id="selector" class="selector"></div>
+Enter the same 6-character code
+shown on the iPad.
 
-    <div id="board" class="board"></div>
-
-    <div id="controls" class="controls"></div>
-
-</section>
-
-
-<section id="editor" class="page">
-
-    <h1>✏️ Score Editor</h1>
-
-    <div class="editor">
-
-        <p>
-            Choose a player and edit their individual rolls.
-        </p>
-
-        <select id="editorPlayer"></select>
-
-        <div id="editorContent"></div>
-
-        <button id="saveEditor" class="primary">
-            SAVE SCORES
-        </button>
-
-    </div>
-
-</section>
+</div>
 
 
-<section id="recap" class="page">
+<div class="connectRow">
 
-    <h1>📊 Recap</h1>
+<input
+id="code"
+maxlength="6"
+placeholder="ABC123"
+autocapitalize="characters">
 
-    <div id="recapContent" class="recap"></div>
+<button id="connect">
+CONNECT
+</button>
 
-</section>
+</div>
+
+</div>
 
 
-<section id="backgrounds" class="page">
+<div
+id="scoreboard"
+style="display:none">
 
-    <h1>🖼️ Backgrounds</h1>
 
-    <p>Choose a background.</p>
+<div
+id="players"
+class="players">
+</div>
 
-    <div class="backgrounds">
 
-        <div class="bg dark" data-bg="#111827"></div>
+<div class="current">
 
-        <div
-            class="bg blue"
-            data-bg="linear-gradient(135deg,#172554,#2563eb)"
-        ></div>
+<div
+id="currentName"
+class="currentName">
+Waiting…
+</div>
 
-        <div
-            class="bg purple"
-            data-bg="linear-gradient(135deg,#2e1065,#7e22ce)"
-        ></div>
+<div
+id="total"
+class="total">
+0
+</div>
 
-        <div
-            class="bg red"
-            data-bg="linear-gradient(135deg,#450a0a,#dc2626)"
-        ></div>
+</div>
 
-        <div
-            class="bg green"
-            data-bg="linear-gradient(135deg,#052e16,#16a34a)"
-        ></div>
 
-        <div class="bg light" data-bg="#e5e7eb"></div>
+<div
+id="board"
+class="board">
+</div>
 
-    </div>
 
-</section>
+<div class="pinsetter">
 
-</main>
+⚙️ Pinsetter Status:
+<span id="pinStatus">
+READY
+</span>
+
+</div>
+
+
+</div>
+
+</div>
 
 
 <script>
 
-let players = [];
-let currentPlayer = 0;
-let currentPage = "players";
-let gameStarted = false;
+let peer=null;
+let conn=null;
+let state=null;
 
-let peer = null;
-let conn = null;
-
-const $ = id => document.getElementById(id);
+const $=id=>
+document.getElementById(id);
 
 
-function escapeHTML(s){
+/* STATUS */
 
-    const d = document.createElement("div");
+function setStatus(text,ok){
 
-    d.textContent = s;
+$("status").textContent=
+"● "+text;
 
-    return d.innerHTML;
+$("status").className=
+"status "+
+(ok?"online":"offline");
+
 }
 
 
-function showPage(id){
-
-    document
-        .querySelectorAll(".page")
-        .forEach(x => x.classList.remove("active"));
-
-    $(id).classList.add("active");
-
-    currentPage = id;
-
-    $("menu").classList.remove("open");
-
-    if(id === "score")
-        renderScore();
-
-    if(id === "editor"){
-        renderEditorPlayers();
-        renderEditor();
-    }
-
-    if(id === "recap")
-        renderRecap();
-}
-
-
-$("menuBtn").onclick = () => {
-
-    $("menu").classList.toggle("open");
-
-};
-
-
-document
-    .querySelectorAll(".menu button[data-page]")
-    .forEach(b => {
-
-        b.onclick = () => showPage(b.dataset.page);
-
-    });
-
-
-$("backBtn").onclick = () => {
-
-    showPage(
-        currentPage === "score"
-            ? "players"
-            : "score"
-    );
-
-};
-
-
-/* ---------------- SCORE SYSTEM ---------------- */
+/* FRAMES */
 
 function getFrames(rolls){
 
-    const f = [];
+const f=[];
+let i=0;
 
-    let i = 0;
+for(let n=0;n<9;n++){
 
-    for(let n = 0; n < 9; n++){
+if(i>=rolls.length){
 
-        if(i >= rolls.length){
+f.push([]);
 
-            f.push([]);
+continue;
 
-            continue;
-        }
-
-        if(rolls[i] === 10){
-
-            f.push([10]);
-
-            i++;
-
-        }else{
-
-            if(rolls[i + 1] !== undefined){
-
-                f.push([
-                    rolls[i],
-                    rolls[i + 1]
-                ]);
-
-                i += 2;
-
-            }else{
-
-                f.push([rolls[i]]);
-
-                i++;
-
-            }
-
-        }
-
-    }
-
-    f.push(rolls.slice(i, i + 3));
-
-    return f;
 }
 
+if(rolls[i]===10){
+
+f.push([10]);
+i++;
+
+}
+
+else{
+
+if(rolls[i+1]!==undefined){
+
+f.push([
+rolls[i],
+rolls[i+1]
+]);
+
+i+=2;
+
+}
+
+else{
+
+f.push([rolls[i]]);
+i++;
+
+}
+
+}
+
+}
+
+f.push(
+rolls.slice(i,i+3)
+);
+
+return f;
+
+}
+
+
+/* SCORE */
 
 function calculateScores(rolls){
 
-    const f = getFrames(rolls);
+const f=getFrames(rolls);
 
-    const out = [];
+const out=[];
 
-    let total = 0;
+let total=0;
 
-    for(let i = 0; i < 10; i++){
 
-        const a = f[i] || [];
+for(let i=0;i<10;i++){
 
-        if(!a.length){
+const a=f[i]||[];
 
-            out.push(null);
+if(!a.length){
 
-            continue;
-        }
-
-
-        /* 10th frame */
-
-        if(i === 9){
-
-            if(a.length >= 2){
-
-                const previous =
-                    out.filter(x => x !== null).length
-                    ? out.filter(x => x !== null)[
-                        out.filter(x => x !== null).length - 1
-                    ]
-                    : 0;
-
-                total = previous + a.reduce(
-                    (x,y) => x + y,
-                    0
-                );
-
-                out.push(total);
-
-            }else{
-
-                out.push(null);
-
-            }
-
-            continue;
-        }
-
-
-        /* STRIKE */
-
-        if(a[0] === 10){
-
-            const n = f[i + 1] || [];
-            const m = f[i + 2] || [];
-
-            if(n.length < 2){
-
-                out.push(null);
-
-                continue;
-            }
-
-            let bonus;
-
-            if(n[0] === 10){
-
-                if(!m.length){
-
-                    out.push(null);
-
-                    continue;
-                }
-
-                bonus = 10 + m[0];
-
-            }else{
-
-                bonus = n[0] + n[1];
-
-            }
-
-            total += 10 + bonus;
-
-            out.push(total);
-
-        }
-
-
-        /* SPARE */
-
-        else if(
-            a.length >= 2 &&
-            a[0] + a[1] === 10
-        ){
-
-            const n = f[i + 1] || [];
-
-            if(!n.length){
-
-                out.push(null);
-
-                continue;
-            }
-
-            total += 10 + n[0];
-
-            out.push(total);
-
-        }
-
-
-        /* NORMAL */
-
-        else if(a.length >= 2){
-
-            total += a[0] + a[1];
-
-            out.push(total);
-
-        }
-
-
-        else{
-
-            out.push(null);
-
-        }
-
-    }
-
-    return out;
-}
-
-
-function frameDoneForCurrent(rolls){
-
-    const f = getFrames(rolls);
-
-    for(let i = 0; i < 10; i++){
-
-        if(!f[i].length)
-            return i;
-
-        if(
-            i < 9 &&
-            f[i][0] !== 10 &&
-            f[i].length < 2
-        )
-            return i;
-
-        if(
-            i === 9 &&
-            f[i].length < 3
-        )
-            return i;
-
-    }
-
-    return 10;
-}
-
-
-function addRoll(value){
-
-    if(!gameStarted || !players.length)
-        return;
-
-    const p = players[currentPlayer];
-
-    const fr = frameDoneForCurrent(p.rolls);
-
-    if(fr >= 10)
-        return;
-
-    const f = getFrames(p.rolls);
-
-    const a = f[fr];
-
-
-    if(fr < 9){
-
-        if(!a.length){
-
-            p.rolls.push(value);
-
-        }
-
-        else if(
-            a[0] !== 10 &&
-            a[0] + value <= 10
-        ){
-
-            p.rolls.push(value);
-
-        }
-
-    }
-
-
-    else{
-
-        if(!a.length){
-
-            p.rolls.push(value);
-
-        }
-
-        else if(a.length === 1){
-
-            if(
-                a[0] === 10 ||
-                a[0] + value <= 10
-            ){
-
-                p.rolls.push(value);
-
-            }
-
-        }
-
-        else if(
-            a[0] === 10 ||
-            a[0] + a[1] === 10
-        ){
-
-            p.rolls.push(value);
-
-        }
-
-    }
-
-    broadcast();
-
-    renderScore();
-}
-
-
-function addSpare(){
-
-    if(!gameStarted || !players.length)
-        return;
-
-    const p = players[currentPlayer];
-
-    const fr = frameDoneForCurrent(p.rolls);
-
-    if(fr >= 9)
-        return;
-
-    const a = getFrames(p.rolls)[fr];
-
-    if(
-        a.length === 1 &&
-        a[0] !== 10
-    ){
-
-        p.rolls.push(10 - a[0]);
-
-        broadcast();
-
-        renderScore();
-
-    }
+out.push(null);
+continue;
 
 }
 
 
-/* ---------------- SCORE DISPLAY ---------------- */
+if(i===9){
 
-function renderScore(){
+if(a.length>=2){
 
-    if(!players.length){
+const previous=
+out.filter(
+x=>x!==null
+).at(-1)||0;
 
-        showPage("players");
+total=
+previous+
+a.reduce(
+(x,y)=>x+y,
+0
+);
 
-        return;
-    }
+out.push(total);
 
-    $("current").textContent =
-        "Bowling: " +
-        players[currentPlayer].name;
+}
 
+else{
 
-    $("selector").innerHTML = "";
+out.push(null);
 
+}
 
-    players.forEach((p,i) => {
+continue;
 
-        const b = document.createElement("button");
-
-        b.className =
-            "selectPlayer" +
-            (i === currentPlayer ? " active" : "");
-
-        b.textContent = p.name;
-
-        b.onclick = () => {
-
-            currentPlayer = i;
-
-            renderScore();
-
-            broadcast();
-
-        };
-
-        $("selector").appendChild(b);
-
-    });
-
-
-    const board = $("board");
-
-    board.innerHTML = "";
-
-
-    const p = players[currentPlayer];
-
-    const f = getFrames(p.rolls);
-
-    const s = calculateScores(p.rolls);
-
-
-    for(let i = 0; i < 10; i++){
-
-        const box = document.createElement("div");
-
-        box.className =
-            "frame" +
-            (i === 9 ? " tenth" : "");
-
-
-        const a = f[i] || [];
-
-
-        box.innerHTML =
-            '<div class="fh">FRAME ' +
-            (i + 1) +
-            '</div>';
-
-
-        const r = document.createElement("div");
-
-        r.className = "rolls";
-
-
-        if(i < 9){
-
-            let x =
-                a[0] === undefined
-                ? ""
-                : a[0] === 10
-                ? "X"
-                : a[0];
-
-
-            let y =
-                a[1] === undefined
-                ? ""
-                : a[0] + a[1] === 10
-                ? "/"
-                : a[1];
-
-
-            r.innerHTML =
-                '<div class="roll">' +
-                x +
-                '</div>' +
-
-                '<div class="roll">' +
-                y +
-                '</div>';
-
-        }
-
-
-        else{
-
-            for(let j = 0; j < 3; j++){
-
-                const v = a[j];
-
-                const d =
-                    document.createElement("div");
-
-                d.className = "roll";
-
-                d.textContent =
-                    v === undefined
-                    ? ""
-                    : v === 10
-                    ? "X"
-                    : v;
-
-                r.appendChild(d);
-
-            }
-
-        }
-
-
-        box.appendChild(r);
-
-
-        const sc =
-            document.createElement("div");
-
-        sc.className = "fs";
-
-        sc.textContent =
-            s[i] ?? "";
-
-
-        box.appendChild(sc);
-
-        board.appendChild(box);
-
-    }
-
-
-    renderControls();
 }
 
 
-function renderControls(){
+if(a[0]===10){
 
-    $("controls").innerHTML = "";
+const n=f[i+1]||[];
+const m=f[i+2]||[];
 
+if(n.length<2){
 
-    for(let i = 0; i <= 9; i++){
+out.push(null);
+continue;
 
-        const b =
-            document.createElement("button");
+}
 
-        b.className = "rollBtn";
+let bonus;
 
-        b.textContent = i;
+if(n[0]===10){
 
-        b.onclick = () => addRoll(i);
+if(!m.length){
 
-        $("controls").appendChild(b);
+out.push(null);
+continue;
 
-    }
+}
 
+bonus=10+m[0];
 
-    const x =
-        document.createElement("button");
+}
 
-    x.className = "rollBtn";
+else{
 
-    x.textContent = "STRIKE X";
+bonus=n[0]+n[1];
 
-    x.onclick = () => addRoll(10);
+}
 
-    $("controls").appendChild(x);
+total+=10+bonus;
 
+out.push(total);
 
-    const sp =
-        document.createElement("button");
-
-    sp.className = "rollBtn spare";
-
-    sp.textContent = "SPARE /";
-
-    sp.onclick = addSpare;
-
-    $("controls").appendChild(sp);
-
-
-    const re =
-        document.createElement("button");
-
-    re.className = "rollBtn reset";
-
-    re.textContent = "RESET PLAYER";
-
-    re.onclick = () => {
-
-        players[currentPlayer].rolls = [];
-
-        broadcast();
-
-        renderScore();
-
-    };
-
-    $("controls").appendChild(re);
 }
 
 
-/* ---------------- PLAYERS ---------------- */
+else if(
+a.length>=2 &&
+a[0]+a[1]===10
+){
 
-$("addPlayer").onclick = () => {
+const n=f[i+1]||[];
 
-    const n =
-        $("playerInput").value.trim();
+if(!n.length){
 
-    if(!n)
-        return;
+out.push(null);
+continue;
 
-    players.push({
-        name:n,
-        rolls:[]
-    });
+}
 
-    $("playerInput").value = "";
+total+=10+n[0];
 
-    renderPlayers();
+out.push(total);
 
-    broadcast();
-
-};
+}
 
 
-$("playerInput").addEventListener(
-    "keydown",
-    e => {
+else if(a.length>=2){
 
-        if(e.key === "Enter")
-            $("addPlayer").click();
+total+=
+a[0]+a[1];
 
-    }
+out.push(total);
+
+}
+
+
+else{
+
+out.push(null);
+
+}
+
+}
+
+return out;
+
+}
+
+
+/* RENDER */
+
+function render(){
+
+if(!state)
+return;
+
+
+$("scoreboard").style.display=
+state.players.length
+?"block"
+:"none";
+
+
+$("players").innerHTML="";
+
+
+state.players.forEach((p,i)=>{
+
+const d=
+document.createElement("div");
+
+d.className=
+"player"+
+(i===state.currentPlayer
+?" active":"");
+
+d.textContent=p.name;
+
+$("players")
+.appendChild(d);
+
+});
+
+
+if(!state.players.length)
+return;
+
+
+const p=
+state.players[state.currentPlayer];
+
+$("currentName").textContent=
+"🎳 "+p.name;
+
+
+const scores=
+calculateScores(p.rolls);
+
+
+let total=0;
+
+scores.forEach(x=>{
+
+if(x!==null)
+total=x;
+
+});
+
+
+$("total").textContent=
+total;
+
+
+$("board").innerHTML="";
+
+
+const f=
+getFrames(p.rolls);
+
+
+for(let i=0;i<10;i++){
+
+const box=
+document.createElement("div");
+
+box.className=
+"frame"+
+(i===9?" tenth":"");
+
+
+const title=
+document.createElement("div");
+
+title.className=
+"frameTitle";
+
+title.textContent=
+"FRAME "+(i+1);
+
+box.appendChild(title);
+
+
+const rolls=
+document.createElement("div");
+
+rolls.className="rolls";
+
+
+const a=f[i]||[];
+
+
+const count=
+i===9?3:2;
+
+
+for(let j=0;j<count;j++){
+
+const r=
+document.createElement("div");
+
+r.className="roll";
+
+const v=a[j];
+
+if(v===undefined)
+r.textContent="";
+
+else if(v===10)
+r.textContent="X";
+
+else if(
+i<9 &&
+j===1 &&
+a[0]+v===10
+)
+r.textContent="/";
+
+else
+r.textContent=v;
+
+
+rolls.appendChild(r);
+
+}
+
+
+box.appendChild(rolls);
+
+
+const sc=
+document.createElement("div");
+
+sc.className="score";
+
+sc.textContent=
+scores[i]??"";
+
+box.appendChild(sc);
+
+
+$("board")
+.appendChild(box);
+
+}
+
+
+$("pinStatus").textContent=
+state.pinsetterState||"READY";
+
+}
+
+
+/* CONNECT */
+
+function connect(){
+
+const code=
+$("code")
+.value
+.trim()
+.toUpperCase()
+.replace(
+/[^A-Z0-9]/g,
+""
 );
 
 
-function renderPlayers(){
+if(code.length!==6){
 
-    $("playerList").innerHTML = "";
+alert(
+"Enter the 6-character Bowl Site code."
+);
 
-
-    players.forEach((p,i) => {
-
-        const d =
-            document.createElement("div");
-
-        d.className = "player";
-
-
-        d.innerHTML =
-            '<span>' +
-            escapeHTML(p.name) +
-            '</span>' +
-
-            '<button class="remove" data-i="' +
-            i +
-            '">REMOVE</button>';
-
-
-        d.querySelector("button").onclick = () => {
-
-            players.splice(i,1);
-
-            currentPlayer =
-                Math.min(
-                    currentPlayer,
-                    Math.max(0,players.length - 1)
-                );
-
-            renderPlayers();
-
-            broadcast();
-
-        };
-
-
-        $("playerList").appendChild(d);
-
-    });
+return;
 
 }
 
 
-$("start").onclick = () => {
-
-    if(!players.length){
-
-        alert("Add at least one player first.");
-
-        return;
-    }
-
-    gameStarted = true;
-
-    currentPlayer = 0;
-
-    showPage("score");
-
-    broadcast();
-
-};
+if(peer)
+peer.destroy();
 
 
-/* ---------------- EDITOR ---------------- */
-
-function renderEditorPlayers(){
-
-    const s = $("editorPlayer");
-
-    s.innerHTML = "";
+peer=new Peer();
 
 
-    players.forEach((p,i) => {
+peer.on("open",()=>{
 
-        const o =
-            document.createElement("option");
+conn=
+peer.connect(
+"kgl-"+code,
+{reliable:true}
+);
 
-        o.value = i;
 
-        o.textContent = p.name;
+conn.on("open",()=>{
 
-        s.appendChild(o);
+setStatus(
+"CONNECTED 🟢",
+true
+);
 
-    });
+$("connectBox")
+.style.display="none";
+
+});
+
+
+conn.on("data",msg=>{
+
+if(msg.type==="state"){
+
+state=msg.state;
+
+render();
+
+}
+
+});
+
+
+conn.on("close",()=>{
+
+setStatus(
+"Disconnected",
+false
+);
+
+$("connectBox")
+.style.display="block";
+
+});
+
+});
+
+
+peer.on("error",()=>{
+
+setStatus(
+"Connection failed",
+false
+);
+
+alert(
+"Couldn't connect. Check the code."
+);
+
+});
 
 }
 
 
-function renderEditor(){
+$("connect").onclick=
+connect;
 
-    const c = $("editorContent");
 
-    c.innerHTML = "";
+$("code").addEventListener(
+"keydown",
+e=>{
 
+if(e.key==="Enter")
+connect();
 
-    if(!players.length){
-
-        c.textContent = "No players yet.";
-
-        return;
-    }
-
-
-    const p =
-        players[
-            Number($("editorPlayer").value) || 0
-        ];
-
-
-    p.rolls.forEach((v,i) => {
-
-        const row =
-            document.createElement("div");
-
-        row.className = "editorRow";
-
-
-        row.innerHTML =
-            "<span>Roll " +
-            (i + 1) +
-            "</span>";
-
-
-        const inp =
-            document.createElement("input");
-
-        inp.type = "number";
-
-        inp.min = 0;
-
-        inp.max = 10;
-
-        inp.value = v;
-
-        inp.dataset.i = i;
-
-
-        row.appendChild(inp);
-
-        c.appendChild(row);
-
-    });
-
-}
-
-
-$("editorPlayer").onchange = renderEditor;
-
-
-$("saveEditor").onclick = () => {
-
-    if(!players.length)
-        return;
-
-    const p =
-        players[
-            Number($("editorPlayer").value) || 0
-        ];
-
-
-    p.rolls =
-        [
-            ...document.querySelectorAll(
-                "#editorContent input"
-            )
-        ].map(x =>
-            Math.max(
-                0,
-                Math.min(
-                    10,
-                    Number(x.value) || 0
-                )
-            )
-        );
-
-
-    broadcast();
-
-    showPage("score");
-
-};
-
-
-/* ---------------- RECAP ---------------- */
-
-function renderRecap(){
-
-    const c = $("recapContent");
-
-    c.innerHTML = "";
-
-
-    players.forEach(p => {
-
-        const s =
-            calculateScores(p.rolls);
-
-        let total = 0;
-
-        s.forEach(x => {
-
-            if(x !== null)
-                total = x;
-
-        });
-
-
-        const row =
-            document.createElement("div");
-
-        row.className = "recapRow";
-
-
-        row.innerHTML =
-            "<span>" +
-            escapeHTML(p.name) +
-            "</span>" +
-
-            "<strong>" +
-            total +
-            "</strong>";
-
-
-        c.appendChild(row);
-
-    });
-
-
-    if(!players.length)
-        c.textContent = "No players yet.";
-
-}
-
-
-/* ---------------- BACKGROUNDS ---------------- */
-
-document
-    .querySelectorAll(".bg")
-    .forEach(x => {
-
-        x.onclick = () => {
-
-            document.body.style.background =
-                x.dataset.bg;
-
-            broadcast();
-
-        };
-
-    });
-
-
-/* ---------------- REMOTE STATE ---------------- */
-
-function snapshot(){
-
-    return {
-
-        players,
-
-        currentPlayer,
-
-        gameStarted,
-
-        background:
-            document.body.style.background ||
-            "#111827"
-
-    };
-
-}
-
-
-function applyState(s){
-
-    if(!s)
-        return;
-
-
-    players =
-        Array.isArray(s.players)
-        ? s.players
-        : [];
-
-
-    currentPlayer =
-        Math.min(
-            Number(s.currentPlayer) || 0,
-            Math.max(0,players.length - 1)
-        );
-
-
-    gameStarted = !!s.gameStarted;
-
-
-    if(s.background)
-        document.body.style.background =
-            s.background;
-
-
-    renderPlayers();
-
-
-    if(currentPage === "score")
-        renderScore();
-
-
-    if(currentPage === "recap")
-        renderRecap();
-
-
-    if(currentPage === "editor"){
-
-        renderEditorPlayers();
-
-        renderEditor();
-
-    }
-
-}
-
-
-function broadcast(){
-
-    if(conn && conn.open){
-
-        conn.send({
-
-            type:"state",
-
-            state:snapshot()
-
-        });
-
-    }
-
-}
-
-
-/* ---------------- PEERJS ---------------- */
-
-function setupPeer(){
-
-    const make = () => {
-
-        const id =
-            "kgl-" +
-            Math.random()
-                .toString(36)
-                .slice(2,8)
-                .toUpperCase();
-
-
-        peer = new Peer(id);
-
-
-        peer.on("open", () => {
-
-            $("connection").textContent =
-                "Remote code: " +
-                id.slice(4) +
-                " • Open remote.html on phone";
-
-        });
-
-
-        peer.on("connection", c => {
-
-            if(conn && conn.open){
-
-                c.close();
-
-                return;
-
-            }
-
-
-            conn = c;
-
-
-            $("connection").textContent =
-                "Remote: CONNECTED 🟢 • Code " +
-                id.slice(4);
-
-
-            conn.on("open", () => {
-
-                conn.send({
-
-                    type:"state",
-
-                    state:snapshot()
-
-                });
-
-            });
-
-
-            conn.on("data", handleRemote);
-
-
-            conn.on("close", () => {
-
-                $("connection").textContent =
-                    "Remote: disconnected • Code " +
-                    id.slice(4);
-
-                conn = null;
-
-            });
-
-        });
-
-
-        peer.on("error", e => {
-
-            if(e.type === "unavailable-id"){
-
-                peer.destroy();
-
-                make();
-
-            }
-
-            else{
-
-                $("connection").textContent =
-                    "Remote error: " +
-                    e.type;
-
-            }
-
-        });
-
-    };
-
-
-    make();
-
-}
-
-
-/* ---------------- REMOTE COMMANDS ---------------- */
-
-function handleRemote(msg){
-
-    if(
-        !msg ||
-        msg.type !== "action"
-    )
-        return;
-
-
-    switch(msg.action){
-
-        case "addRoll":
-
-            addRoll(Number(msg.value));
-
-            break;
-
-
-        case "spare":
-
-            addSpare();
-
-            break;
-
-
-        case "next":
-
-            if(players.length){
-
-                currentPlayer =
-                    (currentPlayer + 1) %
-                    players.length;
-
-                broadcast();
-
-                renderScore();
-
-            }
-
-            break;
-
-
-        case "prev":
-
-            if(players.length){
-
-                currentPlayer =
-                    (currentPlayer - 1 +
-                    players.length) %
-                    players.length;
-
-                broadcast();
-
-                renderScore();
-
-            }
-
-            break;
-
-
-        case "reset":
-
-            if(players.length){
-
-                players[currentPlayer].rolls = [];
-
-                broadcast();
-
-                renderScore();
-
-            }
-
-            break;
-
-
-        case "select":
-
-            if(players[msg.index]){
-
-                currentPlayer =
-                    msg.index;
-
-                broadcast();
-
-                renderScore();
-
-            }
-
-            break;
-
-
-        case "end":
-
-            endGame();
-
-            break;
-
-
-        case "page":
-
-            showPage(msg.page);
-
-            break;
-
-    }
-
-}
-
-
-/* ---------------- END GAME ---------------- */
-
-function endGame(){
-
-    if(!confirm("End the current game?"))
-        return;
-
-
-    players = [];
-
-    currentPlayer = 0;
-
-    gameStarted = false;
-
-
-    broadcast();
-
-    renderPlayers();
-
-    showPage("players");
-
-
-    $("welcome").classList.remove("hide");
-
-
-    setTimeout(() => {
-
-        $("welcome").classList.add("hide");
-
-    },3000);
-
-}
-
-
-/* ---------------- START ---------------- */
-
-$("endBtn").onclick = endGame;
-
-
-setTimeout(() => {
-
-    $("welcome").classList.add("hide");
-
-},3000);
-
-
-renderPlayers();
-
-setupPeer();
+});
 
 </script>
 
