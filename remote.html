@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width,initial-scale=1"
->
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 
 <title>King Gavin Lanes Remote</title>
 
@@ -16,199 +13,208 @@
 
 <style>
 
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#080b12;
-    color:#fff;
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#080b12;
+color:#fff;
 }
 
 .wrap{
-    max-width:620px;
-    margin:auto;
-    padding:20px;
+max-width:620px;
+margin:auto;
+padding:20px;
 }
 
 .top{
-    background:#111827;
-    border-radius:14px;
-    padding:20px;
-    margin-bottom:14px;
+background:#111827;
+border-radius:14px;
+padding:20px;
+margin-bottom:14px;
 }
 
 h1{
-    margin:0 0 8px;
-    font-size:30px;
+margin:0 0 8px;
+font-size:30px;
 }
 
 .muted{
-    color:#9ca3af;
+color:#9ca3af;
 }
 
 .status{
-    font-weight:800;
-    margin-top:10px;
+font-weight:800;
+margin-top:10px;
 }
 
-.online{
-    color:#4ade80;
-}
+.online{color:#4ade80}
+.offline{color:#f87171}
 
-.offline{
-    color:#f87171;
-}
-
-input,select{
-    width:100%;
-    padding:15px;
-    border-radius:9px;
-    border:1px solid #4b5563;
-    background:#1f2937;
-    color:#fff;
-    font-size:17px;
+input{
+width:100%;
+padding:15px;
+border-radius:9px;
+border:1px solid #4b5563;
+background:#1f2937;
+color:#fff;
+font-size:17px;
 }
 
 button{
-    min-height:50px;
-    border:0;
-    border-radius:10px;
-    background:#2563eb;
-    color:#fff;
-    font-size:17px;
-    font-weight:800;
-    cursor:pointer;
-    padding:10px 15px;
-}
-
-button:active{
-    transform:scale(.98);
+min-height:50px;
+border:0;
+border-radius:10px;
+background:#2563eb;
+color:#fff;
+font-size:17px;
+font-weight:800;
+cursor:pointer;
+padding:10px 15px;
 }
 
 .connect{
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:8px;
+display:grid;
+grid-template-columns:1fr auto;
+gap:8px;
 }
 
 .connect button{
-    background:#16a34a;
+background:#16a34a;
 }
 
 .menuButton{
-    width:100%;
-    background:#374151;
-    font-size:20px;
-    margin-top:12px;
+width:100%;
+background:#374151;
+font-size:20px;
+margin-top:12px;
 }
 
 .remoteMenu{
-    display:none;
-    margin-top:12px;
+display:none;
+margin-top:12px;
 }
 
 .remoteMenu.open{
-    display:block;
+display:block;
 }
 
 .remoteMenu button{
-    width:100%;
-    margin-bottom:8px;
-    text-align:left;
+width:100%;
+margin-bottom:8px;
+text-align:left;
 }
 
 .remoteMenu .danger{
-    color:#fff;
-    background:#dc2626;
+background:#dc2626;
 }
 
 .playerButtons{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:8px;
-    margin-top:12px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:8px;
+margin-top:12px;
 }
 
 .playerButtons button.active{
-    outline:3px solid #60a5fa;
+outline:3px solid #60a5fa;
 }
 
 .grid{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:8px;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:8px;
 }
 
 .grid button{
-    min-height:58px;
-    font-size:20px;
+min-height:58px;
+font-size:20px;
 }
 
 .strike{
-    grid-column:span 5;
-    background:#1d4ed8;
+grid-column:span 5;
+background:#1d4ed8;
 }
 
 .spare{
-    grid-column:span 5;
-    background:#7c3aed;
+grid-column:span 5;
+background:#7c3aed;
 }
 
 .nav{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-top:8px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:8px;
 }
 
 .danger{
-    background:#dc2626;
+background:#dc2626;
 }
 
 .wide{
-    width:100%;
-    margin-top:8px;
+width:100%;
+margin-top:8px;
 }
 
 .score{
-    font-size:23px;
-    font-weight:800;
-    text-align:center;
-    background:#1f2937;
-    padding:16px;
-    border-radius:10px;
-    margin-top:12px;
+font-size:23px;
+font-weight:800;
+text-align:center;
+background:#1f2937;
+padding:16px;
+border-radius:10px;
+margin-top:12px;
 }
 
 .small{
-    font-size:14px;
-    color:#9ca3af;
+font-size:14px;
+color:#9ca3af;
 }
 
 .sectionTitle{
-    font-size:20px;
-    font-weight:800;
-    margin-bottom:10px;
+font-size:20px;
+font-weight:800;
+margin-bottom:10px;
+}
+
+.pinRemote{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.pinRemote button{
+min-height:60px;
+}
+
+.pinStop{
+background:#dc2626;
+}
+
+.pinCycle{
+background:#16a34a;
+}
+
+.pinReset{
+background:#7c3aed;
 }
 
 @media(max-width:400px){
 
-    .grid{
-        grid-template-columns:repeat(3,1fr);
-    }
+.grid{
+grid-template-columns:repeat(3,1fr);
+}
 
-    .strike,
-    .spare{
-        grid-column:span 3;
-    }
+.strike,
+.spare{
+grid-column:span 3;
+}
 
 }
 
 </style>
-
 </head>
 
 <body>
@@ -216,141 +222,127 @@ button:active{
 <div class="wrap">
 
 
-<!-- HEADER -->
-
 <div class="top">
 
-    <h1>🎳 King Gavin Lanes</h1>
+<h1>🎳 King Gavin Lanes</h1>
 
-    <div class="muted">
-        Remote Control
-    </div>
+<div class="muted">
+Wireless Control Panel
+</div>
 
-    <div
-        id="status"
-        class="status offline"
-    >
-        ● Not connected
-    </div>
+<div id="status"
+class="status offline">
+● Not connected
+</div>
 
 </div>
 
 
-<!-- CONNECTION -->
+<div class="top" id="connectBox">
 
-<div
-    class="top"
-    id="connectBox"
->
+<div class="sectionTitle">
+Connect to Bowl Site
+</div>
 
-    <div class="sectionTitle">
-        Connect to scoreboard
-    </div>
+<div class="small">
+Open MENU on the Bowl Site and enter the 6-character Remote Code below.
+</div>
 
-    <div class="small">
+<div class="connect"
+style="margin-top:12px">
 
-        On the iPad scoreboard, open
-        ☰ MENU and copy the
-        6-character Remote Code.
+<input
+id="code"
+maxlength="6"
+placeholder="ABC123"
+autocapitalize="characters">
 
-    </div>
+<button id="connect">
+CONNECT
+</button>
 
-    <div
-        class="connect"
-        style="margin-top:12px"
-    >
-
-        <input
-            id="code"
-            maxlength="6"
-            placeholder="ABC123"
-            autocapitalize="characters"
-        >
-
-        <button id="connect">
-            CONNECT
-        </button>
-
-    </div>
+</div>
 
 </div>
 
 
-<!-- REMOTE -->
-
-<div
-    id="remoteUI"
-    style="display:none"
->
+<div id="remoteUI"
+style="display:none">
 
 
-<!-- REMOTE MENU -->
+<!-- CONTROL PANEL -->
 
 <div class="top">
 
-    <button
-        id="menuButton"
-        class="menuButton"
-    >
-        ☰ MENU
-    </button>
+<button id="menuButton"
+class="menuButton">
+☰ CONTROL PANEL
+</button>
 
 
-    <div
-        id="remoteMenu"
-        class="remoteMenu"
-    >
+<div id="remoteMenu"
+class="remoteMenu">
 
-        <button
-            onclick="goPage('players')"
-        >
-            👥 Players
-        </button>
+<button onclick="goPage('players')">
+👥 PLAYERS
+</button>
 
+<button onclick="goPage('score')">
+🎳 SCORE
+</button>
 
-        <button
-            onclick="goPage('score')"
-        >
-            🎳 Score
-        </button>
+<button onclick="goPage('editor')">
+✏️ SCORE EDITOR
+</button>
 
+<button onclick="goPage('recap')">
+📊 RECAP
+</button>
 
-        <button
-            onclick="goPage('editor')"
-        >
-            ✏️ Score Editor
-        </button>
+<button onclick="goPage('backgrounds')">
+🖼️ BACKGROUNDS
+</button>
 
+<button onclick="goPage('pinsetter')">
+⚙️ PINSETTER
+</button>
 
-        <button
-            onclick="goPage('recap')"
-        >
-            📊 Recap
-        </button>
+<button onclick="goBack()">
+◀ BACK
+</button>
 
+<button
+class="danger"
+onclick="endGame()">
+🛑 END GAME
+</button>
 
-        <button
-            onclick="goPage('backgrounds')"
-        >
-            🖼️ Backgrounds
-        </button>
+</div>
 
-
-        <button
-            onclick="goBack()"
-        >
-            ◀ Back
-        </button>
+</div>
 
 
-        <button
-            class="danger"
-            onclick="endGame()"
-        >
-            🛑 End Game
-        </button>
+<!-- ADD PLAYER -->
 
-    </div>
+<div class="top">
+
+<div class="sectionTitle">
+👤 Add Player
+</div>
+
+<div class="connect"
+style="margin-top:12px">
+
+<input
+id="playerName"
+maxlength="30"
+placeholder="Player name">
+
+<button id="addPlayer">
+ADD
+</button>
+
+</div>
 
 </div>
 
@@ -359,139 +351,137 @@ button:active{
 
 <div class="top">
 
-    <div class="sectionTitle">
-        Players
-    </div>
+<div class="sectionTitle">
+Players
+</div>
 
-    <div
-        id="players"
-        class="playerButtons"
-    ></div>
+<div
+id="players"
+class="playerButtons">
+</div>
 
 </div>
 
 
-<!-- CURRENT SCORE -->
+<!-- SCORE -->
 
 <div class="top">
 
-    <div
-        class="sectionTitle"
-        id="current"
-    >
-        Waiting…
-    </div>
+<div
+class="sectionTitle"
+id="current">
+Waiting…
+</div>
 
-    <div
-        id="score"
-        class="score"
-    >
-        Score: 0
-    </div>
+<div
+id="score"
+class="score">
+Score: 0
+</div>
 
 </div>
 
 
-<!-- BOWLING CONTROLS -->
+<!-- BOWLING -->
 
 <div class="top">
 
-    <div class="sectionTitle">
-        Bowling Controls
-    </div>
+<div class="sectionTitle">
+🎳 Bowling Controls
+</div>
+
+<div class="grid">
+
+<button data-roll="0">0</button>
+<button data-roll="1">1</button>
+<button data-roll="2">2</button>
+<button data-roll="3">3</button>
+<button data-roll="4">4</button>
+
+<button data-roll="5">5</button>
+<button data-roll="6">6</button>
+<button data-roll="7">7</button>
+<button data-roll="8">8</button>
+<button data-roll="9">9</button>
+
+<button
+class="strike"
+id="strike">
+🎳 STRIKE X
+</button>
+
+<button
+class="spare"
+id="spare">
+SPARE /
+</button>
+
+</div>
 
 
-    <div class="grid">
+<div class="nav">
+
+<button id="prev">
+◀ PREVIOUS
+</button>
+
+<button id="next">
+NEXT ▶
+</button>
+
+</div>
 
 
-        <button data-roll="0">
-            0
-        </button>
+<button
+class="wide"
+id="reset">
+RESET PLAYER
+</button>
 
-        <button data-roll="1">
-            1
-        </button>
-
-        <button data-roll="2">
-            2
-        </button>
-
-        <button data-roll="3">
-            3
-        </button>
-
-        <button data-roll="4">
-            4
-        </button>
+</div>
 
 
-        <button data-roll="5">
-            5
-        </button>
+<!-- PINSETTER -->
 
-        <button data-roll="6">
-            6
-        </button>
+<div class="top">
 
-        <button data-roll="7">
-            7
-        </button>
+<div class="sectionTitle">
+⚙️ Pinsetter
+</div>
 
-        <button data-roll="8">
-            8
-        </button>
+<div class="pinRemote">
 
-        <button data-roll="9">
-            9
-        </button>
+<button
+class="pinCycle"
+onclick="pinAction('cycle')">
+▶️ CYCLE
+</button>
 
+<button
+onclick="pinAction('run')">
+⬆️ RUN
+</button>
 
-        <button
-            class="strike"
-            id="strike"
-        >
-            🎳 STRIKE X
-        </button>
+<button
+class="pinStop"
+onclick="pinAction('stop')">
+⏹️ STOP
+</button>
 
+<button
+class="pinReset"
+onclick="pinAction('reset')">
+🔄 RESET
+</button>
 
-        <button
-            class="spare"
-            id="spare"
-        >
-            SPARE /
-        </button>
+<button
+class="pinStop"
+style="grid-column:span 2"
+onclick="pinAction('estop')">
+🛑 EMERGENCY STOP
+</button>
 
-
-    </div>
-
-
-    <div class="nav">
-
-        <button id="prev">
-            ◀ PREVIOUS
-        </button>
-
-        <button id="next">
-            NEXT ▶
-        </button>
-
-    </div>
-
-
-    <button
-        class="wide"
-        id="reset"
-    >
-        RESET PLAYER
-    </button>
-
-
-    <button
-        class="wide danger"
-        id="end"
-    >
-        END GAME
-    </button>
+</div>
 
 </div>
 
@@ -503,337 +493,123 @@ button:active{
 
 <script>
 
-let peer = null;
-let conn = null;
-let state = null;
+let peer=null;
+let conn=null;
+let state=null;
 
-const $ = id =>
-    document.getElementById(id);
+const $=id=>
+document.getElementById(id);
 
 
 /* STATUS */
 
 function setStatus(text,ok){
 
-    $("status").textContent =
-        "● " + text;
+$("status").textContent=
+"● "+text;
 
-    $("status").className =
-        "status " +
-        (ok ? "online" : "offline");
+$("status").className=
+"status "+
+(ok?"online":"offline");
 
 }
 
 
-/* SEND COMMAND */
+/* SEND */
 
 function send(action,value){
 
-    if(conn && conn.open){
+if(conn&&conn.open){
 
-        conn.send({
+conn.send({
+type:"action",
+action,
+value
+});
 
-            type:"action",
-
-            action,
-
-            value
-
-        });
-
-    }
+}
 
 }
 
 
 /* MENU */
 
-$("menuButton").onclick = () => {
+$("menuButton").onclick=()=>{
 
-    $("remoteMenu")
-        .classList.toggle("open");
+$("remoteMenu")
+.classList.toggle("open");
 
 };
 
 
-/* PAGE CONTROL */
-
 function goPage(page){
 
-    send("page",page);
+send("page",page);
 
-    $("remoteMenu")
-        .classList.remove("open");
+$("remoteMenu")
+.classList.remove("open");
 
 }
 
 
 function goBack(){
 
-    send("page","score");
+send("page","score");
 
-    $("remoteMenu")
-        .classList.remove("open");
+$("remoteMenu")
+.classList.remove("open");
 
 }
 
 
-/* END GAME */
+/* ADD PLAYER */
+
+$("addPlayer").onclick=()=>{
+
+const name=
+$("playerName")
+.value
+.trim();
+
+if(!name){
+
+alert("Enter a player name.");
+return;
+
+}
+
+send("addPlayer",name);
+
+$("playerName").value="";
+
+};
+
+
+$("playerName").addEventListener(
+"keydown",
+e=>{
+
+if(e.key==="Enter")
+$("addPlayer").click();
+
+});
+
+
+/* END */
 
 function endGame(){
 
-    if(confirm("End the game?")){
-
-        send("end");
-
-        $("remoteMenu")
-            .classList.remove("open");
-
-    }
+if(confirm("End the game?"))
+send("end");
 
 }
 
 
-/* SCORE FRAMES */
+/* PINSETTER */
 
-function getFrames(rolls){
+function pinAction(action){
 
-    let f = [];
-
-    let i = 0;
-
-
-    for(let n = 0; n < 9; n++){
-
-        if(i >= rolls.length){
-
-            f.push([]);
-
-            continue;
-
-        }
-
-
-        if(rolls[i] === 10){
-
-            f.push([10]);
-
-            i++;
-
-        }
-
-        else{
-
-            if(
-                rolls[i + 1] !== undefined
-            ){
-
-                f.push([
-                    rolls[i],
-                    rolls[i + 1]
-                ]);
-
-                i += 2;
-
-            }
-
-            else{
-
-                f.push([rolls[i]]);
-
-                i++;
-
-            }
-
-        }
-
-    }
-
-
-    f.push(
-        rolls.slice(i,i + 3)
-    );
-
-
-    return f;
-
-}
-
-
-/* SCORE CALCULATION */
-
-function scores(rolls){
-
-    let f =
-        getFrames(rolls);
-
-    let out = [];
-
-    let total = 0;
-
-
-    for(let i = 0; i < 10; i++){
-
-        let a =
-            f[i] || [];
-
-
-        if(!a.length){
-
-            out.push(null);
-
-            continue;
-
-        }
-
-
-        if(i === 9){
-
-            if(a.length >= 2){
-
-                const previous =
-                    out.filter(
-                        x => x !== null
-                    ).length
-                    ?
-                    out.filter(
-                        x => x !== null
-                    )[
-                        out.filter(
-                            x => x !== null
-                        ).length - 1
-                    ]
-                    :
-                    0;
-
-
-                total =
-                    previous +
-                    a.reduce(
-                        (x,y) => x + y,
-                        0
-                    );
-
-
-                out.push(total);
-
-            }
-
-            else{
-
-                out.push(null);
-
-            }
-
-            continue;
-
-        }
-
-
-        /* STRIKE */
-
-        if(a[0] === 10){
-
-            let n =
-                f[i + 1] || [];
-
-            let m =
-                f[i + 2] || [];
-
-
-            if(n.length < 2){
-
-                out.push(null);
-
-                continue;
-
-            }
-
-
-            let b;
-
-
-            if(n[0] === 10){
-
-                if(!m.length){
-
-                    out.push(null);
-
-                    continue;
-
-                }
-
-                b =
-                    10 + m[0];
-
-            }
-
-            else{
-
-                b =
-                    n[0] + n[1];
-
-            }
-
-
-            total +=
-                10 + b;
-
-            out.push(total);
-
-        }
-
-
-        /* SPARE */
-
-        else if(
-            a.length >= 2 &&
-            a[0] + a[1] === 10
-        ){
-
-            let n =
-                f[i + 1] || [];
-
-
-            if(!n.length){
-
-                out.push(null);
-
-                continue;
-
-            }
-
-
-            total +=
-                10 + n[0];
-
-            out.push(total);
-
-        }
-
-
-        /* NORMAL */
-
-        else if(a.length >= 2){
-
-            total +=
-                a[0] + a[1];
-
-            out.push(total);
-
-        }
-
-
-        else{
-
-            out.push(null);
-
-        }
-
-    }
-
-
-    return out;
+send("pinsetter",action);
 
 }
 
@@ -842,86 +618,75 @@ function scores(rolls){
 
 function render(){
 
-    if(!state)
-        return;
+if(!state)
+return;
+
+$("remoteUI").style.display=
+state.players.length
+?"block"
+:"none";
 
 
-    $("remoteUI").style.display =
-        state.players.length
-        ? "block"
-        : "none";
+$("players").innerHTML="";
 
 
-    $("players").innerHTML = "";
+state.players.forEach((p,i)=>{
+
+const b=document.createElement("button");
+
+b.textContent=p.name;
+
+b.className=
+i===state.currentPlayer
+?"active"
+:"";
+
+b.onclick=()=>
+send("select",i);
+
+$("players").appendChild(b);
+
+});
 
 
-    state.players.forEach((p,i) => {
+if(state.players.length){
 
-        let b =
-            document.createElement("button");
+const p=
+state.players[state.currentPlayer];
 
+$("current").textContent=
+"🎳 "+p.name;
 
-        b.textContent =
-            p.name;
+let total=0;
 
+if(p.rolls){
 
-        b.className =
-            i === state.currentPlayer
-            ? "active"
-            : "";
+/*
+Simple live total.
+The actual Bowl Site
+calculates the official score.
+*/
 
+p.rolls.forEach(x=>{
+total+=Number(x)||0;
+});
 
-        b.onclick = () =>
-            send("select",i);
+}
 
+$("score").textContent=
+"Current pins: "+total;
 
-        $("players")
-            .appendChild(b);
+}
 
-    });
+else{
 
+$("current").textContent=
+"No players";
 
-    if(state.players.length){
+$("score").textContent=
+"Score: 0";
 
-        let p =
-            state.players[
-                state.currentPlayer
-            ];
-
-
-        let s =
-            scores(p.rolls);
-
-
-        let total = 0;
-
-
-        s.forEach(x => {
-
-            if(x !== null)
-                total = x;
-
-        });
-
-
-        $("current").textContent =
-            "🎳 " + p.name;
-
-
-        $("score").textContent =
-            "Score: " + total;
-
-    }
-
-    else{
-
-        $("current").textContent =
-            "No players";
-
-        $("score").textContent =
-            "Score: 0";
-
-    }
+}
 
 }
 
@@ -930,174 +695,149 @@ function render(){
 
 function connect(){
 
-    let code =
-        $("code")
-            .value
-            .trim()
-            .toUpperCase()
-            .replace(
-                /[^A-Z0-9]/g,
-                ""
-            );
+const code=
+$("code")
+.value
+.trim()
+.toUpperCase()
+.replace(/[^A-Z0-9]/g,"");
 
 
-    if(code.length !== 6){
+if(code.length!==6){
 
-        alert(
-            "Enter the 6-character code from the iPad."
-        );
+alert(
+"Enter the 6-character code from the Bowl Site."
+);
 
-        return;
+return;
 
-    }
-
-
-    if(peer)
-        peer.destroy();
+}
 
 
-    peer = new Peer();
+if(peer)
+peer.destroy();
 
 
-    peer.on("open",() => {
-
-        conn =
-            peer.connect(
-                "kgl-" + code,
-                {
-                    reliable:true
-                }
-            );
+peer=new Peer();
 
 
-        conn.on("open",() => {
+peer.on("open",()=>{
 
-            setStatus(
-                "CONNECTED 🟢",
-                true
-            );
-
-
-            $("connectBox")
-                .style.display =
-                "none";
-
-        });
+conn=
+peer.connect(
+"kgl-"+code,
+{reliable:true}
+);
 
 
-        conn.on("data",m => {
+conn.on("open",()=>{
 
-            if(m.type === "state"){
+setStatus(
+"CONNECTED 🟢",
+true
+);
 
-                state =
-                    m.state;
+$("connectBox")
+.style.display="none";
 
-                render();
-
-            }
-
-        });
-
-
-        conn.on("close",() => {
-
-            setStatus(
-                "Disconnected",
-                false
-            );
+});
 
 
-            $("connectBox")
-                .style.display =
-                "block";
+conn.on("data",m=>{
 
-        });
+if(m.type==="state"){
 
-    });
+state=m.state;
 
+render();
 
-    peer.on("error",e => {
+}
 
-        setStatus(
-            "Connection failed: " +
-            e.type,
-            false
-        );
+});
 
 
-        alert(
-            "Couldn't connect. Check the code and make sure the iPad scoreboard is open."
-        );
+conn.on("close",()=>{
 
-    });
+setStatus(
+"Disconnected",
+false
+);
+
+$("connectBox")
+.style.display="block";
+
+});
+
+});
+
+
+peer.on("error",e=>{
+
+setStatus(
+"Connection failed",
+false
+);
+
+alert(
+"Couldn't connect. Check the code and make sure the Bowl Site is open."
+);
+
+});
 
 }
 
 
 /* CONNECT BUTTON */
 
-$("connect").onclick =
-    connect;
+$("connect").onclick=connect;
 
 
 $("code").addEventListener(
-    "keydown",
-    e => {
+"keydown",
+e=>{
 
-        if(e.key === "Enter")
-            connect();
+if(e.key==="Enter")
+connect();
 
-    }
-);
+});
 
 
-/* NUMBER BUTTONS */
+/* ROLLS */
 
 document
-    .querySelectorAll("[data-roll]")
-    .forEach(b => {
+.querySelectorAll("[data-roll]")
+.forEach(b=>{
 
-        b.onclick = () =>
-            send(
-                "addRoll",
-                Number(b.dataset.roll)
-            );
+b.onclick=()=>{
 
-    });
+send(
+"addRoll",
+Number(b.dataset.roll)
+);
 
+};
 
-/* STRIKE */
-
-$("strike").onclick =
-    () => send(
-        "addRoll",
-        10
-    );
+});
 
 
-/* SPARE */
-
-$("spare").onclick =
-    () => send("spare");
+$("strike").onclick=()=>
+send("addRoll",10);
 
 
-/* NEXT */
-
-$("next").onclick =
-    () => send("next");
+$("spare").onclick=()=>
+send("spare");
 
 
-/* PREVIOUS */
-
-$("prev").onclick =
-    () => send("prev");
+$("prev").onclick=()=>
+send("prev");
 
 
-/* RESET */
+$("next").onclick=()=>
+send("next");
 
-$("reset").onclick =
-    () => send("reset");
 
+$("reset").onclick=()=>
+send("reset");
 
 </script>
 
