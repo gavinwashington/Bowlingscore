@@ -1,812 +1,1874 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1">
-
-<title>King Gavin Lanes Scoreboard</title>
-
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King Gavin Lanes</title>
 
 <style>
-
-*{
-box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#111827;
-color:#fff;
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #111827;
+    color: white;
+    transition: background 0.4s;
 }
 
-.wrap{
-padding:15px;
-max-width:1000px;
-margin:auto;
+header {
+    height: 72px;
+    background: #080b12;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    font-size: 27px;
+    font-weight: bold;
 }
 
-.header{
-background:#080b12;
-padding:20px;
-border-radius:14px;
-margin-bottom:15px;
+button {
+    cursor: pointer;
 }
 
-.header h1{
-margin:0;
-font-size:27px;
+.menu-button {
+    background: #2563eb;
+    border: none;
+    color: white;
+    padding: 13px 21px;
+    border-radius: 9px;
+    font-size: 17px;
+    font-weight: bold;
 }
 
-.status{
-margin-top:8px;
-font-weight:800;
+.menu {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 68px;
+    width: 250px;
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 8px;
+    z-index: 500;
 }
 
-.online{
-color:#4ade80;
+.menu.open {
+    display: block;
 }
 
-.offline{
-color:#f87171;
+.menu button {
+    width: 100%;
+    background: transparent;
+    color: white;
+    border: none;
+    text-align: left;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 17px;
 }
 
-.connect{
-background:#1f2937;
-padding:18px;
-border-radius:14px;
-margin-bottom:15px;
+.menu button:hover {
+    background: #374151;
 }
 
-input{
-width:100%;
-padding:14px;
-border-radius:8px;
-border:1px solid #4b5563;
-background:#111827;
-color:#fff;
-font-size:17px;
+.menu .end {
+    color: #f87171;
 }
 
-button{
-border:0;
-border-radius:8px;
-padding:13px;
-background:#2563eb;
-color:#fff;
-font-weight:800;
-font-size:16px;
+.container {
+    max-width: 1450px;
+    margin: auto;
+    padding: 40px;
 }
 
-.connectRow{
-display:grid;
-grid-template-columns:1fr auto;
-gap:8px;
-margin-top:10px;
+.page {
+    display: none;
 }
 
-.players{
-display:flex;
-gap:8px;
-overflow-x:auto;
-margin-bottom:15px;
+.page.active {
+    display: block;
 }
 
-.player{
-background:#1f2937;
-border-radius:10px;
-padding:13px 17px;
-font-weight:800;
-white-space:nowrap;
+h1 {
+    font-size: 40px;
 }
 
-.player.active{
-background:#1d4ed8;
-outline:2px solid #60a5fa;
+.setup {
+    max-width: 650px;
+    background: #1f2937;
+    padding: 25px;
+    border-radius: 14px;
 }
 
-.current{
-background:#1f2937;
-border-radius:14px;
-padding:18px;
-margin-bottom:15px;
+.input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 9px;
+    border: 1px solid #4b5563;
+    background: #111827;
+    color: white;
+    font-size: 17px;
 }
 
-.currentName{
-font-size:23px;
-font-weight:800;
+.primary {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    padding: 14px 20px;
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 12px;
 }
 
-.total{
-font-size:45px;
-font-weight:900;
-margin-top:5px;
+.start {
+    background: #16a34a;
 }
 
-.board{
-display:flex;
-gap:5px;
-overflow-x:auto;
-padding-bottom:8px;
+.connection {
+    background: #111827;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
 }
 
-.frame{
-min-width:85px;
-background:#1f2937;
-border-radius:9px;
-overflow:hidden;
-border:1px solid #374151;
+.code {
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    background: #1f2937;
+    padding: 8px 14px;
+    border-radius: 8px;
 }
 
-.frameTitle{
-background:#374151;
-padding:8px;
-text-align:center;
-font-size:12px;
-font-weight:800;
+.online {
+    color: #4ade80;
 }
 
-.rolls{
-display:grid;
-grid-template-columns:1fr 1fr;
-min-height:50px;
+.offline {
+    color: #fbbf24;
 }
 
-.tenth .rolls{
-grid-template-columns:repeat(3,1fr);
+.players {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 20px;
 }
 
-.roll{
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-font-weight:900;
-border-right:1px solid #374151;
+.player {
+    background: #111827;
+    padding: 14px;
+    border-radius: 9px;
+    display: flex;
+    justify-content: space-between;
 }
 
-.score{
-border-top:1px solid #374151;
-padding:10px;
-text-align:center;
-font-size:19px;
-font-weight:900;
+.remove {
+    background: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 9px 13px;
 }
 
-.pinsetter{
-background:#1f2937;
-padding:16px;
-border-radius:14px;
-margin-top:15px;
-font-weight:800;
+.selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
 }
 
-@media(max-width:500px){
-
-.frame{
-min-width:72px;
+.select {
+    background: #1f2937;
+    border: 2px solid #374151;
+    color: white;
+    border-radius: 8px;
+    padding: 11px 16px;
+    font-weight: bold;
 }
 
-.roll{
-font-size:17px;
+.select.active {
+    border-color: #2563eb;
+    background: #1e40af;
 }
 
-.total{
-font-size:38px;
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(100px, 1fr));
+    gap: 6px;
+    overflow-x: auto;
 }
 
+.frame {
+    min-width: 100px;
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 9px;
+    overflow: hidden;
 }
 
+.ft {
+    background: #374151;
+    text-align: center;
+    padding: 9px;
+    font-weight: bold;
+}
+
+.rolls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 62px;
+}
+
+.tenth .rolls {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #374151;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.cell:last-child {
+    border: 0;
+}
+
+.fs {
+    border-top: 1px solid #374151;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 12px;
+    min-height: 52px;
+}
+
+.controls {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    justify-content: center;
+}
+
+.roll {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    padding: 15px 22px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.spare {
+    background: #7c3aed;
+}
+
+.reset {
+    background: #dc2626;
+}
+
+.recap {
+    background: #1f2937;
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 700px;
+}
+
+.recaprow {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #374151;
+}
+
+.backgrounds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.bg {
+    height: 110px;
+    border-radius: 12px;
+    border: 3px solid transparent;
+}
+
+.bg:hover {
+    border-color: white;
+}
+
+#welcome {
+    position: fixed;
+    inset: 0;
+    background: #080b12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 9999;
+    transition: opacity 2s;
+}
+
+#welcome.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.welcome h1 {
+    font-size: clamp(38px, 7vw, 75px);
+    margin: 0;
+}
+
+.welcome p {
+    color: #9ca3af;
+    font-size: 22px;
+}
+
+#toast {
+    position: fixed;
+    left: 50%;
+    top: 25%;
+    transform: translateX(-50%) scale(.8);
+    background: #080b12;
+    border: 2px solid #2563eb;
+    padding: 25px 35px;
+    border-radius: 14px;
+    font-size: 32px;
+    font-weight: bold;
+    opacity: 0;
+    z-index: 2000;
+    transition: .35s;
+}
+
+#toast.show {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+@media(max-width:700px) {
+    .container {
+        padding: 20px;
+    }
+
+    header {
+        font-size: 20px;
+    }
+
+    .board {
+        grid-template-columns: repeat(10, 100px);
+    }
+}
 </style>
-
 </head>
 
 <body>
 
-<div class="wrap">
+<div id="welcome">
+    <div class="welcome">
+        <h1>
+            🎳 Welcome To<br>
+            King Gavin Lanes
+        </h1>
+
+        <p>Bowling Score System</p>
+    </div>
+</div>
+
+<div id="toast"></div>
+
+<header>
+    <div>🎳 KING GAVIN LANES</div>
+
+    <button
+        class="menu-button"
+        onclick="toggleMenu()">
+        ☰ MENU
+    </button>
+</header>
+
+<div id="menu" class="menu">
+
+    <button onclick="goBack()">
+        ◀ Back
+    </button>
+
+    <button onclick="showPage('players')">
+        👥 Players
+    </button>
+
+    <button onclick="showPage('score')">
+        🎳 Score
+    </button>
+
+    <button onclick="showPage('editor')">
+        ✏️ Score Editor
+    </button>
+
+    <button onclick="showPage('recap')">
+        📊 Recap
+    </button>
+
+    <button onclick="showPage('backgrounds')">
+        🖼️ Backgrounds
+    </button>
+
+    <button
+        class="end"
+        onclick="endGame()">
+        🛑 End Game
+    </button>
+
+</div>
+
+<div class="container">
+
+<section id="players" class="page active">
+
+<h1>👥 Players</h1>
+
+<div class="setup">
+
+    <div class="connection">
+
+        <span>📡 Remote:</span>
+
+        <strong
+            id="connectionState"
+            class="offline">
+            WAITING
+        </strong>
+
+        <span>Game Code:</span>
+
+        <span
+            id="gameCode"
+            class="code">
+            ------
+        </span>
+
+    </div>
+
+    <p>Add every player before starting.</p>
+
+    <input
+        id="playerInput"
+        class="input"
+        maxlength="30"
+        placeholder="Enter player name..."
+        onkeydown="
+        if(event.key==='Enter') addPlayer()
+        ">
+
+    <button
+        class="primary"
+        onclick="addPlayer()">
+        + ADD PLAYER
+    </button>
+
+    <div
+        id="playerList"
+        class="players">
+    </div>
+
+    <button
+        class="primary start"
+        onclick="startGame()">
+        🎳 START BOWLING
+    </button>
+
+</div>
+
+</section>
 
 
-<div class="header">
+<section id="score" class="page">
 
-<h1>🎳 KING GAVIN LANES</h1>
+<h1>🎳 Score</h1>
 
-<div>
-Live Phone Scoreboard
+<div
+    id="playerSelector"
+    class="selector">
 </div>
 
 <div
-id="status"
-class="status offline">
-
-● Not connected
-
+    id="currentPlayer"
+    style="
+    font-size:21px;
+    color:#93c5fd;
+    font-weight:bold;
+    margin-bottom:20px;">
 </div>
-
-</div>
-
 
 <div
-class="connect"
-id="connectBox">
-
-<strong>
-Connect to Bowl Site
-</strong>
-
-<div
-style="color:#9ca3af;margin-top:7px">
-
-Enter the same 6-character code
-shown on the iPad.
-
+    id="board"
+    class="board">
 </div>
 
+<div
+    id="controls"
+    class="controls">
+</div>
 
-<div class="connectRow">
+<div class="controls">
 
-<input
-id="code"
-maxlength="6"
-placeholder="ABC123"
-autocapitalize="characters">
-
-<button id="connect">
-CONNECT
+<button
+    class="roll reset"
+    onclick="resetPlayer()">
+    RESET PLAYER
 </button>
 
 </div>
 
-</div>
+</section>
 
 
-<div
-id="scoreboard"
-style="display:none">
+<section id="editor" class="page">
 
-
-<div
-id="players"
-class="players">
-</div>
-
-
-<div class="current">
+<h1>✏️ Score Editor</h1>
 
 <div
-id="currentName"
-class="currentName">
-Waiting…
+    style="
+    background:#1f2937;
+    padding:20px;
+    border-radius:12px;
+    max-width:800px;">
+
+<select
+    id="editorPlayer"
+    onchange="renderEditor()"
+    style="
+    padding:13px;
+    background:#111827;
+    color:white;
+    border:1px solid #4b5563;
+    border-radius:8px;
+    font-size:16px;">
+</select>
+
+<div id="editorContent"></div>
+
+<button
+    class="primary"
+    onclick="saveEditor()">
+    SAVE SCORES
+</button>
+
+</div>
+
+</section>
+
+
+<section id="recap" class="page">
+
+<h1>📊 Recap</h1>
+
+<div
+    id="recap"
+    class="recap">
+</div>
+
+</section>
+
+
+<section id="backgrounds" class="page">
+
+<h1>🖼️ Backgrounds</h1>
+
+<div class="backgrounds">
+
+<div
+    class="bg"
+    style="background:#111827"
+    onclick="setBackground('#111827')">
 </div>
 
 <div
-id="total"
-class="total">
-0
+    class="bg"
+    style="
+    background:linear-gradient(
+    135deg,#172554,#2563eb)">
 </div>
-
-</div>
-
 
 <div
-id="board"
-class="board">
+    class="bg"
+    style="
+    background:linear-gradient(
+    135deg,#2e1065,#7e22ce)">
 </div>
 
+<div
+    class="bg"
+    style="
+    background:linear-gradient(
+    135deg,#450a0a,#dc2626)">
+</div>
 
-<div class="pinsetter">
+<div
+    class="bg"
+    style="
+    background:linear-gradient(
+    135deg,#052e16,#16a34a)">
+</div>
 
-⚙️ Pinsetter Status:
-<span id="pinStatus">
-READY
-</span>
+<div
+    class="bg"
+    style="background:#e5e7eb"
+    onclick="setBackground('#e5e7eb')">
+</div>
 
 </div>
 
+</section>
 
 </div>
 
-</div>
-
+<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <script>
 
-let peer=null;
-let conn=null;
-let state=null;
+let players = [];
+let currentPlayer = 0;
+let currentPage = "players";
+let peer;
+let remoteConnection;
+let gameCode;
 
-const $=id=>
-document.getElementById(id);
+
+/* CONNECTION */
+
+function startConnection() {
+
+    gameCode =
+        Math.random()
+        .toString(36)
+        .substring(2,8)
+        .toUpperCase();
+
+    peer =
+        new Peer("kgl-" + gameCode);
+
+    peer.on("open", () => {
+
+        document
+        .getElementById("gameCode")
+        .textContent = gameCode;
+
+    });
+
+    peer.on("connection", connection => {
+
+        remoteConnection = connection;
+
+        document
+        .getElementById("connectionState")
+        .textContent =
+            "CONNECTED";
+
+        document
+        .getElementById("connectionState")
+        .className =
+            "online";
+
+        connection.on("data", data => {
+
+            handleRemote(data);
+
+        });
+
+        sendState();
+
+    });
+
+}
 
 
-/* STATUS */
+function sendState() {
 
-function setStatus(text,ok){
+    if (
+        remoteConnection &&
+        remoteConnection.open
+    ) {
 
-$("status").textContent=
-"● "+text;
+        remoteConnection.send({
 
-$("status").className=
-"status "+
-(ok?"online":"offline");
+            type: "state",
+
+            players: players,
+
+            currentPlayer: currentPlayer
+
+        });
+
+    }
+
+}
+
+
+function handleRemote(data) {
+
+    if (data.type === "roll") {
+
+        addRoll(data.value);
+
+    }
+
+    if (data.type === "spare") {
+
+        addSpare();
+
+    }
+
+    if (data.type === "next") {
+
+        currentPlayer =
+            (currentPlayer + 1)
+            % players.length;
+
+        renderScore();
+
+    }
+
+    if (data.type === "previous") {
+
+        currentPlayer =
+            (currentPlayer - 1 +
+            players.length)
+            % players.length;
+
+        renderScore();
+
+    }
+
+    if (data.type === "reset") {
+
+        resetPlayer();
+
+    }
+
+    if (data.type === "select") {
+
+        currentPlayer =
+            data.index;
+
+        renderScore();
+
+    }
+
+    if (data.type === "end") {
+
+        endGame(true);
+
+    }
+
+}
+
+
+/* MENU */
+
+function toggleMenu() {
+
+    document
+    .getElementById("menu")
+    .classList.toggle("open");
+
+}
+
+
+function showPage(page) {
+
+    document
+    .querySelectorAll(".page")
+    .forEach(p =>
+        p.classList.remove("active")
+    );
+
+    document
+    .getElementById(page)
+    .classList.add("active");
+
+    currentPage = page;
+
+    document
+    .getElementById("menu")
+    .classList.remove("open");
+
+    if (page === "score")
+        renderScore();
+
+    if (page === "editor")
+        renderEditorPlayers();
+
+    if (page === "recap")
+        renderRecap();
+
+}
+
+
+function goBack() {
+
+    document
+    .getElementById("menu")
+    .classList.remove("open");
+
+    showPage("players");
+
+}
+
+
+/* PLAYERS */
+
+function addPlayer() {
+
+    const input =
+        document.getElementById(
+            "playerInput"
+        );
+
+    const name =
+        input.value.trim();
+
+    if (!name)
+        return;
+
+    players.push({
+
+        name: name,
+
+        rolls: []
+
+    });
+
+    input.value = "";
+
+    renderPlayers();
+
+    sendState();
+
+}
+
+
+function removePlayer(index) {
+
+    players.splice(index,1);
+
+    currentPlayer = 0;
+
+    renderPlayers();
+
+    sendState();
+
+}
+
+
+function renderPlayers() {
+
+    const list =
+        document.getElementById(
+            "playerList"
+        );
+
+    list.innerHTML = "";
+
+    players.forEach((player,index) => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "player";
+
+        div.innerHTML = `
+
+            <span>
+                ${escapeHTML(player.name)}
+            </span>
+
+            <button
+                class="remove"
+                onclick="removePlayer(${index})">
+
+                REMOVE
+
+            </button>
+
+        `;
+
+        list.appendChild(div);
+
+    });
+
+}
+
+
+function startGame() {
+
+    if (!players.length) {
+
+        alert(
+            "Add at least one player first."
+        );
+
+        return;
+
+    }
+
+    currentPlayer = 0;
+
+    showPage("score");
+
+    sendState();
 
 }
 
 
 /* FRAMES */
 
-function getFrames(rolls){
+function getFrames(rolls) {
 
-const f=[];
-let i=0;
+    const frames = [];
 
-for(let n=0;n<9;n++){
+    let index = 0;
 
-if(i>=rolls.length){
+    for (
+        let frame = 0;
+        frame < 9;
+        frame++
+    ) {
 
-f.push([]);
+        if (
+            index >= rolls.length
+        ) {
 
-continue;
+            frames.push([]);
+
+            continue;
+
+        }
+
+        if (
+            rolls[index] === 10
+        ) {
+
+            frames.push([10]);
+
+            index++;
+
+        } else {
+
+            frames.push(
+                rolls.slice(
+                    index,
+                    index + 2
+                )
+            );
+
+            index += 2;
+
+        }
+
+    }
+
+    frames.push(
+        rolls.slice(index,index + 3)
+    );
+
+    return frames;
 
 }
 
-if(rolls[i]===10){
 
-f.push([10]);
-i++;
+/* SCORING */
+
+function calculateScores(rolls) {
+
+    const frames =
+        getFrames(rolls);
+
+    const scores = [];
+
+    let total = 0;
+
+    for (
+        let i = 0;
+        i < 10;
+        i++
+    ) {
+
+        const frame =
+            frames[i];
+
+        if (!frame.length) {
+
+            scores.push(null);
+
+            continue;
+
+        }
+
+        if (i === 9) {
+
+            if (frame.length >= 2) {
+
+                total +=
+                    frame.reduce(
+                        (a,b) => a + b,
+                        0
+                    );
+
+                scores.push(total);
+
+            } else {
+
+                scores.push(null);
+
+            }
+
+            continue;
+
+        }
+
+        if (frame[0] === 10) {
+
+            const next =
+                frames[i + 1] || [];
+
+            const after =
+                frames[i + 2] || [];
+
+            if (
+                next.length < 2
+            ) {
+
+                scores.push(null);
+
+                continue;
+
+            }
+
+            let bonus =
+                next[0];
+
+            if (
+                next[0] === 10
+            ) {
+
+                if (!after.length) {
+
+                    scores.push(null);
+
+                    continue;
+
+                }
+
+                bonus += after[0];
+
+            } else {
+
+                bonus += next[1];
+
+            }
+
+            total +=
+                10 + bonus;
+
+            scores.push(total);
+
+        }
+
+        else if (
+            frame.length >= 2 &&
+            frame[0] +
+            frame[1] === 10
+        ) {
+
+            const next =
+                frames[i + 1] || [];
+
+            if (!next.length) {
+
+                scores.push(null);
+
+                continue;
+
+            }
+
+            total +=
+                10 + next[0];
+
+            scores.push(total);
+
+        }
+
+        else if (
+            frame.length >= 2
+        ) {
+
+            total +=
+                frame[0] +
+                frame[1];
+
+            scores.push(total);
+
+        }
+
+        else {
+
+            scores.push(null);
+
+        }
+
+    }
+
+    return scores;
 
 }
 
-else{
 
-if(rolls[i+1]!==undefined){
+/* SCOREBOARD */
 
-f.push([
-rolls[i],
-rolls[i+1]
-]);
+function renderScore() {
 
-i+=2;
+    if (!players.length) {
+
+        showPage("players");
+
+        return;
+
+    }
+
+    const player =
+        players[currentPlayer];
+
+    document
+    .getElementById(
+        "currentPlayer"
+    )
+    .textContent =
+        "Bowling: " +
+        player.name;
+
+    const selector =
+        document.getElementById(
+            "playerSelector"
+        );
+
+    selector.innerHTML = "";
+
+    players.forEach(
+        (p,index) => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.className =
+                "select " +
+                (
+                    index === currentPlayer
+                    ? "active"
+                    : ""
+                );
+
+            button.textContent =
+                p.name;
+
+            button.onclick = () => {
+
+                currentPlayer = index;
+
+                renderScore();
+
+                sendState();
+
+            };
+
+            selector.appendChild(
+                button
+            );
+
+        }
+    );
+
+
+    const board =
+        document.getElementById(
+            "board"
+        );
+
+    board.innerHTML = "";
+
+    const frames =
+        getFrames(player.rolls);
+
+    const scores =
+        calculateScores(
+            player.rolls
+        );
+
+
+    for (
+        let i = 0;
+        i < 10;
+        i++
+    ) {
+
+        const box =
+            document.createElement(
+                "div"
+            );
+
+        box.className =
+            "frame";
+
+        if (i === 9)
+            box.classList.add(
+                "tenth"
+            );
+
+
+        let cells = "";
+
+        const frame =
+            frames[i];
+
+
+        if (i < 9) {
+
+            const a = frame[0];
+            const b = frame[1];
+
+            cells += `
+                <div class="cell">
+                    ${
+                        a === undefined
+                        ? ""
+                        : a === 10
+                        ? "X"
+                        : a
+                    }
+                </div>
+            `;
+
+            cells += `
+                <div class="cell">
+                    ${
+                        b === undefined
+                        ? ""
+                        : a + b === 10
+                        ? "/"
+                        : b
+                    }
+                </div>
+            `;
+
+        } else {
+
+            for (
+                let j = 0;
+                j < 3;
+                j++
+            ) {
+
+                const value =
+                    frame[j];
+
+                cells += `
+                    <div class="cell">
+                        ${
+                            value === undefined
+                            ? ""
+                            : value === 10
+                            ? "X"
+                            : value
+                        }
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        box.innerHTML = `
+
+            <div class="ft">
+                FRAME ${i + 1}
+            </div>
+
+            <div class="rolls">
+                ${cells}
+            </div>
+
+            <div class="fs">
+                ${
+                    scores[i] ?? ""
+                }
+            </div>
+
+        `;
+
+        board.appendChild(box);
+
+    }
+
+
+    renderRollButtons();
 
 }
 
-else{
 
-f.push([rolls[i]]);
-i++;
+/* ROLL BUTTONS */
+
+function renderRollButtons() {
+
+    const controls =
+        document.getElementById(
+            "controls"
+        );
+
+    controls.innerHTML = "";
+
+    for (
+        let i = 0;
+        i <= 9;
+        i++
+    ) {
+
+        const button =
+            document.createElement(
+                "button"
+            );
+
+        button.className = "roll";
+
+        button.textContent = i;
+
+        button.onclick =
+            () => addRoll(i);
+
+        controls.appendChild(
+            button
+        );
+
+    }
+
+
+    const strike =
+        document.createElement(
+            "button"
+        );
+
+    strike.className = "roll";
+
+    strike.textContent =
+        "STRIKE X";
+
+    strike.onclick =
+        () => addRoll(10);
+
+    controls.appendChild(
+        strike
+    );
+
+
+    const spare =
+        document.createElement(
+            "button"
+        );
+
+    spare.className =
+        "roll spare";
+
+    spare.textContent =
+        "SPARE /";
+
+    spare.onclick =
+        addSpare;
+
+    controls.appendChild(
+        spare
+    );
 
 }
 
-}
+
+/* CURRENT FRAME */
+
+function currentFrame(rolls) {
+
+    const frames =
+        getFrames(rolls);
+
+    for (
+        let i = 0;
+        i < 10;
+        i++
+    ) {
+
+        if (!frames[i].length)
+            return i;
+
+        if (
+            i < 9 &&
+            frames[i][0] !== 10 &&
+            frames[i].length < 2
+        )
+            return i;
+
+        if (
+            i === 9 &&
+            frames[i].length < 3
+        )
+            return i;
+
+    }
+
+    return 10;
 
 }
 
-f.push(
-rolls.slice(i,i+3)
+
+/* ADD ROLL */
+
+function addRoll(value) {
+
+    if (!players.length)
+        return;
+
+    const player =
+        players[currentPlayer];
+
+    const frame =
+        currentFrame(
+            player.rolls
+        );
+
+    if (frame >= 10)
+        return;
+
+    const frames =
+        getFrames(player.rolls);
+
+    const current =
+        frames[frame];
+
+
+    if (frame < 9) {
+
+        if (!current.length) {
+
+            player.rolls.push(value);
+
+        }
+
+        else if (
+            current[0] !== 10 &&
+            current[0] + value <= 10
+        ) {
+
+            player.rolls.push(value);
+
+        }
+
+        else {
+
+            return;
+
+        }
+
+    }
+
+    else {
+
+        if (!current.length) {
+
+            player.rolls.push(value);
+
+        }
+
+        else if (
+            current.length === 1
+        ) {
+
+            if (
+                current[0] === 10 ||
+                current[0] + value <= 10
+            ) {
+
+                player.rolls.push(value);
+
+            }
+
+        }
+
+        else if (
+            current[0] === 10 ||
+            current[0] +
+            current[1] === 10
+        ) {
+
+            player.rolls.push(value);
+
+        }
+
+    }
+
+
+    renderScore();
+
+    sendState();
+
+}
+
+
+/* SPARE */
+
+function addSpare() {
+
+    if (!players.length)
+        return;
+
+    const player =
+        players[currentPlayer];
+
+    const frame =
+        currentFrame(
+            player.rolls
+        );
+
+    if (frame >= 9)
+        return;
+
+    const current =
+        getFrames(
+            player.rolls
+        )[frame];
+
+    if (
+        current.length === 1 &&
+        current[0] !== 10
+    ) {
+
+        player.rolls.push(
+            10 - current[0]
+        );
+
+        renderScore();
+
+        sendState();
+
+    }
+
+}
+
+
+/* RESET */
+
+function resetPlayer() {
+
+    players[
+        currentPlayer
+    ].rolls = [];
+
+    renderScore();
+
+    sendState();
+
+}
+
+
+/* EDITOR */
+
+function renderEditorPlayers() {
+
+    const select =
+        document.getElementById(
+            "editorPlayer"
+        );
+
+    select.innerHTML = "";
+
+    players.forEach(
+        (p,index) => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value = index;
+
+            option.textContent =
+                p.name;
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+    renderEditor();
+
+}
+
+
+function renderEditor() {
+
+    const select =
+        document.getElementById(
+            "editorPlayer"
+        );
+
+    const content =
+        document.getElementById(
+            "editorContent"
+        );
+
+    content.innerHTML = "";
+
+    if (!players.length)
+        return;
+
+    const player =
+        players[
+            Number(select.value)
+        ];
+
+    player.rolls.forEach(
+        (roll,index) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.style =
+                "display:flex;gap:12px;padding:10px;border-bottom:1px solid #374151;";
+
+            row.innerHTML = `
+
+                <span>
+                    Roll ${index + 1}
+                </span>
+
+                <input
+                    type="number"
+                    min="0"
+                    max="10"
+                    value="${roll}"
+                    data-index="${index}"
+                    style="
+                    width:70px;
+                    padding:10px;
+                    background:#111827;
+                    color:white;
+                    border:1px solid #4b5563;
+                    border-radius:7px;">
+
+            `;
+
+            content.appendChild(row);
+
+        }
+    );
+
+}
+
+
+function saveEditor() {
+
+    const select =
+        document.getElementById(
+            "editorPlayer"
+        );
+
+    if (!players.length)
+        return;
+
+    const player =
+        players[
+            Number(select.value)
+        ];
+
+    const inputs =
+        document.querySelectorAll(
+            "#editorContent input"
+        );
+
+    player.rolls =
+        [...inputs].map(
+            input =>
+                Math.max(
+                    0,
+                    Math.min(
+                        10,
+                        Number(input.value) || 0
+                    )
+                )
+        );
+
+    renderScore();
+
+    sendState();
+
+    showPage("score");
+
+}
+
+
+/* RECAP */
+
+function renderRecap() {
+
+    const recap =
+        document.getElementById(
+            "recap"
+        );
+
+    recap.innerHTML = "";
+
+    players.forEach(
+        player => {
+
+            const scores =
+                calculateScores(
+                    player.rolls
+                );
+
+            const completed =
+                scores.filter(
+                    x => x !== null
+                );
+
+            const total =
+                completed.length
+                ? completed[
+                    completed.length - 1
+                  ]
+                : 0;
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "recaprow";
+
+            row.innerHTML = `
+
+                <span>
+                    ${escapeHTML(
+                        player.name
+                    )}
+                </span>
+
+                <strong>
+                    ${total}
+                </strong>
+
+            `;
+
+            recap.appendChild(row);
+
+        }
+    );
+
+}
+
+
+/* END GAME */
+
+function endGame(fromRemote = false) {
+
+    if (
+        !fromRemote &&
+        !confirm(
+            "End the current game?"
+        )
+    ) {
+        return;
+    }
+
+    players = [];
+
+    currentPlayer = 0;
+
+    renderPlayers();
+
+    showPage("players");
+
+    const welcome =
+        document.getElementById(
+            "welcome"
+        );
+
+    welcome.classList.remove(
+        "hidden"
+    );
+
+    setTimeout(
+        () => welcome.classList.add(
+            "hidden"
+        ),
+        3000
+    );
+
+    sendState();
+
+}
+
+
+/* BACKGROUNDS */
+
+function setBackground(bg) {
+
+    document.body.style.background =
+        bg;
+
+}
+
+
+/* UTIL */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* START */
+
+setTimeout(
+    () => document
+        .getElementById("welcome")
+        .classList.add("hidden"),
+    3000
 );
 
-return f;
-
-}
-
-
-/* SCORE */
-
-function calculateScores(rolls){
-
-const f=getFrames(rolls);
-
-const out=[];
-
-let total=0;
-
-
-for(let i=0;i<10;i++){
-
-const a=f[i]||[];
-
-if(!a.length){
-
-out.push(null);
-continue;
-
-}
-
-
-if(i===9){
-
-if(a.length>=2){
-
-const previous=
-out.filter(
-x=>x!==null
-).at(-1)||0;
-
-total=
-previous+
-a.reduce(
-(x,y)=>x+y,
-0
-);
-
-out.push(total);
-
-}
-
-else{
-
-out.push(null);
-
-}
-
-continue;
-
-}
-
-
-if(a[0]===10){
-
-const n=f[i+1]||[];
-const m=f[i+2]||[];
-
-if(n.length<2){
-
-out.push(null);
-continue;
-
-}
-
-let bonus;
-
-if(n[0]===10){
-
-if(!m.length){
-
-out.push(null);
-continue;
-
-}
-
-bonus=10+m[0];
-
-}
-
-else{
-
-bonus=n[0]+n[1];
-
-}
-
-total+=10+bonus;
-
-out.push(total);
-
-}
-
-
-else if(
-a.length>=2 &&
-a[0]+a[1]===10
-){
-
-const n=f[i+1]||[];
-
-if(!n.length){
-
-out.push(null);
-continue;
-
-}
-
-total+=10+n[0];
-
-out.push(total);
-
-}
-
-
-else if(a.length>=2){
-
-total+=
-a[0]+a[1];
-
-out.push(total);
-
-}
-
-
-else{
-
-out.push(null);
-
-}
-
-}
-
-return out;
-
-}
-
-
-/* RENDER */
-
-function render(){
-
-if(!state)
-return;
-
-
-$("scoreboard").style.display=
-state.players.length
-?"block"
-:"none";
-
-
-$("players").innerHTML="";
-
-
-state.players.forEach((p,i)=>{
-
-const d=
-document.createElement("div");
-
-d.className=
-"player"+
-(i===state.currentPlayer
-?" active":"");
-
-d.textContent=p.name;
-
-$("players")
-.appendChild(d);
-
-});
-
-
-if(!state.players.length)
-return;
-
-
-const p=
-state.players[state.currentPlayer];
-
-$("currentName").textContent=
-"🎳 "+p.name;
-
-
-const scores=
-calculateScores(p.rolls);
-
-
-let total=0;
-
-scores.forEach(x=>{
-
-if(x!==null)
-total=x;
-
-});
-
-
-$("total").textContent=
-total;
-
-
-$("board").innerHTML="";
-
-
-const f=
-getFrames(p.rolls);
-
-
-for(let i=0;i<10;i++){
-
-const box=
-document.createElement("div");
-
-box.className=
-"frame"+
-(i===9?" tenth":"");
-
-
-const title=
-document.createElement("div");
-
-title.className=
-"frameTitle";
-
-title.textContent=
-"FRAME "+(i+1);
-
-box.appendChild(title);
-
-
-const rolls=
-document.createElement("div");
-
-rolls.className="rolls";
-
-
-const a=f[i]||[];
-
-
-const count=
-i===9?3:2;
-
-
-for(let j=0;j<count;j++){
-
-const r=
-document.createElement("div");
-
-r.className="roll";
-
-const v=a[j];
-
-if(v===undefined)
-r.textContent="";
-
-else if(v===10)
-r.textContent="X";
-
-else if(
-i<9 &&
-j===1 &&
-a[0]+v===10
-)
-r.textContent="/";
-
-else
-r.textContent=v;
-
-
-rolls.appendChild(r);
-
-}
-
-
-box.appendChild(rolls);
-
-
-const sc=
-document.createElement("div");
-
-sc.className="score";
-
-sc.textContent=
-scores[i]??"";
-
-box.appendChild(sc);
-
-
-$("board")
-.appendChild(box);
-
-}
-
-
-$("pinStatus").textContent=
-state.pinsetterState||"READY";
-
-}
-
-
-/* CONNECT */
-
-function connect(){
-
-const code=
-$("code")
-.value
-.trim()
-.toUpperCase()
-.replace(
-/[^A-Z0-9]/g,
-""
-);
-
-
-if(code.length!==6){
-
-alert(
-"Enter the 6-character Bowl Site code."
-);
-
-return;
-
-}
-
-
-if(peer)
-peer.destroy();
-
-
-peer=new Peer();
-
-
-peer.on("open",()=>{
-
-conn=
-peer.connect(
-"kgl-"+code,
-{reliable:true}
-);
-
-
-conn.on("open",()=>{
-
-setStatus(
-"CONNECTED 🟢",
-true
-);
-
-$("connectBox")
-.style.display="none";
-
-});
-
-
-conn.on("data",msg=>{
-
-if(msg.type==="state"){
-
-state=msg.state;
-
-render();
-
-}
-
-});
-
-
-conn.on("close",()=>{
-
-setStatus(
-"Disconnected",
-false
-);
-
-$("connectBox")
-.style.display="block";
-
-});
-
-});
-
-
-peer.on("error",()=>{
-
-setStatus(
-"Connection failed",
-false
-);
-
-alert(
-"Couldn't connect. Check the code."
-);
-
-});
-
-}
-
-
-$("connect").onclick=
-connect;
-
-
-$("code").addEventListener(
-"keydown",
-e=>{
-
-if(e.key==="Enter")
-connect();
-
-});
+startConnection();
 
 </script>
 
