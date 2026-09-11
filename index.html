@@ -2,374 +2,184 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>King Gavin Lanes</title>
+<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#07111f;
+  color:white;
+}
+button,input{
+  font:inherit;
+}
+button{
+  border:0;
+  border-radius:12px;
+  padding:12px 16px;
+  margin:5px;
+  cursor:pointer;
+  background:#153454;
+  color:white;
+  font-weight:bold;
+}
+button:hover{background:#1e4773}
+input{
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #31506e;
+  background:#0c1c2e;
+  color:white;
+  width:100%;
+}
+header{
+  height:64px;
+  background:#020a14;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  border-bottom:1px solid #20364d;
+}
+header h1{
+  font-size:20px;
+  margin:0;
+}
+.page{
+  display:none;
+  padding:20px;
+  max-width:1100px;
+  margin:auto;
+}
+.page.active{display:block}
+.card{
+  background:#0d1d30;
+  border:1px solid #203b56;
+  border-radius:16px;
+  padding:18px;
+  margin:12px 0;
+}
+h2{margin-top:0}
+.big{
+  font-size:42px;
+  font-weight:bold;
+}
+.green{color:#6cff9a}
+.red{color:#ff6c6c}
+.menuGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+}
+.menuGrid button{
+  min-height:70px;
+  font-size:17px;
+}
+.playerBtn{
+  width:100%;
+  text-align:left;
+}
+.hidden{display:none!important}
+
+/* Welcome */
+#welcome{
+  position:fixed;
+  inset:0;
+  background:#020914;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  transition:opacity 1.5s;
+}
+#welcome.hide{
+  opacity:0;
+  pointer-events:none;
+}
+#welcome h1{
+  font-size:42px;
+  margin:0 0 10px;
+}
+#welcome p{
+  color:#9db2c7;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #111827;
-    color: white;
-    transition: background 0.4s;
+/* Scoreboard */
+.scoreWrap{
+  overflow-x:auto;
 }
-
-header {
-    height: 72px;
-    background: #080b12;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    font-size: 27px;
-    font-weight: bold;
+.scoreboard{
+  display:grid;
+  gap:2px;
+  min-width:850px;
 }
-
-button {
-    cursor: pointer;
+.scoreRow{
+  display:grid;
+  grid-template-columns:170px repeat(10,1fr) 85px;
 }
-
-.menu-button {
-    background: #2563eb;
-    border: none;
-    color: white;
-    padding: 13px 21px;
-    border-radius: 9px;
-    font-size: 17px;
-    font-weight: bold;
+.scoreCell{
+  border:1px solid #35516b;
+  min-height:65px;
+  padding:6px;
+  background:#0a1828;
 }
-
-.menu {
-    display: none;
-    position: absolute;
-    right: 20px;
-    top: 68px;
-    width: 250px;
-    background: #1f2937;
-    border: 1px solid #374151;
-    border-radius: 12px;
-    padding: 8px;
-    z-index: 500;
+.frameTitle{
+  font-size:12px;
+  color:#9eb4c9;
 }
-
-.menu.open {
-    display: block;
+.rolls{
+  font-size:15px;
+  margin-top:5px;
 }
-
-.menu button {
-    width: 100%;
-    background: transparent;
-    color: white;
-    border: none;
-    text-align: left;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 17px;
+.total{
+  font-size:22px;
+  font-weight:bold;
+  text-align:center;
+  padding-top:15px;
 }
-
-.menu button:hover {
-    background: #374151;
+.current{
+  outline:3px solid #65aef7;
 }
-
-.menu .end {
-    color: #f87171;
+.pinGrid{
+  display:grid;
+  grid-template-columns:repeat(5,60px);
+  justify-content:center;
+  gap:8px;
+  margin:15px 0;
 }
-
-.container {
-    max-width: 1450px;
-    margin: auto;
-    padding: 40px;
+.pin{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:#eee;
+  color:#111;
 }
-
-.page {
-    display: none;
+.pin.down{
+  background:#444;
+  color:#aaa;
 }
-
-.page.active {
-    display: block;
+.status{
+  padding:10px;
+  border-radius:10px;
+  background:#102b43;
+  margin:10px 0;
 }
-
-h1 {
-    font-size: 40px;
-}
-
-.setup {
-    max-width: 650px;
-    background: #1f2937;
-    padding: 25px;
-    border-radius: 14px;
-}
-
-.input {
-    width: 100%;
-    padding: 15px;
-    border-radius: 9px;
-    border: 1px solid #4b5563;
-    background: #111827;
-    color: white;
-    font-size: 17px;
-}
-
-.primary {
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 9px;
-    padding: 14px 20px;
-    font-size: 17px;
-    font-weight: bold;
-    margin-top: 12px;
-}
-
-.start {
-    background: #16a34a;
-}
-
-.connection {
-    background: #111827;
-    padding: 15px;
-    border-radius: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-}
-
-.code {
-    font-size: 25px;
-    font-weight: bold;
-    letter-spacing: 3px;
-    background: #1f2937;
-    padding: 8px 14px;
-    border-radius: 8px;
-}
-
-.online {
-    color: #4ade80;
-}
-
-.offline {
-    color: #fbbf24;
-}
-
-.players {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-    margin-top: 20px;
-}
-
-.player {
-    background: #111827;
-    padding: 14px;
-    border-radius: 9px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.remove {
-    background: #dc2626;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    padding: 9px 13px;
-}
-
-.selector {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 20px;
-}
-
-.select {
-    background: #1f2937;
-    border: 2px solid #374151;
-    color: white;
-    border-radius: 8px;
-    padding: 11px 16px;
-    font-weight: bold;
-}
-
-.select.active {
-    border-color: #2563eb;
-    background: #1e40af;
-}
-
-.board {
-    display: grid;
-    grid-template-columns: repeat(10, minmax(100px, 1fr));
-    gap: 6px;
-    overflow-x: auto;
-}
-
-.frame {
-    min-width: 100px;
-    background: #1f2937;
-    border: 1px solid #374151;
-    border-radius: 9px;
-    overflow: hidden;
-}
-
-.ft {
-    background: #374151;
-    text-align: center;
-    padding: 9px;
-    font-weight: bold;
-}
-
-.rolls {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 62px;
-}
-
-.tenth .rolls {
-    grid-template-columns: repeat(3, 1fr);
-}
-
-.cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid #374151;
-    font-size: 23px;
-    font-weight: bold;
-}
-
-.cell:last-child {
-    border: 0;
-}
-
-.fs {
-    border-top: 1px solid #374151;
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    padding: 12px;
-    min-height: 52px;
-}
-
-.controls {
-    margin-top: 25px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    justify-content: center;
-}
-
-.roll {
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 9px;
-    padding: 15px 22px;
-    font-size: 17px;
-    font-weight: bold;
-}
-
-.spare {
-    background: #7c3aed;
-}
-
-.reset {
-    background: #dc2626;
-}
-
-.recap {
-    background: #1f2937;
-    padding: 25px;
-    border-radius: 12px;
-    max-width: 700px;
-}
-
-.recaprow {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 0;
-    border-bottom: 1px solid #374151;
-}
-
-.backgrounds {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-}
-
-.bg {
-    height: 110px;
-    border-radius: 12px;
-    border: 3px solid transparent;
-}
-
-.bg:hover {
-    border-color: white;
-}
-
-#welcome {
-    position: fixed;
-    inset: 0;
-    background: #080b12;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    z-index: 9999;
-    transition: opacity 2s;
-}
-
-#welcome.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.welcome h1 {
-    font-size: clamp(38px, 7vw, 75px);
-    margin: 0;
-}
-
-.welcome p {
-    color: #9ca3af;
-    font-size: 22px;
-}
-
-#toast {
-    position: fixed;
-    left: 50%;
-    top: 25%;
-    transform: translateX(-50%) scale(.8);
-    background: #080b12;
-    border: 2px solid #2563eb;
-    padding: 25px 35px;
-    border-radius: 14px;
-    font-size: 32px;
-    font-weight: bold;
-    opacity: 0;
-    z-index: 2000;
-    transition: .35s;
-}
-
-#toast.show {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-}
-
-@media(max-width:700px) {
-    .container {
-        padding: 20px;
-    }
-
-    header {
-        font-size: 20px;
-    }
-
-    .board {
-        grid-template-columns: repeat(10, 100px);
-    }
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#102b43;
+  border:1px solid #40617f;
+  padding:12px 18px;
+  border-radius:12px;
+  display:none;
+  z-index:10000;
 }
 </style>
 </head>
@@ -377,1499 +187,744 @@ h1 {
 <body>
 
 <div id="welcome">
-    <div class="welcome">
-        <h1>
-            🎳 Welcome To<br>
-            King Gavin Lanes
-        </h1>
-
-        <p>Bowling Score System</p>
-    </div>
+  <div>
+    <h1>🎳 Welcome To<br>King Gavin Lanes</h1>
+    <p>Bowling Score System</p>
+  </div>
 </div>
-
-<div id="toast"></div>
 
 <header>
-    <div>🎳 KING GAVIN LANES</div>
-
-    <button
-        class="menu-button"
-        onclick="toggleMenu()">
-        ☰ MENU
-    </button>
+  <h1>🎳 KING GAVIN LANES</h1>
+  <button onclick="page('menu')">☰ MENU</button>
 </header>
 
-<div id="menu" class="menu">
+<!-- MENU -->
+<section id="menu" class="page active">
+  <div class="card">
+    <h2>Main Menu</h2>
+    <div id="connectionStatus" class="status">Starting connection...</div>
+  </div>
 
-    <button onclick="goBack()">
-        ◀ Back
-    </button>
-
-    <button onclick="showPage('players')">
-        👥 Players
-    </button>
-
-    <button onclick="showPage('score')">
-        🎳 Score
-    </button>
-
-    <button onclick="showPage('editor')">
-        ✏️ Score Editor
-    </button>
-
-    <button onclick="showPage('recap')">
-        📊 Recap
-    </button>
-
-    <button onclick="showPage('backgrounds')">
-        🖼️ Backgrounds
-    </button>
-
-    <button
-        class="end"
-        onclick="endGame()">
-        🛑 End Game
-    </button>
-
-</div>
-
-<div class="container">
-
-<section id="players" class="page active">
-
-<h1>👥 Players</h1>
-
-<div class="setup">
-
-    <div class="connection">
-
-        <span>📡 Remote:</span>
-
-        <strong
-            id="connectionState"
-            class="offline">
-            WAITING
-        </strong>
-
-        <span>Game Code:</span>
-
-        <span
-            id="gameCode"
-            class="code">
-            ------
-        </span>
-
-    </div>
-
-    <p>Add every player before starting.</p>
-
-    <input
-        id="playerInput"
-        class="input"
-        maxlength="30"
-        placeholder="Enter player name..."
-        onkeydown="
-        if(event.key==='Enter') addPlayer()
-        ">
-
-    <button
-        class="primary"
-        onclick="addPlayer()">
-        + ADD PLAYER
-    </button>
-
-    <div
-        id="playerList"
-        class="players">
-    </div>
-
-    <button
-        class="primary start"
-        onclick="startGame()">
-        🎳 START BOWLING
-    </button>
-
-</div>
-
+  <div class="menuGrid">
+    <button onclick="page('players')">👥 Players</button>
+    <button onclick="page('score')">📊 Score</button>
+    <button onclick="page('editor')">✏️ Score Editor</button>
+    <button onclick="page('recap')">📋 Recap</button>
+    <button onclick="page('backgrounds')">🖼️ Backgrounds</button>
+    <button onclick="page('pinsetter')">🎳 Pinsetter</button>
+    <button onclick="startGame()">▶️ Start Bowling</button>
+    <button onclick="endGame()">🏁 End Game</button>
+  </div>
 </section>
 
+<!-- PLAYERS -->
+<section id="players" class="page">
+  <button onclick="page('menu')">← Back</button>
 
+  <div class="card">
+    <h2>👥 Players</h2>
+    <p>Players and names are controlled from the phone remote.</p>
+
+    <div id="playerList"></div>
+
+    <hr>
+
+    <b>Remote Connection</b>
+    <p>Give the phone this code:</p>
+    <div id="gameCode" class="big">------</div>
+    <div id="playerConnection" class="status">Waiting for remote...</div>
+
+    <button onclick="startGame()">▶️ Start Bowling</button>
+  </div>
+</section>
+
+<!-- SCORE -->
 <section id="score" class="page">
+  <button onclick="page('menu')">← Back</button>
 
-<h1>🎳 Score</h1>
+  <div class="card">
+    <h2>📊 Scoreboard</h2>
+    <div id="currentPlayer"></div>
+  </div>
 
-<div
-    id="playerSelector"
-    class="selector">
-</div>
-
-<div
-    id="currentPlayer"
-    style="
-    font-size:21px;
-    color:#93c5fd;
-    font-weight:bold;
-    margin-bottom:20px;">
-</div>
-
-<div
-    id="board"
-    class="board">
-</div>
-
-<div
-    id="controls"
-    class="controls">
-</div>
-
-<div class="controls">
-
-<button
-    class="roll reset"
-    onclick="resetPlayer()">
-    RESET PLAYER
-</button>
-
-</div>
-
+  <div class="card scoreWrap">
+    <div id="scoreboard"></div>
+  </div>
 </section>
 
-
+<!-- EDITOR -->
 <section id="editor" class="page">
+  <button onclick="page('menu')">← Back</button>
 
-<h1>✏️ Score Editor</h1>
-
-<div
-    style="
-    background:#1f2937;
-    padding:20px;
-    border-radius:12px;
-    max-width:800px;">
-
-<select
-    id="editorPlayer"
-    onchange="renderEditor()"
-    style="
-    padding:13px;
-    background:#111827;
-    color:white;
-    border:1px solid #4b5563;
-    border-radius:8px;
-    font-size:16px;">
-</select>
-
-<div id="editorContent"></div>
-
-<button
-    class="primary"
-    onclick="saveEditor()">
-    SAVE SCORES
-</button>
-
-</div>
-
+  <div class="card">
+    <h2>✏️ Score Editor</h2>
+    <p>Score editing is controlled from the phone remote.</p>
+    <div id="editorInfo"></div>
+  </div>
 </section>
 
-
+<!-- RECAP -->
 <section id="recap" class="page">
+  <button onclick="page('menu')">← Back</button>
 
-<h1>📊 Recap</h1>
-
-<div
-    id="recap"
-    class="recap">
-</div>
-
+  <div class="card">
+    <h2>📋 Game Recap</h2>
+    <div id="recapList"></div>
+  </div>
 </section>
 
-
+<!-- BACKGROUNDS -->
 <section id="backgrounds" class="page">
+  <button onclick="page('menu')">← Back</button>
 
-<h1>🖼️ Backgrounds</h1>
-
-<div class="backgrounds">
-
-<div
-    class="bg"
-    style="background:#111827"
-    onclick="setBackground('#111827')">
-</div>
-
-<div
-    class="bg"
-    style="
-    background:linear-gradient(
-    135deg,#172554,#2563eb)">
-</div>
-
-<div
-    class="bg"
-    style="
-    background:linear-gradient(
-    135deg,#2e1065,#7e22ce)">
-</div>
-
-<div
-    class="bg"
-    style="
-    background:linear-gradient(
-    135deg,#450a0a,#dc2626)">
-</div>
-
-<div
-    class="bg"
-    style="
-    background:linear-gradient(
-    135deg,#052e16,#16a34a)">
-</div>
-
-<div
-    class="bg"
-    style="background:#e5e7eb"
-    onclick="setBackground('#e5e7eb')">
-</div>
-
-</div>
-
+  <div class="card">
+    <h2>🖼️ Backgrounds</h2>
+    <button onclick="setBackground('#07111f')">Midnight</button>
+    <button onclick="setBackground('#101010')">Black</button>
+    <button onclick="setBackground('#10251c')">Lanes</button>
+    <button onclick="setBackground('#20142c')">Purple</button>
+    <button onclick="setBackground('#18200d')">Green</button>
+    <button onclick="setBackground('#24170d')">Brown</button>
+  </div>
 </section>
 
-</div>
+<!-- PINSETTER -->
+<section id="pinsetter" class="page">
+  <button onclick="page('menu')">← Back</button>
 
-<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+  <div class="card">
+    <h2>🎳 Pinsetter</h2>
+
+    <button onclick="rackPins()">Rack Pins</button>
+    <button onclick="clearPins()">Clear</button>
+    <button onclick="sweepPins()">Sweep</button>
+    <button onclick="nextBall()">Next Ball</button>
+
+    <div id="pinGrid" class="pinGrid"></div>
+  </div>
+</section>
+
+<div id="toast" class="toast"></div>
 
 <script>
+/* =========================
+   STATE
+========================= */
 
-let players = [];
-let currentPlayer = 0;
-let currentPage = "players";
-let peer;
-let remoteConnection;
-let gameCode;
+let players=[];
+let currentPlayer=0;
+let gameStarted=false;
+let pins=Array(10).fill(true);
+let peer=null;
+let remoteConn=null;
 
+let code=Math.floor(100000+Math.random()*900000).toString();
 
-/* CONNECTION */
+const rolls={};
 
-function startConnection() {
+function page(id){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 
-    gameCode =
-        Math.random()
-        .toString(36)
-        .substring(2,8)
-        .toUpperCase();
-
-    peer =
-        new Peer("kgl-" + gameCode);
-
-    peer.on("open", () => {
-
-        document
-        .getElementById("gameCode")
-        .textContent = gameCode;
-
-    });
-
-    peer.on("connection", connection => {
-
-        remoteConnection = connection;
-
-        document
-        .getElementById("connectionState")
-        .textContent =
-            "CONNECTED";
-
-        document
-        .getElementById("connectionState")
-        .className =
-            "online";
-
-        connection.on("data", data => {
-
-            handleRemote(data);
-
-        });
-
-        sendState();
-
-    });
-
+  if(id==='players')renderPlayers();
+  if(id==='score')renderScore();
+  if(id==='editor')renderEditor();
+  if(id==='recap')renderRecap();
+  if(id==='pinsetter')renderPins();
 }
 
+/* =========================
+   WELCOME
+========================= */
 
-function sendState() {
+setTimeout(()=>{
+  document.getElementById('welcome').classList.add('hide');
+},3000);
 
-    if (
-        remoteConnection &&
-        remoteConnection.open
-    ) {
+/* =========================
+   PEER
+========================= */
 
-        remoteConnection.send({
+document.getElementById('gameCode').textContent=code;
 
-            type: "state",
+peer=new Peer('kgl-'+code,{
+  debug:0
+});
 
-            players: players,
+peer.on('open',()=>{
+  setStatus('connectionStatus',
+    '🟢 Ready — connect the phone using the code above.'
+  );
+});
 
-            currentPlayer: currentPlayer
+peer.on('connection',(conn)=>{
+  remoteConn=conn;
 
-        });
+  setStatus('playerConnection','🟢 Phone remote connected!');
+  setStatus('connectionStatus','🟢 Phone remote connected!');
 
-    }
-
-}
-
-
-function handleRemote(data) {
-
-    if (data.type === "roll") {
-
-        addRoll(data.value);
-
-    }
-
-    if (data.type === "spare") {
-
-        addSpare();
-
-    }
-
-    if (data.type === "next") {
-
-        currentPlayer =
-            (currentPlayer + 1)
-            % players.length;
-
-        renderScore();
-
-    }
-
-    if (data.type === "previous") {
-
-        currentPlayer =
-            (currentPlayer - 1 +
-            players.length)
-            % players.length;
-
-        renderScore();
-
-    }
-
-    if (data.type === "reset") {
-
-        resetPlayer();
-
-    }
-
-    if (data.type === "select") {
-
-        currentPlayer =
-            data.index;
-
-        renderScore();
-
-    }
-
-    if (data.type === "end") {
-
-        endGame(true);
-
-    }
-
-}
-
-
-/* MENU */
-
-function toggleMenu() {
-
-    document
-    .getElementById("menu")
-    .classList.toggle("open");
-
-}
-
-
-function showPage(page) {
-
-    document
-    .querySelectorAll(".page")
-    .forEach(p =>
-        p.classList.remove("active")
-    );
-
-    document
-    .getElementById(page)
-    .classList.add("active");
-
-    currentPage = page;
-
-    document
-    .getElementById("menu")
-    .classList.remove("open");
-
-    if (page === "score")
-        renderScore();
-
-    if (page === "editor")
-        renderEditorPlayers();
-
-    if (page === "recap")
-        renderRecap();
-
-}
-
-
-function goBack() {
-
-    document
-    .getElementById("menu")
-    .classList.remove("open");
-
-    showPage("players");
-
-}
-
-
-/* PLAYERS */
-
-function addPlayer() {
-
-    const input =
-        document.getElementById(
-            "playerInput"
-        );
-
-    const name =
-        input.value.trim();
-
-    if (!name)
-        return;
-
-    players.push({
-
-        name: name,
-
-        rolls: []
-
-    });
-
-    input.value = "";
-
-    renderPlayers();
-
+  conn.on('open',()=>{
     sendState();
-
-}
-
-
-function removePlayer(index) {
-
-    players.splice(index,1);
-
-    currentPlayer = 0;
-
-    renderPlayers();
-
-    sendState();
-
-}
-
-
-function renderPlayers() {
-
-    const list =
-        document.getElementById(
-            "playerList"
-        );
-
-    list.innerHTML = "";
-
-    players.forEach((player,index) => {
-
-        const div =
-            document.createElement("div");
-
-        div.className = "player";
-
-        div.innerHTML = `
-
-            <span>
-                ${escapeHTML(player.name)}
-            </span>
-
-            <button
-                class="remove"
-                onclick="removePlayer(${index})">
-
-                REMOVE
-
-            </button>
-
-        `;
-
-        list.appendChild(div);
-
-    });
-
-}
-
-
-function startGame() {
-
-    if (!players.length) {
-
-        alert(
-            "Add at least one player first."
-        );
-
-        return;
-
-    }
-
-    currentPlayer = 0;
-
-    showPage("score");
-
-    sendState();
-
-}
-
-
-/* FRAMES */
-
-function getFrames(rolls) {
-
-    const frames = [];
-
-    let index = 0;
-
-    for (
-        let frame = 0;
-        frame < 9;
-        frame++
-    ) {
-
-        if (
-            index >= rolls.length
-        ) {
-
-            frames.push([]);
-
-            continue;
-
-        }
-
-        if (
-            rolls[index] === 10
-        ) {
-
-            frames.push([10]);
-
-            index++;
-
-        } else {
-
-            frames.push(
-                rolls.slice(
-                    index,
-                    index + 2
-                )
-            );
-
-            index += 2;
-
-        }
-
-    }
-
-    frames.push(
-        rolls.slice(index,index + 3)
-    );
-
-    return frames;
-
-}
-
-
-/* SCORING */
-
-function calculateScores(rolls) {
-
-    const frames =
-        getFrames(rolls);
-
-    const scores = [];
-
-    let total = 0;
-
-    for (
-        let i = 0;
-        i < 10;
-        i++
-    ) {
-
-        const frame =
-            frames[i];
-
-        if (!frame.length) {
-
-            scores.push(null);
-
-            continue;
-
-        }
-
-        if (i === 9) {
-
-            if (frame.length >= 2) {
-
-                total +=
-                    frame.reduce(
-                        (a,b) => a + b,
-                        0
-                    );
-
-                scores.push(total);
-
-            } else {
-
-                scores.push(null);
-
-            }
-
-            continue;
-
-        }
-
-        if (frame[0] === 10) {
-
-            const next =
-                frames[i + 1] || [];
-
-            const after =
-                frames[i + 2] || [];
-
-            if (
-                next.length < 2
-            ) {
-
-                scores.push(null);
-
-                continue;
-
-            }
-
-            let bonus =
-                next[0];
-
-            if (
-                next[0] === 10
-            ) {
-
-                if (!after.length) {
-
-                    scores.push(null);
-
-                    continue;
-
-                }
-
-                bonus += after[0];
-
-            } else {
-
-                bonus += next[1];
-
-            }
-
-            total +=
-                10 + bonus;
-
-            scores.push(total);
-
-        }
-
-        else if (
-            frame.length >= 2 &&
-            frame[0] +
-            frame[1] === 10
-        ) {
-
-            const next =
-                frames[i + 1] || [];
-
-            if (!next.length) {
-
-                scores.push(null);
-
-                continue;
-
-            }
-
-            total +=
-                10 + next[0];
-
-            scores.push(total);
-
-        }
-
-        else if (
-            frame.length >= 2
-        ) {
-
-            total +=
-                frame[0] +
-                frame[1];
-
-            scores.push(total);
-
-        }
-
-        else {
-
-            scores.push(null);
-
-        }
-
-    }
-
-    return scores;
-
-}
-
-
-/* SCOREBOARD */
-
-function renderScore() {
-
-    if (!players.length) {
-
-        showPage("players");
-
-        return;
-
-    }
-
-    const player =
-        players[currentPlayer];
-
-    document
-    .getElementById(
-        "currentPlayer"
-    )
-    .textContent =
-        "Bowling: " +
-        player.name;
-
-    const selector =
-        document.getElementById(
-            "playerSelector"
-        );
-
-    selector.innerHTML = "";
-
-    players.forEach(
-        (p,index) => {
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-            button.className =
-                "select " +
-                (
-                    index === currentPlayer
-                    ? "active"
-                    : ""
-                );
-
-            button.textContent =
-                p.name;
-
-            button.onclick = () => {
-
-                currentPlayer = index;
-
-                renderScore();
-
-                sendState();
-
-            };
-
-            selector.appendChild(
-                button
-            );
-
-        }
-    );
-
-
-    const board =
-        document.getElementById(
-            "board"
-        );
-
-    board.innerHTML = "";
-
-    const frames =
-        getFrames(player.rolls);
-
-    const scores =
-        calculateScores(
-            player.rolls
-        );
-
-
-    for (
-        let i = 0;
-        i < 10;
-        i++
-    ) {
-
-        const box =
-            document.createElement(
-                "div"
-            );
-
-        box.className =
-            "frame";
-
-        if (i === 9)
-            box.classList.add(
-                "tenth"
-            );
-
-
-        let cells = "";
-
-        const frame =
-            frames[i];
-
-
-        if (i < 9) {
-
-            const a = frame[0];
-            const b = frame[1];
-
-            cells += `
-                <div class="cell">
-                    ${
-                        a === undefined
-                        ? ""
-                        : a === 10
-                        ? "X"
-                        : a
-                    }
-                </div>
-            `;
-
-            cells += `
-                <div class="cell">
-                    ${
-                        b === undefined
-                        ? ""
-                        : a + b === 10
-                        ? "/"
-                        : b
-                    }
-                </div>
-            `;
-
-        } else {
-
-            for (
-                let j = 0;
-                j < 3;
-                j++
-            ) {
-
-                const value =
-                    frame[j];
-
-                cells += `
-                    <div class="cell">
-                        ${
-                            value === undefined
-                            ? ""
-                            : value === 10
-                            ? "X"
-                            : value
-                        }
-                    </div>
-                `;
-
-            }
-
-        }
-
-
-        box.innerHTML = `
-
-            <div class="ft">
-                FRAME ${i + 1}
-            </div>
-
-            <div class="rolls">
-                ${cells}
-            </div>
-
-            <div class="fs">
-                ${
-                    scores[i] ?? ""
-                }
-            </div>
-
-        `;
-
-        board.appendChild(box);
-
-    }
-
-
-    renderRollButtons();
-
-}
-
-
-/* ROLL BUTTONS */
-
-function renderRollButtons() {
-
-    const controls =
-        document.getElementById(
-            "controls"
-        );
-
-    controls.innerHTML = "";
-
-    for (
-        let i = 0;
-        i <= 9;
-        i++
-    ) {
-
-        const button =
-            document.createElement(
-                "button"
-            );
-
-        button.className = "roll";
-
-        button.textContent = i;
-
-        button.onclick =
-            () => addRoll(i);
-
-        controls.appendChild(
-            button
-        );
-
-    }
-
-
-    const strike =
-        document.createElement(
-            "button"
-        );
-
-    strike.className = "roll";
-
-    strike.textContent =
-        "STRIKE X";
-
-    strike.onclick =
-        () => addRoll(10);
-
-    controls.appendChild(
-        strike
-    );
-
-
-    const spare =
-        document.createElement(
-            "button"
-        );
-
-    spare.className =
-        "roll spare";
-
-    spare.textContent =
-        "SPARE /";
-
-    spare.onclick =
-        addSpare;
-
-    controls.appendChild(
-        spare
-    );
-
-}
-
-
-/* CURRENT FRAME */
-
-function currentFrame(rolls) {
-
-    const frames =
-        getFrames(rolls);
-
-    for (
-        let i = 0;
-        i < 10;
-        i++
-    ) {
-
-        if (!frames[i].length)
-            return i;
-
-        if (
-            i < 9 &&
-            frames[i][0] !== 10 &&
-            frames[i].length < 2
-        )
-            return i;
-
-        if (
-            i === 9 &&
-            frames[i].length < 3
-        )
-            return i;
-
-    }
-
-    return 10;
-
-}
-
-
-/* ADD ROLL */
-
-function addRoll(value) {
-
-    if (!players.length)
-        return;
-
-    const player =
-        players[currentPlayer];
-
-    const frame =
-        currentFrame(
-            player.rolls
-        );
-
-    if (frame >= 10)
-        return;
-
-    const frames =
-        getFrames(player.rolls);
-
-    const current =
-        frames[frame];
-
-
-    if (frame < 9) {
-
-        if (!current.length) {
-
-            player.rolls.push(value);
-
-        }
-
-        else if (
-            current[0] !== 10 &&
-            current[0] + value <= 10
-        ) {
-
-            player.rolls.push(value);
-
-        }
-
-        else {
-
-            return;
-
-        }
-
-    }
-
-    else {
-
-        if (!current.length) {
-
-            player.rolls.push(value);
-
-        }
-
-        else if (
-            current.length === 1
-        ) {
-
-            if (
-                current[0] === 10 ||
-                current[0] + value <= 10
-            ) {
-
-                player.rolls.push(value);
-
-            }
-
-        }
-
-        else if (
-            current[0] === 10 ||
-            current[0] +
-            current[1] === 10
-        ) {
-
-            player.rolls.push(value);
-
-        }
-
-    }
-
-
+    sendPin();
+  });
+
+  conn.on('data',(data)=>{
+    handleRemote(data);
+  });
+
+  conn.on('close',()=>{
+    remoteConn=null;
+    setStatus('playerConnection','🟡 Phone remote disconnected.');
+    setStatus('connectionStatus','🟡 Phone remote disconnected.');
+  });
+});
+
+peer.on('error',(err)=>{
+  console.log(err);
+  setStatus('connectionStatus','🔴 Connection error.');
+});
+
+/* =========================
+   REMOTE COMMANDS
+========================= */
+
+function handleRemote(data){
+
+  if(!data || !data.type)return;
+
+  if(data.type==='roll'){
+    addRoll(data.value);
+  }
+
+  if(data.type==='strike'){
+    addRoll(10);
+  }
+
+  if(data.type==='spare'){
+    makeSpare();
+  }
+
+  if(data.type==='previous'){
+    currentPlayer=Math.max(0,currentPlayer-1);
     renderScore();
-
     sendState();
+  }
 
+  if(data.type==='next'){
+    currentPlayer=Math.min(players.length-1,currentPlayer+1);
+    renderScore();
+    sendState();
+  }
+
+  if(data.type==='reset'){
+    rolls[players[currentPlayer]?.id]=[];
+    renderScore();
+    sendState();
+  }
+
+  if(data.type==='select'){
+    currentPlayer=data.index;
+    renderScore();
+    sendState();
+  }
+
+  if(data.type==='addPlayer'){
+    addRemotePlayer(data.name);
+  }
+
+  if(data.type==='remove'){
+    removeRemotePlayer(data.index);
+  }
+
+  if(data.type==='start'){
+    startGame();
+  }
+
+  if(data.type==='pin'){
+    if(data.action==='rack')rackPins();
+    if(data.action==='clear')clearPins();
+    if(data.action==='sweep')sweepPins();
+    if(data.action==='nextBall')nextBall();
+  }
+
+  if(data.type==='pinToggle'){
+    togglePin(data.index);
+  }
+
+  if(data.type==='end'){
+    endGame();
+  }
 }
 
+/* =========================
+   PLAYERS
+========================= */
 
-/* SPARE */
+function addRemotePlayer(name){
 
-function addSpare() {
+  name=(name||'').trim();
 
-    if (!players.length)
-        return;
+  if(!name)return;
 
-    const player =
-        players[currentPlayer];
+  players.push({
+    id:Date.now()+Math.random(),
+    name:name
+  });
 
-    const frame =
-        currentFrame(
-            player.rolls
-        );
+  currentPlayer=players.length-1;
 
-    if (frame >= 9)
-        return;
+  renderPlayers();
+  renderScore();
+  sendState();
 
-    const current =
-        getFrames(
-            player.rolls
-        )[frame];
+  toast('Added player: '+name);
+}
 
-    if (
-        current.length === 1 &&
-        current[0] !== 10
-    ) {
+function removeRemotePlayer(index){
 
-        player.rolls.push(
-            10 - current[0]
-        );
+  if(index<0 || index>=players.length)return;
 
-        renderScore();
+  const removed=players.splice(index,1)[0];
 
-        sendState();
+  if(removed)delete rolls[removed.id];
 
+  currentPlayer=Math.max(
+    0,
+    Math.min(currentPlayer,players.length-1)
+  );
+
+  renderPlayers();
+  renderScore();
+  sendState();
+}
+
+function renderPlayers(){
+
+  const box=document.getElementById('playerList');
+
+  if(!players.length){
+    box.innerHTML='<p>No players yet. Add them from the phone remote.</p>';
+    return;
+  }
+
+  box.innerHTML=players.map((p,i)=>`
+    <div class="card">
+      <b>${escapeHtml(p.name)}</b>
+      ${i===currentPlayer?' 🎳 CURRENT':''}
+    </div>
+  `).join('');
+}
+
+/* =========================
+   GAME
+========================= */
+
+function startGame(){
+
+  if(!players.length){
+    toast('Add at least one player first!');
+    page('players');
+    return;
+  }
+
+  gameStarted=true;
+  currentPlayer=0;
+
+  players.forEach(p=>{
+    if(!rolls[p.id])rolls[p.id]=[];
+  });
+
+  renderScore();
+  sendState();
+
+  toast('🎳 Bowling started!');
+}
+
+function endGame(){
+
+  gameStarted=false;
+  players=[];
+  currentPlayer=0;
+
+  Object.keys(rolls).forEach(k=>delete rolls[k]);
+
+  renderPlayers();
+  renderScore();
+  sendState();
+
+  page('menu');
+  toast('Game ended.');
+}
+
+/* =========================
+   SCORING
+========================= */
+
+function addRoll(value){
+
+  if(!gameStarted){
+    toast('Start bowling first!');
+    return;
+  }
+
+  if(!players.length)return;
+
+  const p=players[currentPlayer];
+
+  if(!rolls[p.id])rolls[p.id]=[];
+
+  const r=rolls[p.id];
+
+  if(r.length>=21){
+    toast('This game is already complete.');
+    return;
+  }
+
+  value=Math.max(0,Math.min(10,Number(value)));
+
+  r.push(value);
+
+  renderScore();
+  sendState();
+}
+
+function makeSpare(){
+
+  if(!gameStarted || !players.length)return;
+
+  const p=players[currentPlayer];
+  const r=rolls[p.id]||[];
+
+  if(r.length===0)return;
+
+  const frame=r.length===1 || (r.length%2===1);
+
+  if(frame){
+    const needed=10-r[r.length-1];
+    r.push(needed);
+  }
+
+  renderScore();
+  sendState();
+}
+
+/* =========================
+   SCORING ENGINE
+========================= */
+
+function frameData(r){
+
+  const frames=[];
+  let i=0;
+
+  for(let f=0;f<10;f++){
+
+    if(i>=r.length){
+      frames.push([]);
+      continue;
     }
 
-}
+    if(f===9){
 
-
-/* RESET */
-
-function resetPlayer() {
-
-    players[
-        currentPlayer
-    ].rolls = [];
-
-    renderScore();
-
-    sendState();
-
-}
-
-
-/* EDITOR */
-
-function renderEditorPlayers() {
-
-    const select =
-        document.getElementById(
-            "editorPlayer"
-        );
-
-    select.innerHTML = "";
-
-    players.forEach(
-        (p,index) => {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-            option.value = index;
-
-            option.textContent =
-                p.name;
-
-            select.appendChild(
-                option
-            );
-
-        }
-    );
-
-    renderEditor();
-
-}
-
-
-function renderEditor() {
-
-    const select =
-        document.getElementById(
-            "editorPlayer"
-        );
-
-    const content =
-        document.getElementById(
-            "editorContent"
-        );
-
-    content.innerHTML = "";
-
-    if (!players.length)
-        return;
-
-    const player =
-        players[
-            Number(select.value)
-        ];
-
-    player.rolls.forEach(
-        (roll,index) => {
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-            row.style =
-                "display:flex;gap:12px;padding:10px;border-bottom:1px solid #374151;";
-
-            row.innerHTML = `
-
-                <span>
-                    Roll ${index + 1}
-                </span>
-
-                <input
-                    type="number"
-                    min="0"
-                    max="10"
-                    value="${roll}"
-                    data-index="${index}"
-                    style="
-                    width:70px;
-                    padding:10px;
-                    background:#111827;
-                    color:white;
-                    border:1px solid #4b5563;
-                    border-radius:7px;">
-
-            `;
-
-            content.appendChild(row);
-
-        }
-    );
-
-}
-
-
-function saveEditor() {
-
-    const select =
-        document.getElementById(
-            "editorPlayer"
-        );
-
-    if (!players.length)
-        return;
-
-    const player =
-        players[
-            Number(select.value)
-        ];
-
-    const inputs =
-        document.querySelectorAll(
-            "#editorContent input"
-        );
-
-    player.rolls =
-        [...inputs].map(
-            input =>
-                Math.max(
-                    0,
-                    Math.min(
-                        10,
-                        Number(input.value) || 0
-                    )
-                )
-        );
-
-    renderScore();
-
-    sendState();
-
-    showPage("score");
-
-}
-
-
-/* RECAP */
-
-function renderRecap() {
-
-    const recap =
-        document.getElementById(
-            "recap"
-        );
-
-    recap.innerHTML = "";
-
-    players.forEach(
-        player => {
-
-            const scores =
-                calculateScores(
-                    player.rolls
-                );
-
-            const completed =
-                scores.filter(
-                    x => x !== null
-                );
-
-            const total =
-                completed.length
-                ? completed[
-                    completed.length - 1
-                  ]
-                : 0;
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-            row.className =
-                "recaprow";
-
-            row.innerHTML = `
-
-                <span>
-                    ${escapeHTML(
-                        player.name
-                    )}
-                </span>
-
-                <strong>
-                    ${total}
-                </strong>
-
-            `;
-
-            recap.appendChild(row);
-
-        }
-    );
-
-}
-
-
-/* END GAME */
-
-function endGame(fromRemote = false) {
-
-    if (
-        !fromRemote &&
-        !confirm(
-            "End the current game?"
-        )
-    ) {
-        return;
+      frames.push(r.slice(i,i+3));
+      break;
     }
 
-    players = [];
+    if(r[i]===10){
+      frames.push([10]);
+      i++;
+    }else{
+      frames.push(r.slice(i,i+2));
+      i+=2;
+    }
+  }
 
-    currentPlayer = 0;
-
-    renderPlayers();
-
-    showPage("players");
-
-    const welcome =
-        document.getElementById(
-            "welcome"
-        );
-
-    welcome.classList.remove(
-        "hidden"
-    );
-
-    setTimeout(
-        () => welcome.classList.add(
-            "hidden"
-        ),
-        3000
-    );
-
-    sendState();
-
+  return frames;
 }
 
+function total(r){
 
-/* BACKGROUNDS */
+  let score=0;
+  let i=0;
 
-function setBackground(bg) {
+  for(let f=0;f<10;f++){
 
-    document.body.style.background =
-        bg;
+    if(i>=r.length)break;
 
+    const first=r[i];
+
+    if(first===10){
+      score+=10;
+
+      if(r[i+1]!==undefined)
+        score+=r[i+1];
+
+      if(r[i+2]!==undefined)
+        score+=r[i+2];
+
+      i++;
+    }
+
+    else if(r[i+1]!==undefined){
+
+      const second=r[i+1];
+
+      score+=first+second;
+
+      if(first+second===10 && r[i+2]!==undefined)
+        score+=r[i+2];
+
+      i+=2;
+    }
+
+    else{
+      score+=first;
+      break;
+    }
+  }
+
+  return score;
 }
 
+/* =========================
+   SCORE RENDER
+========================= */
 
-/* UTIL */
+function renderScore(){
 
-function escapeHTML(text) {
+  const cp=document.getElementById('currentPlayer');
 
-    const div =
-        document.createElement(
-            "div"
-        );
+  if(!players.length){
+    cp.innerHTML='<p>No players.</p>';
+    document.getElementById('scoreboard').innerHTML='';
+    return;
+  }
 
-    div.textContent = text;
+  cp.innerHTML=`
+    <b>Current Player:</b>
+    ${escapeHtml(players[currentPlayer]?.name||'')}
+    <br>
+    <span class="green">
+      Score: ${total(rolls[players[currentPlayer]?.id]||[])}
+    </span>
+  `;
 
-    return div.innerHTML;
+  let html='<div class="scoreboard">';
 
+  players.forEach((p,pi)=>{
+
+    const r=rolls[p.id]||[];
+    const frames=frameData(r);
+
+    html+=`
+      <div class="scoreRow">
+        <div class="scoreCell ${pi===currentPlayer?'current':''}">
+          <b>${escapeHtml(p.name)}</b>
+        </div>
+    `;
+
+    for(let f=0;f<10;f++){
+
+      const fr=frames[f]||[];
+
+      html+=`
+        <div class="scoreCell ${pi===currentPlayer?'current':''}">
+          <div class="frameTitle">Frame ${f+1}</div>
+          <div class="rolls">
+            ${formatRolls(fr,f)}
+          </div>
+        </div>
+      `;
+    }
+
+    html+=`
+        <div class="scoreCell total">
+          ${total(r)}
+        </div>
+      </div>
+    `;
+  });
+
+  html+='</div>';
+
+  document.getElementById('scoreboard').innerHTML=html;
 }
 
+function formatRolls(fr,frame){
 
-/* START */
+  if(!fr.length)return '—';
 
-setTimeout(
-    () => document
-        .getElementById("welcome")
-        .classList.add("hidden"),
-    3000
-);
+  if(frame<9){
 
-startConnection();
+    if(fr[0]===10)return 'X';
 
+    if(fr.length>1 && fr[0]+fr[1]===10)
+      return fr[0]+' /';
+
+    return fr.join(' ');
+  }
+
+  return fr.map(x=>x===10?'X':x).join(' ');
+}
+
+/* =========================
+   EDITOR / RECAP
+========================= */
+
+function renderEditor(){
+
+  document.getElementById('editorInfo').innerHTML=
+    players.length
+    ? players.map(p=>`
+        <div class="card">
+          <b>${escapeHtml(p.name)}</b>
+          <br>
+          Rolls: ${(rolls[p.id]||[]).join(', ')||'None'}
+        </div>
+      `).join('')
+    : '<p>No players.</p>';
+}
+
+function renderRecap(){
+
+  document.getElementById('recapList').innerHTML=
+    players.length
+    ? players.map((p,i)=>`
+        <div class="card">
+          <h3>${i+1}. ${escapeHtml(p.name)}</h3>
+          <div class="big">${total(rolls[p.id]||[])}</div>
+        </div>
+      `).join('')
+    : '<p>No players.</p>';
+}
+
+/* =========================
+   PINSETTER
+========================= */
+
+function rackPins(){
+
+  pins=Array(10).fill(true);
+
+  renderPins();
+  sendPin();
+}
+
+function clearPins(){
+
+  pins=Array(10).fill(false);
+
+  renderPins();
+  sendPin();
+}
+
+function sweepPins(){
+
+  pins=Array(10).fill(false);
+
+  renderPins();
+  sendPin();
+}
+
+function nextBall(){
+
+  pins=Array(10).fill(true);
+
+  renderPins();
+  sendPin();
+}
+
+function togglePin(index){
+
+  if(index<0 || index>=10)return;
+
+  pins[index]=!pins[index];
+
+  renderPins();
+  sendPin();
+}
+
+function renderPins(){
+
+  const box=document.getElementById('pinGrid');
+
+  box.innerHTML=pins.map((up,i)=>`
+    <button
+      class="pin ${up?'':'down'}"
+      onclick="togglePin(${i})"
+    >
+      ${i+1}
+    </button>
+  `).join('');
+}
+
+/* =========================
+   SYNC
+========================= */
+
+function sendState(){
+
+  if(!remoteConn || !remoteConn.open)return;
+
+  remoteConn.send({
+    type:'state',
+    players:players,
+    currentPlayer:currentPlayer,
+    pins:pins,
+    gameStarted:gameStarted
+  });
+}
+
+function sendPin(){
+
+  if(!remoteConn || !remoteConn.open)return;
+
+  remoteConn.send({
+    type:'pin',
+    pins:pins
+  });
+}
+
+/* =========================
+   HELPERS
+========================= */
+
+function setStatus(id,text){
+  const el=document.getElementById(id);
+  if(el)el.textContent=text;
+}
+
+function toast(text){
+
+  const el=document.getElementById('toast');
+
+  el.textContent=text;
+  el.style.display='block';
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer=setTimeout(()=>{
+    el.style.display='none';
+  },2200);
+}
+
+function setBackground(color){
+  document.body.style.background=color;
+}
+
+function escapeHtml(str){
+
+  return String(str)
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'","&#039;");
+}
+
+renderPlayers();
+renderScore();
+renderPins();
 </script>
 
 </body>
