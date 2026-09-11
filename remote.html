@@ -2,373 +2,224 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>King Gavin Lanes Remote</title>
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
-
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#050d18;
-  color:white;
+  margin:0;min-height:100vh;font-family:Arial,sans-serif;
+  background:linear-gradient(145deg,#030a13,#091c2e);color:white;
 }
-
-button,input{
-  font:inherit;
-}
-
+button,input{font:inherit}
 button{
-  border:0;
-  border-radius:12px;
-  padding:13px 15px;
-  margin:5px;
-  background:#153454;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
+  border:0;border-radius:14px;padding:14px;background:#173c61;
+  color:white;font-weight:bold;cursor:pointer;
 }
-
-button:hover{
-  background:#1f4b79;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #31506e;
-  background:#0c1b2b;
-  color:white;
-}
-
+button:active{transform:scale(.97)}
 header{
-  background:#020811;
-  padding:16px;
-  text-align:center;
-  border-bottom:1px solid #21384e;
+  padding:17px;text-align:center;background:#020811;
+  border-bottom:1px solid #294158;font-weight:900;font-size:19px;
 }
-
-header h1{
-  margin:0;
-  font-size:21px;
-}
-
-.page{
-  display:none;
-  padding:18px;
-  max-width:600px;
-  margin:auto;
-}
-
-.page.active{
-  display:block;
-}
-
+.page{display:none;padding:18px;max-width:600px;margin:auto}
+.page.active{display:block}
 .card{
-  background:#0c1b2c;
-  border:1px solid #223c56;
-  border-radius:16px;
-  padding:16px;
-  margin:12px 0;
+  background:#0b1c2e;border:1px solid #263f58;
+  border-radius:18px;padding:17px;margin:12px 0;
 }
-
-.menuGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
+input{
+  width:100%;padding:15px;border-radius:12px;border:1px solid #34526e;
+  background:#071522;color:white;margin:6px 0;
 }
-
-.menuGrid button{
-  min-height:68px;
-  font-size:16px;
+.status{padding:11px;background:#102b43;border-radius:11px;margin:10px 0}
+.menu{
+  display:grid;grid-template-columns:1fr 1fr;gap:9px;
 }
-
-.numGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:7px;
+.menu button{min-height:70px}
+.start{background:#176d43}
+.danger{background:#75333a}
+.back{margin-bottom:8px}
+.numberGrid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
 }
-
-.numGrid button{
-  min-height:58px;
-  font-size:20px;
-}
-
+.numberGrid button{height:62px;font-size:22px}
 .special{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;
 }
-
-.special button{
-  min-height:55px;
-}
-
+.special button{min-height:58px}
 .player{
-  background:#10253b;
-  border-radius:12px;
-  padding:13px;
-  margin:7px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  padding:12px;background:#10283f;border-radius:12px;
+  margin:8px 0;display:flex;justify-content:space-between;align-items:center;
 }
-
-.remove{
-  background:#642b32;
-}
-
+.remove{background:#6e3038;padding:9px}
 .pinGrid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:7px;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:15px;
 }
-
 .pin{
-  height:52px;
-  border-radius:50%;
-  background:#eee;
-  color:#111;
+  height:52px;border-radius:50%;background:#eee;color:#111;
 }
-
-.pin.down{
-  background:#444;
-  color:#aaa;
-}
-
-.status{
-  padding:10px;
-  border-radius:10px;
-  background:#102a42;
-  margin:10px 0;
-}
-
-.big{
-  font-size:30px;
-  font-weight:bold;
-}
-
-.green{color:#69ff9b}
-
+.pin.down{background:#424b54;color:#aaa}
+.big{font-size:30px;font-weight:900}
+.green{color:#6cff9d}
+.muted{color:#9fb3c5}
 .toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#102b43;
-  border:1px solid #41617e;
-  padding:12px 18px;
-  border-radius:12px;
-  display:none;
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:#102c45;border:1px solid #42627e;border-radius:12px;
+  padding:12px 17px;display:none;z-index:9999;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>🎳 KING GAVIN LANES<br>REMOTE CONTROL</h1>
-</header>
+<header>🎳 KING GAVIN LANES<br>REMOTE</header>
 
 <!-- CONNECT -->
 <section id="connect" class="page active">
-
   <div class="card">
-    <h2>📱 Connect To Lane</h2>
+    <h2>Connect To Scoreboard</h2>
+    <p class="muted">Enter the 6-digit code shown on the iPad.</p>
 
-    <p>Enter the 6-digit code shown on the iPad.</p>
+    <input id="code" maxlength="6" inputmode="numeric"
+           placeholder="123456"
+           onkeydown="if(event.key==='Enter')connectRemote()">
 
-    <input
-      id="codeInput"
-      maxlength="6"
-      inputmode="numeric"
-      placeholder="123456"
-    >
-
-    <button
-      style="width:100%;margin:10px 0"
-      onclick="connect()"
-    >
-      🔗 Connect
+    <button style="width:100%;margin-top:8px" onclick="connectRemote()">
+      🔗 CONNECT
     </button>
 
-    <div id="connectStatus" class="status">
-      Not connected
-    </div>
+    <div id="status" class="status">Not connected</div>
   </div>
-
 </section>
 
-<!-- MENU -->
-<section id="menu" class="page">
-
+<!-- NORMAL REMOTE HOME -->
+<section id="home" class="page">
   <div class="card">
-    <h2>🎳 Remote Menu</h2>
-
-    <div id="menuStatus" class="status">
-      🟢 Connected
-    </div>
+    <h2>🎳 Remote Home</h2>
+    <div id="connectionStatus" class="status">🟢 Connected</div>
+    <div id="homePlayer" class="big">Ready To Bowl</div>
   </div>
 
-  <div class="menuGrid">
+  <div class="menu">
     <button onclick="page('players')">👥 Players</button>
-    <button onclick="page('score')">📊 Score</button>
+    <button onclick="page('score')">🎳 Score</button>
     <button onclick="page('editor')">✏️ Score Editor</button>
     <button onclick="page('recap')">📋 Recap</button>
-    <button onclick="page('backgrounds')">🖼️ Backgrounds</button>
+    <button onclick="page('backgrounds')">🖼 Backgrounds</button>
     <button onclick="page('pinsetter')">🎳 Pinsetter</button>
-
-    <button onclick="startBowling()">
-      ▶️ Start Bowling
-    </button>
-
-    <button onclick="endGame()">
-      🏁 End Game
-    </button>
+    <button class="start" onclick="startGame()">▶ Start Bowling</button>
+    <button class="danger" onclick="endGame()">🏁 End Game</button>
   </div>
-
 </section>
 
 <!-- PLAYERS -->
 <section id="players" class="page">
-
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="page('home')">← Home</button>
 
   <div class="card">
     <h2>👥 Players</h2>
 
-    <input
-      id="nameInput"
-      placeholder="Player name"
-      maxlength="30"
-      onkeydown="if(event.key==='Enter')addPlayer()"
-    >
+    <input id="playerName" maxlength="30" placeholder="Player name"
+           onkeydown="if(event.key==='Enter')addPlayer()">
 
-    <button
-      onclick="addPlayer()"
-      style="width:100%"
-    >
+    <button style="width:100%;margin-top:7px" onclick="addPlayer()">
       ➕ Add Player
     </button>
 
-    <div id="playersList"></div>
+    <div id="playerList"></div>
   </div>
-
 </section>
 
 <!-- SCORE -->
 <section id="score" class="page">
-
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="page('home')">← Home</button>
 
   <div class="card">
-    <h2>📊 Score Control</h2>
+    <h2>🎳 Score Control</h2>
+    <div id="currentPlayer"></div>
+  </div>
 
-    <div id="scorePlayer"></div>
-
-    <div class="numGrid">
-
-      <button onclick="roll(0)">0</button>
+  <div class="card">
+    <div class="numberGrid">
       <button onclick="roll(1)">1</button>
       <button onclick="roll(2)">2</button>
-
       <button onclick="roll(3)">3</button>
+
       <button onclick="roll(4)">4</button>
       <button onclick="roll(5)">5</button>
-
       <button onclick="roll(6)">6</button>
+
       <button onclick="roll(7)">7</button>
       <button onclick="roll(8)">8</button>
-
       <button onclick="roll(9)">9</button>
+
+      <button onclick="roll(0)">0</button>
+      <button onclick="strike()">❌ STRIKE</button>
+      <button onclick="spare()">/ SPARE</button>
     </div>
 
     <div class="special">
-      <button onclick="strike()">🎳 Strike</button>
-      <button onclick="spare()">/ Spare</button>
       <button onclick="previous()">⬅ Previous</button>
       <button onclick="next()">Next ➡</button>
-      <button onclick="resetScore()">🔄 Reset</button>
+      <button onclick="reset()">🔄 Reset Score</button>
+      <button onclick="page('pinsetter')">🎳 Pinsetter</button>
     </div>
   </div>
-
 </section>
 
 <!-- EDITOR -->
 <section id="editor" class="page">
-
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="page('home')">← Home</button>
 
   <div class="card">
     <h2>✏️ Score Editor</h2>
-    <p>Current rolls:</p>
     <div id="editorList"></div>
+    <p class="muted">Reset a player's score from the Score page.</p>
   </div>
-
 </section>
 
 <!-- RECAP -->
 <section id="recap" class="page">
-
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="page('home')">← Home</button>
 
   <div class="card">
-    <h2>📋 Recap</h2>
+    <h2>🏆 Recap</h2>
     <div id="recapList"></div>
   </div>
-
 </section>
 
 <!-- BACKGROUNDS -->
 <section id="backgrounds" class="page">
-
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="page('home')">← Home</button>
 
   <div class="card">
-    <h2>🖼️ Backgrounds</h2>
-    <p>Background controls can be expanded here.</p>
+    <h2>🖼 Backgrounds</h2>
+    <p class="muted">Background selection is displayed on the iPad menu.</p>
   </div>
-
 </section>
 
 <!-- PINSETTER -->
 <section id="pinsetter" class="page">
-
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="page('home')">← Home</button>
 
   <div class="card">
-
     <h2>🎳 Pinsetter</h2>
 
-    <button onclick="pinAction('rack')">
-      Rack Pins
-    </button>
-
-    <button onclick="pinAction('clear')">
-      Clear
-    </button>
-
-    <button onclick="pinAction('sweep')">
-      Sweep
-    </button>
-
-    <button onclick="pinAction('nextBall')">
-      Next Ball
-    </button>
+    <div class="menu">
+      <button onclick="pinAction('rack')">🎳 Rack Pins</button>
+      <button onclick="pinAction('clear')">❌ Clear</button>
+      <button onclick="pinAction('sweep')">🧹 Sweep</button>
+      <button onclick="pinAction('nextBall')">➡ Next Ball</button>
+    </div>
 
     <div id="pinGrid" class="pinGrid"></div>
-
   </div>
-
 </section>
 
 <div id="toast" class="toast"></div>
 
 <script>
-
 let peer=null;
 let conn=null;
 
@@ -376,45 +227,23 @@ let players=[];
 let currentPlayer=0;
 let pins=Array(10).fill(true);
 let gameStarted=false;
-
-/* =========================
-   PAGE SYSTEM
-========================= */
+let scores={};
 
 function page(id){
-
-  document.querySelectorAll('.page')
-    .forEach(x=>x.classList.remove('active'));
-
-  document.getElementById(id)
-    .classList.add('active');
-
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
   render();
 }
 
-/* =========================
-   CONNECT
-========================= */
-
-function connect(){
-
-  const code=document
-    .getElementById('codeInput')
-    .value
-    .trim();
+function connectRemote(){
+  const code=document.getElementById("code").value.trim();
 
   if(!/^\d{6}$/.test(code)){
-    setStatus(
-      'connectStatus',
-      '🔴 Enter the 6-digit code from the iPad.'
-    );
+    document.getElementById("status").textContent="🔴 Enter the 6-digit iPad code.";
     return;
   }
 
-  setStatus(
-    'connectStatus',
-    '🟡 Connecting...'
-  );
+  document.getElementById("status").textContent="🟡 Connecting...";
 
   if(peer){
     try{peer.destroy()}catch(e){}
@@ -422,227 +251,158 @@ function connect(){
 
   peer=new Peer();
 
-  peer.on('open',()=>{
+  peer.on("open",()=>{
+    conn=peer.connect("kgl-"+code,{reliable:true});
 
-    conn=peer.connect(
-      'kgl-'+code,
-      {reliable:true}
-    );
-
-    conn.on('open',()=>{
-
-      setStatus(
-        'connectStatus',
-        '🟢 Connected!'
-      );
-
-      setStatus(
-        'menuStatus',
-        '🟢 Connected to King Gavin Lanes'
-      );
-
-      /*
-        THIS IS IMPORTANT:
-        Once the phone connects, immediately
-        show the remote menu.
-      */
-      page('menu');
+    conn.on("open",()=>{
+      document.getElementById("status").textContent="🟢 Connected!";
+      document.getElementById("connectionStatus").textContent="🟢 Connected to scoreboard";
+      page("home");
     });
 
-    conn.on('data',(data)=>{
-      handleState(data);
+    conn.on("data",data=>{
+      if(data.type==="state"){
+        players=data.players||[];
+        currentPlayer=data.currentPlayer||0;
+        pins=data.pins||pins;
+        gameStarted=!!data.gameStarted;
+        scores=data.scores||{};
+        render();
+      }
     });
 
-    conn.on('close',()=>{
-      setStatus(
-        'connectStatus',
-        '🔴 Connection closed.'
-      );
-
-      setStatus(
-        'menuStatus',
-        '🔴 Disconnected'
-      );
+    conn.on("close",()=>{
+      document.getElementById("connectionStatus").textContent="🔴 Disconnected";
+      toast("Scoreboard disconnected.");
     });
   });
 
-  peer.on('error',(err)=>{
-    console.log(err);
-
-    setStatus(
-      'connectStatus',
-      '🔴 Could not connect. Check the code.'
-    );
+  peer.on("error",()=>{
+    document.getElementById("status").textContent="🔴 Could not connect. Check the code.";
   });
 }
 
-/* =========================
-   STATE FROM IPAD
-========================= */
-
-function handleState(data){
-
-  if(!data)return;
-
-  if(data.type==='state'){
-
-    players=data.players||[];
-    currentPlayer=data.currentPlayer||0;
-    gameStarted=!!data.gameStarted;
-    pins=data.pins||pins;
-
-    render();
+function send(data){
+  if(!conn||!conn.open){
+    toast("Not connected.");
+    return;
   }
-
-  if(data.type==='pin'){
-
-    pins=data.pins||pins;
-
-    renderPins();
-  }
+  conn.send(data);
 }
 
-/* =========================
-   PLAYER ADDING
-========================= */
+/* PLAYERS */
 
 function addPlayer(){
-
-  const input=document.getElementById('nameInput');
-
+  const input=document.getElementById("playerName");
   const name=input.value.trim();
 
   if(!name){
-    toast('Type a player name first!');
+    toast("Type a player name.");
     return;
   }
 
-  send({
-    type:'addPlayer',
-    name:name
-  });
-
-  input.value='';
+  send({type:"addPlayer",name});
+  input.value="";
   input.focus();
-
-  toast('Adding '+name+'...');
 }
 
 function removePlayer(index){
-
-  send({
-    type:'remove',
-    index:index
-  });
-
-  toast('Removing player...');
+  send({type:"remove",index});
 }
 
-/* =========================
-   START / END
-========================= */
+/* GAME */
 
-function startBowling(){
-
+function startGame(){
   if(!players.length){
-    page('players');
-    toast('Add a player first!');
+    page("players");
+    toast("Add a player first!");
     return;
   }
 
-  send({
-    type:'start'
-  });
-
-  toast('Starting bowling...');
+  send({type:"start"});
+  page("score");
 }
 
 function endGame(){
-
-  send({
-    type:'end'
-  });
-
-  toast('Ending game...');
+  send({type:"end"});
+  page("home");
 }
 
-/* =========================
-   SCORING
-========================= */
+/* SCORE */
 
 function roll(value){
-
-  send({
-    type:'roll',
-    value:value
-  });
+  send({type:"roll",value});
 }
 
 function strike(){
-
-  send({
-    type:'strike'
-  });
+  send({type:"strike"});
 }
 
 function spare(){
-
-  send({
-    type:'spare'
-  });
+  send({type:"spare"});
 }
 
 function previous(){
-
-  send({
-    type:'previous'
-  });
+  send({type:"previous"});
 }
 
 function next(){
-
-  send({
-    type:'next'
-  });
+  send({type:"next"});
 }
 
-function resetScore(){
-
-  send({
-    type:'reset'
-  });
+function reset(){
+  send({type:"reset"});
 }
 
-/* =========================
-   PINSETTER
-========================= */
+/* PINSETTER */
 
 function pinAction(action){
-
-  send({
-    type:'pin',
-    action:action
-  });
+  send({type:"pin",action});
 }
 
 function togglePin(index){
-
-  pins[index]=!pins[index];
-
-  send({
-    type:'pinToggle',
-    index:index
-  });
-
-  renderPins();
+  send({type:"pinToggle",index});
 }
 
-/* =========================
-   RENDER
-========================= */
+/* SCORE CALCULATION FOR REMOTE DISPLAY */
+
+function total(r){
+  let score=0;
+  let i=0;
+
+  for(let frame=0;frame<10;frame++){
+    if(r[i]===undefined)break;
+
+    if(r[i]===10){
+      score+=10;
+      if(r[i+1]!==undefined)score+=r[i+1];
+      if(r[i+2]!==undefined)score+=r[i+2];
+      i++;
+    }else{
+      const a=r[i]||0;
+
+      if(r[i+1]===undefined){
+        score+=a;
+        break;
+      }
+
+      const b=r[i+1];
+      score+=a+b;
+
+      if(a+b===10 && r[i+2]!==undefined)
+        score+=r[i+2];
+
+      i+=2;
+    }
+  }
+
+  return score;
+}
+
+/* RENDER */
 
 function render(){
-
+  renderHome();
   renderPlayers();
   renderScore();
   renderEditor();
@@ -650,178 +410,125 @@ function render(){
   renderPins();
 }
 
-function renderPlayers(){
-
-  const box=document.getElementById('playersList');
+function renderHome(){
+  const box=document.getElementById("homePlayer");
 
   if(!players.length){
+    box.textContent="Ready To Bowl";
+    return;
+  }
 
-    box.innerHTML=
-      '<p>No players yet.</p>';
+  if(!gameStarted){
+    box.textContent=players.length+" Player"+(players.length===1?"":"s")+" Ready";
+    return;
+  }
 
+  box.textContent="🎳 "+(players[currentPlayer]?.name||"")+" — Your Turn";
+}
+
+function renderPlayers(){
+  const box=document.getElementById("playerList");
+
+  if(!players.length){
+    box.innerHTML="<p class='muted'>No players yet.</p>";
     return;
   }
 
   box.innerHTML=players.map((p,i)=>`
-
     <div class="player">
+      <span>
+        <strong>${escapeHtml(p.name)}</strong>
+        ${i===currentPlayer?" 🎳":""}
+      </span>
 
-      <div>
-        <b>${escapeHtml(p.name)}</b>
-        ${i===currentPlayer?' 🎳':''}
-      </div>
-
-      <button
-        class="remove"
-        onclick="removePlayer(${i})"
-      >
+      <button class="remove" onclick="removePlayer(${i})">
         Remove
       </button>
-
     </div>
-
-  `).join('');
+  `).join("");
 }
 
 function renderScore(){
-
-  const box=document.getElementById('scorePlayer');
+  const box=document.getElementById("currentPlayer");
 
   if(!players.length){
-
-    box.innerHTML='No players.';
-
+    box.innerHTML="<span class='muted'>No players.</span>";
     return;
   }
 
+  const p=players[currentPlayer];
+  const r=scores[p.id]||[];
+
   box.innerHTML=`
-    <div class="big">
-      🎳 ${escapeHtml(
-        players[currentPlayer]?.name||''
-      )}
-    </div>
-    <div class="green">
-      ${gameStarted?'Bowling':'Game not started'}
-    </div>
+    <div class="big">${escapeHtml(p.name)}</div>
+    <div class="green">Score: ${total(r)}</div>
+    <div class="muted">${gameStarted?"Game in progress":"Press Start Bowling"}</div>
   `;
 }
 
 function renderEditor(){
-
-  const box=document.getElementById('editorList');
+  const box=document.getElementById("editorList");
 
   if(!players.length){
-
-    box.innerHTML='No players.';
-
+    box.innerHTML="<p>No players.</p>";
     return;
   }
 
   box.innerHTML=players.map(p=>`
-
-    <div class="card">
-      <b>${escapeHtml(p.name)}</b>
-      <br>
-      Score rolls are controlled from here.
+    <div class="player">
+      <strong>${escapeHtml(p.name)}</strong>
+      <span>${(scores[p.id]||[]).join(", ")||"No rolls"}</span>
     </div>
-
-  `).join('');
+  `).join("");
 }
 
 function renderRecap(){
-
-  const box=document.getElementById('recapList');
+  const box=document.getElementById("recapList");
 
   if(!players.length){
-
-    box.innerHTML='No players.';
-
+    box.innerHTML="<p>No game data.</p>";
     return;
   }
 
-  box.innerHTML=players.map((p,i)=>`
+  const sorted=[...players].sort((a,b)=>
+    total(scores[b.id]||[])-total(scores[a.id]||[])
+  );
 
-    <div class="card">
-
-      <b>${i+1}. ${escapeHtml(p.name)}</b>
-
+  box.innerHTML=sorted.map((p,i)=>`
+    <div class="player">
+      <strong>${i===0?"🏆 ":""}${escapeHtml(p.name)}</strong>
+      <span class="big">${total(scores[p.id]||[])}</span>
     </div>
-
-  `).join('');
+  `).join("");
 }
 
 function renderPins(){
-
-  const box=document.getElementById('pinGrid');
-
-  if(!box)return;
-
-  box.innerHTML=pins.map((up,i)=>`
-
-    <button
-      class="pin ${up?'':'down'}"
-      onclick="togglePin(${i})"
-    >
+  document.getElementById("pinGrid").innerHTML=pins.map((up,i)=>`
+    <button class="pin ${up?"":"down"}" onclick="togglePin(${i})">
       ${i+1}
     </button>
-
-  `).join('');
-}
-
-/* =========================
-   SEND
-========================= */
-
-function send(data){
-
-  if(!conn || !conn.open){
-
-    toast('Not connected to the iPad.');
-
-    return;
-  }
-
-  conn.send(data);
-}
-
-/* =========================
-   HELPERS
-========================= */
-
-function setStatus(id,text){
-
-  const el=document.getElementById(id);
-
-  if(el)el.textContent=text;
+  `).join("");
 }
 
 function toast(text){
-
-  const el=document.getElementById('toast');
-
+  const el=document.getElementById("toast");
   el.textContent=text;
-  el.style.display='block';
+  el.style.display="block";
 
   clearTimeout(window.toastTimer);
-
-  window.toastTimer=setTimeout(()=>{
-    el.style.display='none';
-  },2200);
+  window.toastTimer=setTimeout(()=>el.style.display="none",2000);
 }
 
-function escapeHtml(str){
-
-  return String(str)
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
 }
 
 render();
-
 </script>
-
 </body>
 </html>
