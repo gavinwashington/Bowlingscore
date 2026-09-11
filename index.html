@@ -2,184 +2,98 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>King Gavin Lanes</title>
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;color:white}
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#07111f;
-  color:white;
+  background:linear-gradient(135deg,#06111e,#0b2137,#07111f);
+  min-height:100vh;
 }
-button,input{
-  font:inherit;
-}
+button,input{font:inherit}
 button{
-  border:0;
-  border-radius:12px;
-  padding:12px 16px;
-  margin:5px;
-  cursor:pointer;
-  background:#153454;
-  color:white;
-  font-weight:bold;
+  border:0;border-radius:14px;padding:14px 18px;
+  background:#173b60;color:white;font-weight:700;cursor:pointer;
 }
-button:hover{background:#1e4773}
-input{
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #31506e;
-  background:#0c1c2e;
-  color:white;
-  width:100%;
-}
+button:active{transform:scale(.98)}
 header{
-  height:64px;
-  background:#020a14;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 18px;
-  border-bottom:1px solid #20364d;
+  height:70px;padding:0 20px;display:flex;align-items:center;
+  justify-content:space-between;background:rgba(2,8,17,.92);
+  border-bottom:1px solid #27425d;
 }
-header h1{
-  font-size:20px;
-  margin:0;
-}
-.page{
-  display:none;
-  padding:20px;
-  max-width:1100px;
-  margin:auto;
-}
+.brand{font-size:22px;font-weight:900}
+.page{display:none;padding:22px;max-width:1150px;margin:auto}
 .page.active{display:block}
 .card{
-  background:#0d1d30;
-  border:1px solid #203b56;
-  border-radius:16px;
-  padding:18px;
-  margin:12px 0;
+  background:rgba(8,24,40,.94);border:1px solid #294760;
+  border-radius:20px;padding:20px;margin:14px 0;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
 }
-h2{margin-top:0}
-.big{
-  font-size:42px;
-  font-weight:bold;
-}
-.green{color:#6cff9a}
-.red{color:#ff6c6c}
-.menuGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:12px;
-}
-.menuGrid button{
-  min-height:70px;
-  font-size:17px;
-}
-.playerBtn{
-  width:100%;
-  text-align:left;
-}
-.hidden{display:none!important}
-
-/* Welcome */
-#welcome{
-  position:fixed;
-  inset:0;
-  background:#020914;
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  transition:opacity 1.5s;
-}
-#welcome.hide{
-  opacity:0;
-  pointer-events:none;
-}
-#welcome h1{
-  font-size:42px;
-  margin:0 0 10px;
-}
-#welcome p{
-  color:#9db2c7;
-}
-
-/* Scoreboard */
-.scoreWrap{
-  overflow-x:auto;
-}
-.scoreboard{
-  display:grid;
-  gap:2px;
-  min-width:850px;
-}
-.scoreRow{
-  display:grid;
-  grid-template-columns:170px repeat(10,1fr) 85px;
-}
-.scoreCell{
-  border:1px solid #35516b;
-  min-height:65px;
-  padding:6px;
-  background:#0a1828;
-}
-.frameTitle{
-  font-size:12px;
-  color:#9eb4c9;
-}
-.rolls{
-  font-size:15px;
-  margin-top:5px;
-}
-.total{
-  font-size:22px;
-  font-weight:bold;
-  text-align:center;
-  padding-top:15px;
-}
-.current{
-  outline:3px solid #65aef7;
-}
-.pinGrid{
-  display:grid;
-  grid-template-columns:repeat(5,60px);
-  justify-content:center;
-  gap:8px;
-  margin:15px 0;
-}
-.pin{
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  background:#eee;
-  color:#111;
-}
-.pin.down{
-  background:#444;
-  color:#aaa;
+.homeHero{text-align:center;padding:45px 20px}
+.homeHero h1{font-size:48px;margin:0 0 8px}
+.homeHero p{color:#aac1d6;font-size:18px}
+.code{
+  font-size:44px;font-weight:900;letter-spacing:8px;
+  margin:10px 0;color:#72baff;
 }
 .status{
-  padding:10px;
-  border-radius:10px;
-  background:#102b43;
-  margin:10px 0;
+  padding:11px 14px;background:#102c45;border-radius:12px;margin:10px 0;
 }
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:12px;margin-top:16px;
+}
+.grid button{min-height:78px;font-size:17px}
+.primary{background:#1766a8}
+.start{background:#176e42}
+.danger{background:#78343b}
+.back{margin-bottom:10px}
+.big{font-size:36px;font-weight:900}
+.muted{color:#9eb4c8}
+.green{color:#6cff9c}
+.playerCard{
+  display:flex;justify-content:space-between;align-items:center;
+  background:#10263b;border-radius:13px;padding:14px;margin:8px 0;
+}
+.scoreWrap{overflow-x:auto}
+.board{min-width:950px}
+.scoreRow{
+  display:grid;grid-template-columns:170px repeat(10,1fr) 80px;
+}
+.cell{
+  min-height:70px;background:#091929;border:1px solid #36536d;padding:6px;
+}
+.cell.current{background:#123756}
+.frameTitle{font-size:11px;color:#9db5ca}
+.rollText{font-size:18px;margin-top:7px;font-weight:bold}
+.totalCell{
+  display:flex;align-items:center;justify-content:center;
+  font-size:25px;font-weight:900;
+}
+.pinGrid{
+  display:grid;grid-template-columns:repeat(5,65px);
+  gap:10px;justify-content:center;margin:22px 0;
+}
+.pin{
+  width:65px;height:65px;border-radius:50%;
+  background:#f5f5f5;color:#111;font-size:17px;
+}
+.pin.down{background:#3c4650;color:#9ba6af}
+#welcome{
+  position:fixed;inset:0;z-index:9999;background:#020913;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  transition:opacity 1.4s;
+}
+#welcome.hide{opacity:0;pointer-events:none}
+#welcome h1{font-size:52px;margin:0}
+#welcome p{font-size:19px;color:#9fb5c9}
 .toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#102b43;
-  border:1px solid #40617f;
-  padding:12px 18px;
-  border-radius:12px;
-  display:none;
-  z-index:10000;
+  position:fixed;left:50%;bottom:25px;transform:translateX(-50%);
+  background:#112d46;border:1px solid #426481;border-radius:13px;
+  padding:13px 20px;display:none;z-index:10000;
 }
 </style>
 </head>
@@ -194,111 +108,144 @@ h2{margin-top:0}
 </div>
 
 <header>
-  <h1>🎳 KING GAVIN LANES</h1>
-  <button onclick="page('menu')">☰ MENU</button>
+  <div class="brand">🎳 KING GAVIN LANES</div>
+  <button onclick="showPage('menu')">☰ MENU</button>
 </header>
 
-<!-- MENU -->
-<section id="menu" class="page active">
-  <div class="card">
-    <h2>Main Menu</h2>
-    <div id="connectionStatus" class="status">Starting connection...</div>
+<!-- NORMAL HOME SCREEN -->
+<section id="home" class="page active">
+
+  <div class="card homeHero">
+    <h1>🎳 King Gavin Lanes</h1>
+    <p>Welcome to the lanes.</p>
+
+    <div id="homeCurrent" class="big">Ready To Bowl</div>
+
+    <button class="start" style="font-size:20px;margin-top:20px"
+            onclick="startGame()">
+      ▶ START BOWLING
+    </button>
   </div>
 
-  <div class="menuGrid">
-    <button onclick="page('players')">👥 Players</button>
-    <button onclick="page('score')">📊 Score</button>
-    <button onclick="page('editor')">✏️ Score Editor</button>
-    <button onclick="page('recap')">📋 Recap</button>
-    <button onclick="page('backgrounds')">🖼️ Backgrounds</button>
-    <button onclick="page('pinsetter')">🎳 Pinsetter</button>
-    <button onclick="startGame()">▶️ Start Bowling</button>
-    <button onclick="endGame()">🏁 End Game</button>
+  <div class="card">
+    <h2>📱 Connect Phone Remote</h2>
+    <div class="muted">Enter this code on your phone:</div>
+    <div id="gameCode" class="code">------</div>
+    <div id="homeConnection" class="status">Preparing remote...</div>
+  </div>
+
+  <div class="grid">
+    <button onclick="showPage('players')">👥 Players</button>
+    <button onclick="showPage('score')">📊 Scoreboard</button>
+    <button onclick="showPage('pinsetter')">🎳 Pinsetter</button>
+    <button onclick="showPage('menu')">☰ More</button>
+  </div>
+
+</section>
+
+<!-- MENU -->
+<section id="menu" class="page">
+  <button class="back" onclick="showPage('home')">← Home</button>
+
+  <div class="card">
+    <h2>☰ King Gavin Lanes Menu</h2>
+
+    <div class="grid">
+      <button onclick="showPage('players')">👥 Players</button>
+      <button onclick="showPage('score')">📊 Score</button>
+      <button onclick="showPage('editor')">✏️ Score Editor</button>
+      <button onclick="showPage('recap')">📋 Recap</button>
+      <button onclick="showPage('backgrounds')">🖼 Backgrounds</button>
+      <button onclick="showPage('pinsetter')">🎳 Pinsetter</button>
+      <button class="start" onclick="startGame()">▶ Start Bowling</button>
+      <button class="danger" onclick="endGame()">🏁 End Game</button>
+    </div>
   </div>
 </section>
 
 <!-- PLAYERS -->
 <section id="players" class="page">
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="showPage('home')">← Home</button>
 
   <div class="card">
     <h2>👥 Players</h2>
-    <p>Players and names are controlled from the phone remote.</p>
-
+    <p class="muted">Add and remove players using the phone remote.</p>
     <div id="playerList"></div>
+  </div>
 
-    <hr>
-
-    <b>Remote Connection</b>
-    <p>Give the phone this code:</p>
-    <div id="gameCode" class="big">------</div>
-    <div id="playerConnection" class="status">Waiting for remote...</div>
-
-    <button onclick="startGame()">▶️ Start Bowling</button>
+  <div class="card">
+    <h3>Phone Remote Code</h3>
+    <div id="playersCode" class="code"></div>
+    <div id="playerConnection" class="status">Waiting for phone...</div>
   </div>
 </section>
 
-<!-- SCORE -->
+<!-- SCOREBOARD -->
 <section id="score" class="page">
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="showPage('home')">← Home</button>
 
   <div class="card">
-    <h2>📊 Scoreboard</h2>
-    <div id="currentPlayer"></div>
+    <h2>📊 Bowling Scoreboard</h2>
+    <div id="currentPlayerDisplay"></div>
   </div>
 
   <div class="card scoreWrap">
-    <div id="scoreboard"></div>
+    <div id="scoreBoard" class="board"></div>
   </div>
 </section>
 
 <!-- EDITOR -->
 <section id="editor" class="page">
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="showPage('menu')">← Back</button>
 
   <div class="card">
     <h2>✏️ Score Editor</h2>
-    <p>Score editing is controlled from the phone remote.</p>
-    <div id="editorInfo"></div>
+    <p class="muted">Score controls are handled by the phone remote.</p>
+    <div id="editorContent"></div>
   </div>
 </section>
 
 <!-- RECAP -->
 <section id="recap" class="page">
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="showPage('menu')">← Back</button>
 
   <div class="card">
-    <h2>📋 Game Recap</h2>
-    <div id="recapList"></div>
+    <h2>🏆 Game Recap</h2>
+    <div id="recapContent"></div>
   </div>
 </section>
 
 <!-- BACKGROUNDS -->
 <section id="backgrounds" class="page">
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="showPage('menu')">← Back</button>
 
   <div class="card">
-    <h2>🖼️ Backgrounds</h2>
-    <button onclick="setBackground('#07111f')">Midnight</button>
-    <button onclick="setBackground('#101010')">Black</button>
-    <button onclick="setBackground('#10251c')">Lanes</button>
-    <button onclick="setBackground('#20142c')">Purple</button>
-    <button onclick="setBackground('#18200d')">Green</button>
-    <button onclick="setBackground('#24170d')">Brown</button>
+    <h2>🖼 Backgrounds</h2>
+
+    <div class="grid">
+      <button onclick="background('midnight')">🌙 Midnight</button>
+      <button onclick="background('black')">⚫ Black</button>
+      <button onclick="background('purple')">🟣 Purple</button>
+      <button onclick="background('green')">🟢 Green</button>
+      <button onclick="background('bowling')">🎳 Bowling Blue</button>
+      <button onclick="background('warm')">🟠 Warm</button>
+    </div>
   </div>
 </section>
 
 <!-- PINSETTER -->
 <section id="pinsetter" class="page">
-  <button onclick="page('menu')">← Back</button>
+  <button class="back" onclick="showPage('home')">← Home</button>
 
   <div class="card">
-    <h2>🎳 Pinsetter</h2>
+    <h2>🎳 Pinsetter Control</h2>
 
-    <button onclick="rackPins()">Rack Pins</button>
-    <button onclick="clearPins()">Clear</button>
-    <button onclick="sweepPins()">Sweep</button>
-    <button onclick="nextBall()">Next Ball</button>
+    <div class="grid">
+      <button onclick="rackPins()">🎳 Rack Pins</button>
+      <button onclick="clearPins()">❌ Clear</button>
+      <button onclick="sweepPins()">🧹 Sweep</button>
+      <button onclick="nextBall()">➡ Next Ball</button>
+    </div>
 
     <div id="pinGrid" class="pinGrid"></div>
   </div>
@@ -307,223 +254,169 @@ h2{margin-top:0}
 <div id="toast" class="toast"></div>
 
 <script>
-/* =========================
-   STATE
-========================= */
-
 let players=[];
 let currentPlayer=0;
 let gameStarted=false;
 let pins=Array(10).fill(true);
+let scores={};
+
 let peer=null;
-let remoteConn=null;
+let connection=null;
 
-let code=Math.floor(100000+Math.random()*900000).toString();
+const code=String(Math.floor(100000+Math.random()*900000));
 
-const rolls={};
-
-function page(id){
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-
-  if(id==='players')renderPlayers();
-  if(id==='score')renderScore();
-  if(id==='editor')renderEditor();
-  if(id==='recap')renderRecap();
-  if(id==='pinsetter')renderPins();
-}
-
-/* =========================
-   WELCOME
-========================= */
+document.getElementById("gameCode").textContent=code;
+document.getElementById("playersCode").textContent=code;
 
 setTimeout(()=>{
-  document.getElementById('welcome').classList.add('hide');
+  document.getElementById("welcome").classList.add("hide");
 },3000);
 
-/* =========================
-   PEER
-========================= */
+function showPage(name){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(name).classList.add("active");
+  renderAll();
+}
 
-document.getElementById('gameCode').textContent=code;
+/* CONNECTION */
 
-peer=new Peer('kgl-'+code,{
-  debug:0
+peer=new Peer("kgl-"+code,{debug:0});
+
+peer.on("open",()=>{
+  setConnection("🟡 Waiting for phone remote...");
 });
 
-peer.on('open',()=>{
-  setStatus('connectionStatus',
-    '🟢 Ready — connect the phone using the code above.'
-  );
-});
+peer.on("connection",conn=>{
+  connection=conn;
 
-peer.on('connection',(conn)=>{
-  remoteConn=conn;
-
-  setStatus('playerConnection','🟢 Phone remote connected!');
-  setStatus('connectionStatus','🟢 Phone remote connected!');
-
-  conn.on('open',()=>{
+  conn.on("open",()=>{
+    setConnection("🟢 Phone remote connected");
     sendState();
-    sendPin();
   });
 
-  conn.on('data',(data)=>{
+  conn.on("data",data=>{
     handleRemote(data);
   });
 
-  conn.on('close',()=>{
-    remoteConn=null;
-    setStatus('playerConnection','🟡 Phone remote disconnected.');
-    setStatus('connectionStatus','🟡 Phone remote disconnected.');
+  conn.on("close",()=>{
+    connection=null;
+    setConnection("🔴 Phone remote disconnected");
   });
 });
 
-peer.on('error',(err)=>{
+peer.on("error",err=>{
   console.log(err);
-  setStatus('connectionStatus','🔴 Connection error.');
+  setConnection("🔴 Remote connection error");
 });
 
-/* =========================
-   REMOTE COMMANDS
-========================= */
+function setConnection(text){
+  document.getElementById("homeConnection").textContent=text;
+  document.getElementById("playerConnection").textContent=text;
+}
 
 function handleRemote(data){
+  if(!data)return;
 
-  if(!data || !data.type)return;
+  switch(data.type){
 
-  if(data.type==='roll'){
-    addRoll(data.value);
-  }
+    case "addPlayer":
+      addPlayer(data.name);
+      break;
 
-  if(data.type==='strike'){
-    addRoll(10);
-  }
+    case "remove":
+      removePlayer(data.index);
+      break;
 
-  if(data.type==='spare'){
-    makeSpare();
-  }
+    case "start":
+      startGame();
+      break;
 
-  if(data.type==='previous'){
-    currentPlayer=Math.max(0,currentPlayer-1);
-    renderScore();
-    sendState();
-  }
+    case "roll":
+      recordRoll(Number(data.value));
+      break;
 
-  if(data.type==='next'){
-    currentPlayer=Math.min(players.length-1,currentPlayer+1);
-    renderScore();
-    sendState();
-  }
+    case "strike":
+      recordRoll(10);
+      break;
 
-  if(data.type==='reset'){
-    rolls[players[currentPlayer]?.id]=[];
-    renderScore();
-    sendState();
-  }
+    case "spare":
+      recordSpare();
+      break;
 
-  if(data.type==='select'){
-    currentPlayer=data.index;
-    renderScore();
-    sendState();
-  }
+    case "previous":
+      if(players.length){
+        currentPlayer=(currentPlayer-1+players.length)%players.length;
+        update();
+      }
+      break;
 
-  if(data.type==='addPlayer'){
-    addRemotePlayer(data.name);
-  }
+    case "next":
+      nextPlayer();
+      break;
 
-  if(data.type==='remove'){
-    removeRemotePlayer(data.index);
-  }
+    case "reset":
+      resetCurrent();
+      break;
 
-  if(data.type==='start'){
-    startGame();
-  }
+    case "select":
+      if(data.index>=0 && data.index<players.length){
+        currentPlayer=data.index;
+        update();
+      }
+      break;
 
-  if(data.type==='pin'){
-    if(data.action==='rack')rackPins();
-    if(data.action==='clear')clearPins();
-    if(data.action==='sweep')sweepPins();
-    if(data.action==='nextBall')nextBall();
-  }
+    case "pin":
+      if(data.action==="rack") rackPins();
+      if(data.action==="clear") clearPins();
+      if(data.action==="sweep") sweepPins();
+      if(data.action==="nextBall") nextBall();
+      break;
 
-  if(data.type==='pinToggle'){
-    togglePin(data.index);
-  }
+    case "pinToggle":
+      togglePin(data.index);
+      break;
 
-  if(data.type==='end'){
-    endGame();
+    case "end":
+      endGame();
+      break;
   }
 }
 
-/* =========================
-   PLAYERS
-========================= */
+/* PLAYERS */
 
-function addRemotePlayer(name){
-
-  name=(name||'').trim();
-
+function addPlayer(name){
+  name=String(name||"").trim();
   if(!name)return;
 
-  players.push({
-    id:Date.now()+Math.random(),
-    name:name
-  });
+  const id="p"+Date.now()+Math.floor(Math.random()*9999);
 
-  currentPlayer=players.length-1;
+  players.push({id,name});
+  scores[id]=[];
 
-  renderPlayers();
-  renderScore();
-  sendState();
+  if(players.length===1)currentPlayer=0;
 
-  toast('Added player: '+name);
+  toast("👤 "+name+" added");
+  update();
 }
 
-function removeRemotePlayer(index){
-
-  if(index<0 || index>=players.length)return;
+function removePlayer(index){
+  if(index<0||index>=players.length)return;
 
   const removed=players.splice(index,1)[0];
+  delete scores[removed.id];
 
-  if(removed)delete rolls[removed.id];
+  if(currentPlayer>=players.length)
+    currentPlayer=Math.max(0,players.length-1);
 
-  currentPlayer=Math.max(
-    0,
-    Math.min(currentPlayer,players.length-1)
-  );
-
-  renderPlayers();
-  renderScore();
-  sendState();
+  update();
 }
 
-function renderPlayers(){
-
-  const box=document.getElementById('playerList');
-
-  if(!players.length){
-    box.innerHTML='<p>No players yet. Add them from the phone remote.</p>';
-    return;
-  }
-
-  box.innerHTML=players.map((p,i)=>`
-    <div class="card">
-      <b>${escapeHtml(p.name)}</b>
-      ${i===currentPlayer?' 🎳 CURRENT':''}
-    </div>
-  `).join('');
-}
-
-/* =========================
-   GAME
-========================= */
+/* GAME */
 
 function startGame(){
-
   if(!players.length){
-    toast('Add at least one player first!');
-    page('players');
+    toast("Add a player from the phone first!");
+    showPage("players");
     return;
   }
 
@@ -531,101 +424,99 @@ function startGame(){
   currentPlayer=0;
 
   players.forEach(p=>{
-    if(!rolls[p.id])rolls[p.id]=[];
+    if(!scores[p.id])scores[p.id]=[];
   });
 
-  renderScore();
-  sendState();
-
-  toast('🎳 Bowling started!');
+  showPage("score");
+  toast("🎳 Bowling started!");
+  update();
 }
 
 function endGame(){
-
   gameStarted=false;
   players=[];
+  scores={};
   currentPlayer=0;
+  pins=Array(10).fill(true);
 
-  Object.keys(rolls).forEach(k=>delete rolls[k]);
+  update();
+  showPage("home");
 
-  renderPlayers();
-  renderScore();
-  sendState();
+  const w=document.getElementById("welcome");
+  w.classList.remove("hide");
 
-  page('menu');
-  toast('Game ended.');
+  setTimeout(()=>w.classList.add("hide"),3000);
 }
 
-/* =========================
-   SCORING
-========================= */
+/* SCORING */
 
-function addRoll(value){
+function currentRolls(){
+  if(!players.length)return [];
+  return scores[players[currentPlayer].id]||[];
+}
 
+function recordRoll(n){
   if(!gameStarted){
-    toast('Start bowling first!');
+    toast("Start Bowling first!");
     return;
   }
 
   if(!players.length)return;
 
-  const p=players[currentPlayer];
+  n=Math.max(0,Math.min(10,n));
 
-  if(!rolls[p.id])rolls[p.id]=[];
+  const r=currentRolls();
+  r.push(n);
 
-  const r=rolls[p.id];
+  update();
+}
 
-  if(r.length>=21){
-    toast('This game is already complete.');
+function recordSpare(){
+  if(!gameStarted||!players.length)return;
+
+  const r=currentRolls();
+
+  if(!r.length){
+    toast("Enter the first roll before Spare.");
     return;
   }
 
-  value=Math.max(0,Math.min(10,Number(value)));
+  const frames=buildFrames(r);
+  const current=frames[frames.length-1];
 
-  r.push(value);
-
-  renderScore();
-  sendState();
-}
-
-function makeSpare(){
-
-  if(!gameStarted || !players.length)return;
-
-  const p=players[currentPlayer];
-  const r=rolls[p.id]||[];
-
-  if(r.length===0)return;
-
-  const frame=r.length===1 || (r.length%2===1);
-
-  if(frame){
-    const needed=10-r[r.length-1];
-    r.push(needed);
+  if(current && current.length===1 && current[0]!==10){
+    r.push(10-current[0]);
+    update();
+  }else{
+    toast("Spare isn't available right now.");
   }
-
-  renderScore();
-  sendState();
 }
 
-/* =========================
-   SCORING ENGINE
-========================= */
+function nextPlayer(){
+  if(!players.length)return;
+  currentPlayer=(currentPlayer+1)%players.length;
+  update();
+}
 
-function frameData(r){
+function resetCurrent(){
+  if(!players.length)return;
+  scores[players[currentPlayer].id]=[];
+  update();
+}
 
-  const frames=[];
+/* FRAME DISPLAY */
+
+function buildFrames(r){
+  let frames=[];
   let i=0;
 
   for(let f=0;f<10;f++){
-
     if(i>=r.length){
       frames.push([]);
       continue;
     }
 
     if(f===9){
-
       frames.push(r.slice(i,i+3));
       break;
     }
@@ -639,293 +530,296 @@ function frameData(r){
     }
   }
 
+  while(frames.length<10)frames.push([]);
   return frames;
 }
 
-function total(r){
-
+function calculateScore(r){
   let score=0;
   let i=0;
 
-  for(let f=0;f<10;f++){
+  for(let frame=0;frame<10;frame++){
+    if(r[i]===undefined)break;
 
-    if(i>=r.length)break;
-
-    const first=r[i];
-
-    if(first===10){
-      score+=10;
-
-      if(r[i+1]!==undefined)
-        score+=r[i+1];
-
-      if(r[i+2]!==undefined)
-        score+=r[i+2];
+    if(r[i]===10){
+      if(r[i+1]!==undefined && r[i+2]!==undefined)
+        score+=10+r[i+1]+r[i+2];
+      else
+        score+=10;
 
       i++;
-    }
+    }else{
+      const first=r[i]||0;
 
-    else if(r[i+1]!==undefined){
+      if(r[i+1]===undefined){
+        score+=first;
+        break;
+      }
 
       const second=r[i+1];
 
-      score+=first+second;
-
-      if(first+second===10 && r[i+2]!==undefined)
-        score+=r[i+2];
+      if(first+second===10){
+        if(r[i+2]!==undefined)
+          score+=10+r[i+2];
+        else
+          score+=10;
+      }else{
+        score+=first+second;
+      }
 
       i+=2;
-    }
-
-    else{
-      score+=first;
-      break;
     }
   }
 
   return score;
 }
 
-/* =========================
-   SCORE RENDER
-========================= */
+function frameText(frame,number){
+  if(!frame.length)return "—";
 
-function renderScore(){
+  if(number<9){
+    if(frame[0]===10)return "X";
 
-  const cp=document.getElementById('currentPlayer');
+    if(frame.length===2 && frame[0]+frame[1]===10)
+      return frame[0]+" /";
+
+    return frame.join(" ");
+  }
+
+  return frame.map((v,i)=>{
+    if(v===10)return "X";
+    if(i>0 && frame[i-1]!==10 && frame[i-1]+v===10)return "/";
+    return v;
+  }).join(" ");
+}
+
+/* RENDER */
+
+function renderAll(){
+  renderHome();
+  renderPlayers();
+  renderScore();
+  renderEditor();
+  renderRecap();
+  renderPins();
+}
+
+function renderHome(){
+  const box=document.getElementById("homeCurrent");
 
   if(!players.length){
-    cp.innerHTML='<p>No players.</p>';
-    document.getElementById('scoreboard').innerHTML='';
+    box.innerHTML="Ready To Bowl";
     return;
   }
 
-  cp.innerHTML=`
-    <b>Current Player:</b>
-    ${escapeHtml(players[currentPlayer]?.name||'')}
-    <br>
-    <span class="green">
-      Score: ${total(rolls[players[currentPlayer]?.id]||[])}
-    </span>
+  if(!gameStarted){
+    box.innerHTML=players.length+" Player"+(players.length===1?"":"s")+" Ready";
+    return;
+  }
+
+  const p=players[currentPlayer];
+  box.innerHTML="🎳 "+escapeHtml(p.name)+"'s Turn";
+}
+
+function renderPlayers(){
+  const box=document.getElementById("playerList");
+
+  if(!players.length){
+    box.innerHTML="<p class='muted'>No players yet. Add players from your phone remote.</p>";
+    return;
+  }
+
+  box.innerHTML=players.map((p,i)=>`
+    <div class="playerCard">
+      <strong>${escapeHtml(p.name)}</strong>
+      <span>${i===currentPlayer?"🎳 Current":""}</span>
+    </div>
+  `).join("");
+}
+
+function renderScore(){
+  const current=document.getElementById("currentPlayerDisplay");
+
+  if(!players.length){
+    current.innerHTML="<span class='muted'>No players yet.</span>";
+    document.getElementById("scoreBoard").innerHTML="";
+    return;
+  }
+
+  const cp=players[currentPlayer];
+
+  current.innerHTML=`
+    <div class="big">🎳 ${escapeHtml(cp.name)}</div>
+    <div class="green">
+      Current Score: ${calculateScore(scores[cp.id]||[])}
+    </div>
   `;
 
-  let html='<div class="scoreboard">';
+  let html="";
 
   players.forEach((p,pi)=>{
+    const r=scores[p.id]||[];
+    const frames=buildFrames(r);
 
-    const r=rolls[p.id]||[];
-    const frames=frameData(r);
+    html+=`<div class="scoreRow">`;
 
     html+=`
-      <div class="scoreRow">
-        <div class="scoreCell ${pi===currentPlayer?'current':''}">
-          <b>${escapeHtml(p.name)}</b>
-        </div>
+      <div class="cell ${pi===currentPlayer?"current":""}">
+        <strong>${escapeHtml(p.name)}</strong>
+      </div>
     `;
 
     for(let f=0;f<10;f++){
-
-      const fr=frames[f]||[];
-
       html+=`
-        <div class="scoreCell ${pi===currentPlayer?'current':''}">
-          <div class="frameTitle">Frame ${f+1}</div>
-          <div class="rolls">
-            ${formatRolls(fr,f)}
-          </div>
+        <div class="cell ${pi===currentPlayer?"current":""}">
+          <div class="frameTitle">FRAME ${f+1}</div>
+          <div class="rollText">${frameText(frames[f],f)}</div>
         </div>
       `;
     }
 
     html+=`
-        <div class="scoreCell total">
-          ${total(r)}
-        </div>
+      <div class="cell totalCell">
+        ${calculateScore(r)}
       </div>
     `;
+
+    html+="</div>";
   });
 
-  html+='</div>';
-
-  document.getElementById('scoreboard').innerHTML=html;
+  document.getElementById("scoreBoard").innerHTML=html;
 }
-
-function formatRolls(fr,frame){
-
-  if(!fr.length)return '—';
-
-  if(frame<9){
-
-    if(fr[0]===10)return 'X';
-
-    if(fr.length>1 && fr[0]+fr[1]===10)
-      return fr[0]+' /';
-
-    return fr.join(' ');
-  }
-
-  return fr.map(x=>x===10?'X':x).join(' ');
-}
-
-/* =========================
-   EDITOR / RECAP
-========================= */
 
 function renderEditor(){
+  const box=document.getElementById("editorContent");
 
-  document.getElementById('editorInfo').innerHTML=
-    players.length
-    ? players.map(p=>`
-        <div class="card">
-          <b>${escapeHtml(p.name)}</b>
-          <br>
-          Rolls: ${(rolls[p.id]||[]).join(', ')||'None'}
-        </div>
-      `).join('')
-    : '<p>No players.</p>';
+  if(!players.length){
+    box.innerHTML="<p>No scores yet.</p>";
+    return;
+  }
+
+  box.innerHTML=players.map(p=>`
+    <div class="playerCard">
+      <strong>${escapeHtml(p.name)}</strong>
+      <span>${(scores[p.id]||[]).join(", ")||"No rolls"}</span>
+    </div>
+  `).join("");
 }
 
 function renderRecap(){
+  const sorted=[...players].sort((a,b)=>
+    calculateScore(scores[b.id]||[])-calculateScore(scores[a.id]||[])
+  );
 
-  document.getElementById('recapList').innerHTML=
-    players.length
-    ? players.map((p,i)=>`
-        <div class="card">
-          <h3>${i+1}. ${escapeHtml(p.name)}</h3>
-          <div class="big">${total(rolls[p.id]||[])}</div>
-        </div>
-      `).join('')
-    : '<p>No players.</p>';
+  const box=document.getElementById("recapContent");
+
+  if(!sorted.length){
+    box.innerHTML="<p>No game data yet.</p>";
+    return;
+  }
+
+  box.innerHTML=sorted.map((p,i)=>`
+    <div class="playerCard">
+      <strong>${i===0?"🏆 ":""}${escapeHtml(p.name)}</strong>
+      <span class="big">${calculateScore(scores[p.id]||[])}</span>
+    </div>
+  `).join("");
 }
 
-/* =========================
-   PINSETTER
-========================= */
+/* PINSETTER */
 
 function rackPins(){
-
   pins=Array(10).fill(true);
-
-  renderPins();
-  sendPin();
+  update();
 }
 
 function clearPins(){
-
   pins=Array(10).fill(false);
-
-  renderPins();
-  sendPin();
+  update();
 }
 
 function sweepPins(){
-
   pins=Array(10).fill(false);
-
-  renderPins();
-  sendPin();
+  toast("🧹 Sweep");
+  update();
 }
 
 function nextBall(){
-
   pins=Array(10).fill(true);
-
-  renderPins();
-  sendPin();
+  toast("🎳 Next ball ready");
+  update();
 }
 
-function togglePin(index){
-
-  if(index<0 || index>=10)return;
-
-  pins[index]=!pins[index];
-
-  renderPins();
-  sendPin();
+function togglePin(i){
+  if(i<0||i>=10)return;
+  pins[i]=!pins[i];
+  update();
 }
 
 function renderPins(){
-
-  const box=document.getElementById('pinGrid');
-
-  box.innerHTML=pins.map((up,i)=>`
-    <button
-      class="pin ${up?'':'down'}"
-      onclick="togglePin(${i})"
-    >
+  document.getElementById("pinGrid").innerHTML=pins.map((up,i)=>`
+    <button class="pin ${up?"":"down"}" onclick="togglePin(${i})">
       ${i+1}
     </button>
-  `).join('');
+  `).join("");
 }
 
-/* =========================
-   SYNC
-========================= */
+/* BACKGROUNDS */
+
+function background(type){
+  const styles={
+    midnight:"linear-gradient(135deg,#06111e,#0b2137,#07111f)",
+    black:"linear-gradient(135deg,#000,#111,#050505)",
+    purple:"linear-gradient(135deg,#130b24,#29134a,#090611)",
+    green:"linear-gradient(135deg,#07160f,#123c28,#07110c)",
+    bowling:"linear-gradient(135deg,#061a30,#0a4774,#07182a)",
+    warm:"linear-gradient(135deg,#211207,#482814,#160c05)"
+  };
+
+  document.body.style.background=styles[type];
+}
+
+/* SYNC */
+
+function update(){
+  renderAll();
+  sendState();
+}
 
 function sendState(){
+  if(!connection||!connection.open)return;
 
-  if(!remoteConn || !remoteConn.open)return;
-
-  remoteConn.send({
-    type:'state',
-    players:players,
-    currentPlayer:currentPlayer,
-    pins:pins,
-    gameStarted:gameStarted
+  connection.send({
+    type:"state",
+    players,
+    currentPlayer,
+    pins,
+    gameStarted,
+    scores
   });
 }
 
-function sendPin(){
-
-  if(!remoteConn || !remoteConn.open)return;
-
-  remoteConn.send({
-    type:'pin',
-    pins:pins
-  });
-}
-
-/* =========================
-   HELPERS
-========================= */
-
-function setStatus(id,text){
-  const el=document.getElementById(id);
-  if(el)el.textContent=text;
-}
+/* HELPERS */
 
 function toast(text){
-
-  const el=document.getElementById('toast');
-
+  const el=document.getElementById("toast");
   el.textContent=text;
-  el.style.display='block';
+  el.style.display="block";
 
   clearTimeout(window.toastTimer);
-
-  window.toastTimer=setTimeout(()=>{
-    el.style.display='none';
-  },2200);
+  window.toastTimer=setTimeout(()=>el.style.display="none",2200);
 }
 
-function setBackground(color){
-  document.body.style.background=color;
-}
-
-function escapeHtml(str){
-
-  return String(str)
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
 }
 
-renderPlayers();
-renderScore();
-renderPins();
+renderAll();
 </script>
-
 </body>
 </html>
