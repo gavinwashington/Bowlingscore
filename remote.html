@@ -2,217 +2,239 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>King Gavin Lanes Remote</title>
+
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  min-height:100vh;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(145deg,#030a13,#091c2e);
-  color:white;
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    color:white;
+    background:linear-gradient(135deg,#061426,#0b2139);
 }
-
-button,input{font:inherit}
-
-button{
-  border:0;
-  border-radius:14px;
-  padding:14px;
-  background:#173c61;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-button:active{transform:scale(.97)}
 
 header{
-  padding:17px;
-  text-align:center;
-  background:#020811;
-  border-bottom:1px solid #294158;
-  font-weight:900;
-  font-size:19px;
+    padding:18px;
+    text-align:center;
+    background:#09192b;
+    border-bottom:1px solid #294967;
+    font-size:20px;
+    font-weight:900;
 }
 
-.page{
-  display:none;
-  padding:18px;
-  max-width:600px;
-  margin:auto;
+main{
+    max-width:600px;
+    margin:auto;
+    padding:18px;
 }
-
-.page.active{display:block}
 
 .card{
-  background:#0b1c2e;
-  border:1px solid #263f58;
-  border-radius:18px;
-  padding:17px;
-  margin:12px 0;
+    background:#0d2036;
+    border:1px solid #294966;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:15px;
 }
 
 input{
-  width:100%;
-  padding:15px;
-  border-radius:12px;
-  border:1px solid #34526e;
-  background:#071522;
-  color:white;
-  margin:6px 0;
+    width:100%;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #385570;
+    background:#071625;
+    color:white;
+    font-size:18px;
 }
 
-.status{
-  padding:11px;
-  background:#102b43;
-  border-radius:11px;
-  margin:10px 0;
+button{
+    border:0;
+    border-radius:12px;
+    padding:14px;
+    background:#193d63;
+    color:white;
+    font-weight:bold;
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+.full{
+    width:100%;
+    margin-top:8px;
+}
+
+.green{
+    background:#197144;
+}
+
+.red{
+    background:#7b2934;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
 }
 
 .menu{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
-.menu button{min-height:70px}
-
-.start{background:#176d43}
-.danger{background:#75333a}
-.back{margin-bottom:8px}
-
-.numberGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
+.menu button{
+    min-height:72px;
+    font-size:16px;
 }
 
-.numberGrid button{
-  height:62px;
-  font-size:22px;
+.back{
+    margin-bottom:12px;
 }
 
-.numberGrid button.invalid{
-  filter:blur(4px);
-  opacity:.25;
-  cursor:not-allowed;
-  pointer-events:none;
-}
-
-.numberGrid button.disabled{
-  opacity:.28;
-  cursor:not-allowed;
-  filter:grayscale(1);
-}
-
-.special{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:10px;
-}
-
-.special button{
-  min-height:58px;
-}
-
-.special button.disabled{
-  opacity:.28;
-  filter:grayscale(1);
-  cursor:not-allowed;
+.status{
+    margin-top:10px;
+    padding:11px;
+    border-radius:10px;
+    background:#102d49;
 }
 
 .player{
-  padding:12px;
-  background:#10283f;
-  border-radius:12px;
-  margin:8px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:13px;
+    margin:8px 0;
+    background:#102941;
+    border-radius:12px;
 }
 
 .remove{
-  background:#6e3038;
-  padding:9px;
+    background:#6d3038;
+    padding:9px 12px;
 }
 
-/* SIX PIN TRIANGLE */
+/* SCORING */
+
+.numberGrid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.numberGrid button{
+    height:65px;
+    font-size:22px;
+}
+
+.invalid{
+    opacity:.2;
+    filter:blur(4px);
+    pointer-events:none;
+}
+
+.disabled{
+    opacity:.25;
+    pointer-events:none;
+}
+
+.special{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:10px;
+}
+
+.special button{
+    min-height:58px;
+}
+
+/* PINS */
 
 .pinGrid{
-  position:relative;
-  width:230px;
-  height:205px;
-  margin:25px auto;
+    position:relative;
+    width:270px;
+    height:230px;
+    margin:20px auto;
 }
 
 .pin{
-  position:absolute;
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  background:#eee;
-  color:#111;
-  transform:translate(-50%,-50%);
+    position:absolute;
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    background:#f4f4f4;
+    color:#111;
+    padding:0;
+    font-size:18px;
 }
 
 .pin.down{
-  background:#424b54;
-  color:#aaa;
+    background:#394651;
+    color:#9ba5ad;
 }
 
 .pin.split{
-  outline:4px solid #e52d3f;
-  box-shadow:0 0 0 2px rgba(229,45,63,.3);
+    outline:5px solid #ed2939;
 }
 
-.splitBadge{
-  position:absolute;
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  background:#e52d3f;
-  top:-4px;
-  right:-4px;
-  border:2px solid white;
+.splitDot{
+    position:absolute;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#ed2939;
+    border:2px solid white;
+    top:-4px;
+    right:-4px;
+}
+
+.pinControls{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
 }
 
 .submit{
-  width:100%;
-  background:#176d43;
-  margin-top:5px;
+    width:100%;
+    margin-top:10px;
+    background:#197144;
 }
 
-.backgroundGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
+.backgrounds{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
 }
 
-.big{
-  font-size:30px;
-  font-weight:900;
+.muted{
+    color:#9eb4c9;
 }
 
-.green{color:#6cff9d}
-.muted{color:#9fb3c5}
+.current{
+    font-size:27px;
+    font-weight:900;
+}
 
 .toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#102c45;
-  border:1px solid #42627e;
-  border-radius:12px;
-  padding:12px 17px;
-  display:none;
-  z-index:9999;
+    position:fixed;
+    left:50%;
+    bottom:20px;
+    transform:translateX(-50%);
+    background:#102d49;
+    border:1px solid #42637f;
+    padding:12px 18px;
+    border-radius:12px;
+    display:none;
 }
 </style>
 </head>
@@ -220,41 +242,42 @@ input{
 <body>
 
 <header>
-  🎳 KING GAVIN LANES<br>REMOTE
+    🎳 KING GAVIN LANES REMOTE
 </header>
+
+<main>
 
 <!-- CONNECT -->
 
 <section id="connect" class="page active">
 
-  <div class="card">
+    <div class="card">
 
-    <h2>Connect To Scoreboard</h2>
+        <h2>Connect To TV</h2>
 
-    <p class="muted">
-      Enter the 6-digit code shown on the iPad.
-    </p>
+        <p class="muted">
+            Enter the 6-digit code shown on the TV/iPad.
+        </p>
 
-    <input
-      id="code"
-      maxlength="6"
-      inputmode="numeric"
-      placeholder="123456"
-      onkeydown="if(event.key==='Enter')connectRemote()"
-    >
+        <input
+            id="code"
+            maxlength="6"
+            inputmode="numeric"
+            placeholder="123456"
+        >
 
-    <button
-      style="width:100%;margin-top:8px"
-      onclick="connectRemote()"
-    >
-      🔗 CONNECT
-    </button>
+        <button
+            class="full green"
+            onclick="connect()"
+        >
+            🔗 CONNECT
+        </button>
 
-    <div id="status" class="status">
-      Not connected
+        <div id="status" class="status">
+            🔴 Not connected
+        </div>
+
     </div>
-
-  </div>
 
 </section>
 
@@ -262,55 +285,51 @@ input{
 
 <section id="home" class="page">
 
-  <div class="card">
+    <div class="card">
 
-    <h2>🎳 Remote Home</h2>
+        <div id="connected" class="status">
+            🟢 Connected
+        </div>
 
-    <div id="connectionStatus" class="status">
-      🟢 Connected
+        <div id="current" class="current">
+            Ready To Bowl
+        </div>
+
     </div>
 
-    <div id="homePlayer" class="big">
-      Ready To Bowl
+    <div class="menu">
+
+        <button onclick="page('players')">
+            👥 Players
+        </button>
+
+        <button onclick="page('score')">
+            🎳 Score
+        </button>
+
+        <button onclick="page('pinsetter')">
+            ⚙️ Pinsetter
+        </button>
+
+        <button onclick="page('backgrounds')">
+            🖼 Backgrounds
+        </button>
+
+        <button
+            class="green"
+            onclick="startGame()"
+        >
+            ▶ Start Bowling
+        </button>
+
+        <button
+            class="red"
+            onclick="endGame()"
+        >
+            🏁 End Game
+        </button>
+
     </div>
-
-  </div>
-
-  <div class="menu">
-
-    <button onclick="page('players')">
-      👥 Players
-    </button>
-
-    <button onclick="page('score')">
-      📊 Score
-    </button>
-
-    <button onclick="page('editor')">
-      ✏️ Score Editor
-    </button>
-
-    <button onclick="page('recap')">
-      📋 Recap
-    </button>
-
-    <button onclick="page('backgrounds')">
-      🖼 Backgrounds
-    </button>
-
-    <button onclick="page('pinsetter')">
-      🎳 Pinsetter
-    </button>
-
-    <button class="start" onclick="startGame()">
-      ▶ Start Bowling
-    </button>
-
-    <button class="danger" onclick="endGame()">
-      🏁 End Game
-    </button>
-
-  </div>
 
 </section>
 
@@ -318,31 +337,30 @@ input{
 
 <section id="players" class="page">
 
-  <button class="back" onclick="page('home')">
-    ← Home
-  </button>
-
-  <div class="card">
-
-    <h2>👥 Players</h2>
-
-    <input
-      id="playerName"
-      maxlength="30"
-      placeholder="Player name"
-      onkeydown="if(event.key==='Enter')addPlayer()"
-    >
-
-    <button
-      style="width:100%;margin-top:7px"
-      onclick="addPlayer()"
-    >
-      ➕ Add Player
+    <button class="back" onclick="page('home')">
+        ← Back
     </button>
 
-    <div id="playerList"></div>
+    <div class="card">
 
-  </div>
+        <h2>👥 Players</h2>
+
+        <input
+            id="playerName"
+            maxlength="30"
+            placeholder="Player name"
+        >
+
+        <button
+            class="full green"
+            onclick="addPlayer()"
+        >
+            ➕ Add Player
+        </button>
+
+        <div id="playerList"></div>
+
+    </div>
 
 </section>
 
@@ -350,151 +368,67 @@ input{
 
 <section id="score" class="page">
 
-  <button class="back" onclick="page('home')">
-    ← Home
-  </button>
+    <button class="back" onclick="page('home')">
+        ← Back
+    </button>
 
-  <div class="card">
+    <div class="card">
 
-    <h2>🎳 Score Control</h2>
-
-    <div id="currentPlayer"></div>
-
-  </div>
-
-  <div class="card">
-
-    <div class="numberGrid">
-
-      <button data-roll="1" onclick="roll(1)">1</button>
-      <button data-roll="2" onclick="roll(2)">2</button>
-      <button data-roll="3" onclick="roll(3)">3</button>
-
-      <button data-roll="4" onclick="roll(4)">4</button>
-      <button data-roll="5" onclick="roll(5)">5</button>
-      <button data-roll="6" onclick="roll(6)">6</button>
-
-      <button data-roll="7" onclick="roll(7)">7</button>
-      <button data-roll="8" onclick="roll(8)">8</button>
-      <button data-roll="9" onclick="roll(9)">9</button>
-
-      <button data-roll="0" onclick="roll(0)">0</button>
-
-      <button id="strikeButton" onclick="strike()">
-        ❌ STRIKE
-      </button>
-
-      <button id="spareButton" onclick="spare()">
-        / SPARE
-      </button>
+        <div id="scorePlayer" class="current">
+            Ready
+        </div>
 
     </div>
 
-    <div class="special">
+    <div class="card">
 
-      <button onclick="previous()">
-        ⬅ Previous
-      </button>
+        <div class="numberGrid">
 
-      <button onclick="next()">
-        Next ➡
-      </button>
+            <button data-roll="1" onclick="roll(1)">1</button>
+            <button data-roll="2" onclick="roll(2)">2</button>
+            <button data-roll="3" onclick="roll(3)">3</button>
 
-      <button onclick="reset()">
-        🔄 Reset Score
-      </button>
+            <button data-roll="4" onclick="roll(4)">4</button>
+            <button data-roll="5" onclick="roll(5)">5</button>
+            <button data-roll="6" onclick="roll(6)">6</button>
 
-      <button onclick="split()">
-        🔴 Split
-      </button>
+            <button data-roll="7" onclick="roll(7)">7</button>
+            <button data-roll="8" onclick="roll(8)">8</button>
+            <button data-roll="9" onclick="roll(9)">9</button>
 
-    </div>
+            <button data-roll="0" onclick="roll(0)">0</button>
 
-  </div>
+            <button id="strike" onclick="strike()">
+                X STRIKE
+            </button>
 
-</section>
+            <button id="spare" onclick="spare()">
+                / SPARE
+            </button>
 
-<!-- EDITOR -->
+        </div>
 
-<section id="editor" class="page">
+        <div class="special">
 
-  <button class="back" onclick="page('home')">
-    ← Home
-  </button>
+            <button onclick="previous()">
+                ⬅ Previous
+            </button>
 
-  <div class="card">
+            <button onclick="next()">
+                Next ➡
+            </button>
 
-    <h2>✏️ Score Editor</h2>
+            <button onclick="reset()">
+                🔄 Reset
+            </button>
 
-    <div id="editorList"></div>
+            <button onclick="split()">
+                🔴 Split
+            </button>
 
-  </div>
-
-</section>
-
-<!-- RECAP -->
-
-<section id="recap" class="page">
-
-  <button class="back" onclick="page('home')">
-    ← Home
-  </button>
-
-  <div class="card">
-
-    <h2>🏆 Recap</h2>
-
-    <div id="recapList"></div>
-
-  </div>
-
-</section>
-
-<!-- BACKGROUNDS -->
-
-<section id="backgrounds" class="page">
-
-  <button class="back" onclick="page('home')">
-    ← Home
-  </button>
-
-  <div class="card">
-
-    <h2>🖼 Backgrounds</h2>
-
-    <p class="muted">
-      Choose a background for the TV / iPad scoreboard.
-    </p>
-
-    <div class="backgroundGrid">
-
-      <button onclick="changeBackground('midnight')">
-        🌙 Midnight
-      </button>
-
-      <button onclick="changeBackground('black')">
-        ⚫ Black
-      </button>
-
-      <button onclick="changeBackground('purple')">
-        🟣 Purple
-      </button>
-
-      <button onclick="changeBackground('green')">
-        🟢 Green
-      </button>
-
-      <button onclick="changeBackground('bowling')">
-        🎳 Bowling Blue
-      </button>
-
-      <button onclick="changeBackground('warm')">
-        🟠 Warm
-      </button>
+        </div>
 
     </div>
-
-  </div>
 
 </section>
 
@@ -502,1003 +436,873 @@ input{
 
 <section id="pinsetter" class="page">
 
-  <button class="back" onclick="page('home')">
-    ← Home
-  </button>
+    <button class="back" onclick="page('home')">
+        ← Back
+    </button>
 
-  <div class="card">
+    <div class="card">
 
-    <h2>🎳 Pinsetter</h2>
+        <h2>⚙️ Pinsetter</h2>
 
-    <div class="menu">
+        <div id="pinGrid" class="pinGrid"></div>
 
-      <button onclick="pinAction('rack')">
-        🎳 Rack Pins
-      </button>
+        <div class="pinControls">
 
-      <button onclick="pinAction('clear')">
-        ❌ Clear
-      </button>
+            <button onclick="pinAction('rack')">
+                🎳 Rack
+            </button>
 
-      <button onclick="pinAction('sweep')">
-        🧹 Sweep
-      </button>
+            <button onclick="pinAction('clear')">
+                ❌ Clear
+            </button>
 
-      <button onclick="pinAction('nextBall')">
-        ➡ Next Ball
-      </button>
+            <button onclick="pinAction('sweep')">
+                🧹 Sweep
+            </button>
+
+            <button onclick="pinAction('nextBall')">
+                ➡️ Next Ball
+            </button>
+
+            <button onclick="toggleSplit()">
+                🔴 Split
+            </button>
+
+        </div>
+
+        <button
+            class="submit"
+            onclick="submitPins()"
+        >
+            ✅ SUBMIT
+        </button>
 
     </div>
 
-    <div id="pinGrid" class="pinGrid"></div>
+</section>
 
-    <button
-      class="submit"
-      onclick="submitPinSetup()"
-    >
-      ✅ SUBMIT PIN SETUP
+<!-- BACKGROUNDS -->
+
+<section id="backgrounds" class="page">
+
+    <button class="back" onclick="page('home')">
+        ← Back
     </button>
 
-  </div>
+    <div class="card">
+
+        <h2>🖼 TV Background</h2>
+
+        <p class="muted">
+            These change the background on the TV/iPad.
+        </p>
+
+        <div class="backgrounds">
+
+            <button onclick="background('midnight')">
+                🌙 Midnight
+            </button>
+
+            <button onclick="background('black')">
+                ⚫ Black
+            </button>
+
+            <button onclick="background('purple')">
+                🟣 Purple
+            </button>
+
+            <button onclick="background('green')">
+                🟢 Green
+            </button>
+
+            <button onclick="background('blue')">
+                🔵 Blue
+            </button>
+
+            <button onclick="background('warm')">
+                🟠 Warm
+            </button>
+
+        </div>
+
+    </div>
 
 </section>
+
+</main>
 
 <div id="toast" class="toast"></div>
 
 <script>
 
 let peer=null;
-let conn=null;
+let connection=null;
 
 let players=[];
 let currentPlayer=0;
-let pins=Array(6).fill(true);
-let splitPins=[];
 let gameStarted=false;
 let scores={};
 
-/* REMOTE'S UNSUBMITTED PIN SETUP */
+let pins=Array(6).fill(true);
+let splitPins=[];
 
-let draftPins=Array(6).fill(true);
-let draftSplitPins=[];
+let draftPins=[...pins];
+let draftSplit=[...splitPins];
 
-/* CONNECT */
+/* ---------------- CONNECT ---------------- */
 
-function connectRemote(){
+function connect(){
 
-  const code=
-    document.getElementById("code")
-      .value.trim();
+    const code=
+        document
+            .getElementById("code")
+            .value.trim();
 
-  if(!/^\d{6}$/.test(code)){
+    if(!/^\d{6}$/.test(code)){
+
+        document.getElementById("status")
+            .textContent=
+            "🔴 Enter a 6-digit code.";
+
+        return;
+    }
 
     document.getElementById("status")
-      .textContent=
-      "🔴 Enter the 6-digit iPad code.";
-
-    return;
-  }
-
-  document.getElementById("status")
-    .textContent=
-    "🟡 Connecting...";
-
-  if(peer){
-
-    try{
-      peer.destroy();
-    }catch(e){}
-
-  }
-
-  peer=new Peer();
-
-  peer.on("open",()=>{
-
-    conn=peer.connect(
-      "kgl-"+code,
-      {reliable:true}
-    );
-
-    conn.on("open",()=>{
-
-      document.getElementById("status")
         .textContent=
-        "🟢 Connected!";
+        "🟡 Connecting...";
 
-      document.getElementById(
-        "connectionStatus"
-      ).textContent=
-        "🟢 Connected to scoreboard";
+    peer=new Peer();
 
-      /* GO TO NORMAL REMOTE HOME */
+    peer.on("open",()=>{
 
-      page("home");
+        connection=
+            peer.connect(
+                "kgl-"+code,
+                {reliable:true}
+            );
+
+        connection.on("open",()=>{
+
+            document.getElementById("status")
+                .textContent=
+                "🟢 Connected!";
+
+            document.getElementById("connected")
+                .textContent=
+                "🟢 Connected to TV";
+
+            page("home");
+
+        });
+
+        connection.on("data",data=>{
+
+            if(data.type==="state"){
+
+                players=
+                    data.players||[];
+
+                currentPlayer=
+                    data.currentPlayer||0;
+
+                gameStarted=
+                    !!data.gameStarted;
+
+                scores=
+                    data.scores||{};
+
+                pins=
+                    data.pins||
+                    Array(6).fill(true);
+
+                splitPins=
+                    data.splitPins||[];
+
+                draftPins=[...pins];
+                draftSplit=[...splitPins];
+
+                render();
+
+            }
+
+        });
+
+        connection.on("close",()=>{
+
+            document.getElementById(
+                "connected"
+            ).textContent=
+                "🔴 Disconnected";
+
+        });
 
     });
 
-    conn.on("data",data=>{
+    peer.on("error",()=>{
 
-      if(data.type==="state"){
-
-        players=data.players||[];
-        currentPlayer=
-          data.currentPlayer||0;
-
-        pins=
-          data.pins||
-          Array(6).fill(true);
-
-        splitPins=
-          data.splitPins||[];
-
-        gameStarted=
-          !!data.gameStarted;
-
-        scores=
-          data.scores||{};
-
-        /*
-          Keep the remote pinsetter draft
-          synchronized with submitted state.
-        */
-
-        draftPins=[...pins];
-        draftSplitPins=[...splitPins];
-
-        render();
-      }
+        document.getElementById("status")
+            .textContent=
+            "🔴 Connection failed.";
 
     });
 
-    conn.on("close",()=>{
-
-      document.getElementById(
-        "connectionStatus"
-      ).textContent=
-        "🔴 Disconnected";
-
-      toast("Scoreboard disconnected.");
-
-    });
-
-  });
-
-  peer.on("error",()=>{
-
-    document.getElementById("status")
-      .textContent=
-      "🔴 Could not connect. Check the code.";
-
-  });
 }
 
-/* PLAYERS */
+/* ---------------- PAGE ---------------- */
+
+function page(name){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(p=>
+            p.classList.remove("active")
+        );
+
+    document
+        .getElementById(name)
+        .classList.add("active");
+
+    render();
+
+}
+
+/* ---------------- PLAYERS ---------------- */
 
 function addPlayer(){
 
-  const input=
-    document.getElementById(
-      "playerName"
-    );
+    const input=
+        document.getElementById(
+            "playerName"
+        );
 
-  const name=input.value.trim();
+    const name=input.value.trim();
 
-  if(!name){
+    if(!name){
 
-    toast("Type a player name.");
+        toast("Enter a player name.");
 
-    return;
-  }
+        return;
+    }
 
-  send({
-    type:"addPlayer",
-    name:name
-  });
+    send({
+        type:"addPlayer",
+        name:name
+    });
 
-  input.value="";
-  input.focus();
+    input.value="";
+
 }
 
 function removePlayer(index){
 
-  send({
-    type:"remove",
-    index:index
-  });
+    send({
+        type:"removePlayer",
+        index:index
+    });
+
 }
 
-/* GAME */
+/* ---------------- GAME ---------------- */
 
 function startGame(){
 
-  if(!players.length){
+    if(!players.length){
 
-    page("players");
-    toast("Add a player first!");
+        page("players");
 
-    return;
-  }
+        toast("Add a player first!");
 
-  send({
-    type:"start"
-  });
+        return;
+    }
 
-  page("score");
+    send({
+        type:"start"
+    });
+
+    page("score");
+
 }
 
 function endGame(){
 
-  send({
-    type:"end"
-  });
+    send({
+        type:"end"
+    });
 
-  page("home");
+    page("home");
+
 }
 
-/* SCORE */
+/* ---------------- SCORING ---------------- */
 
-function currentRolls(){
+function getRollInfo(){
 
-  if(!players.length)return [];
+    if(!players.length)
+        return {roll:0};
 
-  return scores[
-    players[currentPlayer].id
-  ]||[];
-}
+    const r=
+        scores[
+            players[currentPlayer].id
+        ]||[];
 
-function frameInfo(){
+    let i=0;
 
-  const r=currentRolls();
+    for(let frame=0;frame<10;frame++){
 
-  let i=0;
+        if(frame===9){
 
-  for(let f=0;f<10;f++){
+            return {
+                roll:r.length-i,
+                first:r[i],
+                second:r[i+1]
+            };
 
-    if(f===9){
+        }
 
-      return {
-        rollCount:r.length-i,
-        first:r[i],
-        second:r[i+1]
-      };
+        if(r[i]===undefined)
+            return {roll:0};
+
+        if(r[i]===10){
+
+            i++;
+            continue;
+
+        }
+
+        if(r[i+1]===undefined){
+
+            return {
+                roll:1,
+                first:r[i]
+            };
+
+        }
+
+        i+=2;
+
     }
 
-    if(r[i]===undefined){
+    return {roll:3};
 
-      return {
-        rollCount:0
-      };
-    }
-
-    if(r[i]===10){
-
-      i++;
-      continue;
-    }
-
-    if(r[i+1]===undefined){
-
-      return {
-        rollCount:1,
-        first:r[i]
-      };
-    }
-
-    i+=2;
-  }
-
-  return {
-    rollCount:3
-  };
 }
 
 function roll(value){
 
-  const info=frameInfo();
+    const info=getRollInfo();
 
-  if(!gameStarted){
+    if(!gameStarted){
 
-    toast("Start Bowling first!");
-    return;
-  }
+        toast("Start Bowling first!");
 
-  if(info.rollCount===0){
-
-    send({
-      type:"roll",
-      value:value
-    });
-
-    return;
-  }
-
-  if(info.rollCount===1){
-
-    const remaining=
-      10-info.first;
-
-    if(value>remaining){
-
-      toast(
-        "Only "+remaining+
-        " pins remain."
-      );
-
-      return;
+        return;
     }
 
-    send({
-      type:"roll",
-      value:value
-    });
+    if(info.roll===0){
 
-    return;
-  }
+        send({
+            type:"roll",
+            value:value
+        });
 
-  toast("That frame is complete.");
+        return;
+
+    }
+
+    if(info.roll===1){
+
+        const remaining=
+            10-info.first;
+
+        if(value>remaining){
+
+            toast(
+                "Only "+remaining+
+                " pins remain."
+            );
+
+            return;
+        }
+
+        send({
+            type:"roll",
+            value:value
+        });
+
+    }
+
 }
 
 function strike(){
 
-  const info=frameInfo();
+    const info=getRollInfo();
 
-  if(!gameStarted)return;
+    if(info.roll!==0){
 
-  if(info.rollCount!==0){
+        toast(
+            "Strike is only on shot 1."
+        );
 
-    toast(
-      "Strike is only for the first shot."
-    );
+        return;
+    }
 
-    return;
-  }
+    send({
+        type:"strike"
+    });
 
-  send({
-    type:"strike"
-  });
 }
 
 function spare(){
 
-  const info=frameInfo();
+    const info=getRollInfo();
 
-  if(!gameStarted)return;
+    if(info.roll!==1){
 
-  if(info.rollCount===0){
+        toast(
+            "Spare is available after shot 1."
+        );
 
-    toast(
-      "Spare is not available on the first shot."
-    );
+        return;
+    }
 
-    return;
-  }
+    send({
+        type:"spare"
+    });
 
-  if(info.rollCount!==1){
-
-    toast(
-      "Spare isn't available right now."
-    );
-
-    return;
-  }
-
-  send({
-    type:"spare"
-  });
 }
 
 function previous(){
 
-  send({
-    type:"previous"
-  });
+    send({
+        type:"previous"
+    });
+
 }
 
 function next(){
 
-  send({
-    type:"next"
-  });
+    send({
+        type:"next"
+    });
+
 }
 
 function reset(){
 
-  send({
-    type:"reset"
-  });
+    send({
+        type:"reset"
+    });
+
 }
 
 function split(){
 
-  send({
-    type:"split"
-  });
+    send({
+        type:"split"
+    });
+
 }
 
-/* PINSETTER */
+/* ---------------- PINSETTER ---------------- */
 
 function pinAction(action){
 
-  /*
-    Rack/Clear/Sweep/Next are immediate
-    machine actions.
-  */
+    /*
+      These update the draft locally,
+      then Submit commits the setup.
+    */
 
-  send({
-    type:"pin",
-    action:action
-  });
+    if(action==="rack"||
+       action==="nextBall"){
 
-  if(action==="rack"||
-     action==="nextBall"){
+        draftPins=
+            Array(6).fill(true);
 
-    draftPins=Array(6).fill(true);
-    draftSplitPins=[];
+        draftSplit=[];
 
-  }
+    }
 
-  if(action==="clear"||
-     action==="sweep"){
+    if(action==="clear"||
+       action==="sweep"){
 
-    draftPins=Array(6).fill(false);
-    draftSplitPins=[];
+        draftPins=
+            Array(6).fill(false);
 
-  }
+        draftSplit=[];
 
-  renderPins();
+    }
+
+    renderPins();
+
 }
 
 function togglePin(index){
 
-  if(index<0||index>=6)return;
+    draftPins[index]=
+        !draftPins[index];
 
-  /*
-    Change the draft only.
-    Nothing is submitted to the iPad
-    until Submit is pressed.
-  */
+    renderPins();
 
-  draftPins[index]=
-    !draftPins[index];
-
-  renderPins();
 }
 
-function toggleDraftSplit(){
+function toggleSplit(){
 
-  if(draftSplitPins.length){
+    if(draftSplit.length){
 
-    draftSplitPins=[];
+        draftSplit=[];
 
-  }else{
+    }else{
 
-    draftSplitPins=
-      draftPins
-        .map((up,i)=>up?i:-1)
-        .filter(i=>i!==-1);
+        draftSplit=
+            draftPins
+                .map((up,i)=>up?i:-1)
+                .filter(i=>i!==-1);
 
-  }
+    }
 
-  renderPins();
+    renderPins();
+
 }
 
-function submitPinSetup(){
+function submitPins(){
 
-  send({
+    send({
 
-    type:"pinSubmit",
+        type:"pinSubmit",
 
-    pins:[...draftPins],
+        pins:[...draftPins],
 
-    splitPins:[...draftSplitPins]
+        splitPins:[...draftSplit]
 
-  });
+    });
 
-  toast("✅ Pin setup submitted");
+    toast("✅ Pins submitted!");
+
 }
 
-/* BACKGROUNDS */
+/* ---------------- BACKGROUNDS ---------------- */
 
-function changeBackground(name){
+function background(value){
 
-  send({
+    send({
 
-    type:"background",
+        type:"background",
 
-    background:name
+        value:value
 
-  });
+    });
 
-  toast(
-    "📺 TV background changed"
-  );
+    toast("📺 TV background changed!");
+
 }
 
-/* RENDER */
+/* ---------------- RENDER ---------------- */
 
 function render(){
 
-  renderHome();
-  renderPlayers();
-  renderScore();
-  renderEditor();
-  renderRecap();
-  renderPins();
+    renderHome();
+    renderPlayers();
+    renderScore();
+    renderPins();
+    updateScoringButtons();
+
 }
 
 function renderHome(){
 
-  const box=
-    document.getElementById(
-      "homePlayer"
-    );
+    const el=
+        document.getElementById(
+            "current"
+        );
 
-  if(!players.length){
+    if(!players.length){
 
-    box.textContent=
-      "Ready To Bowl";
+        el.textContent=
+            "Ready To Bowl";
 
-    return;
-  }
+        return;
+    }
 
-  if(!gameStarted){
+    if(!gameStarted){
 
-    box.textContent=
-      players.length+
-      " Player"+
-      (players.length===1?"":"s")+
-      " Ready";
+        el.textContent=
+            players.length+
+            " Player"+
+            (players.length===1?"":"s")+
+            " Ready";
 
-    return;
-  }
+        return;
+    }
 
-  box.textContent=
-    "🎳 "+
-    (players[currentPlayer]?.name||"")+
-    " — Your Turn";
+    el.textContent=
+        "🎳 "+
+        players[currentPlayer].name+
+        "'s Turn";
+
 }
 
 function renderPlayers(){
 
-  const box=
-    document.getElementById(
-      "playerList"
-    );
+    const box=
+        document.getElementById(
+            "playerList"
+        );
 
-  if(!players.length){
+    if(!players.length){
+
+        box.innerHTML=
+            "<p class='muted'>No players.</p>";
+
+        return;
+    }
 
     box.innerHTML=
-      "<p class='muted'>No players yet.</p>";
+        players.map((p,i)=>`
 
-    return;
-  }
+            <div class="player">
 
-  box.innerHTML=
-    players.map((p,i)=>`
+                <span>
+                    ${escapeHtml(p.name)}
+                    ${i===currentPlayer?" 🎳":""}
+                </span>
 
-      <div class="player">
+                <button
+                    class="remove"
+                    onclick="removePlayer(${i})"
+                >
+                    Remove
+                </button>
 
-        <span>
+            </div>
 
-          <strong>
-            ${escapeHtml(p.name)}
-          </strong>
+        `).join("");
 
-          ${i===currentPlayer?" 🎳":""}
-
-        </span>
-
-        <button
-          class="remove"
-          onclick="removePlayer(${i})"
-        >
-          Remove
-        </button>
-
-      </div>
-
-    `).join("");
 }
 
 function renderScore(){
 
-  const box=
-    document.getElementById(
-      "currentPlayer"
-    );
-
-  if(!players.length){
-
-    box.innerHTML=
-      "<span class='muted'>No players.</span>";
-
-    return;
-  }
-
-  const p=
-    players[currentPlayer];
-
-  const r=
-    scores[p.id]||[];
-
-  box.innerHTML=`
-
-    <div class="big">
-      ${escapeHtml(p.name)}
-    </div>
-
-    <div class="green">
-      Score: ${total(r)}
-    </div>
-
-    <div class="muted">
-      ${
-        gameStarted
-        ?"Game in progress"
-        :"Press Start Bowling"
-      }
-    </div>
-
-  `;
-
-  renderScoreButtons();
-}
-
-function renderScoreButtons(){
-
-  const info=frameInfo();
-
-  const buttons=
-    document.querySelectorAll(
-      "[data-roll]"
-    );
-
-  const spareButton=
-    document.getElementById(
-      "spareButton"
-    );
-
-  const strikeButton=
-    document.getElementById(
-      "strikeButton"
-    );
-
-  buttons.forEach(b=>{
-    b.classList.remove(
-      "invalid",
-      "disabled"
-    );
-  });
-
-  spareButton.classList.remove(
-    "disabled"
-  );
-
-  strikeButton.classList.remove(
-    "disabled"
-  );
-
-  if(!gameStarted){
-
-    buttons.forEach(b=>
-      b.classList.add("disabled")
-    );
-
-    spareButton.classList.add(
-      "disabled"
-    );
-
-    strikeButton.classList.add(
-      "disabled"
-    );
-
-    return;
-  }
-
-  if(info.rollCount===0){
-
-    /*
-      Spare is unavailable
-      on the first shot.
-    */
-
-    spareButton.classList.add(
-      "disabled"
-    );
-
-    return;
-  }
-
-  if(info.rollCount===1){
-
-    const remaining=
-      10-info.first;
-
-    buttons.forEach(btn=>{
-
-      const value=
-        Number(btn.dataset.roll);
-
-      if(value>remaining){
-
-        btn.classList.add(
-          "invalid"
+    const box=
+        document.getElementById(
+            "scorePlayer"
         );
-      }
 
-    });
+    if(!players.length){
 
-    /*
-      Spare is available after
-      ANY first-shot score.
-    */
+        box.textContent=
+            "No players";
 
-    strikeButton.classList.add(
-      "disabled"
-    );
+        return;
+    }
 
-    return;
-  }
+    box.textContent=
+        "🎳 "+
+        players[currentPlayer].name;
 
-  buttons.forEach(b=>
-    b.classList.add("disabled")
-  );
-
-  spareButton.classList.add(
-    "disabled"
-  );
-
-  strikeButton.classList.add(
-    "disabled"
-  );
 }
-
-function renderEditor(){
-
-  const box=
-    document.getElementById(
-      "editorList"
-    );
-
-  if(!players.length){
-
-    box.innerHTML=
-      "<p>No players.</p>";
-
-    return;
-  }
-
-  box.innerHTML=
-    players.map(p=>`
-
-      <div class="player">
-
-        <strong>
-          ${escapeHtml(p.name)}
-        </strong>
-
-        <span>
-          ${(scores[p.id]||[])
-            .join(", ")||"No rolls"}
-        </span>
-
-      </div>
-
-    `).join("");
-}
-
-function renderRecap(){
-
-  const box=
-    document.getElementById(
-      "recapList"
-    );
-
-  if(!players.length){
-
-    box.innerHTML=
-      "<p>No game data.</p>";
-
-    return;
-  }
-
-  const sorted=
-    [...players].sort((a,b)=>
-      total(scores[b.id]||[])-
-      total(scores[a.id]||[])
-    );
-
-  box.innerHTML=
-    sorted.map((p,i)=>`
-
-      <div class="player">
-
-        <strong>
-          ${i===0?"🏆 ":""}
-          ${escapeHtml(p.name)}
-        </strong>
-
-        <span class="big">
-          ${total(scores[p.id]||[])}
-        </span>
-
-      </div>
-
-    `).join("");
-}
-
-/* SIX PIN TRIANGLE */
 
 function renderPins(){
 
-  const box=
-    document.getElementById(
-      "pinGrid"
+    const box=
+        document.getElementById(
+            "pinGrid"
+        );
+
+    const pos=[
+        [135,35],
+        [98,100],
+        [172,100],
+        [61,165],
+        [135,165],
+        [209,165]
+    ];
+
+    box.innerHTML=
+        draftPins.map((up,i)=>`
+
+            <button
+                class="
+                    pin
+                    ${up?"":"down"}
+                    ${
+                        draftSplit.includes(i)
+                        ?"split"
+                        :""
+                    }
+                "
+                style="
+                    left:${pos[i][0]}px;
+                    top:${pos[i][1]}px;
+                "
+                onclick="togglePin(${i})"
+            >
+
+                ${i+1}
+
+                ${
+                    draftSplit.includes(i)
+                    ?'<span class="splitDot"></span>'
+                    :""
+                }
+
+            </button>
+
+        `).join("");
+
+}
+
+function updateScoringButtons(){
+
+    const info=getRollInfo();
+
+    const buttons=
+        document.querySelectorAll(
+            "[data-roll]"
+        );
+
+    const strikeButton=
+        document.getElementById(
+            "strike"
+        );
+
+    const spareButton=
+        document.getElementById(
+            "spare"
+        );
+
+    buttons.forEach(btn=>{
+        btn.classList.remove(
+            "invalid",
+            "disabled"
+        );
+    });
+
+    strikeButton.classList.remove(
+        "disabled"
     );
 
-  const positions=[
-    [115,35],
-    [82,90],
-    [148,90],
-    [49,145],
-    [115,145],
-    [181,145]
-  ];
+    spareButton.classList.remove(
+        "disabled"
+    );
 
-  box.innerHTML=
-    draftPins.map((up,i)=>{
+    if(!gameStarted){
 
-      const pos=positions[i];
+        buttons.forEach(b=>
+            b.classList.add("disabled")
+        );
 
-      return `
+        strikeButton.classList.add(
+            "disabled"
+        );
 
-        <button
-          class="
-            pin
-            ${up?"":"down"}
-            ${draftSplitPins.includes(i)
-              ?"split":""
-            }
-          "
-          style="
-            left:${pos[0]}px;
-            top:${pos[1]}px;
-          "
-          onclick="togglePin(${i})"
-        >
+        spareButton.classList.add(
+            "disabled"
+        );
 
-          ${i+1}
-
-          ${
-            draftSplitPins.includes(i)
-            ?'<span class="splitBadge"></span>'
-            :''
-          }
-
-        </button>
-
-      `;
-
-    }).join("");
-}
-
-/*
-  Make the Split button use the
-  same split draft as the pinsetter.
-*/
-document.addEventListener("click",e=>{
-
-  if(
-    e.target &&
-    e.target.textContent &&
-    e.target.textContent.includes("Split")
-  ){
-    /*
-      The score Split button sends the
-      bowling split command. The pinsetter
-      itself uses its submitted draft.
-    */
-  }
-
-});
-
-/* SCORE TOTAL */
-
-function total(r){
-
-  let score=0;
-  let i=0;
-
-  for(let frame=0;frame<10;frame++){
-
-    if(r[i]===undefined)break;
-
-    if(r[i]===10){
-
-      score+=10;
-
-      if(r[i+1]!==undefined)
-        score+=r[i+1];
-
-      if(r[i+2]!==undefined)
-        score+=r[i+2];
-
-      i++;
-
-    }else{
-
-      const a=r[i];
-
-      if(r[i+1]===undefined){
-
-        score+=a;
-        break;
-      }
-
-      const b=r[i+1];
-
-      score+=a+b;
-
-      if(
-        a+b===10 &&
-        r[i+2]!==undefined
-      )
-        score+=r[i+2];
-
-      i+=2;
+        return;
     }
-  }
 
-  return score;
+    if(info.roll===0){
+
+        spareButton.classList.add(
+            "disabled"
+        );
+
+        return;
+    }
+
+    if(info.roll===1){
+
+        const remaining=
+            10-info.first;
+
+        buttons.forEach(btn=>{
+
+            if(
+                Number(btn.dataset.roll)>
+                remaining
+            ){
+
+                btn.classList.add(
+                    "invalid"
+                );
+
+            }
+
+        });
+
+        strikeButton.classList.add(
+            "disabled"
+        );
+
+        return;
+    }
+
+    buttons.forEach(b=>
+        b.classList.add("disabled")
+    );
+
+    strikeButton.classList.add(
+        "disabled"
+    );
+
+    spareButton.classList.add(
+        "disabled"
+    );
+
 }
 
-/* SEND */
+/* ---------------- SEND ---------------- */
 
 function send(data){
 
-  if(!conn||!conn.open){
+    if(
+        !connection||
+        !connection.open
+    ){
 
-    toast("Not connected.");
+        toast("Not connected.");
 
-    return;
-  }
+        return;
+    }
 
-  conn.send(data);
+    connection.send(data);
+
 }
 
-/* HELPERS */
+/* ---------------- HELPERS ---------------- */
 
 function toast(text){
 
-  const el=
-    document.getElementById(
-      "toast"
-    );
+    const el=
+        document.getElementById(
+            "toast"
+        );
 
-  el.textContent=text;
-  el.style.display="block";
+    el.textContent=text;
+    el.style.display="block";
 
-  clearTimeout(window.toastTimer);
+    clearTimeout(window.toastTimer);
 
-  window.toastTimer=
-    setTimeout(()=>{
-      el.style.display="none";
-    },2200);
+    window.toastTimer=
+        setTimeout(()=>{
+            el.style.display="none";
+        },2000);
+
 }
 
-function escapeHtml(value){
+function escapeHtml(v){
 
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    return String(v)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
 }
 
 render();
 
 </script>
+
 </body>
 </html>
