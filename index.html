@@ -2,217 +2,166 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>King Gavin Lanes</title>
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
-
 body{
-margin:0;
-font-family:Arial,sans-serif;
-color:white;
-background:linear-gradient(135deg,#061426,#0b2139);
-min-height:100vh;
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:white;
+  background:linear-gradient(135deg,#071a33,#0b315c);
+  min-height:100vh;
 }
-
-button{
-border:0;
-border-radius:12px;
-padding:13px 18px;
-color:white;
-background:#193d63;
-font-weight:bold;
-cursor:pointer;
-}
-
-button:active{
-transform:scale(.97);
-}
-
 header{
-height:70px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 25px;
-background:#09192b;
-border-bottom:1px solid #294967;
+  height:70px;
+  padding:15px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(0,0,0,.25);
 }
-
-.logo{
-font-size:25px;
-font-weight:900;
+.brand{font-size:24px;font-weight:bold}
+button{
+  border:0;
+  border-radius:12px;
+  padding:13px 18px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  background:#1677ff;
+  color:white;
 }
-
-main{
-max-width:1300px;
-margin:auto;
-padding:25px;
-}
-
+button:active{transform:scale(.97)}
+.container{padding:25px;max-width:1100px;margin:auto}
+.page{display:none}
+.page.active{display:block}
 .card{
-background:#0d2036;
-border:1px solid #294966;
-border-radius:20px;
-padding:22px;
-margin-bottom:20px;
+  background:rgba(255,255,255,.09);
+  border-radius:18px;
+  padding:25px;
+  margin-bottom:20px;
 }
-
-.center{
-text-align:center;
+h1{margin-top:0}
+.center{text-align:center}
+.bigcode{
+  font-size:42px;
+  font-weight:bold;
+  letter-spacing:4px;
+  margin:15px 0;
 }
-
-.code{
-font-size:44px;
-font-weight:900;
-letter-spacing:8px;
-color:#6dbaff;
+.status{font-size:18px;margin-top:10px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:15px;
 }
-
-.status{
-display:inline-block;
-margin-top:10px;
-padding:10px 16px;
-border-radius:10px;
-background:#102d49;
+.menuBtn{
+  min-height:100px;
+  font-size:20px;
 }
-
+input{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:10px;
+  margin:8px 0;
+  font-size:17px;
+}
+.player{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  margin:8px 0;
+  background:rgba(255,255,255,.08);
+  border-radius:12px;
+}
+.scoreTable{
+  width:100%;
+  border-collapse:collapse;
+  overflow:hidden;
+  border-radius:14px;
+}
+.scoreTable th,.scoreTable td{
+  border:1px solid rgba(255,255,255,.18);
+  padding:12px;
+  text-align:center;
+}
 .current{
-font-size:30px;
-font-weight:900;
-margin:10px 0;
+  background:rgba(22,119,255,.35);
 }
-
-.muted{
-color:#9eb4c9;
+.currentScore{
+  text-align:center;
+  font-size:65px;
+  font-weight:bold;
+  margin:25px 0;
 }
-
-.page{
-display:none;
-}
-
-.page.active{
-display:block;
-}
-
-.scoreboard{
-overflow-x:auto;
-}
-
-.board{
-min-width:1000px;
-}
-
-.row{
-display:grid;
-grid-template-columns:190px repeat(10,1fr) 90px;
-}
-
-.cell{
-min-height:82px;
-border:1px solid #385570;
-background:#081a2c;
-padding:9px;
-}
-
-.cell.currentPlayer{
-background:#123653;
-}
-
-.nameCell{
-display:flex;
-align-items:center;
-font-size:18px;
-font-weight:bold;
-}
-
-.frameNumber{
-color:#91aac0;
-font-size:11px;
-}
-
-.rolls{
-font-size:20px;
-font-weight:bold;
-margin-top:10px;
-}
-
-.total{
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:27px;
-font-weight:900;
-}
-
-.back{
-margin-bottom:15px;
-}
-
-.red{
-background:#7b2934;
-}
+.back{background:#444}
+.danger{background:#c62828}
 
 /* PINSETTER */
-
 .pinArea{
-display:flex;
-flex-direction:column;
-align-items:center;
+  position:relative;
+  width:280px;
+  height:240px;
+  margin:20px auto;
 }
-
-.pinGrid{
-width:270px;
-height:230px;
-position:relative;
-margin:25px auto;
-}
-
 .pin{
-position:absolute;
-width:64px;
-height:64px;
-border-radius:50%;
-transform:translate(-50%,-50%);
-background:#f4f4f4;
-color:#111;
-font-size:18px;
-padding:0;
+  position:absolute;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:white;
+  color:#111;
+  font-size:22px;
+  font-weight:bold;
+  border:3px solid #ddd;
+  cursor:pointer;
+  transition:.15s;
 }
-
 .pin.down{
-background:#394651;
-color:#9ba5ad;
+  background:#394651;
+  color:#9ba5ad;
+  border-color:#53616b;
 }
-
 .pin.split{
-outline:5px solid #ed2939;
+  border:4px solid red;
+  box-shadow:0 0 12px rgba(255,0,0,.7);
 }
-
-.splitDot{
-position:absolute;
-width:20px;
-height:20px;
-background:#ed2939;
-border:2px solid white;
-border-radius:50%;
-top:-4px;
-right:-4px;
+.pin.split::after{
+  content:"";
+  position:absolute;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:red;
+  top:-7px;
+  right:-7px;
 }
+.pin:nth-child(1){left:112px;top:5px}
+.pin:nth-child(2){left:75px;top:75px}
+.pin:nth-child(3){left:149px;top:75px}
+.pin:nth-child(4){left:38px;top:145px}
+.pin:nth-child(5){left:112px;top:145px}
+.pin:nth-child(6){left:186px;top:145px}
 
 .pinControls{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-justify-content:center;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  max-width:500px;
+  margin:auto;
 }
-
 .submit{
-background:#197144;
-margin-top:12px;
-min-width:220px;
+  width:100%;
+  margin-top:15px;
+  background:#16a34a;
 }
 </style>
 </head>
@@ -220,178 +169,93 @@ min-width:220px;
 <body>
 
 <header>
-<div class="logo">🎳 KING GAVIN LANES</div>
-<button onclick="showPage('menu')">☰ MENU</button>
+  <div class="brand">🎳 King Gavin Lanes</div>
+  <button onclick="page('menu')">☰ Menu</button>
 </header>
 
-<main>
+<div class="container">
 
 <!-- HOME -->
-
 <section id="home" class="page active">
+  <div class="card center">
+    <h1>🎳 King Gavin Lanes</h1>
+    <h2 id="homePlayer">No Game Started</h2>
 
-<div class="card center">
-
-<h1>King Gavin Lanes</h1>
-
-<div id="currentPlayer" class="current">
-Ready To Bowl
-</div>
-
-<p class="muted">
-All controls are on the phone remote.
-</p>
-
-</div>
-
-<div class="card center">
-
-<h2>📱 Phone Remote</h2>
-
-<div class="muted">
-Enter this code on the phone:
-</div>
-
-<div id="gameCode" class="code">
-------
-</div>
-
-<div id="connection" class="status">
-🟡 Waiting for phone...
-</div>
-
-</div>
-
+    <p>Phone Remote Code</p>
+    <div class="bigcode" id="remoteCode">------</div>
+    <div class="status" id="connectionStatus">Starting remote...</div>
+  </div>
 </section>
-
 
 <!-- MENU -->
-
 <section id="menu" class="page">
-
-<button class="back" onclick="showPage('home')">
-← Back
-</button>
-
-<div class="card">
-
-<h2>Menu</h2>
-
-<p class="muted">
-Controls are available from the phone remote.
-</p>
-
-<button class="red" onclick="endGame()">
-🏁 End Game
-</button>
-
-</div>
-
+  <div class="card">
+    <h1>Menu</h1>
+    <div class="grid">
+      <button class="menuBtn" onclick="page('players')">👥 Players</button>
+      <button class="menuBtn" onclick="page('score')">📊 Score</button>
+      <button class="menuBtn" onclick="page('pinsetter')">🎳 Pinsetter</button>
+      <button class="menuBtn danger" onclick="endGame()">🛑 End Game</button>
+    </div>
+  </div>
 </section>
-
 
 <!-- PLAYERS -->
-
 <section id="players" class="page">
-
-<button class="back" onclick="showPage('home')">
-← Back
-</button>
-
-<div class="card">
-
-<h2>👥 Players</h2>
-
-<p class="muted">
-Players are controlled from the phone.
-</p>
-
-<div id="playersList"></div>
-
-</div>
-
+  <div class="card">
+    <h1>Players</h1>
+    <div id="playersList"></div>
+    <button class="back" onclick="page('menu')">← Back</button>
+  </div>
 </section>
-
 
 <!-- SCORE -->
-
 <section id="score" class="page">
+  <div class="card">
+    <h1>Score</h1>
+    <div class="currentScore" id="currentScore">0</div>
 
-<button class="back" onclick="showPage('home')">
-← Back
-</button>
+    <table class="scoreTable">
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="scoreBody"></tbody>
+    </table>
 
-<div class="card">
-
-<h2>🎳 Scoreboard</h2>
-
-<div id="scoreCurrent" class="current"></div>
-
-</div>
-
-<div class="card scoreboard">
-
-<div id="board" class="board"></div>
-
-</div>
-
+    <br>
+    <button class="back" onclick="page('menu')">← Back</button>
+  </div>
 </section>
-
 
 <!-- PINSETTER -->
-
 <section id="pinsetter" class="page">
+  <div class="card center">
+    <h1>🎳 Pinsetter</h1>
+    <p>Select the pins that are unavailable, then press Submit.</p>
 
-<button class="back" onclick="showPage('home')">
-← Back
-</button>
+    <div class="pinArea" id="tvPins"></div>
 
-<div class="card">
+    <div class="pinControls">
+      <button onclick="pinAction('rack')">Rack</button>
+      <button onclick="pinAction('clear')">Clear</button>
+      <button onclick="pinAction('sweep')">Sweep</button>
+      <button onclick="pinAction('nextBall')">Next Ball</button>
+      <button onclick="toggleSplit()">🔴 Split</button>
+    </div>
 
-<h2>⚙️ Pinsetter</h2>
+    <button class="submit" onclick="submitPins()">✅ Submit</button>
 
-<div class="pinArea">
-
-<div id="pinGrid" class="pinGrid"></div>
-
-<div class="pinControls">
-
-<button onclick="rackPins()">
-🎳 Rack
-</button>
-
-<button onclick="clearPins()">
-❌ Clear
-</button>
-
-<button onclick="sweepPins()">
-🧹 Sweep
-</button>
-
-<button onclick="nextBall()">
-➡️ Next Ball
-</button>
-
-<button onclick="toggleSplit()">
-🔴 Split
-</button>
-
-</div>
-
-<button class="submit" onclick="submitPins()">
-✅ SUBMIT
-</button>
-
-</div>
-
-</div>
-
+    <br><br>
+    <button class="back" onclick="page('menu')">← Back</button>
+  </div>
 </section>
 
-</main>
+</div>
 
 <script>
-
 let players=[];
 let currentPlayer=0;
 let gameStarted=false;
@@ -403,1018 +267,344 @@ let splitPins=[];
 let pinDraft=[...pins];
 let splitDraft=[];
 
-let peer=null;
-let connection=null;
+let peer;
+let remoteConn=null;
 
-const code=
-String(Math.floor(100000+Math.random()*900000));
-
-document.getElementById("gameCode").textContent=code;
-
-
-/* PAGE */
-
-function showPage(name){
-
-document.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
-
-document.getElementById(name)
-.classList.add("active");
-
-render();
-
-}
-
-
-/* PEER */
-
-peer=new Peer("kgl-"+code,{debug:0});
-
-peer.on("open",()=>{
-
-setConnection(
-"🟡 Waiting for phone..."
-);
-
-});
-
-peer.on("connection",conn=>{
-
-connection=conn;
-
-conn.on("open",()=>{
-
-setConnection(
-"🟢 Phone connected"
-);
-
-sendState();
-
-});
-
-conn.on("data",handleRemote);
-
-conn.on("close",()=>{
-
-connection=null;
-
-setConnection(
-"🔴 Phone disconnected"
-);
-
-});
-
-});
-
-peer.on("error",err=>{
-
-console.log(err);
-
-setConnection(
-"🔴 Connection error"
-);
-
-});
-
-
-function setConnection(text){
-
-document.getElementById(
-"connection"
-).textContent=text;
-
-}
-
-
-/* REMOTE COMMANDS */
-
-function handleRemote(data){
-
-if(!data)return;
-
-
-if(data.type==="addPlayer"){
-
-let name=
-String(data.name||"").trim();
-
-if(name){
-
-let id=
-"p"+Date.now()+Math.random();
-
-players.push({
-id:id,
-name:name
-});
-
-scores[id]=[];
-
-update();
-
-}
-
-}
-
-
-if(data.type==="removePlayer"){
-
-if(
-data.index>=0 &&
-data.index<players.length
-){
-
-let p=
-players.splice(
-data.index,1
-)[0];
-
-delete scores[p.id];
-
-if(
-currentPlayer>=players.length
-){
-
-currentPlayer=
-Math.max(
-0,
-players.length-1
-);
-
-}
-
-update();
-
-}
-
-}
-
-
-if(data.type==="start"){
-
-startGame();
-
-}
-
-
-if(data.type==="roll"){
-
-recordRoll(
-Number(data.value)
-);
-
-}
-
-
-if(data.type==="strike"){
-
-recordStrike();
-
-}
-
-
-if(data.type==="spare"){
-
-recordSpare();
-
-}
-
-
-if(data.type==="previous"){
-
-if(players.length){
-
-currentPlayer=
-(currentPlayer-1+
-players.length)%
-players.length;
-
-update();
-
-}
-
-}
-
-
-if(data.type==="next"){
-
-nextPlayer();
-
-}
-
-
-if(data.type==="reset"){
-
-resetScore();
-
-}
-
-
-if(data.type==="split"){
-
-toggleSplit();
-
-}
-
-
-if(data.type==="pin"){
-
-if(data.action==="rack")
-rackPins();
-
-if(data.action==="clear")
-clearPins();
-
-if(data.action==="sweep")
-sweepPins();
-
-if(data.action==="nextBall")
-nextBall();
-
-}
-
-
-if(data.type==="pinSubmit"){
-
-if(
-Array.isArray(data.pins)&&
-data.pins.length===6
-){
-
-pins=[...data.pins];
-pinDraft=[...pins];
-
-}
-
-splitPins=
-Array.isArray(data.splitPins)
-?[...data.splitPins]
-:[];
-
-splitDraft=[...splitPins];
-
-update();
-
-}
-
-
-if(data.type==="background"){
-
-applyBackground(
-data.value
-);
-
-}
-
-
-if(data.type==="end"){
-
-endGame();
-
-}
-
-}
-
-
-/* GAME */
-
-function startGame(){
-
-if(!players.length)
-return;
-
-gameStarted=true;
-currentPlayer=0;
-
-update();
-
-/* AUTOMATICALLY SHOW SCOREBOARD */
-
-showPage("score");
-
-}
-
-
-function endGame(){
-
-gameStarted=false;
-players=[];
-scores={};
-currentPlayer=0;
-
-pins=Array(6).fill(true);
-pinDraft=[...pins];
-
-splitPins=[];
-splitDraft=[];
-
-showPage("home");
-
-sendState();
-
-}
-
-
-/* SCORING */
-
-function getRollInfo(){
-
-if(!players.length)
-return {roll:0};
-
-let r=
-scores[
-players[currentPlayer].id
-]||[];
-
-let i=0;
-
-for(let frame=0;frame<10;frame++){
-
-if(frame===9){
-
-return {
-roll:r.length-i,
-first:r[i],
-second:r[i+1]
-};
-
-}
-
-if(r[i]===undefined)
-return {roll:0};
-
-if(r[i]===10){
-
-i++;
-continue;
-
-}
-
-if(r[i+1]===undefined){
-
-return {
-roll:1,
-first:r[i]
-};
-
-}
-
-i+=2;
-
-}
-
-return {roll:3};
-
-}
-
-
-function recordRoll(value){
-
-if(
-!gameStarted||
-!players.length
-)
-return;
-
-if(value<0||value>9)
-return;
-
-let id=
-players[currentPlayer].id;
-
-let r=
-scores[id]||[];
-
-let info=
-getRollInfo();
-
-if(info.roll===0){
-
-r.push(value);
-scores[id]=r;
-
-update();
-
-return;
-
-}
-
-if(info.roll===1){
-
-let remaining=
-10-info.first;
-
-if(value>remaining)
-return;
-
-r.push(value);
-scores[id]=r;
-
-if(value===remaining)
-nextPlayer();
-else
-update();
-
-}
-
-}
-
-
-function recordStrike(){
-
-if(
-!gameStarted||
-!players.length
-)
-return;
-
-let id=
-players[currentPlayer].id;
-
-let r=
-scores[id]||[];
-
-let info=
-getRollInfo();
-
-if(info.roll!==0)
-return;
-
-r.push(10);
-scores[id]=r;
-
-nextPlayer();
-
-}
-
-
-function recordSpare(){
-
-if(
-!gameStarted||
-!players.length
-)
-return;
-
-let id=
-players[currentPlayer].id;
-
-let r=
-scores[id]||[];
-
-let info=
-getRollInfo();
-
-if(info.roll!==1)
-return;
-
-r.push(10-info.first);
-scores[id]=r;
-
-nextPlayer();
-
-}
-
-
-function nextPlayer(){
-
-if(!players.length)
-return;
-
-currentPlayer=
-(currentPlayer+1)%
-players.length;
-
-pins=Array(6).fill(true);
-pinDraft=[...pins];
-
-splitPins=[];
-splitDraft=[];
-
-update();
-
-}
-
-
-function resetScore(){
-
-if(!players.length)
-return;
-
-scores[
-players[currentPlayer].id
-]=[];
-
-update();
-
-}
-
-
-/* PINSETTER */
-
-function rackPins(){
-
-pinDraft=Array(6).fill(true);
-splitDraft=[];
-
-renderPins();
-
-}
-
-
-function clearPins(){
-
-pinDraft=Array(6).fill(false);
-splitDraft=[];
-
-renderPins();
-
-}
-
-
-function sweepPins(){
-
-pinDraft=Array(6).fill(false);
-splitDraft=[];
-
-renderPins();
-
-}
-
-
-function nextBall(){
-
-pinDraft=Array(6).fill(true);
-splitDraft=[];
-
-renderPins();
-
-}
-
-
-function togglePin(index){
-
-if(index<0||index>=6)
-return;
-
-pinDraft[index]=
-!pinDraft[index];
-
-renderPins();
-
-}
-
-
-function toggleSplit(){
-
-if(splitDraft.length){
-
-splitDraft=[];
-
-}else{
-
-splitDraft=
-pinDraft
-.map((up,i)=>up?i:-1)
-.filter(i=>i!==-1);
-
-}
-
-renderPins();
-
-}
-
-
-function submitPins(){
-
-pins=[...pinDraft];
-splitPins=[...splitDraft];
-
-update();
-
-}
-
-
-/* BACKGROUND */
-
-function applyBackground(value){
-
-const backgrounds={
-
-midnight:
-"linear-gradient(135deg,#061426,#0b2139)",
-
-black:
-"linear-gradient(135deg,#000,#111)",
-
-purple:
-"linear-gradient(135deg,#140923,#321050)",
-
-green:
-"linear-gradient(135deg,#06170d,#124526)",
-
-blue:
-"linear-gradient(135deg,#05203b,#0870a8)",
-
-warm:
-"linear-gradient(135deg,#241005,#6b3212)"
-
-};
-
-if(backgrounds[value]){
-
-document.body.style.background=
-backgrounds[value];
-
-}
-
-}
-
-
-/* RENDER */
-
-function render(){
-
-renderHome();
-renderPlayers();
-renderScore();
-renderPins();
-
-}
-
-
-function renderHome(){
-
-let el=
-document.getElementById(
-"currentPlayer"
-);
-
-if(!players.length){
-
-el.textContent=
-"Ready To Bowl";
-
-return;
-
-}
-
-if(!gameStarted){
-
-el.textContent=
-players.length+
-" Player"+
-(players.length===1?"":"s")+
-" Ready";
-
-return;
-
-}
-
-el.textContent=
-"🎳 "+
-players[currentPlayer].name+
-"'s Turn";
-
-}
-
-
-function renderPlayers(){
-
-let box=
-document.getElementById(
-"playersList"
-);
-
-if(!players.length){
-
-box.innerHTML=
-"<p class='muted'>No players yet.</p>";
-
-return;
-
-}
-
-box.innerHTML=
-players.map((p,i)=>`
-
-<div class="player">
-${escapeHtml(p.name)}
-${i===currentPlayer?" 🎳":""}
-</div>
-
-`).join("");
-
-}
-
-
-function renderScore(){
-
-let current=
-document.getElementById(
-"scoreCurrent"
-);
-
-if(!players.length){
-
-current.textContent=
-"No players";
-
-}else{
-
-current.textContent=
-"🎳 "+
-players[currentPlayer].name;
-
-}
-
-let board=
-document.getElementById("board");
-
-let html="";
-
-players.forEach((p,i)=>{
-
-let r=
-scores[p.id]||[];
-
-let frames=
-buildFrames(r);
-
-html+=`
-<div class="row">
-`;
-
-html+=`
-<div class="cell nameCell
-${i===currentPlayer?"currentPlayer":""}">
-${escapeHtml(p.name)}
-</div>
-`;
-
-for(let f=0;f<10;f++){
-
-html+=`
-<div class="cell
-${i===currentPlayer?"currentPlayer":""}">
-
-<div class="frameNumber">
-FRAME ${f+1}
-</div>
-
-<div class="rolls">
-${frameText(frames[f],f)}
-</div>
-
-</div>
-`;
-
-}
-
-html+=`
-<div class="cell total">
-${calculateScore(r)}
-</div>
-`;
-
-html+="</div>";
-
-});
-
-board.innerHTML=html;
-
-}
-
-
-/* PINS */
-
-function renderPins(){
-
-let box=
-document.getElementById(
-"pinGrid"
-);
-
-let pos=[
-
-[135,35],
-[98,100],
-[172,100],
-[61,165],
-[135,165],
-[209,165]
-
-];
-
-box.innerHTML=
-pinDraft.map((up,i)=>`
-
-<button
-class="pin
-${up?"":"down"}
-${splitDraft.includes(i)?"split":""}"
-style="
-left:${pos[i][0]}px;
-top:${pos[i][1]}px;
-"
-onclick="togglePin(${i})"
->
-
-${i+1}
-
-${
-splitDraft.includes(i)
-?'<span class="splitDot"></span>'
-:""
-}
-
-</button>
-
-`).join("");
-
-}
-
-
-/* SCORE CALC */
-
-function buildFrames(r){
-
-let frames=[];
-let i=0;
-
-for(let f=0;f<10;f++){
-
-if(i>=r.length){
-
-frames.push([]);
-continue;
-
-}
-
-if(f===9){
-
-frames.push(
-r.slice(i,i+3)
-);
-
-break;
-
-}
-
-if(r[i]===10){
-
-frames.push([10]);
-i++;
-
-}else{
-
-frames.push(
-r.slice(i,i+2)
-);
-
-i+=2;
-
-}
-
-}
-
-while(frames.length<10)
-frames.push([]);
-
-return frames;
-
-}
-
-
-function frameText(frame,f){
-
-if(!frame||!frame.length)
-return "—";
-
-if(f<9){
-
-if(frame[0]===10)
-return "X";
-
-if(
-frame.length===2 &&
-frame[0]+frame[1]===10
-)
-return frame[0]+" /";
-
-return frame.join(" ");
-
-}
-
-return frame.join(" ");
-
-}
-
-
-function calculateScore(r){
-
-let score=0;
-let i=0;
-
-for(let f=0;f<10;f++){
-
-if(r[i]===undefined)
-break;
-
-if(r[i]===10){
-
-score+=10;
-
-if(r[i+1]!==undefined)
-score+=r[i+1];
-
-if(r[i+2]!==undefined)
-score+=r[i+2];
-
-i++;
-
-}else{
-
-let a=r[i];
-
-if(r[i+1]===undefined){
-
-score+=a;
-break;
-
-}
-
-let b=r[i+1];
-
-score+=a+b;
-
-if(
-a+b===10 &&
-r[i+2]!==undefined
-)
-score+=r[i+2];
-
-i+=2;
-
-}
-
-}
-
-return score;
-
-}
-
-
-/* SYNC */
-
-function sendState(){
-
-if(
-!connection||
-!connection.open
-)
-return;
-
-connection.send({
-
-type:"state",
-
-players:players,
-currentPlayer:currentPlayer,
-gameStarted:gameStarted,
-scores:scores,
-pins:pins,
-splitPins:splitPins
-
-});
-
+function page(name){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(name).classList.add("active");
+  update();
 }
-
 
 function update(){
+  renderPlayers();
+  renderScore();
+  renderPins();
 
-render();
-sendState();
-
+  document.getElementById("homePlayer").textContent =
+    players.length && gameStarted
+      ? "Current Player: "+players[currentPlayer]
+      : "No Game Started";
 }
 
+function renderPlayers(){
+  const box=document.getElementById("playersList");
 
-function escapeHtml(v){
+  if(!players.length){
+    box.innerHTML="<p>No players added yet.</p>";
+    return;
+  }
 
-return String(v)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-
+  box.innerHTML=players.map((name,i)=>`
+    <div class="player">
+      <span>${i+1}. ${escapeHtml(name)}</span>
+    </div>
+  `).join("");
 }
 
+function renderScore(){
+  const body=document.getElementById("scoreBody");
 
-render();
+  body.innerHTML=players.map((name,i)=>`
+    <tr class="${i===currentPlayer?'current':''}">
+      <td>${escapeHtml(name)}</td>
+      <td>${scores[name] ?? 0}</td>
+    </tr>
+  `).join("");
 
+  if(players.length){
+    document.getElementById("currentScore").textContent =
+      scores[players[currentPlayer]] ?? 0;
+  }else{
+    document.getElementById("currentScore").textContent="0";
+  }
+}
+
+function renderPins(){
+  const box=document.getElementById("tvPins");
+
+  box.innerHTML=pinDraft.map((available,i)=>`
+    <div
+      class="pin ${available?'':'down'} ${splitDraft.includes(i)?'split':''}"
+      onclick="togglePin(${i})"
+    >${i+1}</div>
+  `).join("");
+}
+
+function togglePin(index){
+  pinDraft[index]=!pinDraft[index];
+
+  if(!pinDraft[index]){
+    splitDraft=splitDraft.filter(x=>x!==index);
+  }
+
+  renderPins();
+}
+
+function pinAction(action){
+  if(action==="rack" || action==="nextBall"){
+    pinDraft=Array(6).fill(true);
+    splitDraft=[];
+  }
+
+  if(action==="clear" || action==="sweep"){
+    pinDraft=Array(6).fill(false);
+    splitDraft=[];
+  }
+
+  renderPins();
+}
+
+function toggleSplit(){
+  splitDraft=[];
+
+  pinDraft.forEach((available,i)=>{
+    if(available) splitDraft.push(i);
+  });
+
+  renderPins();
+}
+
+function submitPins(){
+  pins=[...pinDraft];
+  splitPins=[...splitDraft];
+
+  sendState();
+  update();
+}
+
+function startGame(){
+  if(!players.length)return;
+
+  gameStarted=true;
+  currentPlayer=0;
+
+  update();
+  sendState();
+  page("score");
+}
+
+function endGame(){
+  players=[];
+  currentPlayer=0;
+  gameStarted=false;
+  scores={};
+
+  pins=Array(6).fill(true);
+  splitPins=[];
+  pinDraft=[...pins];
+  splitDraft=[];
+
+  sendState();
+  page("home");
+}
+
+function sendState(){
+  if(!remoteConn || !remoteConn.open)return;
+
+  remoteConn.send({
+    type:"state",
+    players,
+    currentPlayer,
+    gameStarted,
+    scores,
+    pins,
+    splitPins
+  });
+}
+
+function handleRemote(msg){
+
+  if(msg.type==="roll"){
+    if(!gameStarted || !players.length)return;
+
+    const name=players[currentPlayer];
+    scores[name]=(scores[name]||0)+Number(msg.value);
+
+    sendState();
+    update();
+  }
+
+  if(msg.type==="strike"){
+    if(!gameStarted)return;
+
+    const name=players[currentPlayer];
+    scores[name]=(scores[name]||0)+10;
+
+    sendState();
+    update();
+  }
+
+  if(msg.type==="spare"){
+    if(!gameStarted)return;
+
+    const name=players[currentPlayer];
+    scores[name]=(scores[name]||0)+10;
+
+    sendState();
+    update();
+  }
+
+  if(msg.type==="previous"){
+    if(players.length){
+      currentPlayer=(currentPlayer-1+players.length)%players.length;
+      sendState();
+      update();
+    }
+  }
+
+  if(msg.type==="next"){
+    if(players.length){
+      currentPlayer=(currentPlayer+1)%players.length;
+      sendState();
+      update();
+    }
+  }
+
+  if(msg.type==="reset"){
+    scores={};
+    sendState();
+    update();
+  }
+
+  if(msg.type==="addPlayer"){
+    const name=String(msg.name||"").trim();
+
+    if(name && !players.includes(name)){
+      players.push(name);
+      scores[name]=0;
+      sendState();
+      update();
+    }
+  }
+
+  if(msg.type==="removePlayer"){
+    const index=Number(msg.index);
+
+    if(index>=0 && index<players.length){
+      const removed=players[index];
+      players.splice(index,1);
+      delete scores[removed];
+
+      if(currentPlayer>=players.length){
+        currentPlayer=Math.max(0,players.length-1);
+      }
+
+      sendState();
+      update();
+    }
+  }
+
+  if(msg.type==="start"){
+    startGame();
+  }
+
+  if(msg.type==="pinSubmit"){
+    pins=Array.isArray(msg.pins)
+      ? msg.pins.slice(0,6)
+      : Array(6).fill(true);
+
+    splitPins=Array.isArray(msg.splitPins)
+      ? msg.splitPins
+      : [];
+
+    while(pins.length<6)pins.push(true);
+
+    pinDraft=[...pins];
+    splitDraft=[...splitPins];
+
+    sendState();
+    update();
+  }
+
+  if(msg.type==="background"){
+    applyBackground(msg.value);
+  }
+
+  if(msg.type==="split"){
+    toggleSplit();
+    submitPins();
+  }
+
+  if(msg.type==="end"){
+    endGame();
+  }
+}
+
+function applyBackground(value){
+  const backgrounds={
+    midnight:"linear-gradient(135deg,#071a33,#0b315c)",
+    black:"#050505",
+    purple:"linear-gradient(135deg,#24103d,#581c87)",
+    green:"linear-gradient(135deg,#052e16,#166534)",
+    blue:"linear-gradient(135deg,#082f49,#0369a1)",
+    warm:"linear-gradient(135deg,#431407,#9a3412)"
+  };
+
+  document.body.style.background=
+    backgrounds[value] || backgrounds.midnight;
+}
+
+/* PEERJS */
+function createRemote(){
+
+  const code=Math.random()
+    .toString(36)
+    .substring(2,8)
+    .toUpperCase();
+
+  const id="kgl-"+code;
+
+  document.getElementById("remoteCode").textContent=code;
+
+  peer=new Peer(id,{debug:0});
+
+  peer.on("open",()=>{
+    document.getElementById("connectionStatus").textContent=
+      "Waiting for phone remote...";
+  });
+
+  peer.on("connection",(conn)=>{
+
+    remoteConn=conn;
+
+    document.getElementById("connectionStatus").textContent=
+      "📱 Phone remote connected!";
+
+    conn.on("open",()=>{
+      sendState();
+    });
+
+    conn.on("data",(msg)=>{
+      handleRemote(msg);
+    });
+
+    conn.on("close",()=>{
+      remoteConn=null;
+
+      document.getElementById("connectionStatus").textContent=
+        "Waiting for phone remote...";
+    });
+  });
+
+  peer.on("error",(err)=>{
+    console.log(err);
+    document.getElementById("connectionStatus").textContent=
+      "Remote connection error";
+  });
+}
+
+function escapeHtml(text){
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+createRemote();
+update();
 </script>
 
 </body>
