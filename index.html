@@ -4,337 +4,559 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>King Gavin Lanes</title>
+
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;
- background:#07111f;
- color:#fff;
- font-family:Arial,sans-serif
+  margin:0;
+  background:#07111f;
+  color:white;
+  font-family:Arial,sans-serif;
+  transition:background .3s;
 }
+
 header{
- height:62px;
- background:#0d1d32;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 16px;
- border-bottom:1px solid #29405d
+  height:62px;
+  background:#0d1d32;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  border-bottom:1px solid #29405d;
 }
+
 h1{font-size:20px;margin:0}
-.wrap{max-width:1100px;margin:auto;padding:18px}
-button,input,select{font:inherit}
-button{
- border:0;
- border-radius:12px;
- padding:12px 15px;
- background:#173354;
- color:#fff;
- cursor:pointer
+
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:18px;
 }
-button:hover{background:#21466f}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  border:0;
+  border-radius:12px;
+  padding:12px 15px;
+  background:#173354;
+  color:white;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#21466f;
+}
+
+button:disabled{
+  opacity:.35;
+  cursor:not-allowed;
+}
+
 .danger{background:#7d2630}
 .good{background:#17603e}
+
 .page{display:none}
 .page.active{display:block}
-.grid{display:grid;gap:12px}
-.menuGrid{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+
+.grid{
+  display:grid;
+  gap:12px;
+}
+
+.menuGrid{
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+}
+
 .card{
- background:#0d1d32;
- border:1px solid #29405d;
- border-radius:16px;
- padding:16px
+  background:#0d1d32;
+  border:1px solid #29405d;
+  border-radius:16px;
+  padding:16px;
 }
-.big{font-size:24px;font-weight:bold}
+
+.big{
+  font-size:24px;
+  font-weight:bold;
+}
+
 input,select{
- width:100%;
- padding:13px;
- border-radius:10px;
- border:1px solid #385271;
- background:#07111f;
- color:#fff;
- margin:6px 0 10px
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  border:1px solid #385271;
+  background:#07111f;
+  color:white;
+  margin:6px 0 10px;
 }
+
 .row{
- display:flex;
- gap:8px;
- flex-wrap:wrap;
- align-items:center
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
 }
+
 .muted{color:#9eb0c5}
+
 .status{
- padding:8px 12px;
- border-radius:999px;
- background:#23364e;
- display:inline-block
+  padding:8px 12px;
+  border-radius:999px;
+  background:#23364e;
+  display:inline-block;
 }
+
+#connection{
+  margin-top:10px;
+}
+
 #welcome{
- position:fixed;
- inset:0;
- background:#06101c;
- z-index:99;
- display:flex;
- align-items:center;
- justify-content:center;
- text-align:center;
- transition:opacity 1.2s
+  position:fixed;
+  inset:0;
+  background:#06101c;
+  z-index:99;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  transition:opacity 1.2s;
 }
+
 #welcome.hide{
- opacity:0;
- pointer-events:none
+  opacity:0;
+  pointer-events:none;
 }
+
 .welcomeTitle{
- font-size:clamp(32px,7vw,70px);
- font-weight:bold
+  font-size:clamp(32px,7vw,70px);
+  font-weight:bold;
 }
+
 .frames{
- display:grid;
- grid-template-columns:repeat(10,minmax(75px,1fr));
- gap:7px;
- overflow:auto
+  display:grid;
+  grid-template-columns:repeat(10,minmax(75px,1fr));
+  gap:7px;
+  overflow:auto;
 }
+
 .frame{
- background:#132943;
- border:1px solid #385271;
- border-radius:10px;
- padding:8px;
- min-height:100px
+  background:#132943;
+  border:1px solid #385271;
+  border-radius:10px;
+  padding:8px;
+  min-height:100px;
 }
-.frame b{display:block;margin-bottom:7px}
-.rolls{font-size:18px;min-height:25px}
-.frameTotal{font-size:25px;font-weight:bold;margin-top:8px}
-.remoteDot{font-size:14px}
+
+.frame b{
+  display:block;
+  margin-bottom:7px;
+}
+
+.rolls{
+  font-size:18px;
+  min-height:25px;
+}
+
+.frameTotal{
+  font-size:25px;
+  font-weight:bold;
+  margin-top:8px;
+}
 
 /* SIX PIN RACK */
+
 .pinbox{
- display:grid;
- grid-template-columns:repeat(6,55px);
- grid-template-rows:repeat(3,65px);
- justify-content:center;
- align-items:center;
- gap:0;
- max-width:360px;
- margin:20px auto
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  margin:25px auto;
+  width:max-content;
 }
+
+.pinRow{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
 .pin{
- height:50px;
- width:50px;
- background:#f4f4f4;
- color:#111;
- border-radius:50%;
- padding:0;
- margin:0;
- position:relative;
- border:3px solid #fff
+  width:64px;
+  height:64px;
+  padding:0;
+  border-radius:50% 50% 45% 45%;
+  background:#f4f4f4;
+  color:#111;
+  font-size:20px;
+  font-weight:bold;
+  border:3px solid #bbb;
 }
+
 .pin.down{
- background:#555;
- color:#aaa;
- opacity:.5
+  background:#555;
+  color:#aaa;
+  border-color:#444;
 }
+
 .pin.split{
- background:#c62828;
- color:#fff;
- border-color:#ff7777;
- box-shadow:0 0 15px #f33
+  background:#d71920;
+  color:white;
+  border-color:#ff5b60;
+  box-shadow:0 0 14px rgba(255,0,0,.6);
 }
-.pin.split:after{
- content:"";
- position:absolute;
- width:12px;
- height:12px;
- border-radius:50%;
- background:#fff;
- top:2px;
- right:2px
+
+.pinLegend{
+  text-align:center;
+  color:#9eb0c5;
 }
-.pin:nth-child(1){grid-column:3/span 2;grid-row:1}
-.pin:nth-child(2){grid-column:2/span 2;grid-row:2}
-.pin:nth-child(3){grid-column:4/span 2;grid-row:2}
-.pin:nth-child(4){grid-column:1/span 2;grid-row:3}
-.pin:nth-child(5){grid-column:3/span 2;grid-row:3}
-.pin:nth-child(6){grid-column:5/span 2;grid-row:3}
 
 #toast{
- position:fixed;
- bottom:20px;
- left:50%;
- transform:translateX(-50%);
- background:#132943;
- padding:12px 18px;
- border-radius:12px;
- display:none;
- z-index:200
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#132943;
+  padding:12px 18px;
+  border-radius:12px;
+  display:none;
 }
-
-.bgButton{min-width:120px}
 </style>
 </head>
 
 <body>
 
 <div id="welcome">
- <div>
-  <div class="welcomeTitle">🎳 Welcome To<br>King Gavin Lanes</div>
-  <p class="muted">Bowling Score System</p>
- </div>
+  <div>
+    <div class="welcomeTitle">
+      🎳 Welcome To<br>King Gavin Lanes
+    </div>
+    <p class="muted">Bowling Score System</p>
+  </div>
 </div>
 
 <header>
- <h1>🎳 KING GAVIN LANES</h1>
- <button onclick="showPage('menu')">☰ MENU</button>
+  <h1>🎳 KING GAVIN LANES</h1>
+  <button onclick="showPage('menu')">☰ MENU</button>
 </header>
 
 <main class="wrap">
 
-<!-- EXACT PREVIOUS MENU -->
+<!-- MENU -->
+
 <section id="menu" class="page active">
- <div class="card">
-  <h2>Menu</h2>
-  <div class="grid menuGrid">
-   <button onclick="showPage('players')">👥 Players</button>
-   <button onclick="showPage('score')">🎳 Score</button>
-   <button onclick="showPage('editor')">✏️ Score Editor</button>
-   <button onclick="showPage('recap')">📋 Recap</button>
-   <button onclick="showPage('backgrounds')">🖼️ Backgrounds</button>
-   <button onclick="showPage('pinsetter')">⚙️ Pinsetter</button>
-   <button class="danger" onclick="endGame()">⏹ End Game</button>
+  <div class="card">
+    <h2>Menu</h2>
+
+    <div class="grid menuGrid">
+
+      <button onclick="showPage('players')">
+        👥 Players
+      </button>
+
+      <button onclick="showPage('score')">
+        🎳 Score
+      </button>
+
+      <button onclick="showPage('editor')">
+        ✏️ Score Editor
+      </button>
+
+      <button onclick="showPage('recap')">
+        📋 Recap
+      </button>
+
+      <button onclick="showPage('backgrounds')">
+        🖼️ Backgrounds
+      </button>
+
+      <button onclick="showPage('pinsetter')">
+        ⚙️ Pinsetter
+      </button>
+
+      <button class="danger" onclick="endGame()">
+        ⏹ End Game
+      </button>
+
+    </div>
   </div>
- </div>
 </section>
+
+<!-- PLAYERS -->
 
 <section id="players" class="page">
- <button onclick="showPage('menu')">← Back</button>
 
- <div class="grid" style="margin-top:12px">
-  <div class="card">
-   <h2>Players</h2>
+<button onclick="showPage('menu')">← Back</button>
 
-   <input id="playerName"
-    placeholder="Type player name..."
-    autocomplete="off">
+<div class="grid" style="margin-top:12px">
 
-   <div class="row">
-    <button class="good" onclick="addPlayer()">＋ Add Player</button>
-    <button onclick="focusName()">⌨️ Type</button>
-   </div>
+<div class="card">
 
-   <div id="playerList"></div>
+<h2>Players</h2>
 
-   <hr>
+<input
+  id="playerName"
+  placeholder="Type player name..."
+  autocomplete="off"
+>
 
-   <div>
-    Game code:
-    <span class="big" id="gameCode"></span>
-   </div>
+<div class="row">
 
-   <span class="status" id="connection">
-    Waiting for remote…
-   </span>
+<button class="good" onclick="addPlayer()">
+＋ Add Player
+</button>
 
-   <br><br>
+<button onclick="focusName()">
+⌨️ Type
+</button>
 
-   <button class="good" onclick="startGame()">
-    ▶ Start Bowling
-   </button>
-  </div>
- </div>
+</div>
+
+<div id="playerList"></div>
+
+<hr>
+
+<div>
+Game code:
+<span class="big" id="gameCode"></span>
+</div>
+
+<div
+  class="status"
+  id="connection">
+Waiting for remote…
+</div>
+
+<br><br>
+
+<button
+  class="good"
+  onclick="startGame()">
+▶ Start Bowling
+</button>
+
+</div>
+</div>
+
 </section>
+
+<!-- SCORE -->
 
 <section id="score" class="page">
- <button onclick="showPage('menu')">← Back</button>
 
- <div class="card" style="margin-top:12px">
-  <div class="row">
-   <h2 style="margin-right:auto">Score</h2>
+<button onclick="showPage('menu')">← Back</button>
 
-   <select id="scorePlayer"
-    onchange="selectPlayer(this.value)"
-    style="width:auto">
-   </select>
-  </div>
+<div class="card" style="margin-top:12px">
 
-  <div class="big" id="currentName"></div>
+<div class="row">
 
-  <div class="muted">
-   Current score:
-   <span id="currentScore">0</span>
-  </div>
+<h2 style="margin-right:auto">
+Score
+</h2>
 
-  <br>
+<select
+  id="scorePlayer"
+  onchange="selectPlayer(this.value)"
+  style="width:auto">
+</select>
 
-  <div id="frames" class="frames"></div>
+</div>
 
-  <p class="muted">
-   Scoring controls are on the phone remote.
-  </p>
- </div>
+<div class="big" id="currentName">
+</div>
+
+<div class="muted">
+Current score:
+<span id="currentScore">0</span>
+</div>
+
+<br>
+
+<div id="frames" class="frames"></div>
+
+<br>
+
+<div class="row">
+
+<!-- NO NUMBER BUTTONS ON TV -->
+
+<button onclick="previous()">
+← Previous
+</button>
+
+<button onclick="nextPlayer()">
+Next →
+</button>
+
+<button
+  class="danger"
+  onclick="resetPlayer()">
+Reset
+</button>
+
+</div>
+
+</div>
+
 </section>
+
+<!-- SCORE EDITOR -->
 
 <section id="editor" class="page">
- <button onclick="showPage('menu')">← Back</button>
 
- <div class="card" style="margin-top:12px">
-  <h2>Score Editor</h2>
-  <select id="editPlayer" onchange="renderEditor()"></select>
-  <div id="editorBox"></div>
- </div>
+<button onclick="showPage('menu')">← Back</button>
+
+<div class="card" style="margin-top:12px">
+
+<h2>Score Editor</h2>
+
+<select
+  id="editPlayer"
+  onchange="renderEditor()">
+</select>
+
+<div id="editorBox"></div>
+
+</div>
+
 </section>
+
+<!-- RECAP -->
 
 <section id="recap" class="page">
- <button onclick="showPage('menu')">← Back</button>
 
- <div class="card" style="margin-top:12px">
-  <h2>Recap</h2>
-  <div id="recapBox"></div>
- </div>
+<button onclick="showPage('menu')">← Back</button>
+
+<div
+  class="card"
+  style="margin-top:12px">
+
+<h2>Recap</h2>
+
+<div id="recapBox"></div>
+
+</div>
+
 </section>
+
+<!-- BACKGROUNDS -->
 
 <section id="backgrounds" class="page">
- <button onclick="showPage('menu')">← Back</button>
 
- <div class="card" style="margin-top:12px">
-  <h2>Backgrounds</h2>
+<button onclick="showPage('menu')">← Back</button>
 
-  <div class="row">
-   <button class="bgButton" onclick="bg('midnight')">Midnight</button>
-   <button class="bgButton" onclick="bg('gray')">Dark Gray</button>
-   <button class="bgButton" onclick="bg('green')">Green</button>
-   <button class="bgButton" onclick="bg('purple')">Purple</button>
-   <button class="bgButton" onclick="bg('brown')">Brown</button>
-   <button class="bgButton" onclick="bg('steel')">Steel</button>
-  </div>
- </div>
+<div
+  class="card"
+  style="margin-top:12px">
+
+<h2>Backgrounds</h2>
+
+<div class="row">
+
+<button onclick="bg('midnight')">
+Midnight
+</button>
+
+<button onclick="bg('gray')">
+Dark Gray
+</button>
+
+<button onclick="bg('green')">
+Green
+</button>
+
+<button onclick="bg('purple')">
+Purple
+</button>
+
+<button onclick="bg('brown')">
+Brown
+</button>
+
+<button onclick="bg('steel')">
+Steel
+</button>
+
+</div>
+
+</div>
+
 </section>
 
+<!-- PINSETTER -->
+
 <section id="pinsetter" class="page">
- <button onclick="showPage('menu')">← Back</button>
 
- <div class="card" style="margin-top:12px">
-  <h2>⚙️ Pinsetter</h2>
+<button onclick="showPage('menu')">
+← Back
+</button>
 
-  <p class="muted">
-   6-pin King Gavin Lanes rack.
-  </p>
+<div
+  class="card"
+  style="margin-top:12px">
 
-  <div class="row">
-   <button class="good" onclick="rackPins()">🎳 Rack Pins</button>
-   <button onclick="clearPins()">🧹 Clear Pins</button>
-   <button onclick="sweep()">↔ Sweep</button>
-   <button onclick="nextBall()">▶ Next Ball</button>
-   <button onclick="toggleSplit()">🔴 Split</button>
-   <button class="good" onclick="submitPins()">✅ Submit</button>
-  </div>
+<h2>⚙️ Pinsetter</h2>
 
-  <h3>
-   Status:
-   <span id="pinStatus">Ready</span>
-  </h3>
+<p class="muted">
+6-pin bowling rack
+</p>
 
-  <div id="pins" class="pinbox"></div>
- </div>
+<div class="row">
+
+<button
+  class="good"
+  onclick="rackPins()">
+🎳 Rack
+</button>
+
+<button onclick="clearPins()">
+🧹 Clear
+</button>
+
+<button onclick="sweep()">
+↔ Sweep
+</button>
+
+<button onclick="nextBall()">
+▶ Next Ball
+</button>
+
+<button onclick="splitPinsNow()">
+🔴 Split
+</button>
+
+<button
+  class="good"
+  onclick="submitPins()">
+✓ Submit
+</button>
+
+</div>
+
+<h3>
+Status:
+<span id="pinStatus">
+Ready
+</span>
+</h3>
+
+<div
+  id="pins"
+  class="pinbox">
+</div>
+
+<div class="pinLegend">
+Tap a pin to knock it down/up.
+<br>
+Red pins are marked as a split.
+</div>
+
+</div>
+
 </section>
 
 </main>
@@ -343,327 +565,218 @@ input,select{
 
 <script>
 
-let peer=null;
-let conn=null;
+let peer;
+let conn;
 
 let players=[];
 let currentPlayer=0;
-let pins=Array(6).fill(true);
-let splitPins=[];
 let gameStarted=false;
+
+let pins=[
+  true,true,true,
+  true,true,true
+];
+
+let splitPins=[];
 
 let currentBackground="midnight";
 
-const code=Math.random()
- .toString(36)
- .slice(2,8)
- .toUpperCase();
+const backgrounds={
+  midnight:"#07111f",
+  gray:"#101820",
+  green:"#10251c",
+  purple:"#24142b",
+  brown:"#261b10",
+  steel:"#18202b"
+};
+
+const code=Math
+  .random()
+  .toString(36)
+  .slice(2,8)
+  .toUpperCase();
 
 document.getElementById("gameCode").textContent=code;
 
 
-/* PAGES */
-
-function showPage(id){
- document
-  .querySelectorAll(".page")
-  .forEach(x=>x.classList.remove("active"));
-
- document
-  .getElementById(id)
-  .classList.add("active");
-
- renderAll();
-}
-
-
 /* BASIC */
 
+function showPage(id){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(x=>x.classList.remove("active"));
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+  renderAll();
+}
+
 function focusName(){
- document.getElementById("playerName").focus();
+  document
+    .getElementById("playerName")
+    .focus();
 }
 
 function toast(t){
- let x=document.getElementById("toast");
- x.textContent=t;
- x.style.display="block";
 
- setTimeout(()=>{
-  x.style.display="none";
- },1800);
+  const x=document.getElementById("toast");
+
+  x.textContent=t;
+  x.style.display="block";
+
+  setTimeout(()=>{
+    x.style.display="none";
+  },1800);
 }
 
 
 /* PLAYERS */
 
 function addPlayer(){
- let n=document.getElementById("playerName").value.trim();
 
- if(!n)return;
+  const input=document.getElementById("playerName");
 
- players.push({
-  name:n,
-  rolls:[]
- });
+  const n=input.value.trim();
 
- currentPlayer=players.length-1;
+  if(!n)return;
 
- document.getElementById("playerName").value="";
+  players.push({
+    name:n,
+    rolls:[]
+  });
 
- renderAll();
- sendState();
+  currentPlayer=players.length-1;
+
+  input.value="";
+
+  renderAll();
+  sendState();
 }
 
 function addRemotePlayer(n){
- n=(n||"").trim();
 
- if(!n)return;
+  n=(n||"").trim();
 
- players.push({
-  name:n,
-  rolls:[]
- });
+  if(!n)return;
 
- currentPlayer=players.length-1;
+  players.push({
+    name:n,
+    rolls:[]
+  });
 
- renderAll();
- sendState();
+  currentPlayer=players.length-1;
+
+  renderAll();
+  sendState();
 }
 
 function removePlayer(i){
- players.splice(i,1);
 
- if(currentPlayer>=players.length)
-  currentPlayer=Math.max(0,players.length-1);
+  players.splice(i,1);
 
- renderAll();
- sendState();
+  if(currentPlayer>=players.length){
+    currentPlayer=Math.max(
+      0,
+      players.length-1
+    );
+  }
+
+  renderAll();
+  sendState();
 }
-
-
-/* GAME */
 
 function startGame(){
 
- if(!players.length){
-  toast("Add at least one player");
-  return;
- }
+  if(!players.length){
 
- gameStarted=true;
+    toast("Add at least one player");
 
- showPage("score");
+    return;
+  }
 
- sendState();
+  gameStarted=true;
+
+  showPage("score");
+
+  sendState();
 }
 
 function endGame(){
 
- if(!confirm("End this game?"))
-  return;
+  if(!confirm("End this game?"))
+    return;
 
- players=[];
- currentPlayer=0;
- gameStarted=false;
+  players=[];
+  currentPlayer=0;
+  gameStarted=false;
 
- pins=Array(6).fill(true);
- splitPins=[];
+  pins=[
+    true,true,true,
+    true,true,true
+  ];
 
- showPage("menu");
+  splitPins=[];
 
- sendState();
+  showPage("menu");
 
- let w=document.getElementById("welcome");
+  sendState();
 
- w.classList.remove("hide");
+  const w=document.getElementById("welcome");
 
- setTimeout(()=>{
-  w.classList.add("hide");
- },3000);
+  w.classList.remove("hide");
+
+  setTimeout(()=>{
+    w.classList.add("hide");
+  },3000);
 }
 
 
-/* SCORING */
+/* SCORE */
 
 function selectPlayer(i){
- currentPlayer=+i;
- renderAll();
- sendState();
-}
 
-function currentFrameInfo(){
+  currentPlayer=Number(i);
 
- let p=players[currentPlayer];
-
- if(!p)
-  return {frame:0,first:null,complete:false};
-
- let rolls=p.rolls;
- let frame=0;
- let i=0;
-
- while(frame<10){
-
-  if(i>=rolls.length)
-   return {
-    frame,
-    first:null,
-    complete:false
-   };
-
-  let a=rolls[i];
-
-  if(a===10){
-
-   if(frame===9)
-    return {
-     frame,
-     first:a,
-     complete:true
-    };
-
-   if(rolls.length>=i+3){
-    i++;
-    frame++;
-    continue;
-   }
-
-   return {
-    frame,
-    first:a,
-    complete:false
-   };
-  }
-
-  if(i+1>=rolls.length)
-   return {
-    frame,
-    first:a,
-    complete:false
-   };
-
-  i+=2;
-  frame++;
- }
-
- return {
-  frame:9,
-  complete:true
- };
-}
-
-function roll(v){
-
- let p=players[currentPlayer];
-
- if(!p||!gameStarted)return;
-
- let info=currentFrameInfo();
-
- if(info.complete)return;
-
- let rolls=p.rolls;
-
- /*
- First roll:
- 0-9 only.
- */
- if(info.first===null){
-
-  if(v<0||v>9)return;
-
-  rolls.push(v);
- }
-
- /*
- Second roll:
- only remaining pins.
- */
- else{
-
-  let remaining=10-info.first;
-
-  if(v<0||v>remaining)return;
-
-  rolls.push(v);
- }
-
- renderAll();
- sendState();
-}
-
-function strike(){
-
- let p=players[currentPlayer];
-
- if(!p||!gameStarted)return;
-
- let info=currentFrameInfo();
-
- if(info.complete)return;
-
- if(info.first!==null)return;
-
- p.rolls.push(10);
-
- renderAll();
- sendState();
-}
-
-function spare(){
-
- let p=players[currentPlayer];
-
- if(!p||!gameStarted)return;
-
- let info=currentFrameInfo();
-
- if(info.complete)return;
-
- if(info.first===null||info.first===10)return;
-
- let remaining=10-info.first;
-
- p.rolls.push(remaining);
-
- renderAll();
- sendState();
+  renderAll();
+  sendState();
 }
 
 function previous(){
 
- if(players.length){
+  if(!players.length)return;
+
   currentPlayer=
-   (currentPlayer-1+players.length)
-   %players.length;
+    (currentPlayer-1+players.length)
+    %players.length;
 
   renderAll();
   sendState();
- }
 }
 
 function nextPlayer(){
 
- if(players.length){
+  if(!players.length)return;
 
   currentPlayer=
-   (currentPlayer+1)
-   %players.length;
+    (currentPlayer+1)
+    %players.length;
 
   renderAll();
   sendState();
- }
 }
 
 function resetPlayer(){
 
- if(players[currentPlayer]){
+  if(!players[currentPlayer])
+    return;
 
   players[currentPlayer].rolls=[];
 
   renderAll();
   sendState();
- }
 }
 
 
@@ -671,435 +784,611 @@ function resetPlayer(){
 
 function frameData(rolls){
 
- let frames=[];
- let i=0;
- let score=0;
+  let frames=[];
+  let i=0;
+  let score=0;
 
- for(let f=0;f<10;f++){
+  for(let f=0;f<10;f++){
 
-  if(i>=rolls.length){
-   frames.push({
-    r:[],
-    score:null
-   });
-   continue;
+    if(i>=rolls.length){
+
+      frames.push({
+        r:[],
+        score:null
+      });
+
+      continue;
+    }
+
+    let a=rolls[i];
+
+    if(f<9 && a===10){
+
+      let s=
+        10+
+        (rolls[i+1]??0)+
+        (rolls[i+2]??0);
+
+      score+=s;
+
+      frames.push({
+        r:[10],
+        score
+      });
+
+      i++;
+
+    }else{
+
+      let b=rolls[i+1];
+
+      if(
+        f<9 &&
+        b!==undefined
+      ){
+
+        let s=a+b;
+
+        if(a+b===10){
+          s+=rolls[i+2]??0;
+        }
+
+        score+=s;
+
+        frames.push({
+          r:[a,b],
+          score
+        });
+
+        i+=2;
+
+      }else{
+
+        score+=
+          a+
+          (b??0)+
+          (rolls[i+2]??0);
+
+        frames.push({
+          r:rolls.slice(i,i+3),
+          score
+        });
+
+        i=rolls.length;
+      }
+    }
   }
 
-  let a=rolls[i];
-
-  if(f<9&&a===10){
-
-   let s=
-    10+
-    (rolls[i+1]??0)+
-    (rolls[i+2]??0);
-
-   score+=s;
-
-   frames.push({
-    r:[10],
-    score
-   });
-
-   i++;
-
-  }else{
-
-   let b=rolls[i+1];
-
-   if(f<9&&b!==undefined){
-
-    let s=a+b;
-
-    if(a+b===10)
-     s+=rolls[i+2]??0;
-
-    score+=s;
-
-    frames.push({
-     r:[a,b],
-     score
-    });
-
-    i+=2;
-
-   }else{
-
-    score+=
-     a+
-     (b??0)+
-     (rolls[i+2]??0);
-
-    frames.push({
-     r:rolls.slice(i,i+3),
-     score
-    });
-
-    i=rolls.length;
-   }
-  }
- }
-
- return frames;
+  return frames;
 }
 
 function total(p){
 
- let d=frameData(p.rolls);
+  if(!p)return 0;
 
- let vals=d
-  .map(x=>x.score)
-  .filter(x=>x!==null);
+  const d=frameData(p.rolls);
 
- return vals.length
-  ?vals[vals.length-1]
-  :0;
+  const vals=d
+    .map(x=>x.score)
+    .filter(x=>x!==null);
+
+  return vals.length
+    ?vals[vals.length-1]
+    :0;
 }
 
 
-/* RENDER */
-
-function esc(s){
-
- return String(s).replace(
-  /[&<>"']/g,
-  m=>({
-   "&":"&amp;",
-   "<":"&lt;",
-   ">":"&gt;",
-   '"':"&quot;",
-   "'":"&#39;"
-  }[m])
- );
-}
+/* RENDER PLAYERS */
 
 function renderPlayers(){
 
- let box=document.getElementById("playerList");
+  const box=
+    document.getElementById("playerList");
 
- box.innerHTML=
-  players.length
-  ?players.map((p,i)=>`
-   <div class="row card" style="margin-top:8px">
-    <b>${esc(p.name)}</b>
-    <span style="margin-left:auto">
-     ${total(p)} pts
-    </span>
-    <button class="danger"
-     onclick="removePlayer(${i})">
-     Remove
-    </button>
-   </div>
-  `).join("")
-  :'<p class="muted">No players yet.</p>';
+  if(!players.length){
+
+    box.innerHTML=
+      '<p class="muted">No players yet.</p>';
+
+    return;
+  }
+
+  box.innerHTML=
+    players.map((p,i)=>`
+
+      <div
+        class="row card"
+        style="margin-top:8px">
+
+        <b>${esc(p.name)}</b>
+
+        <span style="margin-left:auto">
+          ${total(p)} pts
+        </span>
+
+        <button
+          class="danger"
+          onclick="removePlayer(${i})">
+          Remove
+        </button>
+
+      </div>
+
+    `).join("");
 }
+
+
+/* SELECTORS */
 
 function renderSelectors(){
 
- ["scorePlayer","editPlayer"].forEach(id=>{
+  ["scorePlayer","editPlayer"]
+  .forEach(id=>{
 
-  let s=document.getElementById(id);
+    const s=
+      document.getElementById(id);
 
-  s.innerHTML=players.map((p,i)=>
-   `<option value="${i}">
-    ${esc(p.name)}
-   </option>`
-  ).join("");
+    s.innerHTML=
+      players.map((p,i)=>`
 
-  s.value=currentPlayer;
- });
+        <option value="${i}">
+          ${esc(p.name)}
+        </option>
+
+      `).join("");
+
+    if(players.length){
+      s.value=currentPlayer;
+    }
+
+  });
 }
+
+
+/* SCORE SCREEN */
 
 function renderScore(){
 
- let p=players[currentPlayer];
+  const p=players[currentPlayer];
 
- document.getElementById("currentName").textContent=
-  p?`🎳 ${p.name}`:"No player";
+  document.getElementById(
+    "currentName"
+  ).textContent=
+    p
+      ?`🎳 ${p.name}`
+      :"No player";
 
- document.getElementById("currentScore").textContent=
-  p?total(p):0;
+  document.getElementById(
+    "currentScore"
+  ).textContent=
+    p?total(p):0;
 
- let fr=document.getElementById("frames");
+  document.getElementById(
+    "frames"
+  ).innerHTML=
+    p
+      ?frameData(p.rolls)
+        .map((x,i)=>`
 
- fr.innerHTML=p
-  ?frameData(p.rolls).map((x,i)=>`
-   <div class="frame">
-    <b>Frame ${i+1}</b>
-    <div class="rolls">
-     ${
-      x.r.map(r=>r===10?"X":r).join(" ")
-      ||"—"
-     }
-    </div>
-    <div class="frameTotal">
-     ${x.score??""}
-    </div>
-   </div>
-  `).join("")
-  :"";
+          <div class="frame">
+
+            <b>Frame ${i+1}</b>
+
+            <div class="rolls">
+              ${
+                x.r
+                .map(r=>r===10?"X":r)
+                .join(" ")
+                ||"—"
+              }
+            </div>
+
+            <div class="frameTotal">
+              ${x.score??""}
+            </div>
+
+          </div>
+
+        `).join("")
+      :"";
 }
+
+
+/* EDITOR */
 
 function renderEditor(){
 
- let p=
-  players[
-   +document.getElementById("editPlayer").value
-  ];
+  const select=
+    document.getElementById("editPlayer");
 
- let box=document.getElementById("editorBox");
+  const p=
+    players[Number(select.value)];
 
- if(!p){
-  box.innerHTML="";
-  return;
- }
+  const box=
+    document.getElementById("editorBox");
 
- box.innerHTML=
-  p.rolls.map((r,i)=>`
-   <div class="row">
-    <span>Roll ${i+1}</span>
+  if(!p){
 
-    <input
-     type="number"
-     min="0"
-     max="10"
-     value="${r}"
-     onchange="editRoll(${i},this.value)"
-     style="width:100px">
-   </div>
-  `).join("")
-  ||'<p class="muted">No rolls yet.</p>';
+    box.innerHTML="";
+
+    return;
+  }
+
+  box.innerHTML=
+    p.rolls
+      .map((r,i)=>`
+
+        <div class="row">
+
+          <span>Roll ${i+1}</span>
+
+          <input
+            type="number"
+            min="0"
+            max="10"
+            value="${r}"
+            onchange="editRoll(${i},this.value)"
+            style="width:100px">
+
+        </div>
+
+      `)
+      .join("")
+    ||
+      '<p class="muted">No rolls yet.</p>';
 }
 
 function editRoll(i,v){
 
- v=Math.max(
-  0,
-  Math.min(10,+v||0)
- );
+  const p=
+    players[
+      Number(
+        document.getElementById(
+          "editPlayer"
+        ).value
+      )
+    ];
 
- players[
-  +document.getElementById("editPlayer").value
- ].rolls[i]=v;
+  if(!p)return;
 
- renderAll();
- sendState();
+  v=Math.max(
+    0,
+    Math.min(10,Number(v)||0)
+  );
+
+  p.rolls[i]=v;
+
+  renderAll();
+  sendState();
 }
+
+
+/* RECAP */
 
 function renderRecap(){
 
- document.getElementById("recapBox").innerHTML=
-  players.map(p=>`
-   <div class="card" style="margin:8px 0">
-    <b>${esc(p.name)}</b>
-    <span style="float:right">
-     ${total(p)} points
-    </span>
-   </div>
-  `).join("")
-  ||'<p class="muted">No game data.</p>';
+  document.getElementById(
+    "recapBox"
+  ).innerHTML=
+
+    players.map(p=>`
+
+      <div
+        class="card"
+        style="margin:8px 0">
+
+        <b>${esc(p.name)}</b>
+
+        <span style="float:right">
+          ${total(p)} points
+        </span>
+
+      </div>
+
+    `).join("")
+    ||
+    '<p class="muted">No game data.</p>';
 }
 
 
-/* SIX PINSETTER */
+/* PINSETTER */
 
 function renderPins(){
 
- let box=document.getElementById("pins");
+  const box=
+    document.getElementById("pins");
 
- box.innerHTML=
-  pins.map((v,i)=>`
-   <button
-    class="pin ${v?"":"down"} ${splitPins.includes(i)?"split":""}"
-    onclick="togglePin(${i})">
-    ${i+1}
-   </button>
-  `).join("");
+  /*
+       1
+
+     2   3
+
+   4   5   6
+  */
+
+  box.innerHTML=`
+
+    <div class="pinRow">
+
+      ${makePin(0)}
+
+    </div>
+
+    <div class="pinRow">
+
+      ${makePin(1)}
+      ${makePin(2)}
+
+    </div>
+
+    <div class="pinRow">
+
+      ${makePin(3)}
+      ${makePin(4)}
+      ${makePin(5)}
+
+    </div>
+
+  `;
+}
+
+function makePin(i){
+
+  let classes="pin";
+
+  if(!pins[i])
+    classes+=" down";
+
+  if(splitPins.includes(i) && pins[i])
+    classes+=" split";
+
+  return `
+
+    <button
+      class="${classes}"
+      onclick="togglePin(${i})">
+
+      ${i+1}
+
+    </button>
+
+  `;
 }
 
 function togglePin(i){
 
- pins[i]=!pins[i];
+  pins[i]=!pins[i];
 
- if(!pins[i])
-  splitPins=
-   splitPins.filter(x=>x!==i);
+  if(!pins[i]){
 
- renderPins();
+    splitPins=
+      splitPins.filter(x=>x!==i);
 
- /*
- Don't automatically submit.
- The TV's own pin controls can still
- update locally.
- */
+  }
+
+  renderPins();
+
+  /*
+    TV controls update the TV immediately.
+  */
+
+  sendState();
 }
 
 function rackPins(){
 
- pins=Array(6).fill(true);
- splitPins=[];
+  pins=[
+    true,true,true,
+    true,true,true
+  ];
 
- document.getElementById("pinStatus").textContent=
-  "Racked";
+  splitPins=[];
 
- renderPins();
+  document.getElementById(
+    "pinStatus"
+  ).textContent="Racked";
+
+  renderPins();
+  sendState();
 }
 
 function clearPins(){
 
- pins=Array(6).fill(false);
- splitPins=[];
+  pins=[
+    false,false,false,
+    false,false,false
+  ];
 
- document.getElementById("pinStatus").textContent=
-  "Cleared";
+  splitPins=[];
 
- renderPins();
+  document.getElementById(
+    "pinStatus"
+  ).textContent="Cleared";
+
+  renderPins();
+  sendState();
 }
 
 function sweep(){
 
- pins=Array(6).fill(false);
- splitPins=[];
+  document.getElementById(
+    "pinStatus"
+  ).textContent="Sweeping…";
 
- document.getElementById("pinStatus").textContent=
-  "Sweeping…";
+  setTimeout(()=>{
 
- renderPins();
+    document.getElementById(
+      "pinStatus"
+    ).textContent="Ready";
 
- setTimeout(()=>{
-  document.getElementById("pinStatus").textContent=
-   "Ready";
- },700);
+  },700);
+
+  sendState();
 }
 
 function nextBall(){
 
- pins=Array(6).fill(true);
- splitPins=[];
+  rackPins();
 
- document.getElementById("pinStatus").textContent=
-  "Next Ball Ready";
-
- renderPins();
+  document.getElementById(
+    "pinStatus"
+  ).textContent=
+    "Next Ball Ready";
 }
 
-function toggleSplit(){
+function splitPinsNow(){
 
- let standing=
-  pins
-   .map((x,i)=>x?i:null)
-   .filter(x=>x!==null);
+  if(splitPins.length){
 
- if(!standing.length){
-  toast("No standing pins");
-  return;
- }
+    splitPins=[];
 
- if(splitPins.length)
-  splitPins=[];
- else
-  splitPins=standing;
+  }else{
 
- renderPins();
+    splitPins=
+      pins
+        .map((standing,i)=>
+          standing?i:null
+        )
+        .filter(i=>i!==null);
+
+  }
+
+  renderPins();
+  sendState();
 }
 
 function submitPins(){
 
- document.getElementById("pinStatus").textContent=
-  "Submitted";
+  /*
+    TV's own controls are already live.
+    This button is mainly here so the
+    pinsetter interface matches the remote.
+  */
 
- sendState();
+  document.getElementById(
+    "pinStatus"
+  ).textContent="Submitted";
 
- toast("Pinsetter submitted");
+  sendState();
 }
 
 
 /* BACKGROUNDS */
 
-const backgrounds={
- midnight:"#07111f",
- gray:"#101820",
- green:"#10251c",
- purple:"#24142b",
- brown:"#261b10",
- steel:"#18202b"
-};
-
 function bg(type){
 
- currentBackground=type;
+  if(!backgrounds[type])
+    return;
 
- document.body.style.background=
-  backgrounds[type]||backgrounds.midnight;
+  currentBackground=type;
 
- sendState();
+  document.body.style.background=
+    backgrounds[type];
+
+  sendState();
 }
 
 
-/* EVERYTHING */
+/* ESCAPE HTML */
+
+function esc(s){
+
+  return String(s).replace(
+    /[&<>"']/g,
+    m=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[m])
+  );
+}
+
+
+/* RENDER EVERYTHING */
 
 function renderAll(){
 
- renderPlayers();
- renderSelectors();
- renderScore();
- renderEditor();
- renderRecap();
- renderPins();
+  renderPlayers();
+  renderSelectors();
+  renderScore();
+  renderEditor();
+  renderRecap();
+  renderPins();
 
- document.body.style.background=
-  backgrounds[currentBackground]||
-  backgrounds.midnight;
+  document.body.style.background=
+    backgrounds[currentBackground];
+}
+
+
+/* CONNECTION */
+
+function send(o){
+
+  if(conn && conn.open){
+    conn.send(o);
+  }
+}
+
+function sendState(){
+
+  send({
+    type:"state",
+
+    state:{
+      players,
+      currentPlayer,
+      pins,
+      splitPins,
+      gameStarted,
+      background:currentBackground
+    }
+  });
 }
 
 
 /* PEER */
 
-function send(o){
-
- if(conn&&conn.open)
-  conn.send(o);
-}
-
-function sendState(){
-
- send({
-  type:"state",
-  state:{
-   players,
-   currentPlayer,
-   pins,
-   splitPins,
-   gameStarted,
-   background:currentBackground
-  }
- });
-}
-
-peer=new Peer("kgl-"+code,{debug:0});
+peer=
+  new Peer(
+    "kgl-"+code,
+    {debug:0}
+  );
 
 peer.on("open",()=>{
- document.getElementById("connection").textContent=
-  "Remote ready to connect";
+
+  document.getElementById(
+    "connection"
+  ).textContent=
+    "Remote ready to connect";
+
 });
 
 peer.on("connection",c=>{
 
- conn=c;
+  conn=c;
 
- document.getElementById("connection").textContent=
-  "📱 Remote connected";
+  document.getElementById(
+    "connection"
+  ).textContent=
+    "📱 Remote connected";
 
- conn.on("open",()=>{
-  sendState();
- });
+  conn.on("open",()=>{
+    sendState();
+  });
 
- conn.on("data",handleRemote);
+  conn.on("data",handleRemote);
 
- conn.on("close",()=>{
-  document.getElementById("connection").textContent=
-   "Remote disconnected";
- });
+  conn.on("close",()=>{
+
+    document.getElementById(
+      "connection"
+    ).textContent=
+      "Remote disconnected";
+
+  });
+
 });
 
 
@@ -1107,91 +1396,245 @@ peer.on("connection",c=>{
 
 function handleRemote(m){
 
- if(!m)return;
+  if(!m)return;
 
- if(m.type==="action"){
+  if(m.type==="action"){
 
-  let action=m.action;
+    const action=m.action;
 
-  if(action==="addRoll")
-   roll(Number(m.value));
+    if(action==="page"){
 
-  else if(action==="strike")
-   strike();
+      showPage(m.value);
 
-  else if(action==="spare")
-   spare();
+    }
 
-  else if(action==="prev")
-   previous();
+    else if(action==="addPlayer"){
 
-  else if(action==="next")
-   nextPlayer();
+      addRemotePlayer(m.value);
 
-  else if(action==="reset")
-   resetPlayer();
+    }
 
-  else if(action==="select")
-   selectPlayer(m.value);
+    else if(action==="remove"){
 
-  else if(action==="addPlayer")
-   addRemotePlayer(m.value);
+      removePlayer(Number(m.value));
 
-  else if(action==="remove")
-   removePlayer(m.value);
+    }
 
-  else if(action==="start")
-   startGame();
+    else if(action==="select"){
 
-  else if(action==="end")
-   endGame();
+      selectPlayer(Number(m.value));
 
-  else if(action==="page")
-   showPage(m.value);
+    }
 
-  else if(action==="background")
-   bg(m.value);
+    else if(action==="addRoll"){
 
-  else if(action==="pinsetter"){
+      remoteRoll(Number(m.value));
 
-   if(m.value==="rack")rackPins();
-   if(m.value==="clear")clearPins();
-   if(m.value==="sweep")sweep();
-   if(m.value==="nextBall")nextBall();
+    }
 
-   if(m.value==="split")toggleSplit();
+    else if(action==="spare"){
 
-   if(m.value==="submit")submitPins();
+      remoteSpare();
 
-   if(Number.isInteger(m.index))
-    togglePin(m.index);
+    }
+
+    else if(action==="prev"){
+
+      previous();
+
+    }
+
+    else if(action==="next"){
+
+      nextPlayer();
+
+    }
+
+    else if(action==="reset"){
+
+      resetPlayer();
+
+    }
+
+    else if(action==="start"){
+
+      startGame();
+
+    }
+
+    else if(action==="end"){
+
+      endGame();
+
+    }
+
+    else if(action==="background"){
+
+      bg(m.value);
+
+    }
+
+    else if(action==="pinDraft"){
+
+      /*
+        IMPORTANT:
+        Draft pin changes are NOT applied here.
+      */
+
+    }
+
+    else if(action==="pinSubmit"){
+
+      const data=m.value||{};
+
+      if(
+        Array.isArray(data.pins) &&
+        data.pins.length===6
+      ){
+
+        pins=data.pins.map(Boolean);
+
+        splitPins=
+          Array.isArray(data.splitPins)
+            ?data.splitPins.filter(
+              i=>
+                Number.isInteger(i)&&
+                i>=0&&
+                i<6&&
+                pins[i]
+            )
+            :[];
+
+        document.getElementById(
+          "pinStatus"
+        ).textContent=
+          "Remote Submitted";
+
+        renderPins();
+        sendState();
+      }
+
+    }
+
+    else if(action==="pin"){
+
+      handlePinAction(m.value);
+
+    }
   }
-
-  renderAll();
- }
 }
 
 
-/* ENTER KEY */
+/* REMOTE SCORING */
+
+function remoteRoll(v){
+
+  const p=players[currentPlayer];
+
+  if(!p)return;
+
+  if(p.rolls.length>=21)
+    return;
+
+  /*
+    Don't allow a second-roll number
+    larger than the remaining pins.
+  */
+
+  const rolls=p.rolls;
+
+  if(rolls.length){
+
+    const last=
+      rolls[rolls.length-1];
+
+    if(last!==10){
+
+      const frameStart=last;
+
+      if(v>10-frameStart)
+        return;
+    }
+  }
+
+  p.rolls.push(v);
+
+  renderAll();
+  sendState();
+}
+
+function remoteSpare(){
+
+  const p=players[currentPlayer];
+
+  if(!p)return;
+
+  if(!p.rolls.length)
+    return;
+
+  const last=
+    p.rolls[p.rolls.length-1];
+
+  if(last===10)
+    return;
+
+  p.rolls.push(10-last);
+
+  renderAll();
+  sendState();
+}
+
+
+/* PIN COMMANDS */
+
+function handlePinAction(action){
+
+  if(action==="rack")
+    rackPins();
+
+  else if(action==="clear")
+    clearPins();
+
+  else if(action==="sweep")
+    sweep();
+
+  else if(action==="nextBall")
+    nextBall();
+
+  else if(action==="split")
+    splitPinsNow();
+}
+
+
+/* ENTER PLAYER */
 
 document
- .getElementById("playerName")
- .addEventListener("keydown",e=>{
-  if(e.key==="Enter")
-   addPlayer();
- });
+  .getElementById("playerName")
+  .addEventListener(
+    "keydown",
+    e=>{
+      if(e.key==="Enter")
+        addPlayer();
+    }
+  );
 
 
 /* WELCOME */
 
 setTimeout(()=>{
- document
-  .getElementById("welcome")
-  .classList.add("hide");
+
+  document
+    .getElementById("welcome")
+    .classList.add("hide");
+
 },3000);
+
+
+/* START */
 
 renderAll();
 
 </script>
+
 </body>
 </html>
