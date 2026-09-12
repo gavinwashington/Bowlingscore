@@ -1,344 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1">
 
 <title>King Gavin Lanes Remote</title>
 
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 body{
- margin:0;
- font-family:Arial,Helvetica,sans-serif;
- background:#080b12;
- color:#fff
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#080b12;
+  color:white;
+  transition:background .3s;
 }
 
 .wrap{
- max-width:620px;
- margin:auto;
- padding:20px
+  max-width:620px;
+  margin:auto;
+  padding:20px;
 }
 
 .top{
- background:#111827;
- border-radius:14px;
- padding:20px;
- margin-bottom:14px
+  background:#111827;
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:14px;
 }
 
 h1{
- margin:0 0 8px;
- font-size:30px
+  margin:0 0 8px;
+  font-size:30px;
 }
 
-.muted{color:#9ca3af}
+.muted{
+  color:#9ca3af;
+}
 
 .status{
- font-weight:800;
- margin-top:10px
+  font-weight:800;
+  margin-top:10px;
 }
 
-.online{color:#4ade80}
-.offline{color:#f87171}
+.online{
+  color:#4ade80;
+}
+
+.offline{
+  color:#f87171;
+}
 
 input{
- width:100%;
- padding:15px;
- border-radius:9px;
- border:1px solid #4b5563;
- background:#1f2937;
- color:#fff;
- font-size:17px
+  width:100%;
+  padding:15px;
+  border-radius:9px;
+  border:1px solid #4b5563;
+  background:#1f2937;
+  color:white;
+  font-size:17px;
 }
 
 button{
- min-height:50px;
- border:0;
- border-radius:10px;
- background:#2563eb;
- color:#fff;
- font-size:17px;
- font-weight:800;
- cursor:pointer;
- padding:10px 15px
+  min-height:50px;
+  border:0;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-size:17px;
+  font-weight:800;
+  cursor:pointer;
+  padding:10px 15px;
+}
+
+button:disabled{
+  opacity:.35;
 }
 
 .connect{
- display:grid;
- grid-template-columns:1fr auto;
- gap:8px
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
 }
 
 .connect button{
- background:#16a34a
+  background:#16a34a;
 }
 
 .menuButton{
- width:100%;
- background:#374151;
- font-size:20px;
- margin-top:12px
+  width:100%;
+  background:#374151;
+  font-size:20px;
+  margin-top:12px;
 }
 
 .remoteMenu{
- display:none;
- margin-top:12px
+  display:none;
+  margin-top:12px;
 }
 
 .remoteMenu.open{
- display:block
+  display:block;
 }
 
 .remoteMenu button{
- width:100%;
- margin-bottom:8px;
- text-align:left
+  width:100%;
+  margin-bottom:8px;
+  text-align:left;
 }
 
 .remoteMenu .danger{
- background:#dc2626
+  background:#dc2626;
 }
 
 .playerButtons{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:8px;
- margin-top:12px
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-top:12px;
 }
 
 .playerButtons button.active{
- outline:3px solid #60a5fa
+  outline:3px solid #60a5fa;
 }
 
 .grid{
- display:grid;
- grid-template-columns:repeat(5,1fr);
- gap:8px
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
 }
 
 .grid button{
- min-height:58px;
- font-size:20px
+  min-height:58px;
+  font-size:20px;
 }
 
 .strike{
- grid-column:span 5;
- background:#1d4ed8
+  grid-column:span 5;
+  background:#1d4ed8;
 }
 
 .spare{
- grid-column:span 5;
- background:#7c3aed
+  grid-column:span 5;
+  background:#7c3aed;
 }
 
 .nav{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px;
- margin-top:8px
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:8px;
 }
 
-.danger{background:#dc2626}
+.danger{
+  background:#dc2626;
+}
 
 .wide{
- width:100%;
- margin-top:8px
+  width:100%;
+  margin-top:8px;
 }
 
 .score{
- font-size:23px;
- font-weight:800;
- text-align:center;
- background:#1f2937;
- padding:16px;
- border-radius:10px;
- margin-top:12px
+  font-size:23px;
+  font-weight:800;
+  text-align:center;
+  background:#1f2937;
+  padding:16px;
+  border-radius:10px;
+  margin-top:12px;
 }
 
 .small{
- font-size:14px;
- color:#9ca3af
+  font-size:14px;
+  color:#9ca3af;
 }
 
 .sectionTitle{
- font-size:20px;
- font-weight:800;
- margin-bottom:10px
+  font-size:20px;
+  font-weight:800;
+  margin-bottom:10px;
 }
+
 
 /* SIX PIN RACK */
 
-.pinGrid{
- display:grid;
- grid-template-columns:repeat(6,48px);
- grid-template-rows:repeat(3,58px);
- justify-content:center;
- align-items:center;
- margin:20px auto
+.pinRack{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  margin:20px auto;
+  width:max-content;
 }
 
-.pin{
- width:44px;
- height:44px;
- min-height:44px;
- padding:0;
- margin:0;
- border-radius:50%;
- background:#f4f4f4;
- color:#111;
- border:3px solid #fff;
- position:relative
+.pinRow{
+  display:flex;
+  justify-content:center;
+  gap:10px;
 }
 
-.pin.down{
- background:#555;
- color:#aaa;
- opacity:.5
+.remotePin{
+  width:64px;
+  height:64px;
+  min-height:64px;
+  padding:0;
+  border-radius:50% 50% 45% 45%;
+  background:#f4f4f4;
+  color:#111;
+  border:3px solid #bbb;
+  font-size:20px;
 }
 
-.pin.split{
- background:#c62828;
- color:#fff;
- border-color:#ff7777;
- box-shadow:0 0 14px #f33
+.remotePin.down{
+  background:#555;
+  color:#aaa;
+  border-color:#444;
 }
 
-.pin.split:after{
- content:"";
- position:absolute;
- width:11px;
- height:11px;
- border-radius:50%;
- background:#fff;
- top:2px;
- right:2px
+.remotePin.split{
+  background:#d71920;
+  color:white;
+  border-color:#ff5b60;
+  box-shadow:0 0 14px rgba(255,0,0,.6);
 }
 
-.pin:nth-child(1){
- grid-column:3/span 2;
- grid-row:1
+.pinButtons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
 
-.pin:nth-child(2){
- grid-column:2/span 2;
- grid-row:2
-}
-
-.pin:nth-child(3){
- grid-column:4/span 2;
- grid-row:2
-}
-
-.pin:nth-child(4){
- grid-column:1/span 2;
- grid-row:3
-}
-
-.pin:nth-child(5){
- grid-column:3/span 2;
- grid-row:3
-}
-
-.pin:nth-child(6){
- grid-column:5/span 2;
- grid-row:3
-}
-
-.pinControls{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px
-}
-
-.pinControls button{
- min-height:58px
+.pinButtons button{
+  min-height:55px;
 }
 
 .submit{
- background:#16a34a;
- grid-column:span 2
+  width:100%;
+  background:#16a34a;
+  margin-top:10px;
 }
 
-.backgroundGrid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px
+.backgroundButtons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
 
-.backgroundGrid button{
- min-height:58px
+.backgroundButtons button{
+  min-height:60px;
 }
 
-.invalid{
- filter:blur(4px);
- opacity:.25;
- pointer-events:none
-}
-
-.disabled{
- opacity:.3;
- pointer-events:none
+.help{
+  color:#9ca3af;
+  font-size:14px;
+  line-height:1.5;
 }
 
 @media(max-width:400px){
 
- .grid{
-  grid-template-columns:repeat(3,1fr)
- }
+  .grid{
+    grid-template-columns:repeat(3,1fr);
+  }
 
- .strike,
- .spare{
-  grid-column:span 3
- }
+  .strike,
+  .spare{
+    grid-column:span 3;
+  }
 
 }
+
 </style>
+
 </head>
 
 <body>
 
 <div class="wrap">
 
+<!-- HEADER -->
+
 <div class="top">
 
 <h1>🎳 King Gavin Lanes</h1>
 
 <div class="muted">
- Wireless Control Panel
+Wireless Control Panel
 </div>
 
-<div id="status" class="status offline">
- ● Not connected
-</div>
+<div
+  id="status"
+  class="status offline">
+
+● Not connected
 
 </div>
 
+</div>
 
-<div class="top" id="connectBox">
+
+<!-- CONNECT -->
+
+<div
+  class="top"
+  id="connectBox">
 
 <div class="sectionTitle">
- Connect to Bowl Site
+Connect to Bowl Site
 </div>
 
 <div class="small">
- Open MENU on the Bowl Site and enter the 6-character Remote Code below.
+
+Open the King Gavin Lanes site on the
+iPad/TV and enter its 6-character code.
+
 </div>
 
-<div class="connect" style="margin-top:12px">
+<div
+  class="connect"
+  style="margin-top:12px">
 
 <input
- id="code"
- maxlength="6"
- placeholder="ABC123"
- autocapitalize="characters">
+  id="code"
+  maxlength="6"
+  placeholder="ABC123"
+  autocapitalize="characters">
 
 <button id="connect">
- CONNECT
+CONNECT
 </button>
 
 </div>
@@ -346,56 +346,68 @@ button{
 </div>
 
 
-<div id="remoteUI" style="display:none">
+<!-- REMOTE UI -->
+
+<div
+  id="remoteUI"
+  style="display:none">
 
 
 <!-- CONTROL PANEL -->
 
 <div class="top">
 
-<button id="menuButton" class="menuButton">
- ☰ CONTROL PANEL
+<button
+  id="menuButton"
+  class="menuButton">
+
+☰ CONTROL PANEL
+
 </button>
 
-<div id="remoteMenu" class="remoteMenu">
+
+<div
+  id="remoteMenu"
+  class="remoteMenu">
 
 <button onclick="goPage('players')">
- 👥 PLAYERS
+👥 PLAYERS
 </button>
 
 <button onclick="goPage('score')">
- 🎳 SCORE
+🎳 SCORE
 </button>
 
 <button onclick="goPage('editor')">
- ✏️ SCORE EDITOR
+✏️ SCORE EDITOR
 </button>
 
 <button onclick="goPage('recap')">
- 📊 RECAP
+📊 RECAP
 </button>
 
 <button onclick="goPage('backgrounds')">
- 🖼️ BACKGROUNDS
+🖼️ TV BACKGROUNDS
 </button>
 
 <button onclick="goPage('pinsetter')">
- ⚙️ PINSETTER
+⚙️ PINSETTER
 </button>
 
 <button onclick="startGame()">
- ▶️ START BOWLING
+▶ START BOWLING
 </button>
 
-<button onclick="goBack()">
- ◀ BACK
-</button>
+<button
+  class="danger"
+  onclick="endGame()">
 
-<button class="danger" onclick="endGame()">
- 🛑 END GAME
+🛑 END GAME
+
 </button>
 
 </div>
+
 </div>
 
 
@@ -404,18 +416,20 @@ button{
 <div class="top">
 
 <div class="sectionTitle">
- 👤 Add Player
+👤 Add Player
 </div>
 
-<div class="connect" style="margin-top:12px">
+<div
+  class="connect"
+  style="margin-top:12px">
 
 <input
- id="playerName"
- maxlength="30"
- placeholder="Player name">
+  id="playerName"
+  maxlength="30"
+  placeholder="Player name">
 
 <button id="addPlayer">
- ADD
+ADD
 </button>
 
 </div>
@@ -428,28 +442,35 @@ button{
 <div class="top">
 
 <div class="sectionTitle">
- Players
+Players
 </div>
 
-<div id="players" class="playerButtons"></div>
+<div
+  id="players"
+  class="playerButtons">
+</div>
 
 </div>
 
 
-<!-- SCORE INFO -->
+<!-- SCORE -->
 
 <div class="top">
 
 <div
- class="sectionTitle"
- id="current">
- Waiting…
+  class="sectionTitle"
+  id="current">
+
+Waiting…
+
 </div>
 
 <div
- id="score"
- class="score">
- Score: 0
+  id="score"
+  class="score">
+
+Score: 0
+
 </div>
 
 </div>
@@ -460,7 +481,7 @@ button{
 <div class="top">
 
 <div class="sectionTitle">
- 🎳 Bowling Controls
+🎳 Bowling Controls
 </div>
 
 <div class="grid">
@@ -478,15 +499,19 @@ button{
 <button data-roll="9">9</button>
 
 <button
- class="strike"
- id="strike">
- 🎳 STRIKE X
+  class="strike"
+  id="strike">
+
+🎳 STRIKE X
+
 </button>
 
 <button
- class="spare"
- id="spare">
- SPARE /
+  class="spare"
+  id="spare">
+
+SPARE /
+
 </button>
 
 </div>
@@ -494,19 +519,21 @@ button{
 <div class="nav">
 
 <button id="prev">
- ◀ PREVIOUS
+◀ PREVIOUS
 </button>
 
 <button id="next">
- NEXT ▶
+NEXT ▶
 </button>
 
 </div>
 
 <button
- class="wide"
- id="reset">
- RESET PLAYER
+  class="wide"
+  id="reset">
+
+RESET PLAYER
+
 </button>
 
 </div>
@@ -517,42 +544,56 @@ button{
 <div class="top">
 
 <div class="sectionTitle">
- ⚙️ Pinsetter
+⚙️ Pinsetter
 </div>
 
-<p class="small">
- Changes stay on the remote until you press SUBMIT.
+<p class="help">
+
+This is a draft pinsetter.
+You can change the pins without changing
+the TV. Press <b>SUBMIT</b> when you're ready.
+
 </p>
 
-<div id="pinDisplay" class="pinGrid"></div>
 
-<div class="pinControls">
+<div
+  id="pinRack"
+  class="pinRack">
+</div>
+
+
+<div class="pinButtons">
 
 <button onclick="pinAction('rack')">
- 🎳 RACK PINS
+🎳 RACK
 </button>
 
 <button onclick="pinAction('clear')">
- 🧹 CLEAR
+🧹 CLEAR
 </button>
 
 <button onclick="pinAction('sweep')">
- ↔ SWEEP
+↔ SWEEP
 </button>
 
 <button onclick="pinAction('nextBall')">
- ▶ NEXT BALL
+▶ NEXT BALL
 </button>
 
-<button onclick="toggleSplit()">
- 🔴 SPLIT
-</button>
-
-<button class="submit" onclick="submitPins()">
- ✅ SUBMIT
+<button onclick="pinAction('split')">
+🔴 SPLIT
 </button>
 
 </div>
+
+
+<button
+  class="submit"
+  onclick="submitPins()">
+
+✓ SUBMIT TO TV
+
+</button>
 
 </div>
 
@@ -562,37 +603,38 @@ button{
 <div class="top">
 
 <div class="sectionTitle">
- 🖼️ TV Backgrounds
+🖼️ TV Backgrounds
 </div>
 
-<p class="small">
- These change the background on the iPad / TV scoreboard.
- </p>
+<p class="help">
+These change the background on the
+iPad/TV — not just this phone.
+</p>
 
-<div class="backgroundGrid">
+<div class="backgroundButtons">
 
 <button onclick="setBackground('midnight')">
- Midnight
+🌌 Midnight
 </button>
 
 <button onclick="setBackground('gray')">
- Dark Gray
+⬛ Dark Gray
 </button>
 
 <button onclick="setBackground('green')">
- Green
+🟢 Green
 </button>
 
 <button onclick="setBackground('purple')">
- Purple
+🟣 Purple
 </button>
 
 <button onclick="setBackground('brown')">
- Brown
+🟤 Brown
 </button>
 
 <button onclick="setBackground('steel')">
- Steel
+🔩 Steel
 </button>
 
 </div>
@@ -601,6 +643,7 @@ button{
 
 
 </div>
+
 </div>
 
 
@@ -610,38 +653,41 @@ let peer=null;
 let conn=null;
 let state=null;
 
-let draftPins=Array(6).fill(true);
+
+/*
+  IMPORTANT:
+  The phone keeps its own temporary
+  pin draft.
+*/
+
+let draftPins=[
+  true,true,true,
+  true,true,true
+];
+
 let draftSplitPins=[];
 
-const $=id=>document.getElementById(id);
+let pinDraftDirty=false;
 
 
-/* STATUS */
-
-function setStatus(text,ok){
-
- $("status").textContent=
-  "● "+text;
-
- $("status").className=
-  "status "+
-  (ok?"online":"offline");
-}
+const $=id=>
+  document.getElementById(id);
 
 
 /* SEND */
 
 function send(action,value){
 
- if(conn&&conn.open){
+  if(conn && conn.open){
 
-  conn.send({
-   type:"action",
-   action,
-   value
-  });
+    conn.send({
+      type:"action",
+      action,
+      value
+    });
 
- }
+  }
+
 }
 
 
@@ -649,27 +695,18 @@ function send(action,value){
 
 $("menuButton").onclick=()=>{
 
- $("remoteMenu")
-  .classList.toggle("open");
+  $("remoteMenu")
+    .classList.toggle("open");
 
 };
 
 
 function goPage(page){
 
- send("page",page);
+  send("page",page);
 
- $("remoteMenu")
-  .classList.remove("open");
-
-}
-
-function goBack(){
-
- send("page","menu");
-
- $("remoteMenu")
-  .classList.remove("open");
+  $("remoteMenu")
+    .classList.remove("open");
 
 }
 
@@ -678,306 +715,457 @@ function goBack(){
 
 $("addPlayer").onclick=()=>{
 
- const name=
-  $("playerName")
-   .value
-   .trim();
+  const name=
+    $("playerName")
+    .value
+    .trim();
 
- if(!name){
-  alert("Enter a player name.");
-  return;
- }
+  if(!name){
 
- send("addPlayer",name);
+    alert("Enter a player name.");
 
- $("playerName").value="";
+    return;
+  }
+
+  send("addPlayer",name);
+
+  $("playerName").value="";
+
 };
 
+
 $("playerName").addEventListener(
- "keydown",
- e=>{
-  if(e.key==="Enter")
-   $("addPlayer").click();
- }
+  "keydown",
+  e=>{
+
+    if(e.key==="Enter")
+      $("addPlayer").click();
+
+  }
 );
 
 
 /* GAME */
 
 function startGame(){
- send("start");
+
+  send("start");
+
+  $("remoteMenu")
+    .classList.remove("open");
+
 }
 
 function endGame(){
 
- if(confirm("End the game?"))
-  send("end");
+  if(confirm("End the game?")){
+
+    send("end");
+
+  }
 
 }
 
 
-/* PINSETTER DRAFT */
+/* BACKGROUND */
 
-function renderPins(){
+function setBackground(type){
 
- $("pinDisplay").innerHTML="";
+  /*
+    THIS sends the background to the TV.
+  */
 
- draftPins.forEach((up,i)=>{
+  send("background",type);
 
-  const b=
-   document.createElement("button");
+}
 
-  b.className=
-   "pin "+
-   (up?"":"down")+
-   (draftSplitPins.includes(i)?" split":"");
 
-  b.textContent=i+1;
+/* PINSETTER */
 
-  b.onclick=()=>{
+function renderDraftPins(){
 
-   draftPins[i]=!draftPins[i];
+  const box=$("pinRack");
 
-   if(!draftPins[i]){
+  box.innerHTML=`
+
+    <div class="pinRow">
+
+      ${makeRemotePin(0)}
+
+    </div>
+
+    <div class="pinRow">
+
+      ${makeRemotePin(1)}
+      ${makeRemotePin(2)}
+
+    </div>
+
+    <div class="pinRow">
+
+      ${makeRemotePin(3)}
+      ${makeRemotePin(4)}
+      ${makeRemotePin(5)}
+
+    </div>
+
+  `;
+
+}
+
+
+function makeRemotePin(i){
+
+  let classes="remotePin";
+
+  if(!draftPins[i])
+    classes+=" down";
+
+  if(
+    draftPins[i] &&
+    draftSplitPins.includes(i)
+  ){
+
+    classes+=" split";
+
+  }
+
+  return `
+
+    <button
+      class="${classes}"
+      onclick="toggleDraftPin(${i})">
+
+      ${i+1}
+
+    </button>
+
+  `;
+
+}
+
+
+function toggleDraftPin(i){
+
+  draftPins[i]=!draftPins[i];
+
+  if(!draftPins[i]){
+
     draftSplitPins=
-     draftSplitPins.filter(x=>x!==i);
-   }
+      draftSplitPins.filter(
+        x=>x!==i
+      );
 
-   renderPins();
-  };
+  }
 
-  $("pinDisplay")
-   .appendChild(b);
- });
+  pinDraftDirty=true;
+
+  renderDraftPins();
+
 }
+
+
+/*
+  These actions ONLY modify
+  the phone's draft.
+*/
 
 function pinAction(action){
 
- if(action==="rack"){
-  draftPins=Array(6).fill(true);
-  draftSplitPins=[];
- }
+  pinDraftDirty=true;
 
- if(action==="clear"){
-  draftPins=Array(6).fill(false);
-  draftSplitPins=[];
- }
+  if(action==="rack"){
 
- if(action==="sweep"){
-  draftPins=Array(6).fill(false);
-  draftSplitPins=[];
- }
+    draftPins=[
+      true,true,true,
+      true,true,true
+    ];
 
- if(action==="nextBall"){
-  draftPins=Array(6).fill(true);
-  draftSplitPins=[];
- }
+    draftSplitPins=[];
 
- renderPins();
+  }
+
+  else if(action==="clear"){
+
+    draftPins=[
+      false,false,false,
+      false,false,false
+    ];
+
+    draftSplitPins=[];
+
+  }
+
+  else if(action==="nextBall"){
+
+    draftPins=[
+      true,true,true,
+      true,true,true
+    ];
+
+    draftSplitPins=[];
+
+  }
+
+  else if(action==="split"){
+
+    if(draftSplitPins.length){
+
+      draftSplitPins=[];
+
+    }else{
+
+      draftSplitPins=
+        draftPins
+          .map((standing,i)=>
+            standing?i:null
+          )
+          .filter(i=>i!==null);
+
+    }
+
+  }
+
+  /*
+    Sweep is just a local visual
+    action for now.
+  */
+
+  renderDraftPins();
+
 }
 
-function toggleSplit(){
 
- const standing=
-  draftPins
-   .map((x,i)=>x?i:null)
-   .filter(x=>x!==null);
+/*
+  THIS is the important button.
 
- if(!standing.length){
-  alert("There are no standing pins.");
-  return;
- }
-
- if(draftSplitPins.length)
-  draftSplitPins=[];
- else
-  draftSplitPins=standing;
-
- renderPins();
-}
+  Nothing gets sent to the TV
+  until this is pressed.
+*/
 
 function submitPins(){
 
- send("pinSubmit",{
-  pins:[...draftPins],
-  splitPins:[...draftSplitPins]
- });
+  send(
+    "pinSubmit",
+    {
+      pins:[...draftPins],
+      splitPins:[...draftSplitPins]
+    }
+  );
+
+  pinDraftDirty=false;
 
 }
 
 
-/* BACKGROUNDS */
-
-function setBackground(value){
-
- send("background",value);
-
-}
-
-
-/* STATE RENDER */
+/* RENDER */
 
 function render(){
 
- if(!state)
-  return;
+  if(!state)
+    return;
 
- $("remoteUI").style.display=
-  "block";
 
- $("players").innerHTML="";
+  $("remoteUI").style.display=
+    "block";
 
- state.players.forEach((p,i)=>{
 
-  const b=
-   document.createElement("button");
+  /*
+    Only update the local pin draft
+    when the user isn't currently editing it.
+  */
 
-  b.textContent=p.name;
+  if(!pinDraftDirty){
 
-  b.className=
-   i===state.currentPlayer
-    ?"active"
-    :"";
+    if(
+      Array.isArray(state.pins) &&
+      state.pins.length===6
+    ){
 
-  b.onclick=()=>
-   send("select",i);
+      draftPins=[
+        ...state.pins
+      ];
 
-  $("players")
-   .appendChild(b);
+    }
 
- });
+    draftSplitPins=
+      Array.isArray(state.splitPins)
+        ?[...state.splitPins]
+        :[];
 
- if(state.players.length){
-
-  const p=
-   state.players[state.currentPlayer];
-
-  $("current").textContent=
-   "🎳 "+p.name;
-
-  let total=0;
-
-  if(p.rolls){
-   p.rolls.forEach(x=>{
-    total+=Number(x)||0;
-   });
   }
 
-  $("score").textContent=
-   "Current pins: "+total;
 
- }else{
-
-  $("current").textContent=
-   "No players";
-
-  $("score").textContent=
-   "Score: 0";
- }
+  renderDraftPins();
 
 
- /* SYNC PINSETTER */
+  /* PLAYERS */
 
- draftPins=
-  Array.isArray(state.pins)&&state.pins.length===6
-   ?[...state.pins]
-   :Array(6).fill(true);
+  $("players").innerHTML="";
 
- draftSplitPins=
-  Array.isArray(state.splitPins)
-   ?[...state.splitPins]
-   :[];
 
- renderPins();
+  state.players.forEach(
+    (p,i)=>{
+
+      const b=
+        document.createElement("button");
+
+      b.textContent=p.name;
+
+      b.className=
+        i===state.currentPlayer
+          ?"active"
+          :"";
+
+      b.onclick=()=>
+        send("select",i);
+
+      $("players")
+        .appendChild(b);
+
+    }
+  );
+
+
+  /* SCORE */
+
+  if(state.players.length){
+
+    const p=
+      state.players[
+        state.currentPlayer
+      ];
+
+    $("current").textContent=
+      "🎳 "+p.name;
+
+
+    let total=0;
+
+    if(p.rolls){
+
+      p.rolls.forEach(
+        x=>{
+          total+=Number(x)||0;
+        }
+      );
+
+    }
+
+    $("score").textContent=
+      "Current pins: "+total;
+
+  }else{
+
+    $("current").textContent=
+      "No players";
+
+    $("score").textContent=
+      "Score: 0";
+
+  }
 
 }
 
 
-/* CONNECT */
+/* CONNECTION */
 
 function connect(){
 
- const code=
-  $("code")
-   .value
-   .trim()
-   .toUpperCase()
-   .replace(/[^A-Z0-9]/g,"");
+  const code=
+    $("code")
+      .value
+      .trim()
+      .toUpperCase()
+      .replace(
+        /[^A-Z0-9]/g,
+        ""
+      );
 
- if(code.length!==6){
+  if(code.length!==6){
 
-  alert(
-   "Enter the 6-character code from the Bowl Site."
-  );
+    alert(
+      "Enter the 6-character code from the King Gavin Lanes TV."
+    );
 
-  return;
- }
+    return;
+  }
 
- if(peer)
-  peer.destroy();
 
- peer=new Peer();
+  if(peer)
+    peer.destroy();
 
- peer.on("open",()=>{
 
-  conn=
-   peer.connect(
-    "kgl-"+code,
-    {reliable:true}
-   );
+  peer=new Peer();
 
-  conn.on("open",()=>{
 
-   setStatus(
-    "CONNECTED 🟢",
-    true
-   );
+  peer.on("open",()=>{
 
-   $("connectBox")
-    .style.display="none";
+    conn=
+      peer.connect(
+        "kgl-"+code,
+        {
+          reliable:true
+        }
+      );
 
-   $("remoteUI")
-    .style.display="block";
+
+    conn.on("open",()=>{
+
+      $("status").textContent=
+        "● CONNECTED 🟢";
+
+      $("status").className=
+        "status online";
+
+      $("connectBox")
+        .style.display="none";
+
+    });
+
+
+    conn.on("data",m=>{
+
+      if(m.type==="state"){
+
+        state=m.state;
+
+        render();
+
+      }
+
+    });
+
+
+    conn.on("close",()=>{
+
+      $("status").textContent=
+        "● Disconnected";
+
+      $("status").className=
+        "status offline";
+
+      $("connectBox")
+        .style.display="block";
+
+    });
 
   });
 
-  conn.on("data",m=>{
 
-   if(m.type==="state"){
+  peer.on("error",e=>{
 
-    state=m.state;
+    $("status").textContent=
+      "● Connection failed";
 
-    render();
-   }
+    $("status").className=
+      "status offline";
 
-  });
-
-  conn.on("close",()=>{
-
-   setStatus(
-    "Disconnected",
-    false
-   );
-
-   $("connectBox")
-    .style.display="block";
+    alert(
+      "Couldn't connect. Check the code and make sure the TV site is open."
+    );
 
   });
-
- });
-
- peer.on("error",e=>{
-
-  setStatus(
-   "Connection failed",
-   false
-  );
-
-  alert(
-   "Couldn't connect. Check the code and make sure the Bowl Site is open."
-  );
-
- });
 
 }
 
@@ -986,51 +1174,78 @@ function connect(){
 
 $("connect").onclick=connect;
 
+
 $("code").addEventListener(
- "keydown",
- e=>{
-  if(e.key==="Enter")
-   connect();
- });
+  "keydown",
+  e=>{
+
+    if(e.key==="Enter")
+      connect();
+
+  }
+);
 
 
-/* ROLLS */
+/* NUMBER BUTTONS */
 
 document
- .querySelectorAll("[data-roll]")
- .forEach(b=>{
+  .querySelectorAll("[data-roll]")
+  .forEach(b=>{
 
-  b.onclick=()=>{
+    b.onclick=()=>{
 
-   send(
-    "addRoll",
-    Number(b.dataset.roll)
-   );
+      send(
+        "addRoll",
+        Number(b.dataset.roll)
+      );
 
-  };
+    };
 
- });
-
-
-$("strike").onclick=()=>
- send("strike");
-
-$("spare").onclick=()=>
- send("spare");
-
-$("prev").onclick=()=>
- send("prev");
-
-$("next").onclick=()=>
- send("next");
-
-$("reset").onclick=()=>
- send("reset");
+  });
 
 
-/* INITIAL */
+/* STRIKE */
 
-renderPins();
+$("strike").onclick=()=>{
+
+  send("addRoll",10);
+
+};
+
+
+/* SPARE */
+
+$("spare").onclick=()=>{
+
+  send("spare");
+
+};
+
+
+/* NAV */
+
+$("prev").onclick=()=>{
+
+  send("prev");
+
+};
+
+$("next").onclick=()=>{
+
+  send("next");
+
+};
+
+$("reset").onclick=()=>{
+
+  send("reset");
+
+};
+
+
+/* INITIAL PIN DISPLAY */
+
+renderDraftPins();
 
 </script>
 
