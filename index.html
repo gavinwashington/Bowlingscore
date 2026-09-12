@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>King Gavin Lanes</title>
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
@@ -10,242 +10,209 @@
 *{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    color:white;
-    background:linear-gradient(135deg,#061426,#0b2139);
-    min-height:100vh;
+margin:0;
+font-family:Arial,sans-serif;
+color:white;
+background:linear-gradient(135deg,#061426,#0b2139);
+min-height:100vh;
 }
 
 button{
-    border:0;
-    border-radius:12px;
-    padding:13px 18px;
-    color:white;
-    background:#193d63;
-    font-weight:bold;
-    cursor:pointer;
+border:0;
+border-radius:12px;
+padding:13px 18px;
+color:white;
+background:#193d63;
+font-weight:bold;
+cursor:pointer;
 }
 
 button:active{
-    transform:scale(.97);
+transform:scale(.97);
 }
 
 header{
-    height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 25px;
-    background:#09192b;
-    border-bottom:1px solid #294967;
+height:70px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+background:#09192b;
+border-bottom:1px solid #294967;
 }
 
 .logo{
-    font-size:25px;
-    font-weight:900;
-}
-
-.menuBtn{
-    font-size:17px;
+font-size:25px;
+font-weight:900;
 }
 
 main{
-    max-width:1300px;
-    margin:auto;
-    padding:25px;
+max-width:1300px;
+margin:auto;
+padding:25px;
 }
 
 .card{
-    background:#0d2036;
-    border:1px solid #294966;
-    border-radius:20px;
-    padding:22px;
-    margin-bottom:20px;
+background:#0d2036;
+border:1px solid #294966;
+border-radius:20px;
+padding:22px;
+margin-bottom:20px;
 }
 
 .center{
-    text-align:center;
+text-align:center;
 }
 
 .code{
-    font-size:44px;
-    font-weight:900;
-    letter-spacing:8px;
-    color:#6dbaff;
+font-size:44px;
+font-weight:900;
+letter-spacing:8px;
+color:#6dbaff;
 }
 
 .status{
-    display:inline-block;
-    margin-top:10px;
-    padding:10px 16px;
-    border-radius:10px;
-    background:#102d49;
+display:inline-block;
+margin-top:10px;
+padding:10px 16px;
+border-radius:10px;
+background:#102d49;
 }
 
 .current{
-    font-size:30px;
-    font-weight:900;
-    margin:10px 0;
+font-size:30px;
+font-weight:900;
+margin:10px 0;
+}
+
+.muted{
+color:#9eb4c9;
+}
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
 }
 
 .scoreboard{
-    overflow-x:auto;
+overflow-x:auto;
 }
 
 .board{
-    min-width:1000px;
+min-width:1000px;
 }
 
 .row{
-    display:grid;
-    grid-template-columns:190px repeat(10,1fr) 90px;
+display:grid;
+grid-template-columns:190px repeat(10,1fr) 90px;
 }
 
 .cell{
-    min-height:82px;
-    border:1px solid #385570;
-    background:#081a2c;
-    padding:9px;
+min-height:82px;
+border:1px solid #385570;
+background:#081a2c;
+padding:9px;
 }
 
 .cell.currentPlayer{
-    background:#123653;
+background:#123653;
 }
 
 .nameCell{
-    display:flex;
-    align-items:center;
-    font-size:18px;
-    font-weight:bold;
+display:flex;
+align-items:center;
+font-size:18px;
+font-weight:bold;
 }
 
 .frameNumber{
-    color:#91aac0;
-    font-size:11px;
+color:#91aac0;
+font-size:11px;
 }
 
 .rolls{
-    font-size:20px;
-    font-weight:bold;
-    margin-top:10px;
+font-size:20px;
+font-weight:bold;
+margin-top:10px;
 }
 
 .total{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:27px;
-    font-weight:900;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:27px;
+font-weight:900;
+}
+
+.back{
+margin-bottom:15px;
+}
+
+.red{
+background:#7b2934;
 }
 
 /* PINSETTER */
 
 .pinArea{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+display:flex;
+flex-direction:column;
+align-items:center;
 }
 
 .pinGrid{
-    width:270px;
-    height:230px;
-    position:relative;
-    margin:25px auto;
+width:270px;
+height:230px;
+position:relative;
+margin:25px auto;
 }
 
 .pin{
-    position:absolute;
-    width:64px;
-    height:64px;
-    border-radius:50%;
-    transform:translate(-50%,-50%);
-    background:#f4f4f4;
-    color:#111;
-    font-size:18px;
-    padding:0;
+position:absolute;
+width:64px;
+height:64px;
+border-radius:50%;
+transform:translate(-50%,-50%);
+background:#f4f4f4;
+color:#111;
+font-size:18px;
+padding:0;
 }
 
 .pin.down{
-    background:#394651;
-    color:#9ba5ad;
+background:#394651;
+color:#9ba5ad;
 }
 
 .pin.split{
-    outline:5px solid #ed2939;
+outline:5px solid #ed2939;
 }
 
 .splitDot{
-    position:absolute;
-    width:20px;
-    height:20px;
-    background:#ed2939;
-    border:2px solid white;
-    border-radius:50%;
-    top:-4px;
-    right:-4px;
+position:absolute;
+width:20px;
+height:20px;
+background:#ed2939;
+border:2px solid white;
+border-radius:50%;
+top:-4px;
+right:-4px;
 }
 
 .pinControls{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    justify-content:center;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+justify-content:center;
 }
 
 .submit{
-    background:#197144;
-    margin-top:12px;
-    min-width:220px;
-}
-
-/* PAGES */
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-.menuGrid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:12px;
-}
-
-.menuGrid button{
-    min-height:70px;
-    font-size:17px;
-}
-
-.back{
-    margin-bottom:15px;
-}
-
-.green{
-    background:#197144;
-}
-
-.red{
-    background:#7b2934;
-}
-
-.player{
-    padding:14px;
-    background:#102941;
-    border-radius:12px;
-    margin:8px 0;
-    font-size:18px;
-}
-
-.muted{
-    color:#9eb4c9;
-}
-
-.hidden{
-    display:none!important;
+background:#197144;
+margin-top:12px;
+min-width:220px;
 }
 </style>
 </head>
@@ -253,8 +220,8 @@ main{
 <body>
 
 <header>
-    <div class="logo">🎳 KING GAVIN LANES</div>
-    <button class="menuBtn" onclick="showPage('menu')">☰ MENU</button>
+<div class="logo">🎳 KING GAVIN LANES</div>
+<button onclick="showPage('menu')">☰ MENU</button>
 </header>
 
 <main>
@@ -263,185 +230,161 @@ main{
 
 <section id="home" class="page active">
 
-    <div class="card center">
+<div class="card center">
 
-        <h1>King Gavin Lanes</h1>
+<h1>King Gavin Lanes</h1>
 
-        <div id="currentPlayer" class="current">
-            Ready To Bowl
-        </div>
+<div id="currentPlayer" class="current">
+Ready To Bowl
+</div>
 
-        <p class="muted">
-            Connect the phone remote to control the game.
-        </p>
+<p class="muted">
+All controls are on the phone remote.
+</p>
 
-    </div>
+</div>
 
-    <div class="card center">
+<div class="card center">
 
-        <h2>📱 Phone Remote</h2>
+<h2>📱 Phone Remote</h2>
 
-        <div class="muted">
-            Enter this code on the phone:
-        </div>
+<div class="muted">
+Enter this code on the phone:
+</div>
 
-        <div id="gameCode" class="code">
-            ------
-        </div>
+<div id="gameCode" class="code">
+------
+</div>
 
-        <div id="connection" class="status">
-            🟡 Waiting for phone...
-        </div>
+<div id="connection" class="status">
+🟡 Waiting for phone...
+</div>
 
-    </div>
-
-    <div class="menuGrid">
-
-        <button onclick="showPage('players')">
-            👥 Players
-        </button>
-
-        <button onclick="showPage('score')">
-            🎳 Scoreboard
-        </button>
-
-        <button onclick="showPage('pinsetter')">
-            ⚙️ Pinsetter
-        </button>
-
-    </div>
+</div>
 
 </section>
+
 
 <!-- MENU -->
 
 <section id="menu" class="page">
 
-    <button class="back" onclick="showPage('home')">
-        ← Back
-    </button>
+<button class="back" onclick="showPage('home')">
+← Back
+</button>
 
-    <div class="card">
+<div class="card">
 
-        <h2>Menu</h2>
+<h2>Menu</h2>
 
-        <div class="menuGrid">
+<p class="muted">
+Controls are available from the phone remote.
+</p>
 
-            <button onclick="showPage('players')">
-                👥 Players
-            </button>
+<button class="red" onclick="endGame()">
+🏁 End Game
+</button>
 
-            <button onclick="showPage('score')">
-                🎳 Score
-            </button>
-
-            <button onclick="showPage('pinsetter')">
-                ⚙️ Pinsetter
-            </button>
-
-            <button onclick="endGame()" class="red">
-                🏁 End Game
-            </button>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
+
 
 <!-- PLAYERS -->
 
 <section id="players" class="page">
 
-    <button class="back" onclick="showPage('home')">
-        ← Back
-    </button>
+<button class="back" onclick="showPage('home')">
+← Back
+</button>
 
-    <div class="card">
+<div class="card">
 
-        <h2>👥 Players</h2>
+<h2>👥 Players</h2>
 
-        <p class="muted">
-            Players are controlled from the phone remote.
-        </p>
+<p class="muted">
+Players are controlled from the phone.
+</p>
 
-        <div id="playersList"></div>
+<div id="playersList"></div>
 
-    </div>
+</div>
 
 </section>
+
 
 <!-- SCORE -->
 
 <section id="score" class="page">
 
-    <button class="back" onclick="showPage('home')">
-        ← Back
-    </button>
+<button class="back" onclick="showPage('home')">
+← Back
+</button>
 
-    <div class="card">
+<div class="card">
 
-        <h2>🎳 Scoreboard</h2>
+<h2>🎳 Scoreboard</h2>
 
-        <div id="scoreCurrent" class="current"></div>
+<div id="scoreCurrent" class="current"></div>
 
-    </div>
+</div>
 
-    <div class="card scoreboard">
+<div class="card scoreboard">
 
-        <div id="board" class="board"></div>
+<div id="board" class="board"></div>
 
-    </div>
+</div>
 
 </section>
+
 
 <!-- PINSETTER -->
 
 <section id="pinsetter" class="page">
 
-    <button class="back" onclick="showPage('home')">
-        ← Back
-    </button>
+<button class="back" onclick="showPage('home')">
+← Back
+</button>
 
-    <div class="card">
+<div class="card">
 
-        <h2>⚙️ Pinsetter</h2>
+<h2>⚙️ Pinsetter</h2>
 
-        <div class="pinArea">
+<div class="pinArea">
 
-            <div id="pinGrid" class="pinGrid"></div>
+<div id="pinGrid" class="pinGrid"></div>
 
-            <div class="pinControls">
+<div class="pinControls">
 
-                <button onclick="rackPins()">
-                    🎳 Rack
-                </button>
+<button onclick="rackPins()">
+🎳 Rack
+</button>
 
-                <button onclick="clearPins()">
-                    ❌ Clear
-                </button>
+<button onclick="clearPins()">
+❌ Clear
+</button>
 
-                <button onclick="sweepPins()">
-                    🧹 Sweep
-                </button>
+<button onclick="sweepPins()">
+🧹 Sweep
+</button>
 
-                <button onclick="nextBall()">
-                    ➡️ Next Ball
-                </button>
+<button onclick="nextBall()">
+➡️ Next Ball
+</button>
 
-                <button onclick="toggleSplit()">
-                    🔴 Split
-                </button>
+<button onclick="toggleSplit()">
+🔴 Split
+</button>
 
-            </div>
+</div>
 
-            <button class="submit" onclick="submitPins()">
-                ✅ SUBMIT
-            </button>
+<button class="submit" onclick="submitPins()">
+✅ SUBMIT
+</button>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
 
@@ -460,969 +403,1015 @@ let splitPins=[];
 let pinDraft=[...pins];
 let splitDraft=[];
 
-let peer;
+let peer=null;
 let connection=null;
 
 const code=
-    String(Math.floor(100000+Math.random()*900000));
+String(Math.floor(100000+Math.random()*900000));
 
 document.getElementById("gameCode").textContent=code;
 
-/* ---------------- PAGE ---------------- */
+
+/* PAGE */
 
 function showPage(name){
 
-    document
-        .querySelectorAll(".page")
-        .forEach(p=>p.classList.remove("active"));
+document.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
 
-    document
-        .getElementById(name)
-        .classList.add("active");
+document.getElementById(name)
+.classList.add("active");
 
-    render();
+render();
+
 }
 
-/* ---------------- PEER ---------------- */
+
+/* PEER */
 
 peer=new Peer("kgl-"+code,{debug:0});
 
 peer.on("open",()=>{
-    setConnection("🟡 Waiting for phone...");
+
+setConnection(
+"🟡 Waiting for phone..."
+);
+
 });
 
 peer.on("connection",conn=>{
 
-    connection=conn;
+connection=conn;
 
-    conn.on("open",()=>{
+conn.on("open",()=>{
 
-        setConnection("🟢 Phone connected");
+setConnection(
+"🟢 Phone connected"
+);
 
-        sendState();
+sendState();
 
-    });
+});
 
-    conn.on("data",data=>{
-        handleRemote(data);
-    });
+conn.on("data",handleRemote);
 
-    conn.on("close",()=>{
+conn.on("close",()=>{
 
-        connection=null;
+connection=null;
 
-        setConnection(
-            "🔴 Phone disconnected"
-        );
+setConnection(
+"🔴 Phone disconnected"
+);
 
-    });
+});
 
 });
 
 peer.on("error",err=>{
 
-    console.log(err);
+console.log(err);
 
-    setConnection(
-        "🔴 Connection error"
-    );
+setConnection(
+"🔴 Connection error"
+);
 
 });
 
+
 function setConnection(text){
 
-    document.getElementById(
-        "connection"
-    ).textContent=text;
+document.getElementById(
+"connection"
+).textContent=text;
 
 }
 
-/* ---------------- REMOTE ---------------- */
+
+/* REMOTE COMMANDS */
 
 function handleRemote(data){
 
-    if(!data)return;
+if(!data)return;
 
-    if(data.type==="addPlayer"){
 
-        const name=
-            String(data.name||"").trim();
+if(data.type==="addPlayer"){
 
-        if(name){
+let name=
+String(data.name||"").trim();
 
-            const id=
-                "p"+Date.now()+Math.random();
+if(name){
 
-            players.push({
-                id:id,
-                name:name
-            });
+let id=
+"p"+Date.now()+Math.random();
 
-            scores[id]=[];
+players.push({
+id:id,
+name:name
+});
 
-            update();
+scores[id]=[];
 
-        }
-
-    }
-
-    if(data.type==="removePlayer"){
-
-        if(
-            data.index>=0 &&
-            data.index<players.length
-        ){
-
-            const p=
-                players.splice(
-                    data.index,1
-                )[0];
-
-            delete scores[p.id];
-
-            if(
-                currentPlayer>=players.length
-            ){
-                currentPlayer=
-                    Math.max(
-                        0,
-                        players.length-1
-                    );
-            }
-
-            update();
-        }
-
-    }
-
-    if(data.type==="start"){
-
-        if(players.length){
-
-            gameStarted=true;
-            currentPlayer=0;
-
-            update();
-        }
-
-    }
-
-    if(data.type==="roll"){
-
-        recordRoll(
-            Number(data.value)
-        );
-
-    }
-
-    if(data.type==="strike"){
-
-        recordStrike();
-
-    }
-
-    if(data.type==="spare"){
-
-        recordSpare();
-
-    }
-
-    if(data.type==="previous"){
-
-        if(players.length){
-
-            currentPlayer=
-                (currentPlayer-1+
-                players.length)%
-                players.length;
-
-            update();
-        }
-
-    }
-
-    if(data.type==="next"){
-
-        if(players.length){
-
-            currentPlayer=
-                (currentPlayer+1)%
-                players.length;
-
-            update();
-        }
-
-    }
-
-    if(data.type==="reset"){
-
-        if(players.length){
-
-            scores[
-                players[currentPlayer].id
-            ]=[];
-
-            update();
-        }
-
-    }
-
-    if(data.type==="split"){
-
-        toggleSplit();
-
-    }
-
-    if(data.type==="pin"){
-
-        if(data.action==="rack")
-            rackPins();
-
-        if(data.action==="clear")
-            clearPins();
-
-        if(data.action==="sweep")
-            sweepPins();
-
-        if(data.action==="nextBall")
-            nextBall();
-
-    }
-
-    if(data.type==="pinToggle"){
-
-        if(
-            data.index>=0 &&
-            data.index<6
-        ){
-
-            pinDraft[data.index]=
-                !pinDraft[data.index];
-
-            renderPins();
-        }
-
-    }
-
-    if(data.type==="pinSubmit"){
-
-        if(
-            Array.isArray(data.pins) &&
-            data.pins.length===6
-        ){
-
-            pins=[...data.pins];
-            pinDraft=[...pins];
-
-        }
-
-        splitPins=
-            Array.isArray(data.splitPins)
-            ?[...data.splitPins]
-            :[];
-
-        splitDraft=[...splitPins];
-
-        update();
-
-    }
-
-    if(data.type==="background"){
-
-        applyBackground(
-            data.value
-        );
-
-    }
-
-    if(data.type==="end"){
-
-        endGame();
-
-    }
+update();
 
 }
 
-/* ---------------- GAME ---------------- */
+}
 
-function recordRoll(value){
 
-    if(!gameStarted||!players.length)
-        return;
+if(data.type==="removePlayer"){
 
-    if(value<0||value>9)
-        return;
+if(
+data.index>=0 &&
+data.index<players.length
+){
 
-    const id=
-        players[currentPlayer].id;
+let p=
+players.splice(
+data.index,1
+)[0];
 
-    const r=scores[id]||[];
+delete scores[p.id];
 
-    const info=getRollInfo(r);
+if(
+currentPlayer>=players.length
+){
 
-    if(info.roll===0){
-
-        r.push(value);
-
-        scores[id]=r;
-
-        update();
-
-        return;
-
-    }
-
-    if(info.roll===1){
-
-        const remaining=
-            10-info.first;
-
-        if(value>remaining)
-            return;
-
-        r.push(value);
-
-        scores[id]=r;
-
-        if(value===remaining){
-
-            nextPlayer();
-
-        }else{
-
-            update();
-
-        }
-
-    }
+currentPlayer=
+Math.max(
+0,
+players.length-1
+);
 
 }
 
-function recordStrike(){
-
-    if(!gameStarted||!players.length)
-        return;
-
-    const id=
-        players[currentPlayer].id;
-
-    const r=scores[id]||[];
-
-    const info=getRollInfo(r);
-
-    if(info.roll!==0)
-        return;
-
-    r.push(10);
-
-    scores[id]=r;
-
-    nextPlayer();
+update();
 
 }
 
-function recordSpare(){
+}
 
-    if(!gameStarted||!players.length)
-        return;
 
-    const id=
-        players[currentPlayer].id;
+if(data.type==="start"){
 
-    const r=scores[id]||[];
-
-    const info=getRollInfo(r);
-
-    if(info.roll!==1)
-        return;
-
-    r.push(10-info.first);
-
-    scores[id]=r;
-
-    nextPlayer();
+startGame();
 
 }
 
-function getRollInfo(r){
 
-    let i=0;
+if(data.type==="roll"){
 
-    for(let frame=0;frame<10;frame++){
-
-        if(frame===9){
-
-            return {
-                roll:r.length-i,
-                first:r[i],
-                second:r[i+1]
-            };
-
-        }
-
-        if(r[i]===undefined)
-            return {roll:0};
-
-        if(r[i]===10){
-
-            i++;
-            continue;
-
-        }
-
-        if(r[i+1]===undefined){
-
-            return {
-                roll:1,
-                first:r[i]
-            };
-
-        }
-
-        i+=2;
-    }
-
-    return {roll:3};
+recordRoll(
+Number(data.value)
+);
 
 }
 
-function nextPlayer(){
 
-    if(!players.length)
-        return;
+if(data.type==="strike"){
 
-    currentPlayer=
-        (currentPlayer+1)%
-        players.length;
-
-    pins=Array(6).fill(true);
-    pinDraft=[...pins];
-    splitPins=[];
-    splitDraft=[];
-
-    update();
+recordStrike();
 
 }
 
-/* ---------------- PINSETTER ---------------- */
 
-function rackPins(){
+if(data.type==="spare"){
 
-    pinDraft=Array(6).fill(true);
-    splitDraft=[];
-
-    renderPins();
+recordSpare();
 
 }
 
-function clearPins(){
 
-    pinDraft=Array(6).fill(false);
-    splitDraft=[];
+if(data.type==="previous"){
 
-    renderPins();
+if(players.length){
 
-}
+currentPlayer=
+(currentPlayer-1+
+players.length)%
+players.length;
 
-function sweepPins(){
-
-    pinDraft=Array(6).fill(false);
-    splitDraft=[];
-
-    renderPins();
+update();
 
 }
 
-function nextBall(){
+}
 
-    pinDraft=Array(6).fill(true);
-    splitDraft=[];
 
-    renderPins();
+if(data.type==="next"){
+
+nextPlayer();
 
 }
 
-function togglePin(index){
 
-    pinDraft[index]=
-        !pinDraft[index];
+if(data.type==="reset"){
 
-    renderPins();
+resetScore();
 
 }
 
-function toggleSplit(){
 
-    if(splitDraft.length){
+if(data.type==="split"){
 
-        splitDraft=[];
-
-    }else{
-
-        splitDraft=
-            pinDraft
-                .map((up,i)=>up?i:-1)
-                .filter(i=>i!==-1);
-
-    }
-
-    renderPins();
+toggleSplit();
 
 }
 
-function submitPins(){
 
-    pins=[...pinDraft];
-    splitPins=[...splitDraft];
+if(data.type==="pin"){
 
-    update();
+if(data.action==="rack")
+rackPins();
 
-}
+if(data.action==="clear")
+clearPins();
 
-/* ---------------- BACKGROUND ---------------- */
+if(data.action==="sweep")
+sweepPins();
 
-function applyBackground(value){
-
-    const backgrounds={
-
-        midnight:
-            "linear-gradient(135deg,#061426,#0b2139)",
-
-        black:
-            "linear-gradient(135deg,#000,#111)",
-
-        purple:
-            "linear-gradient(135deg,#140923,#321050)",
-
-        green:
-            "linear-gradient(135deg,#06170d,#124526)",
-
-        blue:
-            "linear-gradient(135deg,#05203b,#0870a8)",
-
-        warm:
-            "linear-gradient(135deg,#241005,#6b3212)"
-
-    };
-
-    if(backgrounds[value]){
-
-        document.body.style.background=
-            backgrounds[value];
-
-    }
+if(data.action==="nextBall")
+nextBall();
 
 }
 
-/* ---------------- RENDER ---------------- */
 
-function render(){
+if(data.type==="pinSubmit"){
 
-    renderHome();
-    renderPlayers();
-    renderScore();
-    renderPins();
+if(
+Array.isArray(data.pins)&&
+data.pins.length===6
+){
 
-}
-
-function renderHome(){
-
-    const el=
-        document.getElementById(
-            "currentPlayer"
-        );
-
-    if(!players.length){
-
-        el.textContent=
-            "Ready To Bowl";
-
-        return;
-    }
-
-    if(!gameStarted){
-
-        el.textContent=
-            players.length+
-            " Player"+
-            (players.length===1?"":"s")+
-            " Ready";
-
-        return;
-    }
-
-    el.textContent=
-        "🎳 "+
-        players[currentPlayer].name+
-        "'s Turn";
+pins=[...data.pins];
+pinDraft=[...pins];
 
 }
 
-function renderPlayers(){
+splitPins=
+Array.isArray(data.splitPins)
+?[...data.splitPins]
+:[];
 
-    const box=
-        document.getElementById(
-            "playersList"
-        );
+splitDraft=[...splitPins];
 
-    if(!players.length){
-
-        box.innerHTML=
-            "<p class='muted'>No players yet.</p>";
-
-        return;
-    }
-
-    box.innerHTML=
-        players.map((p,i)=>`
-
-            <div class="player">
-
-                ${escapeHtml(p.name)}
-
-                ${
-                    i===currentPlayer
-                    ?" 🎳"
-                    :""
-                }
-
-            </div>
-
-        `).join("");
+update();
 
 }
 
-function renderScore(){
 
-    const current=
-        document.getElementById(
-            "scoreCurrent"
-        );
+if(data.type==="background"){
 
-    if(players.length){
-
-        current.textContent=
-            "🎳 "+
-            players[currentPlayer].name;
-
-    }else{
-
-        current.textContent=
-            "No players";
-
-    }
-
-    const board=
-        document.getElementById("board");
-
-    let html="";
-
-    players.forEach((p,i)=>{
-
-        const r=
-            scores[p.id]||[];
-
-        const frames=
-            buildFrames(r);
-
-        html+=`
-            <div class="row">
-        `;
-
-        html+=`
-            <div class="cell nameCell
-                ${i===currentPlayer
-                    ?"currentPlayer"
-                    :""
-                }">
-
-                ${escapeHtml(p.name)}
-
-            </div>
-        `;
-
-        for(let f=0;f<10;f++){
-
-            html+=`
-                <div class="cell
-                    ${i===currentPlayer
-                        ?"currentPlayer"
-                        :""
-                    }">
-
-                    <div class="frameNumber">
-                        FRAME ${f+1}
-                    </div>
-
-                    <div class="rolls">
-                        ${frameText(
-                            frames[f],
-                            f
-                        )}
-                    </div>
-
-                </div>
-            `;
-
-        }
-
-        html+=`
-            <div class="cell total">
-                ${calculateScore(r)}
-            </div>
-        `;
-
-        html+="</div>";
-
-    });
-
-    board.innerHTML=html;
+applyBackground(
+data.value
+);
 
 }
 
-function renderPins(){
 
-    const box=
-        document.getElementById(
-            "pinGrid"
-        );
+if(data.type==="end"){
 
-    const pos=[
-        [135,35],
-        [98,100],
-        [172,100],
-        [61,165],
-        [135,165],
-        [209,165]
-    ];
-
-    box.innerHTML=
-        pinDraft.map((up,i)=>`
-
-            <button
-                class="pin
-                    ${up?"":"down"}
-                    ${
-                        splitDraft.includes(i)
-                        ?"split"
-                        :""
-                    }"
-                style="
-                    left:${pos[i][0]}px;
-                    top:${pos[i][1]}px;
-                "
-                onclick="togglePin(${i})"
-            >
-
-                ${i+1}
-
-                ${
-                    splitDraft.includes(i)
-                    ?'<span class="splitDot"></span>'
-                    :""
-                }
-
-            </button>
-
-        `).join("");
+endGame();
 
 }
 
-/* ---------------- SCORE CALC ---------------- */
+}
 
-function buildFrames(r){
 
-    const frames=[];
-    let i=0;
+/* GAME */
 
-    for(let f=0;f<10;f++){
+function startGame(){
 
-        if(i>=r.length){
+if(!players.length)
+return;
 
-            frames.push([]);
-            continue;
+gameStarted=true;
+currentPlayer=0;
 
-        }
+update();
 
-        if(f===9){
+/* AUTOMATICALLY SHOW SCOREBOARD */
 
-            frames.push(
-                r.slice(i,i+3)
-            );
-
-            break;
-
-        }
-
-        if(r[i]===10){
-
-            frames.push([10]);
-            i++;
-
-        }else{
-
-            frames.push(
-                r.slice(i,i+2)
-            );
-
-            i+=2;
-
-        }
-
-    }
-
-    while(frames.length<10)
-        frames.push([]);
-
-    return frames;
+showPage("score");
 
 }
 
-function frameText(frame,f){
-
-    if(!frame||!frame.length)
-        return "—";
-
-    if(f<9){
-
-        if(frame[0]===10)
-            return "X";
-
-        if(
-            frame.length===2 &&
-            frame[0]+frame[1]===10
-        ){
-
-            return frame[0]+" /";
-
-        }
-
-        return frame.join(" ");
-
-    }
-
-    return frame.join(" ");
-
-}
-
-function calculateScore(r){
-
-    let score=0;
-    let i=0;
-
-    for(let f=0;f<10;f++){
-
-        if(r[i]===undefined)
-            break;
-
-        if(r[i]===10){
-
-            score+=10;
-
-            if(r[i+1]!==undefined)
-                score+=r[i+1];
-
-            if(r[i+2]!==undefined)
-                score+=r[i+2];
-
-            i++;
-
-        }else{
-
-            const a=r[i];
-
-            if(r[i+1]===undefined){
-
-                score+=a;
-                break;
-
-            }
-
-            const b=r[i+1];
-
-            score+=a+b;
-
-            if(
-                a+b===10 &&
-                r[i+2]!==undefined
-            ){
-
-                score+=r[i+2];
-
-            }
-
-            i+=2;
-
-        }
-
-    }
-
-    return score;
-
-}
-
-/* ---------------- END ---------------- */
 
 function endGame(){
 
-    gameStarted=false;
-    players=[];
-    scores={};
-    currentPlayer=0;
+gameStarted=false;
+players=[];
+scores={};
+currentPlayer=0;
 
-    pins=Array(6).fill(true);
-    pinDraft=[...pins];
-    splitPins=[];
-    splitDraft=[];
+pins=Array(6).fill(true);
+pinDraft=[...pins];
 
-    showPage("home");
+splitPins=[];
+splitDraft=[];
+
+showPage("home");
+
+sendState();
 
 }
 
-/* ---------------- SYNC ---------------- */
+
+/* SCORING */
+
+function getRollInfo(){
+
+if(!players.length)
+return {roll:0};
+
+let r=
+scores[
+players[currentPlayer].id
+]||[];
+
+let i=0;
+
+for(let frame=0;frame<10;frame++){
+
+if(frame===9){
+
+return {
+roll:r.length-i,
+first:r[i],
+second:r[i+1]
+};
+
+}
+
+if(r[i]===undefined)
+return {roll:0};
+
+if(r[i]===10){
+
+i++;
+continue;
+
+}
+
+if(r[i+1]===undefined){
+
+return {
+roll:1,
+first:r[i]
+};
+
+}
+
+i+=2;
+
+}
+
+return {roll:3};
+
+}
+
+
+function recordRoll(value){
+
+if(
+!gameStarted||
+!players.length
+)
+return;
+
+if(value<0||value>9)
+return;
+
+let id=
+players[currentPlayer].id;
+
+let r=
+scores[id]||[];
+
+let info=
+getRollInfo();
+
+if(info.roll===0){
+
+r.push(value);
+scores[id]=r;
+
+update();
+
+return;
+
+}
+
+if(info.roll===1){
+
+let remaining=
+10-info.first;
+
+if(value>remaining)
+return;
+
+r.push(value);
+scores[id]=r;
+
+if(value===remaining)
+nextPlayer();
+else
+update();
+
+}
+
+}
+
+
+function recordStrike(){
+
+if(
+!gameStarted||
+!players.length
+)
+return;
+
+let id=
+players[currentPlayer].id;
+
+let r=
+scores[id]||[];
+
+let info=
+getRollInfo();
+
+if(info.roll!==0)
+return;
+
+r.push(10);
+scores[id]=r;
+
+nextPlayer();
+
+}
+
+
+function recordSpare(){
+
+if(
+!gameStarted||
+!players.length
+)
+return;
+
+let id=
+players[currentPlayer].id;
+
+let r=
+scores[id]||[];
+
+let info=
+getRollInfo();
+
+if(info.roll!==1)
+return;
+
+r.push(10-info.first);
+scores[id]=r;
+
+nextPlayer();
+
+}
+
+
+function nextPlayer(){
+
+if(!players.length)
+return;
+
+currentPlayer=
+(currentPlayer+1)%
+players.length;
+
+pins=Array(6).fill(true);
+pinDraft=[...pins];
+
+splitPins=[];
+splitDraft=[];
+
+update();
+
+}
+
+
+function resetScore(){
+
+if(!players.length)
+return;
+
+scores[
+players[currentPlayer].id
+]=[];
+
+update();
+
+}
+
+
+/* PINSETTER */
+
+function rackPins(){
+
+pinDraft=Array(6).fill(true);
+splitDraft=[];
+
+renderPins();
+
+}
+
+
+function clearPins(){
+
+pinDraft=Array(6).fill(false);
+splitDraft=[];
+
+renderPins();
+
+}
+
+
+function sweepPins(){
+
+pinDraft=Array(6).fill(false);
+splitDraft=[];
+
+renderPins();
+
+}
+
+
+function nextBall(){
+
+pinDraft=Array(6).fill(true);
+splitDraft=[];
+
+renderPins();
+
+}
+
+
+function togglePin(index){
+
+if(index<0||index>=6)
+return;
+
+pinDraft[index]=
+!pinDraft[index];
+
+renderPins();
+
+}
+
+
+function toggleSplit(){
+
+if(splitDraft.length){
+
+splitDraft=[];
+
+}else{
+
+splitDraft=
+pinDraft
+.map((up,i)=>up?i:-1)
+.filter(i=>i!==-1);
+
+}
+
+renderPins();
+
+}
+
+
+function submitPins(){
+
+pins=[...pinDraft];
+splitPins=[...splitDraft];
+
+update();
+
+}
+
+
+/* BACKGROUND */
+
+function applyBackground(value){
+
+const backgrounds={
+
+midnight:
+"linear-gradient(135deg,#061426,#0b2139)",
+
+black:
+"linear-gradient(135deg,#000,#111)",
+
+purple:
+"linear-gradient(135deg,#140923,#321050)",
+
+green:
+"linear-gradient(135deg,#06170d,#124526)",
+
+blue:
+"linear-gradient(135deg,#05203b,#0870a8)",
+
+warm:
+"linear-gradient(135deg,#241005,#6b3212)"
+
+};
+
+if(backgrounds[value]){
+
+document.body.style.background=
+backgrounds[value];
+
+}
+
+}
+
+
+/* RENDER */
+
+function render(){
+
+renderHome();
+renderPlayers();
+renderScore();
+renderPins();
+
+}
+
+
+function renderHome(){
+
+let el=
+document.getElementById(
+"currentPlayer"
+);
+
+if(!players.length){
+
+el.textContent=
+"Ready To Bowl";
+
+return;
+
+}
+
+if(!gameStarted){
+
+el.textContent=
+players.length+
+" Player"+
+(players.length===1?"":"s")+
+" Ready";
+
+return;
+
+}
+
+el.textContent=
+"🎳 "+
+players[currentPlayer].name+
+"'s Turn";
+
+}
+
+
+function renderPlayers(){
+
+let box=
+document.getElementById(
+"playersList"
+);
+
+if(!players.length){
+
+box.innerHTML=
+"<p class='muted'>No players yet.</p>";
+
+return;
+
+}
+
+box.innerHTML=
+players.map((p,i)=>`
+
+<div class="player">
+${escapeHtml(p.name)}
+${i===currentPlayer?" 🎳":""}
+</div>
+
+`).join("");
+
+}
+
+
+function renderScore(){
+
+let current=
+document.getElementById(
+"scoreCurrent"
+);
+
+if(!players.length){
+
+current.textContent=
+"No players";
+
+}else{
+
+current.textContent=
+"🎳 "+
+players[currentPlayer].name;
+
+}
+
+let board=
+document.getElementById("board");
+
+let html="";
+
+players.forEach((p,i)=>{
+
+let r=
+scores[p.id]||[];
+
+let frames=
+buildFrames(r);
+
+html+=`
+<div class="row">
+`;
+
+html+=`
+<div class="cell nameCell
+${i===currentPlayer?"currentPlayer":""}">
+${escapeHtml(p.name)}
+</div>
+`;
+
+for(let f=0;f<10;f++){
+
+html+=`
+<div class="cell
+${i===currentPlayer?"currentPlayer":""}">
+
+<div class="frameNumber">
+FRAME ${f+1}
+</div>
+
+<div class="rolls">
+${frameText(frames[f],f)}
+</div>
+
+</div>
+`;
+
+}
+
+html+=`
+<div class="cell total">
+${calculateScore(r)}
+</div>
+`;
+
+html+="</div>";
+
+});
+
+board.innerHTML=html;
+
+}
+
+
+/* PINS */
+
+function renderPins(){
+
+let box=
+document.getElementById(
+"pinGrid"
+);
+
+let pos=[
+
+[135,35],
+[98,100],
+[172,100],
+[61,165],
+[135,165],
+[209,165]
+
+];
+
+box.innerHTML=
+pinDraft.map((up,i)=>`
+
+<button
+class="pin
+${up?"":"down"}
+${splitDraft.includes(i)?"split":""}"
+style="
+left:${pos[i][0]}px;
+top:${pos[i][1]}px;
+"
+onclick="togglePin(${i})"
+>
+
+${i+1}
+
+${
+splitDraft.includes(i)
+?'<span class="splitDot"></span>'
+:""
+}
+
+</button>
+
+`).join("");
+
+}
+
+
+/* SCORE CALC */
+
+function buildFrames(r){
+
+let frames=[];
+let i=0;
+
+for(let f=0;f<10;f++){
+
+if(i>=r.length){
+
+frames.push([]);
+continue;
+
+}
+
+if(f===9){
+
+frames.push(
+r.slice(i,i+3)
+);
+
+break;
+
+}
+
+if(r[i]===10){
+
+frames.push([10]);
+i++;
+
+}else{
+
+frames.push(
+r.slice(i,i+2)
+);
+
+i+=2;
+
+}
+
+}
+
+while(frames.length<10)
+frames.push([]);
+
+return frames;
+
+}
+
+
+function frameText(frame,f){
+
+if(!frame||!frame.length)
+return "—";
+
+if(f<9){
+
+if(frame[0]===10)
+return "X";
+
+if(
+frame.length===2 &&
+frame[0]+frame[1]===10
+)
+return frame[0]+" /";
+
+return frame.join(" ");
+
+}
+
+return frame.join(" ");
+
+}
+
+
+function calculateScore(r){
+
+let score=0;
+let i=0;
+
+for(let f=0;f<10;f++){
+
+if(r[i]===undefined)
+break;
+
+if(r[i]===10){
+
+score+=10;
+
+if(r[i+1]!==undefined)
+score+=r[i+1];
+
+if(r[i+2]!==undefined)
+score+=r[i+2];
+
+i++;
+
+}else{
+
+let a=r[i];
+
+if(r[i+1]===undefined){
+
+score+=a;
+break;
+
+}
+
+let b=r[i+1];
+
+score+=a+b;
+
+if(
+a+b===10 &&
+r[i+2]!==undefined
+)
+score+=r[i+2];
+
+i+=2;
+
+}
+
+}
+
+return score;
+
+}
+
+
+/* SYNC */
 
 function sendState(){
 
-    if(!connection||!connection.open)
-        return;
+if(
+!connection||
+!connection.open
+)
+return;
 
-    connection.send({
+connection.send({
 
-        type:"state",
+type:"state",
 
-        players:players,
+players:players,
+currentPlayer:currentPlayer,
+gameStarted:gameStarted,
+scores:scores,
+pins:pins,
+splitPins:splitPins
 
-        currentPlayer:currentPlayer,
-
-        gameStarted:gameStarted,
-
-        scores:scores,
-
-        pins:pins,
-
-        splitPins:splitPins
-
-    });
+});
 
 }
+
 
 function update(){
 
-    render();
-    sendState();
+render();
+sendState();
 
 }
+
 
 function escapeHtml(v){
 
-    return String(v)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+return String(v)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
+
 
 render();
 
