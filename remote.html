@@ -8,242 +8,531 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
-  margin:0;min-height:100vh;font-family:Arial,sans-serif;
-  background:linear-gradient(145deg,#030a13,#091c2e);color:white;
+  margin:0;min-height:100vh;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(145deg,#030a13,#091c2e);
+  color:white;
 }
+
 button,input{font:inherit}
+
 button{
-  border:0;border-radius:14px;padding:14px;background:#173c61;
-  color:white;font-weight:bold;cursor:pointer;
+  border:0;border-radius:14px;padding:14px;
+  background:#173c61;color:white;
+  font-weight:bold;cursor:pointer;
 }
+
 button:active{transform:scale(.97)}
+
 header{
-  padding:17px;text-align:center;background:#020811;
-  border-bottom:1px solid #294158;font-weight:900;font-size:19px;
+  padding:17px;text-align:center;
+  background:#020811;
+  border-bottom:1px solid #294158;
+  font-weight:900;font-size:19px;
 }
-.page{display:none;padding:18px;max-width:600px;margin:auto}
+
+.page{
+  display:none;
+  padding:18px;
+  max-width:600px;
+  margin:auto;
+}
+
 .page.active{display:block}
+
 .card{
-  background:#0b1c2e;border:1px solid #263f58;
-  border-radius:18px;padding:17px;margin:12px 0;
+  background:#0b1c2e;
+  border:1px solid #263f58;
+  border-radius:18px;
+  padding:17px;
+  margin:12px 0;
 }
+
 input{
-  width:100%;padding:15px;border-radius:12px;border:1px solid #34526e;
-  background:#071522;color:white;margin:6px 0;
+  width:100%;
+  padding:15px;
+  border-radius:12px;
+  border:1px solid #34526e;
+  background:#071522;
+  color:white;
+  margin:6px 0;
 }
-.status{padding:11px;background:#102b43;border-radius:11px;margin:10px 0}
+
+.status{
+  padding:11px;
+  background:#102b43;
+  border-radius:11px;
+  margin:10px 0;
+}
+
 .menu{
-  display:grid;grid-template-columns:1fr 1fr;gap:9px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
 }
+
 .menu button{min-height:70px}
+
 .start{background:#176d43}
 .danger{background:#75333a}
 .back{margin-bottom:8px}
+
 .numberGrid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
 }
-.numberGrid button{height:62px;font-size:22px}
+
+.numberGrid button{
+  height:62px;
+  font-size:22px;
+}
+
+/* BLURRED INVALID BUTTON */
+
+.numberGrid button.invalid{
+  filter:blur(4px);
+  opacity:.25;
+  cursor:not-allowed;
+  pointer-events:none;
+}
+
+.numberGrid button.disabled{
+  opacity:.28;
+  cursor:not-allowed;
+  filter:grayscale(1);
+}
+
 .special{
-  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
 }
-.special button{min-height:58px}
+
+.special button{
+  min-height:58px;
+}
+
+.special button.disabled{
+  opacity:.28;
+  filter:grayscale(1);
+  cursor:not-allowed;
+}
+
 .player{
-  padding:12px;background:#10283f;border-radius:12px;
-  margin:8px 0;display:flex;justify-content:space-between;align-items:center;
+  padding:12px;
+  background:#10283f;
+  border-radius:12px;
+  margin:8px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-.remove{background:#6e3038;padding:9px}
+
+.remove{
+  background:#6e3038;
+  padding:9px;
+}
+
 .pinGrid{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:15px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin-top:15px;
 }
+
 .pin{
-  height:52px;border-radius:50%;background:#eee;color:#111;
+  height:52px;
+  border-radius:50%;
+  background:#eee;
+  color:#111;
+  position:relative;
 }
-.pin.down{background:#424b54;color:#aaa}
-.big{font-size:30px;font-weight:900}
+
+.pin.down{
+  background:#424b54;
+  color:#aaa;
+}
+
+.pin.split{
+  outline:4px solid #e52d3f;
+  box-shadow:0 0 0 2px rgba(229,45,63,.3);
+}
+
+.splitBadge{
+  position:absolute;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#e52d3f;
+  top:-4px;
+  right:-4px;
+  border:2px solid white;
+}
+
+.big{
+  font-size:30px;
+  font-weight:900;
+}
+
 .green{color:#6cff9d}
 .muted{color:#9fb3c5}
+
 .toast{
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-  background:#102c45;border:1px solid #42627e;border-radius:12px;
-  padding:12px 17px;display:none;z-index:9999;
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#102c45;
+  border:1px solid #42627e;
+  border-radius:12px;
+  padding:12px 17px;
+  display:none;
+  z-index:9999;
 }
 </style>
 </head>
 
 <body>
 
-<header>🎳 KING GAVIN LANES<br>REMOTE</header>
+<header>
+  🎳 KING GAVIN LANES<br>REMOTE
+</header>
 
 <!-- CONNECT -->
+
 <section id="connect" class="page active">
+
   <div class="card">
+
     <h2>Connect To Scoreboard</h2>
-    <p class="muted">Enter the 6-digit code shown on the iPad.</p>
 
-    <input id="code" maxlength="6" inputmode="numeric"
-           placeholder="123456"
-           onkeydown="if(event.key==='Enter')connectRemote()">
+    <p class="muted">
+      Enter the 6-digit code shown on the iPad.
+    </p>
 
-    <button style="width:100%;margin-top:8px" onclick="connectRemote()">
+    <input
+      id="code"
+      maxlength="6"
+      inputmode="numeric"
+      placeholder="123456"
+      onkeydown="if(event.key==='Enter')connectRemote()"
+    >
+
+    <button
+      style="width:100%;margin-top:8px"
+      onclick="connectRemote()"
+    >
       🔗 CONNECT
     </button>
 
-    <div id="status" class="status">Not connected</div>
+    <div id="status" class="status">
+      Not connected
+    </div>
+
   </div>
+
 </section>
 
-<!-- NORMAL REMOTE HOME -->
+<!-- HOME -->
+
 <section id="home" class="page">
+
   <div class="card">
+
     <h2>🎳 Remote Home</h2>
-    <div id="connectionStatus" class="status">🟢 Connected</div>
-    <div id="homePlayer" class="big">Ready To Bowl</div>
+
+    <div id="connectionStatus" class="status">
+      🟢 Connected
+    </div>
+
+    <div id="homePlayer" class="big">
+      Ready To Bowl
+    </div>
+
   </div>
 
   <div class="menu">
-    <button onclick="page('players')">👥 Players</button>
-    <button onclick="page('score')">🎳 Score</button>
-    <button onclick="page('editor')">✏️ Score Editor</button>
-    <button onclick="page('recap')">📋 Recap</button>
-    <button onclick="page('backgrounds')">🖼 Backgrounds</button>
-    <button onclick="page('pinsetter')">🎳 Pinsetter</button>
-    <button class="start" onclick="startGame()">▶ Start Bowling</button>
-    <button class="danger" onclick="endGame()">🏁 End Game</button>
+
+    <button onclick="page('players')">
+      👥 Players
+    </button>
+
+    <button onclick="page('score')">
+      📊 Score
+    </button>
+
+    <button onclick="page('editor')">
+      ✏️ Score Editor
+    </button>
+
+    <button onclick="page('recap')">
+      📋 Recap
+    </button>
+
+    <button onclick="page('backgrounds')">
+      🖼 Backgrounds
+    </button>
+
+    <button onclick="page('pinsetter')">
+      🎳 Pinsetter
+    </button>
+
+    <button class="start" onclick="startGame()">
+      ▶ Start Bowling
+    </button>
+
+    <button class="danger" onclick="endGame()">
+      🏁 End Game
+    </button>
+
   </div>
+
 </section>
 
 <!-- PLAYERS -->
+
 <section id="players" class="page">
-  <button class="back" onclick="page('home')">← Home</button>
+
+  <button class="back" onclick="page('home')">
+    ← Home
+  </button>
 
   <div class="card">
+
     <h2>👥 Players</h2>
 
-    <input id="playerName" maxlength="30" placeholder="Player name"
-           onkeydown="if(event.key==='Enter')addPlayer()">
+    <input
+      id="playerName"
+      maxlength="30"
+      placeholder="Player name"
+      onkeydown="if(event.key==='Enter')addPlayer()"
+    >
 
-    <button style="width:100%;margin-top:7px" onclick="addPlayer()">
+    <button
+      style="width:100%;margin-top:7px"
+      onclick="addPlayer()"
+    >
       ➕ Add Player
     </button>
 
     <div id="playerList"></div>
+
   </div>
+
 </section>
 
 <!-- SCORE -->
+
 <section id="score" class="page">
-  <button class="back" onclick="page('home')">← Home</button>
+
+  <button class="back" onclick="page('home')">
+    ← Home
+  </button>
 
   <div class="card">
+
     <h2>🎳 Score Control</h2>
+
     <div id="currentPlayer"></div>
+
   </div>
 
   <div class="card">
+
     <div class="numberGrid">
-      <button onclick="roll(1)">1</button>
-      <button onclick="roll(2)">2</button>
-      <button onclick="roll(3)">3</button>
 
-      <button onclick="roll(4)">4</button>
-      <button onclick="roll(5)">5</button>
-      <button onclick="roll(6)">6</button>
+      <button data-roll="1" onclick="roll(1)">1</button>
+      <button data-roll="2" onclick="roll(2)">2</button>
+      <button data-roll="3" onclick="roll(3)">3</button>
 
-      <button onclick="roll(7)">7</button>
-      <button onclick="roll(8)">8</button>
-      <button onclick="roll(9)">9</button>
+      <button data-roll="4" onclick="roll(4)">4</button>
+      <button data-roll="5" onclick="roll(5)">5</button>
+      <button data-roll="6" onclick="roll(6)">6</button>
 
-      <button onclick="roll(0)">0</button>
-      <button onclick="strike()">❌ STRIKE</button>
-      <button onclick="spare()">/ SPARE</button>
+      <button data-roll="7" onclick="roll(7)">7</button>
+      <button data-roll="8" onclick="roll(8)">8</button>
+      <button data-roll="9" onclick="roll(9)">9</button>
+
+      <button data-roll="0" onclick="roll(0)">0</button>
+
+      <button id="strikeButton" onclick="strike()">
+        ❌ STRIKE
+      </button>
+
+      <button id="spareButton" onclick="spare()">
+        / SPARE
+      </button>
+
     </div>
 
     <div class="special">
-      <button onclick="previous()">⬅ Previous</button>
-      <button onclick="next()">Next ➡</button>
-      <button onclick="reset()">🔄 Reset Score</button>
-      <button onclick="page('pinsetter')">🎳 Pinsetter</button>
+
+      <button onclick="previous()">
+        ⬅ Previous
+      </button>
+
+      <button onclick="next()">
+        Next ➡
+      </button>
+
+      <button onclick="reset()">
+        🔄 Reset Score
+      </button>
+
+      <button id="splitButton" onclick="split()">
+        🔴 Split
+      </button>
+
     </div>
+
   </div>
+
 </section>
 
 <!-- EDITOR -->
+
 <section id="editor" class="page">
-  <button class="back" onclick="page('home')">← Home</button>
+
+  <button class="back" onclick="page('home')">
+    ← Home
+  </button>
 
   <div class="card">
+
     <h2>✏️ Score Editor</h2>
+
     <div id="editorList"></div>
-    <p class="muted">Reset a player's score from the Score page.</p>
+
   </div>
+
 </section>
 
 <!-- RECAP -->
+
 <section id="recap" class="page">
-  <button class="back" onclick="page('home')">← Home</button>
+
+  <button class="back" onclick="page('home')">
+    ← Home
+  </button>
 
   <div class="card">
+
     <h2>🏆 Recap</h2>
+
     <div id="recapList"></div>
+
   </div>
+
 </section>
 
 <!-- BACKGROUNDS -->
+
 <section id="backgrounds" class="page">
-  <button class="back" onclick="page('home')">← Home</button>
+
+  <button class="back" onclick="page('home')">
+    ← Home
+  </button>
 
   <div class="card">
+
     <h2>🖼 Backgrounds</h2>
-    <p class="muted">Background selection is displayed on the iPad menu.</p>
+
+    <p class="muted">
+      Background selection is controlled from the iPad.
+    </p>
+
   </div>
+
 </section>
 
 <!-- PINSETTER -->
+
 <section id="pinsetter" class="page">
-  <button class="back" onclick="page('home')">← Home</button>
+
+  <button class="back" onclick="page('home')">
+    ← Home
+  </button>
 
   <div class="card">
+
     <h2>🎳 Pinsetter</h2>
 
     <div class="menu">
-      <button onclick="pinAction('rack')">🎳 Rack Pins</button>
-      <button onclick="pinAction('clear')">❌ Clear</button>
-      <button onclick="pinAction('sweep')">🧹 Sweep</button>
-      <button onclick="pinAction('nextBall')">➡ Next Ball</button>
+
+      <button onclick="pinAction('rack')">
+        🎳 Rack Pins
+      </button>
+
+      <button onclick="pinAction('clear')">
+        ❌ Clear
+      </button>
+
+      <button onclick="pinAction('sweep')">
+        🧹 Sweep
+      </button>
+
+      <button onclick="pinAction('nextBall')">
+        ➡ Next Ball
+      </button>
+
     </div>
 
     <div id="pinGrid" class="pinGrid"></div>
+
   </div>
+
 </section>
 
 <div id="toast" class="toast"></div>
 
 <script>
+
 let peer=null;
 let conn=null;
 
 let players=[];
 let currentPlayer=0;
 let pins=Array(10).fill(true);
+let splitPins=[];
 let gameStarted=false;
 let scores={};
 
+/* PAGE */
+
 function page(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+  document.getElementById(id)
+    .classList.add("active");
+
   render();
 }
 
+/* CONNECT */
+
 function connectRemote(){
-  const code=document.getElementById("code").value.trim();
+
+  const code=document
+    .getElementById("code")
+    .value
+    .trim();
 
   if(!/^\d{6}$/.test(code)){
-    document.getElementById("status").textContent="🔴 Enter the 6-digit iPad code.";
+
+    document.getElementById("status").textContent=
+      "🔴 Enter the 6-digit iPad code.";
+
     return;
   }
 
-  document.getElementById("status").textContent="🟡 Connecting...";
+  document.getElementById("status").textContent=
+    "🟡 Connecting...";
 
   if(peer){
     try{peer.destroy()}catch(e){}
@@ -252,70 +541,100 @@ function connectRemote(){
   peer=new Peer();
 
   peer.on("open",()=>{
-    conn=peer.connect("kgl-"+code,{reliable:true});
+
+    conn=peer.connect(
+      "kgl-"+code,
+      {reliable:true}
+    );
 
     conn.on("open",()=>{
-      document.getElementById("status").textContent="🟢 Connected!";
-      document.getElementById("connectionStatus").textContent="🟢 Connected to scoreboard";
+
+      document.getElementById("status").textContent=
+        "🟢 Connected!";
+
+      document.getElementById("connectionStatus").textContent=
+        "🟢 Connected to scoreboard";
+
+      /* AUTOMATICALLY GO TO NORMAL REMOTE HOME */
       page("home");
+
     });
 
     conn.on("data",data=>{
+
       if(data.type==="state"){
+
         players=data.players||[];
         currentPlayer=data.currentPlayer||0;
         pins=data.pins||pins;
+        splitPins=data.splitPins||[];
         gameStarted=!!data.gameStarted;
         scores=data.scores||{};
+
         render();
       }
+
     });
 
     conn.on("close",()=>{
-      document.getElementById("connectionStatus").textContent="🔴 Disconnected";
+
+      document.getElementById("connectionStatus").textContent=
+        "🔴 Disconnected";
+
       toast("Scoreboard disconnected.");
+
     });
+
   });
 
   peer.on("error",()=>{
-    document.getElementById("status").textContent="🔴 Could not connect. Check the code.";
-  });
-}
 
-function send(data){
-  if(!conn||!conn.open){
-    toast("Not connected.");
-    return;
-  }
-  conn.send(data);
+    document.getElementById("status").textContent=
+      "🔴 Could not connect. Check the code.";
+
+  });
 }
 
 /* PLAYERS */
 
 function addPlayer(){
+
   const input=document.getElementById("playerName");
   const name=input.value.trim();
 
   if(!name){
+
     toast("Type a player name.");
+
     return;
   }
 
-  send({type:"addPlayer",name});
+  send({
+    type:"addPlayer",
+    name:name
+  });
+
   input.value="";
   input.focus();
 }
 
 function removePlayer(index){
-  send({type:"remove",index});
+
+  send({
+    type:"remove",
+    index:index
+  });
 }
 
 /* GAME */
 
 function startGame(){
+
   if(!players.length){
+
     page("players");
     toast("Add a player first!");
+
     return;
   }
 
@@ -324,73 +643,581 @@ function startGame(){
 }
 
 function endGame(){
+
   send({type:"end"});
   page("home");
 }
 
-/* SCORE */
+/* CURRENT FRAME */
+
+function currentRolls(){
+
+  if(!players.length)return [];
+
+  return scores[
+    players[currentPlayer].id
+  ]||[];
+}
+
+function frameInfo(){
+
+  const r=currentRolls();
+
+  let i=0;
+
+  for(let f=0;f<10;f++){
+
+    if(f===9){
+
+      return {
+        frame:f,
+        rollCount:r.length-i,
+        first:r[i],
+        second:r[i+1]
+      };
+    }
+
+    if(r[i]===undefined){
+
+      return {
+        frame:f,
+        rollCount:0
+      };
+    }
+
+    if(r[i]===10){
+
+      i++;
+      continue;
+    }
+
+    if(r[i+1]===undefined){
+
+      return {
+        frame:f,
+        rollCount:1,
+        first:r[i]
+      };
+    }
+
+    i+=2;
+  }
+
+  return {frame:9,rollCount:3};
+}
+
+/* SCORING BUTTONS */
 
 function roll(value){
-  send({type:"roll",value});
+
+  const info=frameInfo();
+
+  if(!gameStarted){
+
+    toast("Start Bowling first!");
+    return;
+  }
+
+  /* FIRST SHOT */
+
+  if(info.rollCount===0){
+
+    send({
+      type:"roll",
+      value:value
+    });
+
+    return;
+  }
+
+  /* SECOND SHOT */
+
+  if(info.rollCount===1){
+
+    const remaining=10-info.first;
+
+    if(value>remaining){
+
+      toast(
+        "Only "+remaining+
+        " pins remain."
+      );
+
+      return;
+    }
+
+    send({
+      type:"roll",
+      value:value
+    });
+
+    return;
+  }
+
+  toast("That frame is complete.");
 }
 
 function strike(){
+
+  const info=frameInfo();
+
+  if(!gameStarted)return;
+
+  if(info.rollCount!==0){
+
+    toast("Strike is only for the first shot.");
+
+    return;
+  }
+
   send({type:"strike"});
 }
 
 function spare(){
+
+  const info=frameInfo();
+
+  if(!gameStarted)return;
+
+  /* FIRST SHOT = NO SPARE */
+
+  if(info.rollCount===0){
+
+    toast(
+      "Spare is not available on the first shot."
+    );
+
+    return;
+  }
+
+  if(info.rollCount!==1){
+
+    toast("Spare isn't available right now.");
+
+    return;
+  }
+
   send({type:"spare"});
 }
 
 function previous(){
+
   send({type:"previous"});
 }
 
 function next(){
+
   send({type:"next"});
 }
 
 function reset(){
+
   send({type:"reset"});
+}
+
+/* SPLIT */
+
+function split(){
+
+  if(!gameStarted){
+
+    toast("Start Bowling first!");
+    return;
+  }
+
+  send({
+    type:"split"
+  });
 }
 
 /* PINSETTER */
 
 function pinAction(action){
-  send({type:"pin",action});
+
+  send({
+    type:"pin",
+    action:action
+  });
 }
 
 function togglePin(index){
-  send({type:"pinToggle",index});
+
+  send({
+    type:"pinToggle",
+    index:index
+  });
 }
 
-/* SCORE CALCULATION FOR REMOTE DISPLAY */
+/* BUTTON STATE */
+
+function renderScoreButtons(){
+
+  const info=frameInfo();
+
+  const numberButtons=
+    document.querySelectorAll(
+      "[data-roll]"
+    );
+
+  const spareButton=
+    document.getElementById("spareButton");
+
+  const strikeButton=
+    document.getElementById("strikeButton");
+
+  /* Reset */
+
+  numberButtons.forEach(btn=>{
+    btn.classList.remove(
+      "invalid",
+      "disabled"
+    );
+  });
+
+  spareButton.classList.remove("disabled");
+  strikeButton.classList.remove("disabled");
+
+  if(!gameStarted){
+
+    numberButtons.forEach(b=>
+      b.classList.add("disabled")
+    );
+
+    spareButton.classList.add("disabled");
+    strikeButton.classList.add("disabled");
+
+    return;
+  }
+
+  /* FIRST SHOT */
+
+  if(info.rollCount===0){
+
+    /*
+      Spare unavailable on first shot.
+    */
+
+    spareButton.classList.add("disabled");
+
+    /*
+      Strike is valid on first shot.
+    */
+
+    return;
+  }
+
+  /* SECOND SHOT */
+
+  if(info.rollCount===1){
+
+    const remaining=10-info.first;
+
+    /*
+      Any number above remaining pins
+      becomes blurred.
+    */
+
+    numberButtons.forEach(btn=>{
+
+      const value=Number(
+        btn.dataset.roll
+      );
+
+      if(value>remaining){
+
+        btn.classList.add("invalid");
+
+      }
+
+    });
+
+    /*
+      Spare is available after ANY
+      first-shot score.
+    */
+
+    spareButton.classList.remove("disabled");
+
+    /*
+      Strike isn't a second-shot button.
+    */
+
+    strikeButton.classList.add("disabled");
+
+    return;
+  }
+
+  numberButtons.forEach(b=>
+    b.classList.add("disabled")
+  );
+
+  spareButton.classList.add("disabled");
+  strikeButton.classList.add("disabled");
+}
+
+/* RENDER */
+
+function render(){
+
+  renderHome();
+  renderPlayers();
+  renderScore();
+  renderEditor();
+  renderRecap();
+  renderPins();
+  renderScoreButtons();
+}
+
+function renderHome(){
+
+  const box=
+    document.getElementById("homePlayer");
+
+  if(!players.length){
+
+    box.textContent=
+      "Ready To Bowl";
+
+    return;
+  }
+
+  if(!gameStarted){
+
+    box.textContent=
+      players.length+
+      " Player"+
+      (players.length===1?"":"s")+
+      " Ready";
+
+    return;
+  }
+
+  box.textContent=
+    "🎳 "+
+    (players[currentPlayer]?.name||"")+
+    " — Your Turn";
+}
+
+function renderPlayers(){
+
+  const box=
+    document.getElementById("playerList");
+
+  if(!players.length){
+
+    box.innerHTML=
+      "<p class='muted'>No players yet.</p>";
+
+    return;
+  }
+
+  box.innerHTML=
+    players.map((p,i)=>`
+
+      <div class="player">
+
+        <span>
+          <strong>
+            ${escapeHtml(p.name)}
+          </strong>
+
+          ${i===currentPlayer?" 🎳":""}
+        </span>
+
+        <button
+          class="remove"
+          onclick="removePlayer(${i})"
+        >
+          Remove
+        </button>
+
+      </div>
+
+    `).join("");
+}
+
+function renderScore(){
+
+  const box=
+    document.getElementById("currentPlayer");
+
+  if(!players.length){
+
+    box.innerHTML=
+      "<span class='muted'>No players.</span>";
+
+    return;
+  }
+
+  const p=
+    players[currentPlayer];
+
+  const r=
+    scores[p.id]||[];
+
+  box.innerHTML=`
+
+    <div class="big">
+      ${escapeHtml(p.name)}
+    </div>
+
+    <div class="green">
+      Score: ${total(r)}
+    </div>
+
+    <div class="muted">
+      ${
+        gameStarted
+        ?"Game in progress"
+        :"Press Start Bowling"
+      }
+    </div>
+
+  `;
+}
+
+function renderEditor(){
+
+  const box=
+    document.getElementById("editorList");
+
+  if(!players.length){
+
+    box.innerHTML=
+      "<p>No players.</p>";
+
+    return;
+  }
+
+  box.innerHTML=
+    players.map(p=>`
+
+      <div class="player">
+
+        <strong>
+          ${escapeHtml(p.name)}
+        </strong>
+
+        <span>
+          ${(scores[p.id]||[])
+            .join(", ")||"No rolls"}
+        </span>
+
+      </div>
+
+    `).join("");
+}
+
+function renderRecap(){
+
+  const box=
+    document.getElementById("recapList");
+
+  if(!players.length){
+
+    box.innerHTML=
+      "<p>No game data.</p>";
+
+    return;
+  }
+
+  const sorted=
+    [...players].sort((a,b)=>
+      total(scores[b.id]||[])-
+      total(scores[a.id]||[])
+    );
+
+  box.innerHTML=
+    sorted.map((p,i)=>`
+
+      <div class="player">
+
+        <strong>
+          ${i===0?"🏆 ":""}
+          ${escapeHtml(p.name)}
+        </strong>
+
+        <span class="big">
+          ${total(scores[p.id]||[])}
+        </span>
+
+      </div>
+
+    `).join("");
+}
+
+function renderPins(){
+
+  const box=
+    document.getElementById("pinGrid");
+
+  box.innerHTML=
+    pins.map((up,i)=>`
+
+      <button
+        class="
+          pin
+          ${up?"":"down"}
+          ${splitPins.includes(i)?"split":""}
+        "
+        onclick="togglePin(${i})"
+      >
+
+        ${i+1}
+
+        ${
+          splitPins.includes(i)
+          ?'<span class="splitBadge"></span>'
+          :''
+        }
+
+      </button>
+
+    `).join("");
+}
+
+/* TOTAL */
 
 function total(r){
+
   let score=0;
   let i=0;
 
   for(let frame=0;frame<10;frame++){
+
     if(r[i]===undefined)break;
 
     if(r[i]===10){
+
       score+=10;
-      if(r[i+1]!==undefined)score+=r[i+1];
-      if(r[i+2]!==undefined)score+=r[i+2];
+
+      if(r[i+1]!==undefined)
+        score+=r[i+1];
+
+      if(r[i+2]!==undefined)
+        score+=r[i+2];
+
       i++;
+
     }else{
-      const a=r[i]||0;
+
+      const a=r[i];
 
       if(r[i+1]===undefined){
+
         score+=a;
         break;
       }
 
       const b=r[i+1];
+
       score+=a+b;
 
-      if(a+b===10 && r[i+2]!==undefined)
+      if(a+b===10 &&
+         r[i+2]!==undefined){
+
         score+=r[i+2];
+      }
 
       i+=2;
     }
@@ -399,127 +1226,39 @@ function total(r){
   return score;
 }
 
-/* RENDER */
+/* SYNC */
 
-function render(){
-  renderHome();
-  renderPlayers();
-  renderScore();
-  renderEditor();
-  renderRecap();
-  renderPins();
-}
+function send(data){
 
-function renderHome(){
-  const box=document.getElementById("homePlayer");
+  if(!conn||!conn.open){
 
-  if(!players.length){
-    box.textContent="Ready To Bowl";
+    toast("Not connected.");
     return;
   }
 
-  if(!gameStarted){
-    box.textContent=players.length+" Player"+(players.length===1?"":"s")+" Ready";
-    return;
-  }
-
-  box.textContent="🎳 "+(players[currentPlayer]?.name||"")+" — Your Turn";
+  conn.send(data);
 }
 
-function renderPlayers(){
-  const box=document.getElementById("playerList");
-
-  if(!players.length){
-    box.innerHTML="<p class='muted'>No players yet.</p>";
-    return;
-  }
-
-  box.innerHTML=players.map((p,i)=>`
-    <div class="player">
-      <span>
-        <strong>${escapeHtml(p.name)}</strong>
-        ${i===currentPlayer?" 🎳":""}
-      </span>
-
-      <button class="remove" onclick="removePlayer(${i})">
-        Remove
-      </button>
-    </div>
-  `).join("");
-}
-
-function renderScore(){
-  const box=document.getElementById("currentPlayer");
-
-  if(!players.length){
-    box.innerHTML="<span class='muted'>No players.</span>";
-    return;
-  }
-
-  const p=players[currentPlayer];
-  const r=scores[p.id]||[];
-
-  box.innerHTML=`
-    <div class="big">${escapeHtml(p.name)}</div>
-    <div class="green">Score: ${total(r)}</div>
-    <div class="muted">${gameStarted?"Game in progress":"Press Start Bowling"}</div>
-  `;
-}
-
-function renderEditor(){
-  const box=document.getElementById("editorList");
-
-  if(!players.length){
-    box.innerHTML="<p>No players.</p>";
-    return;
-  }
-
-  box.innerHTML=players.map(p=>`
-    <div class="player">
-      <strong>${escapeHtml(p.name)}</strong>
-      <span>${(scores[p.id]||[]).join(", ")||"No rolls"}</span>
-    </div>
-  `).join("");
-}
-
-function renderRecap(){
-  const box=document.getElementById("recapList");
-
-  if(!players.length){
-    box.innerHTML="<p>No game data.</p>";
-    return;
-  }
-
-  const sorted=[...players].sort((a,b)=>
-    total(scores[b.id]||[])-total(scores[a.id]||[])
-  );
-
-  box.innerHTML=sorted.map((p,i)=>`
-    <div class="player">
-      <strong>${i===0?"🏆 ":""}${escapeHtml(p.name)}</strong>
-      <span class="big">${total(scores[p.id]||[])}</span>
-    </div>
-  `).join("");
-}
-
-function renderPins(){
-  document.getElementById("pinGrid").innerHTML=pins.map((up,i)=>`
-    <button class="pin ${up?"":"down"}" onclick="togglePin(${i})">
-      ${i+1}
-    </button>
-  `).join("");
-}
+/* HELPERS */
 
 function toast(text){
-  const el=document.getElementById("toast");
+
+  const el=
+    document.getElementById("toast");
+
   el.textContent=text;
   el.style.display="block";
 
   clearTimeout(window.toastTimer);
-  window.toastTimer=setTimeout(()=>el.style.display="none",2000);
+
+  window.toastTimer=
+    setTimeout(()=>{
+      el.style.display="none";
+    },2200);
 }
 
 function escapeHtml(value){
+
   return String(value)
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
@@ -529,6 +1268,8 @@ function escapeHtml(value){
 }
 
 render();
+
 </script>
+
 </body>
 </html>
