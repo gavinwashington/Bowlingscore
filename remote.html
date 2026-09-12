@@ -1,80 +1,177 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>King Gavin Lanes Remote</title>
+
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;min-height:100vh;
- font-family:Arial,sans-serif;color:white;
- background:linear-gradient(135deg,#07152f,#123d72,#07152f);
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:#080b12;
+ color:#fff
 }
-button{
- border:0;border-radius:14px;padding:15px;
- margin:5px;background:#174d86;color:white;
- font-size:17px;font-weight:bold;
+
+.wrap{
+ max-width:620px;
+ margin:auto;
+ padding:20px
 }
-button:active{transform:scale(.96)}
-.container{max-width:650px;margin:auto;padding:18px}
-.card{
- background:rgba(0,0,0,.38);
- border-radius:22px;padding:20px;margin:12px 0;
+
+.top{
+ background:#111827;
+ border-radius:14px;
+ padding:20px;
+ margin-bottom:14px
 }
-h1,h2{text-align:center}
-.center{text-align:center}
-.hidden{display:none!important}
+
+h1{
+ margin:0 0 8px;
+ font-size:30px
+}
+
+.muted{color:#9ca3af}
+
+.status{
+ font-weight:800;
+ margin-top:10px
+}
+
+.online{color:#4ade80}
+.offline{color:#f87171}
 
 input{
- width:100%;padding:16px;border:0;border-radius:13px;
- font-size:22px;text-align:center;
- margin:8px 0;
+ width:100%;
+ padding:15px;
+ border-radius:9px;
+ border:1px solid #4b5563;
+ background:#1f2937;
+ color:#fff;
+ font-size:17px
 }
 
-.connectBtn{width:100%;font-size:21px;padding:18px}
+button{
+ min-height:50px;
+ border:0;
+ border-radius:10px;
+ background:#2563eb;
+ color:#fff;
+ font-size:17px;
+ font-weight:800;
+ cursor:pointer;
+ padding:10px 15px
+}
 
-.menuGrid{
+.connect{
+ display:grid;
+ grid-template-columns:1fr auto;
+ gap:8px
+}
+
+.connect button{
+ background:#16a34a
+}
+
+.menuButton{
+ width:100%;
+ background:#374151;
+ font-size:20px;
+ margin-top:12px
+}
+
+.remoteMenu{
+ display:none;
+ margin-top:12px
+}
+
+.remoteMenu.open{
+ display:block
+}
+
+.remoteMenu button{
+ width:100%;
+ margin-bottom:8px;
+ text-align:left
+}
+
+.remoteMenu .danger{
+ background:#dc2626
+}
+
+.playerButtons{
  display:grid;
  grid-template-columns:repeat(2,1fr);
- gap:10px;
-}
-.menuGrid button{min-height:65px}
-
-.numberGrid{
- display:grid;
- grid-template-columns:repeat(3,1fr);
  gap:8px;
-}
-.numberGrid button{
- font-size:25px;
- min-height:65px;
-}
-button.invalid{
- filter:blur(4px);
- opacity:.3;
- pointer-events:none;
-}
-button.disabled{
- opacity:.35;
- pointer-events:none;
+ margin-top:12px
 }
 
-.actionGrid{
+.playerButtons button.active{
+ outline:3px solid #60a5fa
+}
+
+.grid{
  display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:8px;
+ grid-template-columns:repeat(5,1fr);
+ gap:8px
 }
 
-.players{
- display:flex;flex-direction:column;gap:8px
+.grid button{
+ min-height:58px;
+ font-size:20px
 }
-.player{
- display:flex;justify-content:space-between;align-items:center;
- background:#123b68;border-radius:13px;padding:10px 13px
+
+.strike{
+ grid-column:span 5;
+ background:#1d4ed8
 }
+
+.spare{
+ grid-column:span 5;
+ background:#7c3aed
+}
+
+.nav{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+ margin-top:8px
+}
+
+.danger{background:#dc2626}
+
+.wide{
+ width:100%;
+ margin-top:8px
+}
+
+.score{
+ font-size:23px;
+ font-weight:800;
+ text-align:center;
+ background:#1f2937;
+ padding:16px;
+ border-radius:10px;
+ margin-top:12px
+}
+
+.small{
+ font-size:14px;
+ color:#9ca3af
+}
+
+.sectionTitle{
+ font-size:20px;
+ font-weight:800;
+ margin-bottom:10px
+}
+
+/* SIX PIN RACK */
 
 .pinGrid{
  display:grid;
@@ -82,444 +179,595 @@ button.disabled{
  grid-template-rows:repeat(3,58px);
  justify-content:center;
  align-items:center;
- margin:20px auto;
+ margin:20px auto
 }
+
 .pin{
- width:44px;height:44px;padding:0;margin:0;
- border-radius:50%;background:#eee;color:#111;
- border:3px solid white;position:relative;
+ width:44px;
+ height:44px;
+ min-height:44px;
+ padding:0;
+ margin:0;
+ border-radius:50%;
+ background:#f4f4f4;
+ color:#111;
+ border:3px solid #fff;
+ position:relative
 }
-.pin.down{background:#555;color:#aaa;opacity:.45}
+
+.pin.down{
+ background:#555;
+ color:#aaa;
+ opacity:.5
+}
+
 .pin.split{
- background:#c62828;color:white;
+ background:#c62828;
+ color:#fff;
  border-color:#ff7777;
- box-shadow:0 0 14px #f33;
+ box-shadow:0 0 14px #f33
 }
-.pin.split::after{
- content:"";position:absolute;
- width:11px;height:11px;border-radius:50%;
- background:#ffdddd;top:2px;right:2px;
+
+.pin.split:after{
+ content:"";
+ position:absolute;
+ width:11px;
+ height:11px;
+ border-radius:50%;
+ background:#fff;
+ top:2px;
+ right:2px
 }
-.pin:nth-child(1){grid-column:3/span 2;grid-row:1}
-.pin:nth-child(2){grid-column:2/span 2;grid-row:2}
-.pin:nth-child(3){grid-column:4/span 2;grid-row:2}
-.pin:nth-child(4){grid-column:1/span 2;grid-row:3}
-.pin:nth-child(5){grid-column:3/span 2;grid-row:3}
-.pin:nth-child(6){grid-column:5/span 2;grid-row:3}
+
+.pin:nth-child(1){
+ grid-column:3/span 2;
+ grid-row:1
+}
+
+.pin:nth-child(2){
+ grid-column:2/span 2;
+ grid-row:2
+}
+
+.pin:nth-child(3){
+ grid-column:4/span 2;
+ grid-row:2
+}
+
+.pin:nth-child(4){
+ grid-column:1/span 2;
+ grid-row:3
+}
+
+.pin:nth-child(5){
+ grid-column:3/span 2;
+ grid-row:3
+}
+
+.pin:nth-child(6){
+ grid-column:5/span 2;
+ grid-row:3
+}
+
+.pinControls{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px
+}
+
+.pinControls button{
+ min-height:58px
+}
+
+.submit{
+ background:#16a34a;
+ grid-column:span 2
+}
 
 .backgroundGrid{
  display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:8px;
+ grid-template-columns:1fr 1fr;
+ gap:8px
+}
+
+.backgroundGrid button{
+ min-height:58px
+}
+
+.invalid{
+ filter:blur(4px);
+ opacity:.25;
+ pointer-events:none
+}
+
+.disabled{
+ opacity:.3;
+ pointer-events:none
+}
+
+@media(max-width:400px){
+
+ .grid{
+  grid-template-columns:repeat(3,1fr)
+ }
+
+ .strike,
+ .spare{
+  grid-column:span 3
+ }
+
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
-<!-- CONNECT -->
-<section id="connect" class="page">
- <div class="card center">
-  <h1>🎳 King Gavin Lanes</h1>
-  <h2>Phone Remote</h2>
+<div class="wrap">
 
-  <input id="codeInput"
-   inputmode="numeric"
-   maxlength="6"
-   placeholder="6-Digit Code">
+<div class="top">
 
-  <button class="connectBtn" onclick="connect()">Connect</button>
-  <p id="connectStatus">Enter the code shown on the TV.</p>
- </div>
-</section>
+<h1>🎳 King Gavin Lanes</h1>
 
-<!-- HOME -->
-<section id="home" class="page hidden">
- <div class="card center">
-  <h1>🎳 Remote</h1>
-  <p id="connectionText">Connected to King Gavin Lanes</p>
- </div>
+<div class="muted">
+ Wireless Control Panel
+</div>
 
- <div class="menuGrid">
-  <button onclick="page('players')">👥 Players</button>
-  <button onclick="page('score')">📊 Score</button>
-  <button onclick="page('pinsetter')">🎳 Pinsetter</button>
-  <button onclick="page('backgrounds')">🎨 TV Backgrounds</button>
-  <button onclick="page('more')">☰ More</button>
- </div>
-</section>
-
-<!-- PLAYERS -->
-<section id="players" class="page hidden">
- <div class="card">
-  <h1>Players</h1>
-
-  <input id="playerName"
-   placeholder="Player name">
-
-  <button style="width:100%" onclick="addPlayer()">Add Player</button>
-
-  <div id="playersList" class="players"></div>
- </div>
-
- <button onclick="page('home')">← Home</button>
-</section>
-
-<!-- SCORE -->
-<section id="score" class="page hidden">
- <div class="card">
-  <h1>Score Controls</h1>
-  <p id="turnText" class="center"></p>
-
-  <div id="numbers" class="numberGrid"></div>
-
-  <div class="actionGrid">
-   <button id="strikeBtn" onclick="send({type:'strike'})">X Strike</button>
-   <button id="spareBtn" onclick="send({type:'spare'})">/ Spare</button>
-   <button onclick="send({type:'previous'})">← Previous</button>
-   <button onclick="send({type:'next'})">Next →</button>
-   <button onclick="send({type:'split'})">🔴 Split</button>
-   <button onclick="send({type:'reset'})">Reset</button>
-  </div>
- </div>
-
- <button onclick="page('home')">← Home</button>
-</section>
-
-<!-- PINSETTER -->
-<section id="pinsetter" class="page hidden">
- <div class="card center">
-  <h1>🎳 Pinsetter</h1>
-  <p>Changes stay local until you press Submit.</p>
-
-  <div id="pinDisplay" class="pinGrid"></div>
-
-  <div class="actionGrid">
-   <button onclick="pinAction('rack')">Rack Pins</button>
-   <button onclick="pinAction('clear')">Clear</button>
-   <button onclick="pinAction('sweep')">Sweep</button>
-   <button onclick="pinAction('nextBall')">Next Ball</button>
-  </div>
-
-  <button onclick="toggleDraftSplit()" style="width:100%">
-   🔴 Split
-  </button>
-
-  <button onclick="submitPins()" style="width:100%;background:#176b38">
-   ✅ SUBMIT
-  </button>
- </div>
-
- <button onclick="page('home')">← Home</button>
-</section>
-
-<!-- BACKGROUNDS -->
-<section id="backgrounds" class="page hidden">
- <div class="card">
-  <h1>🎨 TV Backgrounds</h1>
-  <p class="center">These change the background on the iPad / TV.</p>
-
-  <div class="backgroundGrid">
-   <button onclick="setBackground('midnight')">Midnight</button>
-   <button onclick="setBackground('black')">Black</button>
-   <button onclick="setBackground('purple')">Purple</button>
-   <button onclick="setBackground('green')">Green</button>
-   <button onclick="setBackground('blue')">Bowling Blue</button>
-   <button onclick="setBackground('warm')">Warm</button>
-  </div>
- </div>
-
- <button onclick="page('home')">← Home</button>
-</section>
-
-<!-- MORE -->
-<section id="more" class="page hidden">
- <div class="card">
-  <h1>More</h1>
-
-  <div class="menuGrid">
-   <button onclick="send({type:'start'})">▶️ Start Bowling</button>
-   <button onclick="send({type:'end'})">🛑 End Game</button>
-  </div>
- </div>
-
- <button onclick="page('home')">← Home</button>
-</section>
+<div id="status" class="status offline">
+ ● Not connected
+</div>
 
 </div>
 
+
+<div class="top" id="connectBox">
+
+<div class="sectionTitle">
+ Connect to Bowl Site
+</div>
+
+<div class="small">
+ Open MENU on the Bowl Site and enter the 6-character Remote Code below.
+</div>
+
+<div class="connect" style="margin-top:12px">
+
+<input
+ id="code"
+ maxlength="6"
+ placeholder="ABC123"
+ autocapitalize="characters">
+
+<button id="connect">
+ CONNECT
+</button>
+
+</div>
+
+</div>
+
+
+<div id="remoteUI" style="display:none">
+
+
+<!-- CONTROL PANEL -->
+
+<div class="top">
+
+<button id="menuButton" class="menuButton">
+ ☰ CONTROL PANEL
+</button>
+
+<div id="remoteMenu" class="remoteMenu">
+
+<button onclick="goPage('players')">
+ 👥 PLAYERS
+</button>
+
+<button onclick="goPage('score')">
+ 🎳 SCORE
+</button>
+
+<button onclick="goPage('editor')">
+ ✏️ SCORE EDITOR
+</button>
+
+<button onclick="goPage('recap')">
+ 📊 RECAP
+</button>
+
+<button onclick="goPage('backgrounds')">
+ 🖼️ BACKGROUNDS
+</button>
+
+<button onclick="goPage('pinsetter')">
+ ⚙️ PINSETTER
+</button>
+
+<button onclick="startGame()">
+ ▶️ START BOWLING
+</button>
+
+<button onclick="goBack()">
+ ◀ BACK
+</button>
+
+<button class="danger" onclick="endGame()">
+ 🛑 END GAME
+</button>
+
+</div>
+</div>
+
+
+<!-- ADD PLAYER -->
+
+<div class="top">
+
+<div class="sectionTitle">
+ 👤 Add Player
+</div>
+
+<div class="connect" style="margin-top:12px">
+
+<input
+ id="playerName"
+ maxlength="30"
+ placeholder="Player name">
+
+<button id="addPlayer">
+ ADD
+</button>
+
+</div>
+
+</div>
+
+
+<!-- PLAYERS -->
+
+<div class="top">
+
+<div class="sectionTitle">
+ Players
+</div>
+
+<div id="players" class="playerButtons"></div>
+
+</div>
+
+
+<!-- SCORE INFO -->
+
+<div class="top">
+
+<div
+ class="sectionTitle"
+ id="current">
+ Waiting…
+</div>
+
+<div
+ id="score"
+ class="score">
+ Score: 0
+</div>
+
+</div>
+
+
+<!-- BOWLING -->
+
+<div class="top">
+
+<div class="sectionTitle">
+ 🎳 Bowling Controls
+</div>
+
+<div class="grid">
+
+<button data-roll="0">0</button>
+<button data-roll="1">1</button>
+<button data-roll="2">2</button>
+<button data-roll="3">3</button>
+<button data-roll="4">4</button>
+
+<button data-roll="5">5</button>
+<button data-roll="6">6</button>
+<button data-roll="7">7</button>
+<button data-roll="8">8</button>
+<button data-roll="9">9</button>
+
+<button
+ class="strike"
+ id="strike">
+ 🎳 STRIKE X
+</button>
+
+<button
+ class="spare"
+ id="spare">
+ SPARE /
+</button>
+
+</div>
+
+<div class="nav">
+
+<button id="prev">
+ ◀ PREVIOUS
+</button>
+
+<button id="next">
+ NEXT ▶
+</button>
+
+</div>
+
+<button
+ class="wide"
+ id="reset">
+ RESET PLAYER
+</button>
+
+</div>
+
+
+<!-- PINSETTER -->
+
+<div class="top">
+
+<div class="sectionTitle">
+ ⚙️ Pinsetter
+</div>
+
+<p class="small">
+ Changes stay on the remote until you press SUBMIT.
+</p>
+
+<div id="pinDisplay" class="pinGrid"></div>
+
+<div class="pinControls">
+
+<button onclick="pinAction('rack')">
+ 🎳 RACK PINS
+</button>
+
+<button onclick="pinAction('clear')">
+ 🧹 CLEAR
+</button>
+
+<button onclick="pinAction('sweep')">
+ ↔ SWEEP
+</button>
+
+<button onclick="pinAction('nextBall')">
+ ▶ NEXT BALL
+</button>
+
+<button onclick="toggleSplit()">
+ 🔴 SPLIT
+</button>
+
+<button class="submit" onclick="submitPins()">
+ ✅ SUBMIT
+</button>
+
+</div>
+
+</div>
+
+
+<!-- TV BACKGROUNDS -->
+
+<div class="top">
+
+<div class="sectionTitle">
+ 🖼️ TV Backgrounds
+</div>
+
+<p class="small">
+ These change the background on the iPad / TV scoreboard.
+ </p>
+
+<div class="backgroundGrid">
+
+<button onclick="setBackground('midnight')">
+ Midnight
+</button>
+
+<button onclick="setBackground('gray')">
+ Dark Gray
+</button>
+
+<button onclick="setBackground('green')">
+ Green
+</button>
+
+<button onclick="setBackground('purple')">
+ Purple
+</button>
+
+<button onclick="setBackground('brown')">
+ Brown
+</button>
+
+<button onclick="setBackground('steel')">
+ Steel
+</button>
+
+</div>
+
+</div>
+
+
+</div>
+</div>
+
+
 <script>
+
 let peer=null;
 let conn=null;
+let state=null;
 
-let players=[];
-let currentPlayer=0;
-let scores=[];
-let pins=Array(6).fill(true);
-let splitPins=[];
-let gameStarted=false;
-let currentBackground="midnight";
+let draftPins=Array(6).fill(true);
+let draftSplitPins=[];
 
-/* DRAFT PINSETTER STATE */
-let draftPins=[...pins];
-let draftSplitPins=[...splitPins];
+const $=id=>document.getElementById(id);
 
-function page(id){
- document.querySelectorAll(".page")
-  .forEach(x=>x.classList.add("hidden"));
 
- document.getElementById(id).classList.remove("hidden");
+/* STATUS */
 
- if(id==="pinsetter"){
-  draftPins=[...pins];
-  draftSplitPins=[...splitPins];
-  renderPins();
+function setStatus(text,ok){
+
+ $("status").textContent=
+  "● "+text;
+
+ $("status").className=
+  "status "+
+  (ok?"online":"offline");
+}
+
+
+/* SEND */
+
+function send(action,value){
+
+ if(conn&&conn.open){
+
+  conn.send({
+   type:"action",
+   action,
+   value
+  });
+
  }
-
- if(id==="score")renderScoreControls();
- if(id==="players")renderPlayers();
 }
 
-function toast(msg){
- let t=document.createElement("div");
- t.textContent=msg;
- t.style.cssText=
- "position:fixed;bottom:25px;left:50%;"+
- "transform:translateX(-50%);background:#111;"+
- "padding:14px 20px;border-radius:14px;z-index:999";
- document.body.appendChild(t);
- setTimeout(()=>t.remove(),1800);
+
+/* MENU */
+
+$("menuButton").onclick=()=>{
+
+ $("remoteMenu")
+  .classList.toggle("open");
+
+};
+
+
+function goPage(page){
+
+ send("page",page);
+
+ $("remoteMenu")
+  .classList.remove("open");
+
 }
 
-function connect(){
- let code=document.getElementById("codeInput").value.trim();
+function goBack(){
 
- if(code.length!==6){
-  document.getElementById("connectStatus").textContent=
-   "Enter all 6 digits.";
+ send("page","menu");
+
+ $("remoteMenu")
+  .classList.remove("open");
+
+}
+
+
+/* PLAYERS */
+
+$("addPlayer").onclick=()=>{
+
+ const name=
+  $("playerName")
+   .value
+   .trim();
+
+ if(!name){
+  alert("Enter a player name.");
   return;
  }
 
- document.getElementById("connectStatus").textContent="Connecting...";
+ send("addPlayer",name);
 
- if(peer)peer.destroy();
+ $("playerName").value="";
+};
 
- peer=new Peer();
-
- peer.on("open",()=>{
-  conn=peer.connect("kgl-"+code,{reliable:true});
-
-  conn.on("open",()=>{
-   document.getElementById("connectStatus").textContent=
-    "Connected!";
-   page("home");
-  });
-
-  conn.on("data",handleState);
-
-  conn.on("close",()=>{
-   document.getElementById("connectionText").textContent=
-    "⚠️ Disconnected from TV";
-  });
- });
-
- peer.on("error",err=>{
-  console.log(err);
-  document.getElementById("connectStatus").textContent=
-   "Could not connect. Check the code.";
- });
-}
-
-function send(data){
- if(conn&&conn.open)conn.send(data);
- else toast("Not connected");
-}
-
-function handleState(data){
- if(!data||data.type!=="state")return;
-
- players=data.players||[];
- currentPlayer=data.currentPlayer||0;
- scores=data.scores||players.map(()=>[]);
- pins=Array.isArray(data.pins)&&data.pins.length===6
-  ?data.pins.map(Boolean):Array(6).fill(true);
- splitPins=Array.isArray(data.splitPins)?data.splitPins:[];
- gameStarted=!!data.gameStarted;
- currentBackground=data.background||"midnight";
-
- if(document.getElementById("pinsetter") &&
-    !document.getElementById("pinsetter").classList.contains("hidden")){
-  draftPins=[...pins];
-  draftSplitPins=[...splitPins];
-  renderPins();
+$("playerName").addEventListener(
+ "keydown",
+ e=>{
+  if(e.key==="Enter")
+   $("addPlayer").click();
  }
+);
 
- renderPlayers();
- renderScoreControls();
+
+/* GAME */
+
+function startGame(){
+ send("start");
 }
 
-function addPlayer(){
- let input=document.getElementById("playerName");
- let name=input.value.trim();
- if(!name)return;
+function endGame(){
 
- send({type:"addPlayer",name});
- input.value="";
+ if(confirm("End the game?"))
+  send("end");
+
 }
 
-document.getElementById("playerName").addEventListener("keydown",e=>{
- if(e.key==="Enter")addPlayer();
-});
 
-function renderPlayers(){
- let el=document.getElementById("playersList");
- if(!el)return;
-
- el.innerHTML="";
-
- players.forEach((p,i)=>{
-  let row=document.createElement("div");
-  row.className="player";
-
-  let name=document.createElement("span");
-  name.textContent=p+(i===currentPlayer?" 🎳":"");
-
-  let remove=document.createElement("button");
-  remove.textContent="Remove";
-  remove.onclick=()=>send({type:"remove",index:i});
-
-  row.appendChild(name);
-  row.appendChild(remove);
-  el.appendChild(row);
- });
-}
-
-function currentFrameInfo(){
- let arr=scores[currentPlayer]||[];
- let frame=0;
- let i=0;
-
- while(frame<10){
-  if(i>=arr.length)return {frame,first:null,complete:false};
-
-  let r=arr[i];
-
-  if(r.type==="strike"){
-   if(frame===9)return {frame,first:r,complete:true};
-
-   if(arr.length>=i+3){
-    i++;
-    frame++;
-    continue;
-   }
-
-   return {frame,first:r,complete:false};
-  }
-
-  if(i+1>=arr.length)
-   return {frame,first:r,complete:false};
-
-  i+=2;
-  frame++;
- }
-
- return {frame:9,complete:true};
-}
-
-function renderScoreControls(){
- let grid=document.getElementById("numbers");
- if(!grid)return;
-
- grid.innerHTML="";
-
- let info=currentFrameInfo();
- let arr=scores[currentPlayer]||[];
-
- document.getElementById("turnText").textContent=
-  players.length
-   ?`Current player: ${players[currentPlayer]||"Unknown"}`
-   :"No players";
-
- for(let n=0;n<=9;n++){
-  let b=document.createElement("button");
-  b.textContent=n;
-
-  if(!gameStarted||!players.length){
-   b.classList.add("disabled");
-  }else if(info.complete){
-   b.classList.add("disabled");
-  }else if(info.first===null){
-   // First shot: all 0-9 are legal.
-  }else{
-   // Second shot: only numbers <= remaining pins.
-   let remaining=10-info.first.pins;
-   if(n>remaining)b.classList.add("invalid");
-  }
-
-  b.onclick=()=>send({type:"roll",value:n});
-  grid.appendChild(b);
- }
-
- let strike=document.getElementById("strikeBtn");
- let spare=document.getElementById("spareBtn");
-
- strike.className="";
- spare.className="";
-
- if(!gameStarted||!players.length||info.complete){
-  strike.classList.add("disabled");
-  spare.classList.add("disabled");
- }else if(info.first!==null){
-  // Strike only on first shot.
-  strike.classList.add("disabled");
- }else{
-  // Spare only after a first-shot number.
-  spare.classList.add("disabled");
- }
-}
+/* PINSETTER DRAFT */
 
 function renderPins(){
- let el=document.getElementById("pinDisplay");
- if(!el)return;
 
- el.innerHTML="";
+ $("pinDisplay").innerHTML="";
 
  draftPins.forEach((up,i)=>{
-  let b=document.createElement("button");
 
-  b.className="pin "+
+  const b=
+   document.createElement("button");
+
+  b.className=
+   "pin "+
    (up?"":"down")+
    (draftSplitPins.includes(i)?" split":"");
 
   b.textContent=i+1;
 
   b.onclick=()=>{
+
    draftPins[i]=!draftPins[i];
 
-   if(!draftPins[i])
-    draftSplitPins=draftSplitPins.filter(x=>x!==i);
+   if(!draftPins[i]){
+    draftSplitPins=
+     draftSplitPins.filter(x=>x!==i);
+   }
 
    renderPins();
   };
 
-  el.appendChild(b);
+  $("pinDisplay")
+   .appendChild(b);
  });
 }
 
 function pinAction(action){
+
  if(action==="rack"){
   draftPins=Array(6).fill(true);
   draftSplitPins=[];
  }
+
  if(action==="clear"){
   draftPins=Array(6).fill(false);
   draftSplitPins=[];
  }
+
  if(action==="sweep"){
   draftPins=Array(6).fill(false);
   draftSplitPins=[];
  }
+
  if(action==="nextBall"){
   draftPins=Array(6).fill(true);
   draftSplitPins=[];
@@ -528,13 +776,15 @@ function pinAction(action){
  renderPins();
 }
 
-function toggleDraftSplit(){
- let standing=draftPins
-  .map((x,i)=>x?i:null)
-  .filter(x=>x!==null);
+function toggleSplit(){
+
+ const standing=
+  draftPins
+   .map((x,i)=>x?i:null)
+   .filter(x=>x!==null);
 
  if(!standing.length){
-  toast("No standing pins!");
+  alert("There are no standing pins.");
   return;
  }
 
@@ -547,27 +797,242 @@ function toggleDraftSplit(){
 }
 
 function submitPins(){
- send({
-  type:"pinSubmit",
+
+ send("pinSubmit",{
   pins:[...draftPins],
   splitPins:[...draftSplitPins]
  });
 
- pins=[...draftPins];
- splitPins=[...draftSplitPins];
-
- toast("Pinsetter submitted!");
 }
+
+
+/* BACKGROUNDS */
 
 function setBackground(value){
- send({
-  type:"background",
-  value
+
+ send("background",value);
+
+}
+
+
+/* STATE RENDER */
+
+function render(){
+
+ if(!state)
+  return;
+
+ $("remoteUI").style.display=
+  "block";
+
+ $("players").innerHTML="";
+
+ state.players.forEach((p,i)=>{
+
+  const b=
+   document.createElement("button");
+
+  b.textContent=p.name;
+
+  b.className=
+   i===state.currentPlayer
+    ?"active"
+    :"";
+
+  b.onclick=()=>
+   send("select",i);
+
+  $("players")
+   .appendChild(b);
+
  });
 
- currentBackground=value;
- toast("TV background changed!");
+ if(state.players.length){
+
+  const p=
+   state.players[state.currentPlayer];
+
+  $("current").textContent=
+   "🎳 "+p.name;
+
+  let total=0;
+
+  if(p.rolls){
+   p.rolls.forEach(x=>{
+    total+=Number(x)||0;
+   });
+  }
+
+  $("score").textContent=
+   "Current pins: "+total;
+
+ }else{
+
+  $("current").textContent=
+   "No players";
+
+  $("score").textContent=
+   "Score: 0";
+ }
+
+
+ /* SYNC PINSETTER */
+
+ draftPins=
+  Array.isArray(state.pins)&&state.pins.length===6
+   ?[...state.pins]
+   :Array(6).fill(true);
+
+ draftSplitPins=
+  Array.isArray(state.splitPins)
+   ?[...state.splitPins]
+   :[];
+
+ renderPins();
+
 }
+
+
+/* CONNECT */
+
+function connect(){
+
+ const code=
+  $("code")
+   .value
+   .trim()
+   .toUpperCase()
+   .replace(/[^A-Z0-9]/g,"");
+
+ if(code.length!==6){
+
+  alert(
+   "Enter the 6-character code from the Bowl Site."
+  );
+
+  return;
+ }
+
+ if(peer)
+  peer.destroy();
+
+ peer=new Peer();
+
+ peer.on("open",()=>{
+
+  conn=
+   peer.connect(
+    "kgl-"+code,
+    {reliable:true}
+   );
+
+  conn.on("open",()=>{
+
+   setStatus(
+    "CONNECTED 🟢",
+    true
+   );
+
+   $("connectBox")
+    .style.display="none";
+
+   $("remoteUI")
+    .style.display="block";
+
+  });
+
+  conn.on("data",m=>{
+
+   if(m.type==="state"){
+
+    state=m.state;
+
+    render();
+   }
+
+  });
+
+  conn.on("close",()=>{
+
+   setStatus(
+    "Disconnected",
+    false
+   );
+
+   $("connectBox")
+    .style.display="block";
+
+  });
+
+ });
+
+ peer.on("error",e=>{
+
+  setStatus(
+   "Connection failed",
+   false
+  );
+
+  alert(
+   "Couldn't connect. Check the code and make sure the Bowl Site is open."
+  );
+
+ });
+
+}
+
+
+/* CONNECT BUTTON */
+
+$("connect").onclick=connect;
+
+$("code").addEventListener(
+ "keydown",
+ e=>{
+  if(e.key==="Enter")
+   connect();
+ });
+
+
+/* ROLLS */
+
+document
+ .querySelectorAll("[data-roll]")
+ .forEach(b=>{
+
+  b.onclick=()=>{
+
+   send(
+    "addRoll",
+    Number(b.dataset.roll)
+   );
+
+  };
+
+ });
+
+
+$("strike").onclick=()=>
+ send("strike");
+
+$("spare").onclick=()=>
+ send("spare");
+
+$("prev").onclick=()=>
+ send("prev");
+
+$("next").onclick=()=>
+ send("next");
+
+$("reset").onclick=()=>
+ send("reset");
+
+
+/* INITIAL */
+
+renderPins();
+
 </script>
+
 </body>
 </html>
