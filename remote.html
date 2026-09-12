@@ -2,239 +2,242 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>King Gavin Lanes Remote</title>
-
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
 
 body{
-    margin:0;
-    min-height:100vh;
-    font-family:Arial,sans-serif;
-    color:white;
-    background:linear-gradient(135deg,#061426,#0b2139);
+margin:0;
+min-height:100vh;
+font-family:Arial,sans-serif;
+color:white;
+background:linear-gradient(135deg,#061426,#0b2139);
 }
 
 header{
-    padding:18px;
-    text-align:center;
-    background:#09192b;
-    border-bottom:1px solid #294967;
-    font-size:20px;
-    font-weight:900;
+padding:18px;
+text-align:center;
+background:#09192b;
+border-bottom:1px solid #294967;
+font-size:20px;
+font-weight:900;
 }
 
 main{
-    max-width:600px;
-    margin:auto;
-    padding:18px;
+max-width:600px;
+margin:auto;
+padding:18px;
 }
 
 .card{
-    background:#0d2036;
-    border:1px solid #294966;
-    border-radius:18px;
-    padding:18px;
-    margin-bottom:15px;
+background:#0d2036;
+border:1px solid #294966;
+border-radius:18px;
+padding:18px;
+margin-bottom:15px;
 }
 
 input{
-    width:100%;
-    padding:15px;
-    border-radius:12px;
-    border:1px solid #385570;
-    background:#071625;
-    color:white;
-    font-size:18px;
+width:100%;
+padding:15px;
+border-radius:12px;
+border:1px solid #385570;
+background:#071625;
+color:white;
+font-size:18px;
 }
 
 button{
-    border:0;
-    border-radius:12px;
-    padding:14px;
-    background:#193d63;
-    color:white;
-    font-weight:bold;
+border:0;
+border-radius:12px;
+padding:14px;
+background:#193d63;
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
 button:active{
-    transform:scale(.97);
+transform:scale(.97);
 }
 
 .full{
-    width:100%;
-    margin-top:8px;
+width:100%;
+margin-top:8px;
 }
 
 .green{
-    background:#197144;
+background:#197144;
 }
 
 .red{
-    background:#7b2934;
+background:#7b2934;
 }
 
 .page{
-    display:none;
+display:none;
 }
 
 .page.active{
-    display:block;
+display:block;
 }
 
 .menu{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
 
 .menu button{
-    min-height:72px;
-    font-size:16px;
+min-height:72px;
+font-size:16px;
 }
 
 .back{
-    margin-bottom:12px;
+margin-bottom:12px;
 }
 
 .status{
-    margin-top:10px;
-    padding:11px;
-    border-radius:10px;
-    background:#102d49;
+margin-top:10px;
+padding:11px;
+border-radius:10px;
+background:#102d49;
 }
 
 .player{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:13px;
-    margin:8px 0;
-    background:#102941;
-    border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:13px;
+margin:8px 0;
+background:#102941;
+border-radius:12px;
 }
 
 .remove{
-    background:#6d3038;
-    padding:9px 12px;
+background:#6d3038;
+padding:9px 12px;
 }
 
-/* SCORING */
+/* SCORE */
 
 .numberGrid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
 }
 
 .numberGrid button{
-    height:65px;
-    font-size:22px;
+height:65px;
+font-size:22px;
 }
 
 .invalid{
-    opacity:.2;
-    filter:blur(4px);
-    pointer-events:none;
+opacity:.2;
+filter:blur(4px);
+pointer-events:none;
 }
 
 .disabled{
-    opacity:.25;
-    pointer-events:none;
+opacity:.25;
+pointer-events:none;
 }
 
 .special{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-top:10px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:10px;
 }
 
 .special button{
-    min-height:58px;
-}
-
-/* PINS */
-
-.pinGrid{
-    position:relative;
-    width:270px;
-    height:230px;
-    margin:20px auto;
-}
-
-.pin{
-    position:absolute;
-    width:64px;
-    height:64px;
-    border-radius:50%;
-    transform:translate(-50%,-50%);
-    background:#f4f4f4;
-    color:#111;
-    padding:0;
-    font-size:18px;
-}
-
-.pin.down{
-    background:#394651;
-    color:#9ba5ad;
-}
-
-.pin.split{
-    outline:5px solid #ed2939;
-}
-
-.splitDot{
-    position:absolute;
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background:#ed2939;
-    border:2px solid white;
-    top:-4px;
-    right:-4px;
-}
-
-.pinControls{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-}
-
-.submit{
-    width:100%;
-    margin-top:10px;
-    background:#197144;
-}
-
-.backgrounds{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-}
-
-.muted{
-    color:#9eb4c9;
+min-height:58px;
 }
 
 .current{
-    font-size:27px;
-    font-weight:900;
+font-size:27px;
+font-weight:900;
+}
+
+/* PINSETTER */
+
+.pinGrid{
+position:relative;
+width:270px;
+height:230px;
+margin:20px auto;
+}
+
+.pin{
+position:absolute;
+width:64px;
+height:64px;
+border-radius:50%;
+transform:translate(-50%,-50%);
+background:#f4f4f4;
+color:#111;
+padding:0;
+font-size:18px;
+}
+
+.pin.down{
+background:#394651;
+color:#9ba5ad;
+}
+
+.pin.split{
+outline:5px solid #ed2939;
+}
+
+.splitDot{
+position:absolute;
+width:20px;
+height:20px;
+border-radius:50%;
+background:#ed2939;
+border:2px solid white;
+top:-4px;
+right:-4px;
+}
+
+.pinControls{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.submit{
+width:100%;
+margin-top:10px;
+background:#197144;
+}
+
+/* BACKGROUNDS */
+
+.backgrounds{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.muted{
+color:#9eb4c9;
 }
 
 .toast{
-    position:fixed;
-    left:50%;
-    bottom:20px;
-    transform:translateX(-50%);
-    background:#102d49;
-    border:1px solid #42637f;
-    padding:12px 18px;
-    border-radius:12px;
-    display:none;
+position:fixed;
+left:50%;
+bottom:20px;
+transform:translateX(-50%);
+background:#102d49;
+border:1px solid #42637f;
+padding:12px 18px;
+border-radius:12px;
+display:none;
+z-index:9999;
 }
 </style>
 </head>
@@ -242,7 +245,7 @@ button:active{
 <body>
 
 <header>
-    🎳 KING GAVIN LANES REMOTE
+🎳 KING GAVIN LANES REMOTE
 </header>
 
 <main>
@@ -251,281 +254,286 @@ button:active{
 
 <section id="connect" class="page active">
 
-    <div class="card">
+<div class="card">
 
-        <h2>Connect To TV</h2>
+<h2>Connect To TV</h2>
 
-        <p class="muted">
-            Enter the 6-digit code shown on the TV/iPad.
-        </p>
+<p class="muted">
+Enter the 6-digit code shown on the TV/iPad.
+</p>
 
-        <input
-            id="code"
-            maxlength="6"
-            inputmode="numeric"
-            placeholder="123456"
-        >
+<input
+id="code"
+maxlength="6"
+inputmode="numeric"
+placeholder="123456"
+>
 
-        <button
-            class="full green"
-            onclick="connect()"
-        >
-            🔗 CONNECT
-        </button>
+<button
+class="full green"
+onclick="connectRemote()"
+>
+🔗 CONNECT
+</button>
 
-        <div id="status" class="status">
-            🔴 Not connected
-        </div>
+<div id="status" class="status">
+🔴 Not connected
+</div>
 
-    </div>
+</div>
 
 </section>
+
 
 <!-- HOME -->
 
 <section id="home" class="page">
 
-    <div class="card">
+<div class="card">
 
-        <div id="connected" class="status">
-            🟢 Connected
-        </div>
+<div id="connected" class="status">
+🟢 Connected
+</div>
 
-        <div id="current" class="current">
-            Ready To Bowl
-        </div>
+<div id="current" class="current">
+Ready To Bowl
+</div>
 
-    </div>
+</div>
 
-    <div class="menu">
+<div class="menu">
 
-        <button onclick="page('players')">
-            👥 Players
-        </button>
+<button onclick="page('players')">
+👥 Players
+</button>
 
-        <button onclick="page('score')">
-            🎳 Score
-        </button>
+<button onclick="page('score')">
+🎳 Score
+</button>
 
-        <button onclick="page('pinsetter')">
-            ⚙️ Pinsetter
-        </button>
+<button onclick="page('pinsetter')">
+⚙️ Pinsetter
+</button>
 
-        <button onclick="page('backgrounds')">
-            🖼 Backgrounds
-        </button>
+<button onclick="page('backgrounds')">
+🖼 Backgrounds
+</button>
 
-        <button
-            class="green"
-            onclick="startGame()"
-        >
-            ▶ Start Bowling
-        </button>
+<button
+class="green"
+onclick="startGame()"
+>
+▶ Start Bowling
+</button>
 
-        <button
-            class="red"
-            onclick="endGame()"
-        >
-            🏁 End Game
-        </button>
+<button
+class="red"
+onclick="endGame()"
+>
+🏁 End Game
+</button>
 
-    </div>
+</div>
 
 </section>
+
 
 <!-- PLAYERS -->
 
 <section id="players" class="page">
 
-    <button class="back" onclick="page('home')">
-        ← Back
-    </button>
+<button class="back" onclick="page('home')">
+← Back
+</button>
 
-    <div class="card">
+<div class="card">
 
-        <h2>👥 Players</h2>
+<h2>👥 Players</h2>
 
-        <input
-            id="playerName"
-            maxlength="30"
-            placeholder="Player name"
-        >
+<input
+id="playerName"
+maxlength="30"
+placeholder="Player name"
+>
 
-        <button
-            class="full green"
-            onclick="addPlayer()"
-        >
-            ➕ Add Player
-        </button>
+<button
+class="full green"
+onclick="addPlayer()"
+>
+➕ Add Player
+</button>
 
-        <div id="playerList"></div>
+<div id="playerList"></div>
 
-    </div>
+</div>
 
 </section>
+
 
 <!-- SCORE -->
 
 <section id="score" class="page">
 
-    <button class="back" onclick="page('home')">
-        ← Back
-    </button>
+<button class="back" onclick="page('home')">
+← Back
+</button>
 
-    <div class="card">
+<div class="card">
 
-        <div id="scorePlayer" class="current">
-            Ready
-        </div>
+<div id="scorePlayer" class="current">
+Ready
+</div>
 
-    </div>
+</div>
 
-    <div class="card">
+<div class="card">
 
-        <div class="numberGrid">
+<div class="numberGrid">
 
-            <button data-roll="1" onclick="roll(1)">1</button>
-            <button data-roll="2" onclick="roll(2)">2</button>
-            <button data-roll="3" onclick="roll(3)">3</button>
+<button data-roll="1" onclick="roll(1)">1</button>
+<button data-roll="2" onclick="roll(2)">2</button>
+<button data-roll="3" onclick="roll(3)">3</button>
 
-            <button data-roll="4" onclick="roll(4)">4</button>
-            <button data-roll="5" onclick="roll(5)">5</button>
-            <button data-roll="6" onclick="roll(6)">6</button>
+<button data-roll="4" onclick="roll(4)">4</button>
+<button data-roll="5" onclick="roll(5)">5</button>
+<button data-roll="6" onclick="roll(6)">6</button>
 
-            <button data-roll="7" onclick="roll(7)">7</button>
-            <button data-roll="8" onclick="roll(8)">8</button>
-            <button data-roll="9" onclick="roll(9)">9</button>
+<button data-roll="7" onclick="roll(7)">7</button>
+<button data-roll="8" onclick="roll(8)">8</button>
+<button data-roll="9" onclick="roll(9)">9</button>
 
-            <button data-roll="0" onclick="roll(0)">0</button>
+<button data-roll="0" onclick="roll(0)">0</button>
 
-            <button id="strike" onclick="strike()">
-                X STRIKE
-            </button>
+<button id="strike" onclick="strike()">
+X STRIKE
+</button>
 
-            <button id="spare" onclick="spare()">
-                / SPARE
-            </button>
+<button id="spare" onclick="spare()">
+/ SPARE
+</button>
 
-        </div>
+</div>
 
-        <div class="special">
+<div class="special">
 
-            <button onclick="previous()">
-                ⬅ Previous
-            </button>
+<button onclick="previous()">
+⬅ Previous
+</button>
 
-            <button onclick="next()">
-                Next ➡
-            </button>
+<button onclick="next()">
+Next ➡
+</button>
 
-            <button onclick="reset()">
-                🔄 Reset
-            </button>
+<button onclick="reset()">
+🔄 Reset
+</button>
 
-            <button onclick="split()">
-                🔴 Split
-            </button>
+<button onclick="split()">
+🔴 Split
+</button>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
+
 
 <!-- PINSETTER -->
 
 <section id="pinsetter" class="page">
 
-    <button class="back" onclick="page('home')">
-        ← Back
-    </button>
+<button class="back" onclick="page('home')">
+← Back
+</button>
 
-    <div class="card">
+<div class="card">
 
-        <h2>⚙️ Pinsetter</h2>
+<h2>⚙️ Pinsetter</h2>
 
-        <div id="pinGrid" class="pinGrid"></div>
+<div id="pinGrid" class="pinGrid"></div>
 
-        <div class="pinControls">
+<div class="pinControls">
 
-            <button onclick="pinAction('rack')">
-                🎳 Rack
-            </button>
+<button onclick="pinAction('rack')">
+🎳 Rack
+</button>
 
-            <button onclick="pinAction('clear')">
-                ❌ Clear
-            </button>
+<button onclick="pinAction('clear')">
+❌ Clear
+</button>
 
-            <button onclick="pinAction('sweep')">
-                🧹 Sweep
-            </button>
+<button onclick="pinAction('sweep')">
+🧹 Sweep
+</button>
 
-            <button onclick="pinAction('nextBall')">
-                ➡️ Next Ball
-            </button>
+<button onclick="pinAction('nextBall')">
+➡️ Next Ball
+</button>
 
-            <button onclick="toggleSplit()">
-                🔴 Split
-            </button>
+<button onclick="toggleSplit()">
+🔴 Split
+</button>
 
-        </div>
+</div>
 
-        <button
-            class="submit"
-            onclick="submitPins()"
-        >
-            ✅ SUBMIT
-        </button>
+<button
+class="submit"
+onclick="submitPins()"
+>
+✅ SUBMIT
+</button>
 
-    </div>
+</div>
 
 </section>
+
 
 <!-- BACKGROUNDS -->
 
 <section id="backgrounds" class="page">
 
-    <button class="back" onclick="page('home')">
-        ← Back
-    </button>
+<button class="back" onclick="page('home')">
+← Back
+</button>
 
-    <div class="card">
+<div class="card">
 
-        <h2>🖼 TV Background</h2>
+<h2>🖼 TV Background</h2>
 
-        <p class="muted">
-            These change the background on the TV/iPad.
-        </p>
+<p class="muted">
+Choose a background for the TV/iPad.
+</p>
 
-        <div class="backgrounds">
+<div class="backgrounds">
 
-            <button onclick="background('midnight')">
-                🌙 Midnight
-            </button>
+<button onclick="background('midnight')">
+🌙 Midnight
+</button>
 
-            <button onclick="background('black')">
-                ⚫ Black
-            </button>
+<button onclick="background('black')">
+⚫ Black
+</button>
 
-            <button onclick="background('purple')">
-                🟣 Purple
-            </button>
+<button onclick="background('purple')">
+🟣 Purple
+</button>
 
-            <button onclick="background('green')">
-                🟢 Green
-            </button>
+<button onclick="background('green')">
+🟢 Green
+</button>
 
-            <button onclick="background('blue')">
-                🔵 Blue
-            </button>
+<button onclick="background('blue')">
+🔵 Blue
+</button>
 
-            <button onclick="background('warm')">
-                🟠 Warm
-            </button>
+<button onclick="background('warm')">
+🟠 Warm
+</button>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
 
@@ -547,758 +555,812 @@ let pins=Array(6).fill(true);
 let splitPins=[];
 
 let draftPins=[...pins];
-let draftSplit=[...splitPins];
+let draftSplit=[];
 
-/* ---------------- CONNECT ---------------- */
 
-function connect(){
+/* CONNECT */
 
-    const code=
-        document
-            .getElementById("code")
-            .value.trim();
+function connectRemote(){
 
-    if(!/^\d{6}$/.test(code)){
+const code=
+document.getElementById("code")
+.value.trim();
 
-        document.getElementById("status")
-            .textContent=
-            "🔴 Enter a 6-digit code.";
+if(!/^\d{6}$/.test(code)){
 
-        return;
-    }
+document.getElementById("status")
+.textContent=
+"🔴 Enter a 6-digit code.";
 
-    document.getElementById("status")
-        .textContent=
-        "🟡 Connecting...";
-
-    peer=new Peer();
-
-    peer.on("open",()=>{
-
-        connection=
-            peer.connect(
-                "kgl-"+code,
-                {reliable:true}
-            );
-
-        connection.on("open",()=>{
-
-            document.getElementById("status")
-                .textContent=
-                "🟢 Connected!";
-
-            document.getElementById("connected")
-                .textContent=
-                "🟢 Connected to TV";
-
-            page("home");
-
-        });
-
-        connection.on("data",data=>{
-
-            if(data.type==="state"){
-
-                players=
-                    data.players||[];
-
-                currentPlayer=
-                    data.currentPlayer||0;
-
-                gameStarted=
-                    !!data.gameStarted;
-
-                scores=
-                    data.scores||{};
-
-                pins=
-                    data.pins||
-                    Array(6).fill(true);
-
-                splitPins=
-                    data.splitPins||[];
-
-                draftPins=[...pins];
-                draftSplit=[...splitPins];
-
-                render();
-
-            }
-
-        });
-
-        connection.on("close",()=>{
-
-            document.getElementById(
-                "connected"
-            ).textContent=
-                "🔴 Disconnected";
-
-        });
-
-    });
-
-    peer.on("error",()=>{
-
-        document.getElementById("status")
-            .textContent=
-            "🔴 Connection failed.";
-
-    });
+return;
 
 }
 
-/* ---------------- PAGE ---------------- */
+document.getElementById("status")
+.textContent=
+"🟡 Connecting...";
+
+peer=new Peer();
+
+peer.on("open",()=>{
+
+connection=
+peer.connect(
+"kgl-"+code,
+{reliable:true}
+);
+
+connection.on("open",()=>{
+
+document.getElementById("status")
+.textContent=
+"🟢 Connected!";
+
+document.getElementById("connected")
+.textContent=
+"🟢 Connected to TV";
+
+page("home");
+
+});
+
+connection.on("data",data=>{
+
+if(data.type==="state"){
+
+players=data.players||[];
+
+currentPlayer=
+data.currentPlayer||0;
+
+gameStarted=
+!!data.gameStarted;
+
+scores=
+data.scores||{};
+
+pins=
+data.pins||
+Array(6).fill(true);
+
+splitPins=
+data.splitPins||[];
+
+draftPins=[...pins];
+draftSplit=[...splitPins];
+
+render();
+
+}
+
+});
+
+connection.on("close",()=>{
+
+document.getElementById("connected")
+.textContent=
+"🔴 Disconnected";
+
+});
+
+});
+
+peer.on("error",()=>{
+
+document.getElementById("status")
+.textContent=
+"🔴 Connection failed.";
+
+});
+
+}
+
+
+/* PAGE */
 
 function page(name){
 
-    document
-        .querySelectorAll(".page")
-        .forEach(p=>
-            p.classList.remove("active")
-        );
+document
+.querySelectorAll(".page")
+.forEach(p=>
+p.classList.remove("active")
+);
 
-    document
-        .getElementById(name)
-        .classList.add("active");
+document
+.getElementById(name)
+.classList.add("active");
 
-    render();
+render();
 
 }
 
-/* ---------------- PLAYERS ---------------- */
+
+/* PLAYERS */
 
 function addPlayer(){
 
-    const input=
-        document.getElementById(
-            "playerName"
-        );
+const input=
+document.getElementById(
+"playerName"
+);
 
-    const name=input.value.trim();
+const name=
+input.value.trim();
 
-    if(!name){
+if(!name){
 
-        toast("Enter a player name.");
+toast("Enter a player name.");
 
-        return;
-    }
-
-    send({
-        type:"addPlayer",
-        name:name
-    });
-
-    input.value="";
+return;
 
 }
+
+send({
+
+type:"addPlayer",
+name:name
+
+});
+
+input.value="";
+
+}
+
 
 function removePlayer(index){
 
-    send({
-        type:"removePlayer",
-        index:index
-    });
+send({
+
+type:"removePlayer",
+index:index
+
+});
 
 }
 
-/* ---------------- GAME ---------------- */
+
+/* GAME */
 
 function startGame(){
 
-    if(!players.length){
+if(!players.length){
 
-        page("players");
+page("players");
 
-        toast("Add a player first!");
+toast("Add a player first!");
 
-        return;
-    }
-
-    send({
-        type:"start"
-    });
-
-    page("score");
+return;
 
 }
+
+send({
+type:"start"
+});
+
+page("score");
+
+}
+
 
 function endGame(){
 
-    send({
-        type:"end"
-    });
+send({
+type:"end"
+});
 
-    page("home");
+page("home");
 
 }
 
-/* ---------------- SCORING ---------------- */
+
+/* SCORING */
 
 function getRollInfo(){
 
-    if(!players.length)
-        return {roll:0};
+if(!players.length)
+return {roll:0};
 
-    const r=
-        scores[
-            players[currentPlayer].id
-        ]||[];
+let r=
+scores[
+players[currentPlayer].id
+]||[];
 
-    let i=0;
+let i=0;
 
-    for(let frame=0;frame<10;frame++){
+for(let frame=0;frame<10;frame++){
 
-        if(frame===9){
+if(frame===9){
 
-            return {
-                roll:r.length-i,
-                first:r[i],
-                second:r[i+1]
-            };
-
-        }
-
-        if(r[i]===undefined)
-            return {roll:0};
-
-        if(r[i]===10){
-
-            i++;
-            continue;
-
-        }
-
-        if(r[i+1]===undefined){
-
-            return {
-                roll:1,
-                first:r[i]
-            };
-
-        }
-
-        i+=2;
-
-    }
-
-    return {roll:3};
+return {
+roll:r.length-i,
+first:r[i],
+second:r[i+1]
+};
 
 }
+
+if(r[i]===undefined)
+return {roll:0};
+
+if(r[i]===10){
+
+i++;
+continue;
+
+}
+
+if(r[i+1]===undefined){
+
+return {
+roll:1,
+first:r[i]
+};
+
+}
+
+i+=2;
+
+}
+
+return {roll:3};
+
+}
+
 
 function roll(value){
 
-    const info=getRollInfo();
+const info=
+getRollInfo();
 
-    if(!gameStarted){
+if(!gameStarted){
 
-        toast("Start Bowling first!");
+toast("Start Bowling first!");
 
-        return;
-    }
-
-    if(info.roll===0){
-
-        send({
-            type:"roll",
-            value:value
-        });
-
-        return;
-
-    }
-
-    if(info.roll===1){
-
-        const remaining=
-            10-info.first;
-
-        if(value>remaining){
-
-            toast(
-                "Only "+remaining+
-                " pins remain."
-            );
-
-            return;
-        }
-
-        send({
-            type:"roll",
-            value:value
-        });
-
-    }
+return;
 
 }
+
+if(info.roll===0){
+
+send({
+type:"roll",
+value:value
+});
+
+return;
+
+}
+
+if(info.roll===1){
+
+const remaining=
+10-info.first;
+
+if(value>remaining){
+
+toast(
+"Only "+remaining+
+" pins remain."
+);
+
+return;
+
+}
+
+send({
+type:"roll",
+value:value
+});
+
+}
+
+}
+
 
 function strike(){
 
-    const info=getRollInfo();
+const info=
+getRollInfo();
 
-    if(info.roll!==0){
+if(info.roll!==0){
 
-        toast(
-            "Strike is only on shot 1."
-        );
+toast(
+"Strike is only on shot 1."
+);
 
-        return;
-    }
-
-    send({
-        type:"strike"
-    });
+return;
 
 }
+
+send({
+type:"strike"
+});
+
+}
+
 
 function spare(){
 
-    const info=getRollInfo();
+const info=
+getRollInfo();
 
-    if(info.roll!==1){
+if(info.roll!==1){
 
-        toast(
-            "Spare is available after shot 1."
-        );
+toast(
+"Spare is available after shot 1."
+);
 
-        return;
-    }
-
-    send({
-        type:"spare"
-    });
+return;
 
 }
+
+send({
+type:"spare"
+});
+
+}
+
 
 function previous(){
 
-    send({
-        type:"previous"
-    });
+send({
+type:"previous"
+});
 
 }
+
 
 function next(){
 
-    send({
-        type:"next"
-    });
+send({
+type:"next"
+});
 
 }
+
 
 function reset(){
 
-    send({
-        type:"reset"
-    });
+send({
+type:"reset"
+});
 
 }
+
 
 function split(){
 
-    send({
-        type:"split"
-    });
+send({
+type:"split"
+});
 
 }
 
-/* ---------------- PINSETTER ---------------- */
+
+/* PINSETTER */
 
 function pinAction(action){
 
-    /*
-      These update the draft locally,
-      then Submit commits the setup.
-    */
+if(
+action==="rack"||
+action==="nextBall"
+){
 
-    if(action==="rack"||
-       action==="nextBall"){
+draftPins=
+Array(6).fill(true);
 
-        draftPins=
-            Array(6).fill(true);
-
-        draftSplit=[];
-
-    }
-
-    if(action==="clear"||
-       action==="sweep"){
-
-        draftPins=
-            Array(6).fill(false);
-
-        draftSplit=[];
-
-    }
-
-    renderPins();
+draftSplit=[];
 
 }
+
+if(
+action==="clear"||
+action==="sweep"
+){
+
+draftPins=
+Array(6).fill(false);
+
+draftSplit=[];
+
+}
+
+renderPins();
+
+}
+
 
 function togglePin(index){
 
-    draftPins[index]=
-        !draftPins[index];
+if(index<0||index>=6)
+return;
 
-    renderPins();
+draftPins[index]=
+!draftPins[index];
+
+renderPins();
 
 }
+
 
 function toggleSplit(){
 
-    if(draftSplit.length){
+if(draftSplit.length){
 
-        draftSplit=[];
+draftSplit=[];
 
-    }else{
+}else{
 
-        draftSplit=
-            draftPins
-                .map((up,i)=>up?i:-1)
-                .filter(i=>i!==-1);
-
-    }
-
-    renderPins();
+draftSplit=
+draftPins
+.map((up,i)=>up?i:-1)
+.filter(i=>i!==-1);
 
 }
+
+renderPins();
+
+}
+
 
 function submitPins(){
 
-    send({
+send({
 
-        type:"pinSubmit",
+type:"pinSubmit",
 
-        pins:[...draftPins],
+pins:[...draftPins],
 
-        splitPins:[...draftSplit]
+splitPins:[...draftSplit]
 
-    });
+});
 
-    toast("✅ Pins submitted!");
+toast("✅ Pins submitted!");
 
 }
 
-/* ---------------- BACKGROUNDS ---------------- */
+
+/* BACKGROUNDS */
 
 function background(value){
 
-    send({
+send({
 
-        type:"background",
+type:"background",
 
-        value:value
+value:value
 
-    });
+});
 
-    toast("📺 TV background changed!");
+toast(
+"📺 TV background changed!"
+);
 
 }
 
-/* ---------------- RENDER ---------------- */
+
+/* RENDER */
 
 function render(){
 
-    renderHome();
-    renderPlayers();
-    renderScore();
-    renderPins();
-    updateScoringButtons();
+renderHome();
+renderPlayers();
+renderScore();
+renderPins();
+updateScoringButtons();
 
 }
+
 
 function renderHome(){
 
-    const el=
-        document.getElementById(
-            "current"
-        );
+const el=
+document.getElementById(
+"current"
+);
 
-    if(!players.length){
+if(!players.length){
 
-        el.textContent=
-            "Ready To Bowl";
+el.textContent=
+"Ready To Bowl";
 
-        return;
-    }
-
-    if(!gameStarted){
-
-        el.textContent=
-            players.length+
-            " Player"+
-            (players.length===1?"":"s")+
-            " Ready";
-
-        return;
-    }
-
-    el.textContent=
-        "🎳 "+
-        players[currentPlayer].name+
-        "'s Turn";
+return;
 
 }
+
+if(!gameStarted){
+
+el.textContent=
+players.length+
+" Player"+
+(players.length===1?"":"s")+
+" Ready";
+
+return;
+
+}
+
+el.textContent=
+"🎳 "+
+players[currentPlayer].name+
+"'s Turn";
+
+}
+
 
 function renderPlayers(){
 
-    const box=
-        document.getElementById(
-            "playerList"
-        );
+const box=
+document.getElementById(
+"playerList"
+);
 
-    if(!players.length){
+if(!players.length){
 
-        box.innerHTML=
-            "<p class='muted'>No players.</p>";
+box.innerHTML=
+"<p class='muted'>No players yet.</p>";
 
-        return;
-    }
-
-    box.innerHTML=
-        players.map((p,i)=>`
-
-            <div class="player">
-
-                <span>
-                    ${escapeHtml(p.name)}
-                    ${i===currentPlayer?" 🎳":""}
-                </span>
-
-                <button
-                    class="remove"
-                    onclick="removePlayer(${i})"
-                >
-                    Remove
-                </button>
-
-            </div>
-
-        `).join("");
+return;
 
 }
+
+box.innerHTML=
+players.map((p,i)=>`
+
+<div class="player">
+
+<span>
+${escapeHtml(p.name)}
+${i===currentPlayer?" 🎳":""}
+</span>
+
+<button
+class="remove"
+onclick="removePlayer(${i})"
+>
+Remove
+</button>
+
+</div>
+
+`).join("");
+
+}
+
 
 function renderScore(){
 
-    const box=
-        document.getElementById(
-            "scorePlayer"
-        );
+const box=
+document.getElementById(
+"scorePlayer"
+);
 
-    if(!players.length){
+if(!players.length){
 
-        box.textContent=
-            "No players";
+box.textContent=
+"No players";
 
-        return;
-    }
-
-    box.textContent=
-        "🎳 "+
-        players[currentPlayer].name;
+return;
 
 }
+
+box.textContent=
+"🎳 "+
+players[currentPlayer].name;
+
+}
+
+
+/* SIX PINS */
 
 function renderPins(){
 
-    const box=
-        document.getElementById(
-            "pinGrid"
-        );
+const box=
+document.getElementById(
+"pinGrid"
+);
 
-    const pos=[
-        [135,35],
-        [98,100],
-        [172,100],
-        [61,165],
-        [135,165],
-        [209,165]
-    ];
+const pos=[
 
-    box.innerHTML=
-        draftPins.map((up,i)=>`
+[135,35],
+[98,100],
+[172,100],
+[61,165],
+[135,165],
+[209,165]
 
-            <button
-                class="
-                    pin
-                    ${up?"":"down"}
-                    ${
-                        draftSplit.includes(i)
-                        ?"split"
-                        :""
-                    }
-                "
-                style="
-                    left:${pos[i][0]}px;
-                    top:${pos[i][1]}px;
-                "
-                onclick="togglePin(${i})"
-            >
+];
 
-                ${i+1}
+box.innerHTML=
+draftPins.map((up,i)=>`
 
-                ${
-                    draftSplit.includes(i)
-                    ?'<span class="splitDot"></span>'
-                    :""
-                }
+<button
+class="pin
+${up?"":"down"}
+${draftSplit.includes(i)?"split":""}"
+style="
+left:${pos[i][0]}px;
+top:${pos[i][1]}px;
+"
+onclick="togglePin(${i})"
+>
 
-            </button>
+${i+1}
 
-        `).join("");
+${
+draftSplit.includes(i)
+?'<span class="splitDot"></span>'
+:""
+}
+
+</button>
+
+`).join("");
 
 }
+
+
+/* SCORING BUTTON STATES */
 
 function updateScoringButtons(){
 
-    const info=getRollInfo();
+const info=
+getRollInfo();
 
-    const buttons=
-        document.querySelectorAll(
-            "[data-roll]"
-        );
+const buttons=
+document.querySelectorAll(
+"[data-roll]"
+);
 
-    const strikeButton=
-        document.getElementById(
-            "strike"
-        );
+const strikeButton=
+document.getElementById(
+"strike"
+);
 
-    const spareButton=
-        document.getElementById(
-            "spare"
-        );
+const spareButton=
+document.getElementById(
+"spare"
+);
 
-    buttons.forEach(btn=>{
-        btn.classList.remove(
-            "invalid",
-            "disabled"
-        );
-    });
+buttons.forEach(b=>{
+b.classList.remove(
+"invalid",
+"disabled"
+);
+});
 
-    strikeButton.classList.remove(
-        "disabled"
-    );
+strikeButton.classList.remove(
+"disabled"
+);
 
-    spareButton.classList.remove(
-        "disabled"
-    );
+spareButton.classList.remove(
+"disabled"
+);
 
-    if(!gameStarted){
+if(!gameStarted){
 
-        buttons.forEach(b=>
-            b.classList.add("disabled")
-        );
+buttons.forEach(b=>
+b.classList.add("disabled")
+);
 
-        strikeButton.classList.add(
-            "disabled"
-        );
+strikeButton.classList.add(
+"disabled"
+);
 
-        spareButton.classList.add(
-            "disabled"
-        );
+spareButton.classList.add(
+"disabled"
+);
 
-        return;
-    }
-
-    if(info.roll===0){
-
-        spareButton.classList.add(
-            "disabled"
-        );
-
-        return;
-    }
-
-    if(info.roll===1){
-
-        const remaining=
-            10-info.first;
-
-        buttons.forEach(btn=>{
-
-            if(
-                Number(btn.dataset.roll)>
-                remaining
-            ){
-
-                btn.classList.add(
-                    "invalid"
-                );
-
-            }
-
-        });
-
-        strikeButton.classList.add(
-            "disabled"
-        );
-
-        return;
-    }
-
-    buttons.forEach(b=>
-        b.classList.add("disabled")
-    );
-
-    strikeButton.classList.add(
-        "disabled"
-    );
-
-    spareButton.classList.add(
-        "disabled"
-    );
+return;
 
 }
 
-/* ---------------- SEND ---------------- */
+if(info.roll===0){
+
+spareButton.classList.add(
+"disabled"
+);
+
+return;
+
+}
+
+if(info.roll===1){
+
+const remaining=
+10-info.first;
+
+buttons.forEach(btn=>{
+
+if(
+Number(btn.dataset.roll)>
+remaining
+){
+
+btn.classList.add(
+"invalid"
+);
+
+}
+
+});
+
+strikeButton.classList.add(
+"disabled"
+);
+
+return;
+
+}
+
+buttons.forEach(b=>
+b.classList.add("disabled")
+);
+
+strikeButton.classList.add(
+"disabled"
+);
+
+spareButton.classList.add(
+"disabled"
+);
+
+}
+
+
+/* SEND */
 
 function send(data){
 
-    if(
-        !connection||
-        !connection.open
-    ){
+if(
+!connection||
+!connection.open
+){
 
-        toast("Not connected.");
+toast("Not connected.");
 
-        return;
-    }
-
-    connection.send(data);
+return;
 
 }
 
-/* ---------------- HELPERS ---------------- */
+connection.send(data);
+
+}
+
+
+/* HELPERS */
 
 function toast(text){
 
-    const el=
-        document.getElementById(
-            "toast"
-        );
+const el=
+document.getElementById(
+"toast"
+);
 
-    el.textContent=text;
-    el.style.display="block";
+el.textContent=text;
+el.style.display="block";
 
-    clearTimeout(window.toastTimer);
+clearTimeout(window.toastTimer);
 
-    window.toastTimer=
-        setTimeout(()=>{
-            el.style.display="none";
-        },2000);
+window.toastTimer=
+setTimeout(()=>{
+el.style.display="none";
+},2000);
 
 }
+
 
 function escapeHtml(v){
 
-    return String(v)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+return String(v)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
+
 
 render();
 
