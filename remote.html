@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>King Gavin Lanes Remote</title>
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
@@ -10,234 +10,227 @@
 *{box-sizing:border-box}
 
 body{
-margin:0;
-min-height:100vh;
-font-family:Arial,sans-serif;
-color:white;
-background:linear-gradient(135deg,#061426,#0b2139);
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:white;
+  background:linear-gradient(135deg,#071a33,#0b315c);
+  min-height:100vh;
 }
 
 header{
-padding:18px;
-text-align:center;
-background:#09192b;
-border-bottom:1px solid #294967;
-font-size:20px;
-font-weight:900;
+  height:70px;
+  padding:15px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(0,0,0,.25);
 }
 
-main{
-max-width:600px;
-margin:auto;
-padding:18px;
+.brand{
+  font-size:22px;
+  font-weight:bold;
 }
+
+.container{
+  padding:20px;
+  max-width:700px;
+  margin:auto;
+}
+
+.page{display:none}
+.page.active{display:block}
 
 .card{
-background:#0d2036;
-border:1px solid #294966;
-border-radius:18px;
-padding:18px;
-margin-bottom:15px;
+  background:rgba(255,255,255,.09);
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:18px;
 }
 
-input{
-width:100%;
-padding:15px;
-border-radius:12px;
-border:1px solid #385570;
-background:#071625;
-color:white;
-font-size:18px;
-}
+.center{text-align:center}
 
 button{
-border:0;
-border-radius:12px;
-padding:14px;
-background:#193d63;
-color:white;
-font-weight:bold;
-cursor:pointer;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  font-size:16px;
+  font-weight:bold;
+  color:white;
+  background:#1677ff;
+  cursor:pointer;
 }
 
 button:active{
-transform:scale(.97);
+  transform:scale(.97);
 }
 
-.full{
-width:100%;
-margin-top:8px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
 }
 
-.green{
-background:#197144;
+.menuBtn{
+  min-height:90px;
+  font-size:18px;
 }
 
-.red{
-background:#7b2934;
-}
-
-.page{
-display:none;
-}
-
-.page.active{
-display:block;
-}
-
-.menu{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
-
-.menu button{
-min-height:72px;
-font-size:16px;
+input{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:10px;
+  margin:7px 0;
+  font-size:17px;
 }
 
 .back{
-margin-bottom:12px;
+  background:#444;
+  width:100%;
+  margin-top:12px;
+}
+
+.danger{
+  background:#c62828;
+}
+
+.success{
+  background:#16a34a;
 }
 
 .status{
-margin-top:10px;
-padding:11px;
-border-radius:10px;
-background:#102d49;
+  margin:12px 0;
+  font-weight:bold;
+}
+
+.score{
+  font-size:60px;
+  font-weight:bold;
+  text-align:center;
+  margin:20px;
+}
+
+.scoreButtons{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.scoreButtons button{
+  min-height:65px;
+  font-size:22px;
 }
 
 .player{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:13px;
-margin:8px 0;
-background:#102941;
-border-radius:12px;
-}
-
-.remove{
-background:#6d3038;
-padding:9px 12px;
-}
-
-/* SCORE */
-
-.numberGrid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-}
-
-.numberGrid button{
-height:65px;
-font-size:22px;
-}
-
-.invalid{
-opacity:.2;
-filter:blur(4px);
-pointer-events:none;
-}
-
-.disabled{
-opacity:.25;
-pointer-events:none;
-}
-
-.special{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
-margin-top:10px;
-}
-
-.special button{
-min-height:58px;
-}
-
-.current{
-font-size:27px;
-font-weight:900;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(255,255,255,.08);
+  padding:12px;
+  border-radius:10px;
+  margin:8px 0;
 }
 
 /* PINSETTER */
 
-.pinGrid{
-position:relative;
-width:270px;
-height:230px;
-margin:20px auto;
+.pinArea{
+  position:relative;
+  width:280px;
+  height:240px;
+  margin:20px auto;
 }
 
 .pin{
-position:absolute;
-width:64px;
-height:64px;
-border-radius:50%;
-transform:translate(-50%,-50%);
-background:#f4f4f4;
-color:#111;
-padding:0;
-font-size:18px;
+  position:absolute;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:white;
+  color:#111;
+
+  border:3px solid #ddd;
+  font-size:22px;
+  font-weight:bold;
+
+  cursor:pointer;
+  transition:.15s;
 }
 
 .pin.down{
-background:#394651;
-color:#9ba5ad;
+  background:#394651;
+  color:#9ba5ad;
+  border-color:#53616b;
 }
 
 .pin.split{
-outline:5px solid #ed2939;
+  border:4px solid red;
+  box-shadow:0 0 12px rgba(255,0,0,.7);
 }
 
-.splitDot{
-position:absolute;
-width:20px;
-height:20px;
-border-radius:50%;
-background:#ed2939;
-border:2px solid white;
-top:-4px;
-right:-4px;
+.pin.split::after{
+  content:"";
+  position:absolute;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:red;
+  top:-7px;
+  right:-7px;
+}
+
+.pin:nth-child(1){
+  left:112px;
+  top:5px;
+}
+
+.pin:nth-child(2){
+  left:75px;
+  top:75px;
+}
+
+.pin:nth-child(3){
+  left:149px;
+  top:75px;
+}
+
+.pin:nth-child(4){
+  left:38px;
+  top:145px;
+}
+
+.pin:nth-child(5){
+  left:112px;
+  top:145px;
+}
+
+.pin:nth-child(6){
+  left:186px;
+  top:145px;
 }
 
 .pinControls{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
 }
 
 .submit{
-width:100%;
-margin-top:10px;
-background:#197144;
+  width:100%;
+  margin-top:12px;
 }
 
-/* BACKGROUNDS */
-
-.backgrounds{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
+.bgGrid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
 }
 
-.muted{
-color:#9eb4c9;
-}
-
-.toast{
-position:fixed;
-left:50%;
-bottom:20px;
-transform:translateX(-50%);
-background:#102d49;
-border:1px solid #42637f;
-padding:12px 18px;
-border-radius:12px;
-display:none;
-z-index:9999;
+.bgGrid button{
+  min-height:70px;
 }
 </style>
 </head>
@@ -245,306 +238,179 @@ z-index:9999;
 <body>
 
 <header>
-🎳 KING GAVIN LANES REMOTE
+  <div class="brand">🎳 KGL Remote</div>
 </header>
 
-<main>
+<div class="container">
 
 <!-- CONNECT -->
-
 <section id="connect" class="page active">
+  <div class="card center">
+    <h1>📱 Phone Remote</h1>
+    <p>Enter the code shown on the TV/iPad.</p>
 
-<div class="card">
+    <input
+      id="codeInput"
+      placeholder="KGL-XXXXXX or XXXXXX"
+      autocapitalize="characters"
+    >
 
-<h2>Connect To TV</h2>
+    <button onclick="connectRemote()" style="width:100%">
+      Connect
+    </button>
 
-<p class="muted">
-Enter the 6-digit code shown on the TV/iPad.
-</p>
-
-<input
-id="code"
-maxlength="6"
-inputmode="numeric"
-placeholder="123456"
->
-
-<button
-class="full green"
-onclick="connectRemote()"
->
-🔗 CONNECT
-</button>
-
-<div id="status" class="status">
-🔴 Not connected
-</div>
-
-</div>
-
+    <div class="status" id="status">Not connected</div>
+  </div>
 </section>
-
 
 <!-- HOME -->
-
 <section id="home" class="page">
+  <div class="card">
+    <h1>Remote Menu</h1>
 
-<div class="card">
+    <div class="grid">
+      <button class="menuBtn" onclick="page('players')">
+        👥 Players
+      </button>
 
-<div id="connected" class="status">
-🟢 Connected
-</div>
+      <button class="menuBtn" onclick="page('score')">
+        📊 Score
+      </button>
 
-<div id="current" class="current">
-Ready To Bowl
-</div>
+      <button class="menuBtn" onclick="page('pinsetter')">
+        🎳 Pinsetter
+      </button>
 
-</div>
+      <button class="menuBtn" onclick="page('backgrounds')">
+        🎨 Backgrounds
+      </button>
 
-<div class="menu">
+      <button class="menuBtn success" onclick="startGame()">
+        ▶️ Start Bowling
+      </button>
 
-<button onclick="page('players')">
-👥 Players
-</button>
-
-<button onclick="page('score')">
-🎳 Score
-</button>
-
-<button onclick="page('pinsetter')">
-⚙️ Pinsetter
-</button>
-
-<button onclick="page('backgrounds')">
-🖼 Backgrounds
-</button>
-
-<button
-class="green"
-onclick="startGame()"
->
-▶ Start Bowling
-</button>
-
-<button
-class="red"
-onclick="endGame()"
->
-🏁 End Game
-</button>
-
-</div>
-
+      <button class="menuBtn danger" onclick="endGame()">
+        🛑 End Game
+      </button>
+    </div>
+  </div>
 </section>
-
 
 <!-- PLAYERS -->
-
 <section id="players" class="page">
+  <div class="card">
+    <h1>👥 Players</h1>
 
-<button class="back" onclick="page('home')">
-← Back
-</button>
+    <input id="playerName" placeholder="Player name">
 
-<div class="card">
+    <button
+      onclick="addPlayer()"
+      style="width:100%;margin-bottom:15px"
+    >
+      ➕ Add Player
+    </button>
 
-<h2>👥 Players</h2>
+    <div id="playersList"></div>
 
-<input
-id="playerName"
-maxlength="30"
-placeholder="Player name"
->
-
-<button
-class="full green"
-onclick="addPlayer()"
->
-➕ Add Player
-</button>
-
-<div id="playerList"></div>
-
-</div>
-
+    <button class="back" onclick="page('home')">
+      ← Back
+    </button>
+  </div>
 </section>
-
 
 <!-- SCORE -->
-
 <section id="score" class="page">
+  <div class="card">
+    <h1>📊 Score</h1>
 
-<button class="back" onclick="page('home')">
-← Back
-</button>
+    <div class="score" id="currentScore">0</div>
 
-<div class="card">
+    <div class="scoreButtons">
+      <button onclick="roll(0)">0</button>
+      <button onclick="roll(1)">1</button>
+      <button onclick="roll(2)">2</button>
 
-<div id="scorePlayer" class="current">
-Ready
-</div>
+      <button onclick="roll(3)">3</button>
+      <button onclick="roll(4)">4</button>
+      <button onclick="roll(5)">5</button>
 
-</div>
+      <button onclick="roll(6)">6</button>
+      <button onclick="roll(7)">7</button>
+      <button onclick="roll(8)">8</button>
 
-<div class="card">
+      <button onclick="roll(9)">9</button>
+      <button onclick="send({type:'strike'})">STRIKE</button>
+      <button onclick="send({type:'spare'})">SPARE</button>
 
-<div class="numberGrid">
+      <button onclick="send({type:'previous'})">← Prev</button>
+      <button onclick="send({type:'next'})">Next →</button>
+      <button onclick="send({type:'reset'})">Reset</button>
 
-<button data-roll="1" onclick="roll(1)">1</button>
-<button data-roll="2" onclick="roll(2)">2</button>
-<button data-roll="3" onclick="roll(3)">3</button>
+      <button onclick="send({type:'split'})">🔴 Split</button>
+    </div>
 
-<button data-roll="4" onclick="roll(4)">4</button>
-<button data-roll="5" onclick="roll(5)">5</button>
-<button data-roll="6" onclick="roll(6)">6</button>
-
-<button data-roll="7" onclick="roll(7)">7</button>
-<button data-roll="8" onclick="roll(8)">8</button>
-<button data-roll="9" onclick="roll(9)">9</button>
-
-<button data-roll="0" onclick="roll(0)">0</button>
-
-<button id="strike" onclick="strike()">
-X STRIKE
-</button>
-
-<button id="spare" onclick="spare()">
-/ SPARE
-</button>
-
-</div>
-
-<div class="special">
-
-<button onclick="previous()">
-⬅ Previous
-</button>
-
-<button onclick="next()">
-Next ➡
-</button>
-
-<button onclick="reset()">
-🔄 Reset
-</button>
-
-<button onclick="split()">
-🔴 Split
-</button>
-
-</div>
-
-</div>
-
+    <button class="back" onclick="page('home')">
+      ← Back
+    </button>
+  </div>
 </section>
-
 
 <!-- PINSETTER -->
-
 <section id="pinsetter" class="page">
+  <div class="card center">
+    <h1>🎳 Pinsetter</h1>
+    <p>Select pins to make them unavailable.</p>
 
-<button class="back" onclick="page('home')">
-← Back
-</button>
+    <div class="pinArea" id="pins"></div>
 
-<div class="card">
+    <div class="pinControls">
+      <button onclick="pinAction('rack')">Rack</button>
+      <button onclick="pinAction('clear')">Clear</button>
+      <button onclick="pinAction('sweep')">Sweep</button>
+      <button onclick="pinAction('nextBall')">Next Ball</button>
+      <button onclick="toggleSplit()">🔴 Split</button>
+    </div>
 
-<h2>⚙️ Pinsetter</h2>
+    <button
+      class="submit success"
+      onclick="submitPins()"
+    >
+      ✅ Submit
+    </button>
 
-<div id="pinGrid" class="pinGrid"></div>
-
-<div class="pinControls">
-
-<button onclick="pinAction('rack')">
-🎳 Rack
-</button>
-
-<button onclick="pinAction('clear')">
-❌ Clear
-</button>
-
-<button onclick="pinAction('sweep')">
-🧹 Sweep
-</button>
-
-<button onclick="pinAction('nextBall')">
-➡️ Next Ball
-</button>
-
-<button onclick="toggleSplit()">
-🔴 Split
-</button>
-
-</div>
-
-<button
-class="submit"
-onclick="submitPins()"
->
-✅ SUBMIT
-</button>
-
-</div>
-
+    <button class="back" onclick="page('home')">
+      ← Back
+    </button>
+  </div>
 </section>
-
 
 <!-- BACKGROUNDS -->
-
 <section id="backgrounds" class="page">
+  <div class="card">
+    <h1>🎨 TV Background</h1>
+    <p>Choose the background for the TV/iPad scoreboard.</p>
 
-<button class="back" onclick="page('home')">
-← Back
-</button>
+    <div class="bgGrid">
+      <button onclick="background('midnight')">🌌 Midnight</button>
+      <button onclick="background('black')">⬛ Black</button>
+      <button onclick="background('purple')">🟣 Purple</button>
+      <button onclick="background('green')">🟢 Green</button>
+      <button onclick="background('blue')">🔵 Blue</button>
+      <button onclick="background('warm')">🟠 Warm</button>
+    </div>
 
-<div class="card">
-
-<h2>🖼 TV Background</h2>
-
-<p class="muted">
-Choose a background for the TV/iPad.
-</p>
-
-<div class="backgrounds">
-
-<button onclick="background('midnight')">
-🌙 Midnight
-</button>
-
-<button onclick="background('black')">
-⚫ Black
-</button>
-
-<button onclick="background('purple')">
-🟣 Purple
-</button>
-
-<button onclick="background('green')">
-🟢 Green
-</button>
-
-<button onclick="background('blue')">
-🔵 Blue
-</button>
-
-<button onclick="background('warm')">
-🟠 Warm
-</button>
-
-</div>
-
-</div>
-
+    <button class="back" onclick="page('home')">
+      ← Back
+    </button>
+  </div>
 </section>
 
-</main>
-
-<div id="toast" class="toast"></div>
+</div>
 
 <script>
 
-let peer=null;
-let connection=null;
+let peer;
+let conn=null;
 
 let players=[];
 let currentPlayer=0;
@@ -555,123 +421,127 @@ let pins=Array(6).fill(true);
 let splitPins=[];
 
 let draftPins=[...pins];
-let draftSplit=[];
-
-
-/* CONNECT */
-
-function connectRemote(){
-
-const code=
-document.getElementById("code")
-.value.trim();
-
-if(!/^\d{6}$/.test(code)){
-
-document.getElementById("status")
-.textContent=
-"🔴 Enter a 6-digit code.";
-
-return;
-
-}
-
-document.getElementById("status")
-.textContent=
-"🟡 Connecting...";
-
-peer=new Peer();
-
-peer.on("open",()=>{
-
-connection=
-peer.connect(
-"kgl-"+code,
-{reliable:true}
-);
-
-connection.on("open",()=>{
-
-document.getElementById("status")
-.textContent=
-"🟢 Connected!";
-
-document.getElementById("connected")
-.textContent=
-"🟢 Connected to TV";
-
-page("home");
-
-});
-
-connection.on("data",data=>{
-
-if(data.type==="state"){
-
-players=data.players||[];
-
-currentPlayer=
-data.currentPlayer||0;
-
-gameStarted=
-!!data.gameStarted;
-
-scores=
-data.scores||{};
-
-pins=
-data.pins||
-Array(6).fill(true);
-
-splitPins=
-data.splitPins||[];
-
-draftPins=[...pins];
-draftSplit=[...splitPins];
-
-render();
-
-}
-
-});
-
-connection.on("close",()=>{
-
-document.getElementById("connected")
-.textContent=
-"🔴 Disconnected";
-
-});
-
-});
-
-peer.on("error",()=>{
-
-document.getElementById("status")
-.textContent=
-"🔴 Connection failed.";
-
-});
-
-}
+let draftSplit=[...splitPins];
 
 
 /* PAGE */
 
 function page(name){
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
 
-document
-.querySelectorAll(".page")
-.forEach(p=>
-p.classList.remove("active")
-);
+  document.getElementById(name)
+    .classList.add("active");
 
-document
-.getElementById(name)
-.classList.add("active");
+  update();
+}
 
-render();
 
+/* CONNECTION */
+
+function connectRemote(){
+
+  let code=document
+    .getElementById("codeInput")
+    .value
+    .trim()
+    .toUpperCase();
+
+  if(!code){
+    document.getElementById("status").textContent=
+      "Enter the TV code first.";
+    return;
+  }
+
+  if(!code.startsWith("KGL-")){
+    code="KGL-"+code;
+  }
+
+  document.getElementById("status").textContent=
+    "Connecting...";
+
+  peer=new Peer();
+
+  peer.on("open",()=>{
+    conn=peer.connect(code,{reliable:true});
+
+    conn.on("open",()=>{
+
+      document.getElementById("status").textContent=
+        "📱 Connected!";
+
+      page("home");
+    });
+
+    conn.on("data",(msg)=>{
+      receiveState(msg);
+    });
+
+    conn.on("close",()=>{
+      conn=null;
+
+      document.getElementById("status").textContent=
+        "Disconnected from TV.";
+
+      page("connect");
+    });
+  });
+
+  peer.on("error",(err)=>{
+    console.log(err);
+
+    document.getElementById("status").textContent=
+      "Could not connect. Check the code.";
+  });
+}
+
+
+/* SEND */
+
+function send(message){
+
+  if(!conn || !conn.open){
+    alert("Not connected to the TV.");
+    return;
+  }
+
+  conn.send(message);
+}
+
+
+/* STATE */
+
+function receiveState(msg){
+
+  if(msg.type!=="state")return;
+
+  players=Array.isArray(msg.players)
+    ? msg.players
+    : [];
+
+  currentPlayer=Number(msg.currentPlayer)||0;
+
+  gameStarted=!!msg.gameStarted;
+
+  scores=msg.scores || {};
+
+  pins=Array.isArray(msg.pins)
+    ? msg.pins
+    : Array(6).fill(true);
+
+  splitPins=Array.isArray(msg.splitPins)
+    ? msg.splitPins
+    : [];
+
+  /*
+    Important:
+    The submitted TV state becomes the new
+    starting point for the next pin selection.
+  */
+  draftPins=[...pins];
+  draftSplit=[...splitPins];
+
+  update();
 }
 
 
@@ -679,43 +549,49 @@ render();
 
 function addPlayer(){
 
-const input=
-document.getElementById(
-"playerName"
-);
+  const input=document.getElementById("playerName");
 
-const name=
-input.value.trim();
+  const name=input.value.trim();
 
-if(!name){
+  if(!name)return;
 
-toast("Enter a player name.");
+  send({
+    type:"addPlayer",
+    name:name
+  });
 
-return;
-
+  input.value="";
 }
-
-send({
-
-type:"addPlayer",
-name:name
-
-});
-
-input.value="";
-
-}
-
 
 function removePlayer(index){
 
-send({
+  send({
+    type:"removePlayer",
+    index:index
+  });
+}
 
-type:"removePlayer",
-index:index
+function renderPlayers(){
 
-});
+  const box=document.getElementById("playersList");
 
+  if(!players.length){
+    box.innerHTML="<p>No players yet.</p>";
+    return;
+  }
+
+  box.innerHTML=players.map((name,i)=>`
+    <div class="player">
+      <span>${i+1}. ${escapeHtml(name)}</span>
+
+      <button
+        class="danger"
+        onclick="removePlayer(${i})"
+      >
+        Remove
+      </button>
+    </div>
+  `).join("");
 }
 
 
@@ -723,300 +599,119 @@ index:index
 
 function startGame(){
 
-if(!players.length){
+  if(!players.length){
+    page("players");
+    alert("Add a player first!");
+    return;
+  }
 
-page("players");
-
-toast("Add a player first!");
-
-return;
-
+  send({type:"start"});
+  page("score");
 }
-
-send({
-type:"start"
-});
-
-page("score");
-
-}
-
 
 function endGame(){
 
-send({
-type:"end"
-});
-
-page("home");
-
+  send({type:"end"});
+  page("home");
 }
 
 
-/* SCORING */
+/* SCORE */
 
-function getRollInfo(){
+function roll(number){
 
-if(!players.length)
-return {roll:0};
-
-let r=
-scores[
-players[currentPlayer].id
-]||[];
-
-let i=0;
-
-for(let frame=0;frame<10;frame++){
-
-if(frame===9){
-
-return {
-roll:r.length-i,
-first:r[i],
-second:r[i+1]
-};
-
-}
-
-if(r[i]===undefined)
-return {roll:0};
-
-if(r[i]===10){
-
-i++;
-continue;
-
-}
-
-if(r[i+1]===undefined){
-
-return {
-roll:1,
-first:r[i]
-};
-
-}
-
-i+=2;
-
-}
-
-return {roll:3};
-
-}
-
-
-function roll(value){
-
-const info=
-getRollInfo();
-
-if(!gameStarted){
-
-toast("Start Bowling first!");
-
-return;
-
-}
-
-if(info.roll===0){
-
-send({
-type:"roll",
-value:value
-});
-
-return;
-
-}
-
-if(info.roll===1){
-
-const remaining=
-10-info.first;
-
-if(value>remaining){
-
-toast(
-"Only "+remaining+
-" pins remain."
-);
-
-return;
-
-}
-
-send({
-type:"roll",
-value:value
-});
-
-}
-
-}
-
-
-function strike(){
-
-const info=
-getRollInfo();
-
-if(info.roll!==0){
-
-toast(
-"Strike is only on shot 1."
-);
-
-return;
-
-}
-
-send({
-type:"strike"
-});
-
-}
-
-
-function spare(){
-
-const info=
-getRollInfo();
-
-if(info.roll!==1){
-
-toast(
-"Spare is available after shot 1."
-);
-
-return;
-
-}
-
-send({
-type:"spare"
-});
-
-}
-
-
-function previous(){
-
-send({
-type:"previous"
-});
-
-}
-
-
-function next(){
-
-send({
-type:"next"
-});
-
-}
-
-
-function reset(){
-
-send({
-type:"reset"
-});
-
-}
-
-
-function split(){
-
-send({
-type:"split"
-});
-
+  send({
+    type:"roll",
+    value:number
+  });
 }
 
 
 /* PINSETTER */
 
-function pinAction(action){
+function renderPins(){
 
-if(
-action==="rack"||
-action==="nextBall"
-){
+  const box=document.getElementById("pins");
 
-draftPins=
-Array(6).fill(true);
+  box.innerHTML=draftPins.map((available,i)=>`
 
-draftSplit=[];
+    <div
+      class="pin
+      ${available?'':'down'}
+      ${draftSplit.includes(i)?'split':''}"
+      onclick="togglePin(${i})"
+    >
+      ${i+1}
+    </div>
 
+  `).join("");
 }
-
-if(
-action==="clear"||
-action==="sweep"
-){
-
-draftPins=
-Array(6).fill(false);
-
-draftSplit=[];
-
-}
-
-renderPins();
-
-}
-
 
 function togglePin(index){
 
-if(index<0||index>=6)
-return;
+  /*
+    WHITE = available
+    GRAY  = unavailable
 
-draftPins[index]=
-!draftPins[index];
+    Clicking immediately changes the local
+    remote display. It isn't sent to the TV
+    until Submit is pressed.
+  */
 
-renderPins();
+  draftPins[index]=!draftPins[index];
 
+  if(!draftPins[index]){
+    draftSplit=draftSplit.filter(x=>x!==index);
+  }
+
+  renderPins();
 }
 
+function pinAction(action){
+
+  if(action==="rack"){
+    draftPins=Array(6).fill(true);
+    draftSplit=[];
+  }
+
+  if(action==="nextBall"){
+    draftPins=Array(6).fill(true);
+    draftSplit=[];
+  }
+
+  if(action==="clear"){
+    draftPins=Array(6).fill(false);
+    draftSplit=[];
+  }
+
+  if(action==="sweep"){
+    draftPins=Array(6).fill(false);
+    draftSplit=[];
+  }
+
+  renderPins();
+}
 
 function toggleSplit(){
 
-if(draftSplit.length){
+  draftSplit=[];
 
-draftSplit=[];
+  draftPins.forEach((available,i)=>{
+    if(available){
+      draftSplit.push(i);
+    }
+  });
 
-}else{
-
-draftSplit=
-draftPins
-.map((up,i)=>up?i:-1)
-.filter(i=>i!==-1);
-
+  renderPins();
 }
-
-renderPins();
-
-}
-
 
 function submitPins(){
 
-send({
-
-type:"pinSubmit",
-
-pins:[...draftPins],
-
-splitPins:[...draftSplit]
-
-});
-
-toast("✅ Pins submitted!");
-
+  send({
+    type:"pinSubmit",
+    pins:draftPins,
+    splitPins:draftSplit
+  });
 }
 
 
@@ -1024,345 +719,47 @@ toast("✅ Pins submitted!");
 
 function background(value){
 
-send({
-
-type:"background",
-
-value:value
-
-});
-
-toast(
-"📺 TV background changed!"
-);
-
+  send({
+    type:"background",
+    value:value
+  });
 }
 
 
-/* RENDER */
+/* UPDATE */
 
-function render(){
+function update(){
 
-renderHome();
-renderPlayers();
-renderScore();
-renderPins();
-updateScoringButtons();
+  renderPlayers();
+  renderPins();
 
+  if(players.length){
+
+    document.getElementById("currentScore")
+      .textContent=
+      scores[players[currentPlayer]] ?? 0;
+
+  }else{
+
+    document.getElementById("currentScore")
+      .textContent="0";
+  }
 }
 
 
-function renderHome(){
+/* HTML SAFETY */
 
-const el=
-document.getElementById(
-"current"
-);
+function escapeHtml(text){
 
-if(!players.length){
-
-el.textContent=
-"Ready To Bowl";
-
-return;
-
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
-if(!gameStarted){
-
-el.textContent=
-players.length+
-" Player"+
-(players.length===1?"":"s")+
-" Ready";
-
-return;
-
-}
-
-el.textContent=
-"🎳 "+
-players[currentPlayer].name+
-"'s Turn";
-
-}
-
-
-function renderPlayers(){
-
-const box=
-document.getElementById(
-"playerList"
-);
-
-if(!players.length){
-
-box.innerHTML=
-"<p class='muted'>No players yet.</p>";
-
-return;
-
-}
-
-box.innerHTML=
-players.map((p,i)=>`
-
-<div class="player">
-
-<span>
-${escapeHtml(p.name)}
-${i===currentPlayer?" 🎳":""}
-</span>
-
-<button
-class="remove"
-onclick="removePlayer(${i})"
->
-Remove
-</button>
-
-</div>
-
-`).join("");
-
-}
-
-
-function renderScore(){
-
-const box=
-document.getElementById(
-"scorePlayer"
-);
-
-if(!players.length){
-
-box.textContent=
-"No players";
-
-return;
-
-}
-
-box.textContent=
-"🎳 "+
-players[currentPlayer].name;
-
-}
-
-
-/* SIX PINS */
-
-function renderPins(){
-
-const box=
-document.getElementById(
-"pinGrid"
-);
-
-const pos=[
-
-[135,35],
-[98,100],
-[172,100],
-[61,165],
-[135,165],
-[209,165]
-
-];
-
-box.innerHTML=
-draftPins.map((up,i)=>`
-
-<button
-class="pin
-${up?"":"down"}
-${draftSplit.includes(i)?"split":""}"
-style="
-left:${pos[i][0]}px;
-top:${pos[i][1]}px;
-"
-onclick="togglePin(${i})"
->
-
-${i+1}
-
-${
-draftSplit.includes(i)
-?'<span class="splitDot"></span>'
-:""
-}
-
-</button>
-
-`).join("");
-
-}
-
-
-/* SCORING BUTTON STATES */
-
-function updateScoringButtons(){
-
-const info=
-getRollInfo();
-
-const buttons=
-document.querySelectorAll(
-"[data-roll]"
-);
-
-const strikeButton=
-document.getElementById(
-"strike"
-);
-
-const spareButton=
-document.getElementById(
-"spare"
-);
-
-buttons.forEach(b=>{
-b.classList.remove(
-"invalid",
-"disabled"
-);
-});
-
-strikeButton.classList.remove(
-"disabled"
-);
-
-spareButton.classList.remove(
-"disabled"
-);
-
-if(!gameStarted){
-
-buttons.forEach(b=>
-b.classList.add("disabled")
-);
-
-strikeButton.classList.add(
-"disabled"
-);
-
-spareButton.classList.add(
-"disabled"
-);
-
-return;
-
-}
-
-if(info.roll===0){
-
-spareButton.classList.add(
-"disabled"
-);
-
-return;
-
-}
-
-if(info.roll===1){
-
-const remaining=
-10-info.first;
-
-buttons.forEach(btn=>{
-
-if(
-Number(btn.dataset.roll)>
-remaining
-){
-
-btn.classList.add(
-"invalid"
-);
-
-}
-
-});
-
-strikeButton.classList.add(
-"disabled"
-);
-
-return;
-
-}
-
-buttons.forEach(b=>
-b.classList.add("disabled")
-);
-
-strikeButton.classList.add(
-"disabled"
-);
-
-spareButton.classList.add(
-"disabled"
-);
-
-}
-
-
-/* SEND */
-
-function send(data){
-
-if(
-!connection||
-!connection.open
-){
-
-toast("Not connected.");
-
-return;
-
-}
-
-connection.send(data);
-
-}
-
-
-/* HELPERS */
-
-function toast(text){
-
-const el=
-document.getElementById(
-"toast"
-);
-
-el.textContent=text;
-el.style.display="block";
-
-clearTimeout(window.toastTimer);
-
-window.toastTimer=
-setTimeout(()=>{
-el.style.display="none";
-},2000);
-
-}
-
-
-function escapeHtml(v){
-
-return String(v)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-
-}
-
-
-render();
+update();
 
 </script>
 
