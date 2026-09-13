@@ -2,1424 +2,1269 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>King Gavin Lanes</title>
+
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;
- font-family:Arial,sans-serif;
- color:white;
- background:linear-gradient(135deg,#071a33,#0b315c);
- min-height:100vh;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#111;
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
 }
-header{
- height:70px;
- padding:15px 22px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- background:rgba(0,0,0,.25);
-}
-.brand{font-size:24px;font-weight:bold}
+
 button{
- border:0;
- border-radius:12px;
- padding:13px 18px;
- font-size:16px;
- font-weight:bold;
- cursor:pointer;
- background:#1677ff;
- color:white;
-}
-button:active{transform:scale(.97)}
-.container{padding:25px;max-width:1200px;margin:auto}
-.page{display:none}
-.page.active{display:block}
-.card{
- background:rgba(255,255,255,.09);
- border-radius:18px;
- padding:25px;
- margin-bottom:20px;
-}
-.center{text-align:center}
-h1{margin-top:0}
-.bigcode{
- font-size:42px;
- font-weight:bold;
- letter-spacing:4px;
- margin:15px 0;
-}
-.status{font-size:18px;margin-top:10px}
-.grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
- gap:15px;
-}
-.menuBtn{min-height:100px;font-size:20px}
-.back{background:#444}
-.danger{background:#c62828}
-.submit{background:#16a34a}
-
-.player{
- display:flex;
- justify-content:space-between;
- align-items:center;
- padding:14px;
- margin:8px 0;
- background:rgba(255,255,255,.08);
- border-radius:12px;
+    font:inherit;
+    cursor:pointer;
 }
 
-/* SCORECARD */
-
-.scorecardWrap{
- width:100%;
- overflow-x:auto;
+.screen{
+    min-height:100vh;
+    display:none;
+    padding:30px;
 }
 
-.scorecard{
- width:100%;
- min-width:850px;
- border-collapse:collapse;
- table-layout:fixed;
+.screen.active{
+    display:block;
 }
 
-.scorecard th,
-.scorecard td{
- border:2px solid rgba(255,255,255,.25);
- text-align:center;
+/* WELCOME */
+
+#welcome{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:#111;
 }
 
-.scorecard th{
- height:38px;
- background:rgba(0,0,0,.25);
- font-size:14px;
+.welcome-box{
+    animation:welcomeFade 3s forwards;
 }
 
-.scorecard .playerName{
- width:150px;
- text-align:left;
- padding-left:12px;
- font-size:17px;
+.welcome-box h1{
+    font-size:clamp(38px,7vw,90px);
+    margin:0;
 }
 
-.scorecard .frame{
- width:72px;
- height:95px;
+.welcome-box p{
+    font-size:22px;
+    opacity:.8;
 }
 
-.frameNumber{
- height:25px;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:13px;
- background:rgba(0,0,0,.2);
+@keyframes welcomeFade{
+    0%{opacity:0}
+    15%{opacity:1}
+    75%{opacity:1}
+    100%{opacity:0}
+}
+
+/* HOME */
+
+#home{
+    text-align:center;
+}
+
+.logo{
+    font-size:clamp(35px,6vw,70px);
+    margin:30px 0 10px;
+}
+
+.status{
+    font-size:18px;
+    opacity:.8;
+    margin:10px;
+}
+
+.code{
+    font-size:clamp(30px,5vw,55px);
+    font-weight:bold;
+    letter-spacing:5px;
+    margin:20px;
+}
+
+.current{
+    font-size:25px;
+    margin-top:30px;
+}
+
+/* SCORE */
+
+.score-title{
+    text-align:center;
+    font-size:40px;
+    margin:0 0 25px;
+}
+
+.score-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+.score-table{
+    width:100%;
+    min-width:1000px;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+.score-table th,
+.score-table td{
+    border:2px solid white;
+    text-align:center;
+    padding:8px;
+}
+
+.score-table th{
+    background:#222;
+    font-size:18px;
+}
+
+.player-name{
+    width:170px;
+    text-align:left!important;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.frame-cell{
+    height:100px;
+    position:relative;
+}
+
+.frame-cell.current-frame{
+    background:#333;
+    box-shadow:inset 0 0 0 4px #fff;
 }
 
 .rolls{
- height:32px;
- display:flex;
- justify-content:flex-end;
- align-items:stretch;
+    display:flex;
+    justify-content:center;
+    gap:3px;
 }
 
-.rollBox{
- width:50%;
- border-left:1px solid rgba(255,255,255,.2);
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:18px;
- font-weight:bold;
+.roll{
+    border:1px solid #aaa;
+    width:30px;
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
 }
 
-.rollBox:first-child{border-left:0}
-
-.frameTotal{
- height:38px;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:16px;
- font-weight:bold;
+.frame-score{
+    font-size:25px;
+    margin-top:10px;
 }
 
-.activeFrame{
- background:rgba(22,119,255,.35)!important;
- box-shadow:inset 0 0 0 3px #1677ff;
+.total-cell{
+    width:100px;
+    font-size:28px;
+    font-weight:bold;
 }
 
-.activePlayer{
- background:rgba(22,119,255,.25)!important;
-}
-
-.totalColumn{
- width:80px;
- font-size:20px;
- font-weight:bold;
+.active-player{
+    background:#333;
 }
 
 /* PINSETTER */
 
-.pinArea{
- position:relative;
- width:280px;
- height:240px;
- margin:20px auto;
+.pinsetter{
+    text-align:center;
+}
+
+.pin-rack{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    margin:35px auto;
+}
+
+.pin-row{
+    display:flex;
+    gap:18px;
 }
 
 .pin{
- position:absolute;
- width:55px;
- height:55px;
- border-radius:50%;
- display:flex;
- align-items:center;
- justify-content:center;
- background:white;
- color:#111;
- font-size:22px;
- font-weight:bold;
- border:3px solid #ddd;
- cursor:pointer;
- transition:.15s;
+    width:55px;
+    height:75px;
+    border-radius:50% 50% 45% 45%;
+    border:4px solid white;
+    background:white;
+    position:relative;
+    transition:.2s;
 }
 
 .pin.down{
- background:#394651;
- color:#9ba5ad;
- border-color:#53616b;
+    background:#555;
+    border-color:#777;
 }
 
 .pin.split{
- border:4px solid red;
- box-shadow:0 0 12px rgba(255,0,0,.7);
+    border-color:red;
 }
 
 .pin.split::after{
- content:"";
- position:absolute;
- width:14px;
- height:14px;
- border-radius:50%;
- background:red;
- top:-7px;
- right:-7px;
+    content:"";
+    width:12px;
+    height:12px;
+    background:red;
+    border-radius:50%;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
 }
 
-.pin:nth-child(1){left:112px;top:5px}
-.pin:nth-child(2){left:75px;top:75px}
-.pin:nth-child(3){left:149px;top:75px}
-.pin:nth-child(4){left:38px;top:145px}
-.pin:nth-child(5){left:112px;top:145px}
-.pin:nth-child(6){left:186px;top:145px}
+/* MESSAGE */
 
-.pinControls{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:10px;
- max-width:500px;
- margin:auto;
-}
-
-.submit{
- width:100%;
- margin-top:15px;
+.message{
+    text-align:center;
+    font-size:22px;
+    margin-top:25px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
- <div class="brand">🎳 King Gavin Lanes</div>
- <button onclick="page('menu')">☰ Menu</button>
-</header>
-
-<div class="container">
-
-<section id="home" class="page active">
- <div class="card center">
-  <h1>🎳 King Gavin Lanes</h1>
-
-  <h2 id="homePlayer">No Game Started</h2>
-
-  <p>Phone Remote Code</p>
-
-  <div class="bigcode" id="remoteCode">------</div>
-
-  <div class="status" id="connectionStatus">
-   Starting remote...
-  </div>
- </div>
+<!-- WELCOME -->
+<section id="welcome" class="screen active">
+    <div class="welcome-box">
+        <h1>Welcome To King Gavin Lanes</h1>
+        <p>6-Pin Bowling</p>
+    </div>
 </section>
 
-<section id="menu" class="page">
- <div class="card">
-  <h1>Menu</h1>
+<!-- HOME -->
+<section id="home" class="screen">
+    <h1 class="logo">🎳 King Gavin Lanes</h1>
 
-  <div class="grid">
-   <button class="menuBtn" onclick="page('players')">
-    👥 Players
-   </button>
+    <div class="status" id="connectionStatus">
+        Starting remote connection...
+    </div>
 
-   <button class="menuBtn" onclick="page('score')">
-    📊 Score
-   </button>
+    <div class="code" id="remoteCode">
+        ------
+    </div>
 
-   <button class="menuBtn" onclick="page('pinsetter')">
-    🎳 Pinsetter
-   </button>
-
-   <button class="menuBtn danger" onclick="endGame()">
-    🛑 End Game
-   </button>
-  </div>
- </div>
+    <div class="current" id="homeCurrent">
+        Game not started
+    </div>
 </section>
 
-<section id="players" class="page">
- <div class="card">
-  <h1>Players</h1>
-  <div id="playersList"></div>
+<!-- SCORE -->
+<section id="score" class="screen">
 
-  <button class="back" onclick="page('menu')">
-   ← Back
-  </button>
- </div>
+    <h1 class="score-title">🎳 King Gavin Lanes</h1>
+
+    <div class="score-wrap">
+        <table class="score-table">
+            <thead>
+                <tr>
+                    <th class="player-name">Player</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+
+            <tbody id="scoreBody"></tbody>
+        </table>
+    </div>
+
+    <div class="message" id="scoreMessage"></div>
 </section>
 
-<section id="score" class="page">
- <div class="card">
+<!-- PINSETTER -->
+<section id="pinsetter" class="screen">
 
-  <h1 style="text-align:center">
-   📊 Six-Pin Bowling
-  </h1>
+    <h1 class="score-title">Pinsetter</h1>
 
-  <p style="text-align:center">
-   Maximum Score: <b>180</b>
-  </p>
+    <div class="pin-rack" id="tvPins"></div>
 
-  <div class="scorecardWrap">
-
-   <table class="scorecard">
-
-    <thead>
-     <tr>
-      <th class="playerName">Player</th>
-
-      <th class="frame">1</th>
-      <th class="frame">2</th>
-      <th class="frame">3</th>
-      <th class="frame">4</th>
-      <th class="frame">5</th>
-      <th class="frame">6</th>
-      <th class="frame">7</th>
-      <th class="frame">8</th>
-      <th class="frame">9</th>
-      <th class="frame">10</th>
-
-      <th class="totalColumn">Total</th>
-     </tr>
-    </thead>
-
-    <tbody id="scoreBody"></tbody>
-
-   </table>
-
-  </div>
-
-  <br>
-
-  <button class="back" onclick="page('menu')">
-   ← Back
-  </button>
-
- </div>
+    <div class="message">
+        Waiting for pinsetter command...
+    </div>
 </section>
-
-<section id="pinsetter" class="page">
- <div class="card center">
-
-  <h1>🎳 Pinsetter</h1>
-
-  <p>
-   Select unavailable pins, then press Submit.
-  </p>
-
-  <div class="pinArea" id="tvPins"></div>
-
-  <div class="pinControls">
-
-   <button onclick="pinAction('rack')">Rack</button>
-   <button onclick="pinAction('clear')">Clear</button>
-   <button onclick="pinAction('sweep')">Sweep</button>
-   <button onclick="pinAction('nextBall')">Next Ball</button>
-
-   <button onclick="toggleSplit()">
-    🔴 Split
-   </button>
-
-  </div>
-
-  <button class="submit" onclick="submitPins()">
-   ✅ Submit
-  </button>
-
-  <br><br>
-
-  <button class="back" onclick="page('menu')">
-   ← Back
-  </button>
-
- </div>
-</section>
-
-</div>
 
 <script>
+/* =========================================================
+   KING GAVIN LANES — SIX PIN BOWLING ENGINE
+   ========================================================= */
 
-/* =========================
-   SIX-PIN BOWLING
-========================= */
+const PIN_COUNT = 6;
+const FRAME_COUNT = 10;
 
-const PIN_COUNT=6;
-const MAX_SCORE=180;
+let players = [];
+let currentPlayer = 0;
+let gameStarted = false;
 
-let players=[];
-let currentPlayer=0;
-let gameStarted=false;
+/*
+frames[playerName] = [
+    { rolls:[...] },
+    ...
+]
+*/
+let frames = {};
 
-let frames={};
+let pins = Array(PIN_COUNT).fill(true);
+let splitPins = Array(PIN_COUNT).fill(false);
 
-let pins=Array(PIN_COUNT).fill(true);
-let splitPins=[];
-
-let pinDraft=[...pins];
-let splitDraft=[];
-
-let peer=null;
-let remoteConn=null;
+let peer;
+let connection = null;
 
 
-/* =========================
-   PAGES
-========================= */
+/* =========================================================
+   SCREEN CONTROL
+   ========================================================= */
 
-function page(name){
+function showScreen(id){
+    document.querySelectorAll(".screen").forEach(s=>{
+        s.classList.remove("active");
+    });
 
- document.querySelectorAll(".page")
-  .forEach(p=>p.classList.remove("active"));
-
- document.getElementById(name)
-  .classList.add("active");
-
- update();
+    document.getElementById(id).classList.add("active");
 }
 
 
-/* =========================
-   PLAYERS
-========================= */
+/* =========================================================
+   WELCOME
+   ========================================================= */
 
-function renderPlayers(){
+setTimeout(()=>{
+    showScreen("home");
+},3000);
 
- const box=document.getElementById("playersList");
 
- if(!players.length){
+/* =========================================================
+   PLAYER / FRAME SETUP
+   ========================================================= */
 
-  box.innerHTML="<p>No players added yet.</p>";
-  return;
- }
+function createPlayerFrames(){
+    const result=[];
 
- box.innerHTML=players.map(name=>`
+    for(let i=0;i<FRAME_COUNT;i++){
+        result.push({
+            rolls:[]
+        });
+    }
 
-  <div class="player">
-   <span>${escapeHtml(name)}</span>
-  </div>
-
- `).join("");
+    return result;
 }
 
 
-/* =========================
-   SCORECARD
-========================= */
-
-function renderScore(){
-
- const body=document.getElementById("scoreBody");
-
- if(!players.length){
-
-  body.innerHTML="";
-  return;
- }
-
- body.innerHTML=players.map((name,playerIndex)=>{
-
-  let html=`
-   <tr>
-
-    <td class="playerName
-     ${playerIndex===currentPlayer?'activePlayer':''}">
-     ${escapeHtml(name)}
-    </td>
-  `;
-
-  for(let frame=0;frame<10;frame++){
-
-   const rolls=
-    frames[name]?.[frame] || [];
-
-   const active=
-    gameStarted &&
-    playerIndex===currentPlayer &&
-    getCurrentFrame(name)===frame;
-
-   const first=
-    formatRoll(rolls,0,frame);
-
-   const second=
-    formatRoll(rolls,1,frame);
-
-   html+=`
-
-    <td class="frame
-     ${active?'activeFrame':''}">
-
-     <div class="frameNumber">
-      ${frame+1}
-     </div>
-
-     <div class="rolls">
-
-      <div class="rollBox">
-       ${first}
-      </div>
-
-      <div class="rollBox">
-       ${second}
-      </div>
-
-     </div>
-
-     <div class="frameTotal">
-      ${getFrameScore(name,frame)}
-     </div>
-
-    </td>
-   `;
-  }
-
-  html+=`
-
-    <td class="totalColumn">
-     ${getTotalScore(name)}
-    </td>
-
-   </tr>
-  `;
-
-  return html;
-
- }).join("");
+function ensurePlayer(name){
+    if(!frames[name]){
+        frames[name]=createPlayerFrames();
+    }
 }
 
 
-/* =========================
-   SIX-PIN SYMBOLS
-========================= */
+/* =========================================================
+   SIX PIN SCORING
+   ========================================================= */
 
-function formatRoll(rolls,index,frame){
+/*
+   Returns every roll as an object:
 
- const value=rolls[index];
+   {
+      value: 0-6,
+      strike: true/false
+   }
 
- if(value===undefined)return "";
+   A strike is worth 6.
+*/
 
- if(value==="X")return "X";
+function flattenRolls(name){
 
- if(
-  index===1 &&
-  typeof rolls[0]==="number" &&
-  typeof value==="number" &&
-  rolls[0]+value===PIN_COUNT
- ){
-  return "/";
- }
+    ensurePlayer(name);
 
- if(value===0)return "-";
+    let result=[];
 
- return value;
+    for(let frame=0;frame<FRAME_COUNT;frame++){
+
+        const rolls=frames[name][frame].rolls;
+
+        for(const roll of rolls){
+
+            if(roll === "X"){
+                result.push({
+                    value:6,
+                    strike:true
+                });
+            }else{
+                result.push({
+                    value:Number(roll),
+                    strike:false
+                });
+            }
+        }
+    }
+
+    return result;
 }
 
 
-/* =========================
-   CURRENT FRAME
-========================= */
+/*
+   Calculate all ten frame scores.
+
+   Frame 1:
+   Strike = 6 + next two rolls
+   Spare  = 6 + next roll
+   Open   = first + second
+
+   Frame 10:
+   Simply adds its rolls.
+*/
+
+function calculateFrameScores(name){
+
+    const rolls=flattenRolls(name);
+
+    const scores=Array(FRAME_COUNT).fill(null);
+
+    let index=0;
+
+    for(let frame=0;frame<FRAME_COUNT;frame++){
+
+        if(index >= rolls.length) break;
+
+        const first=rolls[index];
+
+        /* 10th frame */
+        if(frame === 9){
+
+            let total=0;
+
+            for(let i=index;i<rolls.length;i++){
+                total += rolls[i].value;
+            }
+
+            scores[frame]=Math.min(total,18);
+
+            break;
+        }
+
+        /* STRIKE */
+        if(first.strike){
+
+            let score=6;
+
+            if(rolls[index+1]){
+                score += rolls[index+1].value;
+            }
+
+            if(rolls[index+2]){
+                score += rolls[index+2].value;
+            }
+
+            scores[frame]=score;
+
+            index += 1;
+            continue;
+        }
+
+        /* Need second roll */
+        if(!rolls[index+1]){
+            scores[frame]=first.value;
+            break;
+        }
+
+        const second=rolls[index+1];
+
+        /* SPARE */
+        if(first.value + second.value === PIN_COUNT){
+
+            let score=PIN_COUNT;
+
+            if(rolls[index+2]){
+                score += rolls[index+2].value;
+            }
+
+            scores[frame]=score;
+
+        }else{
+
+            /* OPEN FRAME */
+            scores[frame]=first.value + second.value;
+        }
+
+        index += 2;
+    }
+
+    return scores;
+}
+
+
+function calculateTotal(name){
+
+    const scores=calculateFrameScores(name);
+
+    let total=0;
+
+    for(const score of scores){
+
+        if(score !== null){
+            total += score;
+        }
+    }
+
+    return Math.min(total,180);
+}
+
+
+/* =========================================================
+   ROLL VALIDATION
+   ========================================================= */
 
 function getCurrentFrame(name){
 
- if(!frames[name])return 0;
+    ensurePlayer(name);
 
- for(let i=0;i<10;i++){
+    for(let i=0;i<10;i++){
 
-  const rolls=frames[name][i]||[];
+        const rolls=frames[name][i].rolls;
 
-  if(i<9){
+        if(i===9){
 
-   if(rolls.length===0){
-    return i;
-   }
+            if(rolls.length < 3){
+                return i;
+            }
 
-   if(
-    rolls.length===1 &&
-    rolls[0]!=="X"
-   ){
-    return i;
-   }
+            continue;
+        }
 
-  }else{
+        if(rolls.length === 0){
+            return i;
+        }
 
-   if(rolls.length<2){
+        if(rolls[0] === "X"){
+            continue;
+        }
+
+        if(rolls.length < 2){
+            return i;
+        }
+    }
+
     return 9;
-   }
-  }
- }
-
- return 9;
 }
 
-
-/* =========================
-   FRAME SCORE
-========================= */
-
-function getFrameScore(name,frame){
-
- const rolls=
-  frames[name]?.[frame] || [];
-
- if(!rolls.length)return "";
-
- /*
-   Strike = 6 + next 2 rolls
- */
- if(
-  frame<9 &&
-  rolls[0]==="X"
- ){
-
-  const next=getNextRolls(
-   name,
-   frame
-  );
-
-  if(next.length>=2){
-
-   return PIN_COUNT+
-    rollValue(next[0])+
-    rollValue(next[1]);
-  }
-
-  return PIN_COUNT;
- }
-
- /*
-   Spare = 6 + next roll
- */
- if(
-  frame<9 &&
-  rolls.length>=2 &&
-  typeof rolls[0]==="number" &&
-  typeof rolls[1]==="number" &&
-  rolls[0]+rolls[1]===PIN_COUNT
- ){
-
-  const next=getNextRolls(
-   name,
-   frame
-  );
-
-  if(next.length>=1){
-
-   return PIN_COUNT+
-    rollValue(next[0]);
-  }
-
-  return PIN_COUNT;
- }
-
- /*
-   Normal frame
- */
- let total=0;
-
- for(const roll of rolls){
-  total+=rollValue(roll);
- }
-
- return total;
-}
-
-
-/* =========================
-   NEXT ROLLS
-========================= */
-
-function getNextRolls(name,frame){
-
- const result=[];
-
- for(
-  let f=frame+1;
-  f<10;
-  f++
- ){
-
-  const rolls=
-   frames[name]?.[f] || [];
-
-  for(const roll of rolls){
-
-   result.push(roll);
-
-   if(result.length>=2){
-    return result;
-   }
-  }
- }
-
- return result;
-}
-
-
-function rollValue(value){
-
- if(value==="X"){
-  return PIN_COUNT;
- }
-
- return Number(value)||0;
-}
-
-
-/* =========================
-   TOTAL
-========================= */
-
-function getTotalScore(name){
-
- let total=0;
-
- for(let i=0;i<10;i++){
-
-  total+=
-   Number(
-    getFrameScore(name,i)
-   )||0;
- }
-
- /*
-   Safety cap.
-   A perfect six-pin game is 180.
- */
- return Math.min(total,MAX_SCORE);
-}
-
-
-/* =========================
-   ADD ROLL
-========================= */
 
 function addRoll(value){
 
- if(!gameStarted || !players.length){
-  return;
- }
+    if(players.length===0) return;
 
- const name=players[currentPlayer];
+    value=Math.max(0,Math.min(PIN_COUNT,Number(value)));
 
- if(!frames[name]){
+    const name=players[currentPlayer];
 
-  frames[name]=Array.from(
-   {length:10},
-   ()=>[]
-  );
- }
+    ensurePlayer(name);
 
- const frame=getCurrentFrame(name);
- const rolls=frames[name][frame];
+    const frameIndex=getCurrentFrame(name);
+    const frame=frames[name][frameIndex];
 
- if(frame<9){
+    /* 10th frame */
+    if(frameIndex===9){
 
-  /*
-    STRIKE
-  */
-  if(value==="X"){
+        /*
+           In the 10th frame:
+           - normal open frame ends after 2 rolls
+           - spare gets a bonus roll
+           - strike gets 2 bonus rolls
+        */
 
-   if(rolls.length===0){
+        if(frame.rolls.length===0){
 
-    rolls.push("X");
+            if(value===PIN_COUNT){
+                frame.rolls.push("X");
+            }else{
+                frame.rolls.push(value);
+            }
 
-    nextPlayer();
-   }
+            renderScore();
+            sendState();
+            return;
+        }
 
-  }else{
+        if(frame.rolls.length===1){
 
-   /*
-     Six-pin maximum.
-     Prevent numbers above 6.
-   */
-   value=Math.max(
-    0,
-    Math.min(
-     PIN_COUNT,
-     Number(value)
-    )
-   );
+            if(frame.rolls[0]==="X"){
 
-   if(rolls.length===0){
+                if(value===PIN_COUNT){
+                    frame.rolls.push("X");
+                }else{
+                    frame.rolls.push(value);
+                }
 
-    rolls.push(value);
+                renderScore();
+                sendState();
+                return;
+            }
 
-   }else if(rolls.length===1){
+            const first=Number(frame.rolls[0]);
 
-    /*
-      A second roll cannot make
-      the frame exceed 6.
-    */
-    const remaining=
-     Math.max(
-      0,
-      PIN_COUNT-rollValue(rolls[0])
-     );
+            if(first+value===PIN_COUNT){
+                frame.rolls.push(value);
+                renderScore();
+                sendState();
+                return;
+            }
 
-    value=Math.min(
-     value,
-     remaining
-    );
+            frame.rolls.push(value);
 
-    rolls.push(value);
+            nextPlayer();
+            return;
+        }
 
-    nextPlayer();
-   }
-  }
+        if(frame.rolls.length===2){
 
- }else{
+            /*
+               Only a strike or spare earns a third ball.
+            */
+            const first=frame.rolls[0];
+            const second=frame.rolls[1];
 
-  /*
-    10th frame.
-    Up to 3 rolls if strike/spare.
-  */
+            const earnedBonus =
+                first==="X" ||
+                (first!=="X" &&
+                 Number(first)+Number(second)===PIN_COUNT);
 
-  if(rolls.length>=3)return;
+            if(earnedBonus){
 
-  if(value!=="X"){
+                if(value===PIN_COUNT){
+                    frame.rolls.push("X");
+                }else{
+                    frame.rolls.push(value);
+                }
+            }
 
-   value=Math.max(
-    0,
-    Math.min(
-     PIN_COUNT,
-     Number(value)
-    )
-   );
+            renderScore();
+            sendState();
 
-   if(rolls.length===1){
+            nextPlayer();
+            return;
+        }
 
-    const remaining=
-     Math.max(
-      0,
-      PIN_COUNT-rollValue(rolls[0])
-     );
-
-    /*
-      If first roll wasn't strike,
-      second roll cannot exceed remaining.
-    */
-    if(
-     rolls[0]!=="X"
-    ){
-     value=Math.min(
-      value,
-      remaining
-     );
+        nextPlayer();
+        return;
     }
-   }
-  }
 
-  rolls.push(value);
+    /* STRIKE */
+    if(frame.rolls.length===0 && value===PIN_COUNT){
 
-  if(rolls.length===2){
+        frame.rolls.push("X");
 
-   const first=
-    rollValue(rolls[0]);
+        nextPlayer();
+        return;
+    }
 
-   const second=
-    rollValue(rolls[1]);
+    /* First roll */
+    if(frame.rolls.length===0){
 
-   const bonus=
-    rolls[0]==="X" ||
-    first+second===PIN_COUNT;
+        frame.rolls.push(value);
 
-   if(!bonus){
+        renderScore();
+        sendState();
+        return;
+    }
 
-    nextPlayer();
-   }
+    /* Second roll */
+    if(frame.rolls.length===1){
 
-  }else if(rolls.length===3){
+        const first=Number(frame.rolls[0]);
 
-   nextPlayer();
-  }
- }
+        if(first+value>PIN_COUNT){
+            value=PIN_COUNT-first;
+        }
 
- sendState();
- update();
+        frame.rolls.push(value);
+
+        nextPlayer();
+        return;
+    }
 }
 
 
-/* =========================
-   TURN
-========================= */
+/* =========================================================
+   STRIKE / SPARE COMMANDS
+   ========================================================= */
+
+function doStrike(){
+
+    if(players.length===0) return;
+
+    const name=players[currentPlayer];
+    const frameIndex=getCurrentFrame(name);
+
+    if(frameIndex===9){
+
+        addRoll(6);
+
+    }else{
+
+        addRoll(6);
+    }
+}
+
+
+function doSpare(){
+
+    if(players.length===0) return;
+
+    const name=players[currentPlayer];
+    const frameIndex=getCurrentFrame(name);
+
+    if(frameIndex===9){
+
+        const frame=frames[name][9];
+
+        if(frame.rolls.length===1 && frame.rolls[0]!=="X"){
+
+            const remaining=
+                PIN_COUNT-Number(frame.rolls[0]);
+
+            addRoll(remaining);
+        }
+
+        return;
+    }
+
+    const frame=frames[name][frameIndex];
+
+    if(frame.rolls.length===1 && frame.rolls[0]!=="X"){
+
+        const remaining=
+            PIN_COUNT-Number(frame.rolls[0]);
+
+        addRoll(remaining);
+    }
+}
+
+
+/* =========================================================
+   PLAYER TURN
+   ========================================================= */
 
 function nextPlayer(){
 
- if(!players.length)return;
+    if(players.length===0) return;
 
- currentPlayer=
-  (currentPlayer+1)%players.length;
+    currentPlayer++;
+
+    if(currentPlayer>=players.length){
+        currentPlayer=0;
+    }
+
+    renderScore();
+    sendState();
 }
+
 
 function previousPlayer(){
 
- if(!players.length)return;
+    if(players.length===0) return;
 
- currentPlayer=
-  (currentPlayer-1+players.length)
-  %players.length;
+    currentPlayer--;
+
+    if(currentPlayer<0){
+        currentPlayer=players.length-1;
+    }
+
+    renderScore();
+    sendState();
 }
 
 
-/* =========================
-   START
-========================= */
+/* =========================================================
+   RESET
+   ========================================================= */
 
-function startGame(){
+function resetGame(){
 
- if(!players.length)return;
+    frames={};
 
- gameStarted=true;
- currentPlayer=0;
+    players.forEach(name=>{
+        frames[name]=createPlayerFrames();
+    });
 
- players.forEach(name=>{
+    currentPlayer=0;
+    gameStarted=false;
 
-  frames[name]=Array.from(
-   {length:10},
-   ()=>[]
-  );
+    renderScore();
+    sendState();
 
- });
-
- sendState();
- update();
-
- page("score");
+    showScreen("home");
 }
 
 
-/* =========================
-   END
-========================= */
+/* =========================================================
+   SCORE DISPLAY
+   ========================================================= */
 
-function endGame(){
+function formatRoll(roll){
 
- players=[];
- currentPlayer=0;
- gameStarted=false;
- frames={};
+    if(roll===undefined) return "";
 
- pins=Array(PIN_COUNT).fill(true);
- splitPins=[];
+    if(roll==="X") return "X";
 
- pinDraft=[...pins];
- splitDraft=[];
+    if(Number(roll)===0) return "-";
 
- sendState();
- page("home");
+    return String(roll);
 }
 
 
-/* =========================
-   REMOTE COMMANDS
-========================= */
+function renderScore(){
 
-function handleRemote(msg){
+    const body=document.getElementById("scoreBody");
 
- if(msg.type==="roll"){
+    body.innerHTML="";
 
-  addRoll(Number(msg.value));
-  return;
- }
+    players.forEach((name,playerIndex)=>{
 
- if(msg.type==="strike"){
+        ensurePlayer(name);
 
-  addRoll("X");
-  return;
- }
+        const row=document.createElement("tr");
 
- if(msg.type==="spare"){
+        const nameCell=document.createElement("td");
 
-  if(!gameStarted || !players.length)return;
+        nameCell.className=
+            "player-name " +
+            (playerIndex===currentPlayer ? "active-player":"");
 
-  const name=players[currentPlayer];
-  const frame=getCurrentFrame(name);
+        nameCell.textContent=name;
 
-  if(frame>=10)return;
+        row.appendChild(nameCell);
 
-  const rolls=frames[name][frame];
+        const scores=calculateFrameScores(name);
 
-  if(
-   rolls.length===1 &&
-   typeof rolls[0]==="number"
-  ){
+        for(let frameIndex=0;frameIndex<10;frameIndex++){
 
-   rolls[1]=
-    PIN_COUNT-rolls[0];
+            const cell=document.createElement("td");
 
-   nextPlayer();
+            cell.className="frame-cell";
 
-   sendState();
-   update();
-  }
+            if(
+                playerIndex===currentPlayer &&
+                gameStarted &&
+                getCurrentFrame(name)===frameIndex
+            ){
+                cell.classList.add("current-frame");
+            }
 
-  return;
- }
+            const rolls=frames[name][frameIndex].rolls;
 
- if(msg.type==="previous"){
+            const rollsDiv=document.createElement("div");
+            rollsDiv.className="rolls";
 
-  previousPlayer();
-  sendState();
-  update();
+            /*
+               Show up to 3 rolls in frame 10.
+            */
+            const maxRolls=frameIndex===9 ? 3 : 2;
 
-  return;
- }
+            for(let r=0;r<maxRolls;r++){
 
- if(msg.type==="next"){
+                const rollDiv=document.createElement("div");
+                rollDiv.className="roll";
 
-  nextPlayer();
-  sendState();
-  update();
+                rollDiv.textContent=
+                    formatRoll(rolls[r]);
 
-  return;
- }
+                rollsDiv.appendChild(rollDiv);
+            }
 
- if(msg.type==="reset"){
+            cell.appendChild(rollsDiv);
 
-  players.forEach(name=>{
+            const scoreDiv=document.createElement("div");
+            scoreDiv.className="frame-score";
 
-   frames[name]=Array.from(
-    {length:10},
-    ()=>[]
-   );
-  });
+            if(scores[frameIndex]!==null){
+                scoreDiv.textContent=scores[frameIndex];
+            }
 
-  currentPlayer=0;
+            cell.appendChild(scoreDiv);
 
-  sendState();
-  update();
+            row.appendChild(cell);
+        }
 
-  return;
- }
+        const total=document.createElement("td");
 
- if(msg.type==="addPlayer"){
+        total.className="total-cell";
+        total.textContent=calculateTotal(name);
 
-  const name=
-   String(msg.name||"").trim();
+        row.appendChild(total);
 
-  if(
-   name &&
-   !players.includes(name)
-  ){
+        body.appendChild(row);
+    });
 
-   players.push(name);
+    if(players.length>0){
 
-   frames[name]=Array.from(
-    {length:10},
-    ()=>[]
-   );
+        document.getElementById("scoreMessage").textContent =
+            "Current player: " + players[currentPlayer];
 
-   sendState();
-   update();
-  }
+        document.getElementById("homeCurrent").textContent =
+            gameStarted
+                ? "Current player: " + players[currentPlayer]
+                : "Game not started";
+    }else{
 
-  return;
- }
+        document.getElementById("scoreMessage").textContent =
+            "Add players from the phone remote.";
 
- if(msg.type==="removePlayer"){
-
-  const index=Number(msg.index);
-
-  if(
-   index>=0 &&
-   index<players.length
-  ){
-
-   const removed=
-    players[index];
-
-   players.splice(index,1);
-
-   delete frames[removed];
-
-   if(
-    currentPlayer>=players.length
-   ){
-
-    currentPlayer=
-     Math.max(
-      0,
-      players.length-1
-     );
-   }
-
-   sendState();
-   update();
-  }
-
-  return;
- }
-
- if(msg.type==="start"){
-
-  startGame();
-  return;
- }
-
- if(msg.type==="pinSubmit"){
-
-  if(Array.isArray(msg.pins)){
-   pins=msg.pins.slice(0,PIN_COUNT);
-  }
-
-  while(pins.length<PIN_COUNT){
-   pins.push(true);
-  }
-
-  splitPins=
-   Array.isArray(msg.splitPins)
-    ? msg.splitPins
-    : [];
-
-  pinDraft=[...pins];
-  splitDraft=[...splitPins];
-
-  sendState();
-  update();
-
-  return;
- }
-
- if(msg.type==="background"){
-
-  applyBackground(msg.value);
-  return;
- }
-
- if(msg.type==="end"){
-
-  endGame();
-  return;
- }
+        document.getElementById("homeCurrent").textContent =
+            "No players";
+    }
 }
 
 
-/* =========================
+/* =========================================================
    PINSETTER
-========================= */
+   ========================================================= */
 
 function renderPins(){
 
- const box=
-  document.getElementById("tvPins");
+    const rack=document.getElementById("tvPins");
 
- box.innerHTML=
-  pinDraft.map((available,i)=>`
+    rack.innerHTML="";
 
-   <div
-    class="pin
-     ${available?'':'down'}
-     ${splitDraft.includes(i)?'split':''}"
-    onclick="togglePin(${i})">
+    const rows=[
+        [0],
+        [1,2],
+        [3,4,5]
+    ];
 
-    ${i+1}
+    rows.forEach(rowIndexes=>{
 
-   </div>
+        const row=document.createElement("div");
+        row.className="pin-row";
 
-  `).join("");
+        rowIndexes.forEach(index=>{
+
+            const pin=document.createElement("div");
+
+            pin.className="pin";
+
+            if(!pins[index]){
+                pin.classList.add("down");
+            }
+
+            if(splitPins[index]){
+                pin.classList.add("split");
+            }
+
+            row.appendChild(pin);
+        });
+
+        rack.appendChild(row);
+    });
 }
 
 
-function togglePin(index){
-
- pinDraft[index]=
-  !pinDraft[index];
-
- if(!pinDraft[index]){
-
-  splitDraft=
-   splitDraft.filter(
-    x=>x!==index
-   );
- }
-
- renderPins();
-}
-
-
-function pinAction(action){
-
- if(
-  action==="rack" ||
-  action==="nextBall"
- ){
-
-  pinDraft=
-   Array(PIN_COUNT).fill(true);
-
-  splitDraft=[];
- }
-
- if(
-  action==="clear" ||
-  action==="sweep"
- ){
-
-  pinDraft=
-   Array(PIN_COUNT).fill(false);
-
-  splitDraft=[];
- }
-
- renderPins();
-}
-
-
-function toggleSplit(){
-
- splitDraft=[];
-
- pinDraft.forEach(
-  (available,i)=>{
-
-   if(available){
-    splitDraft.push(i);
-   }
-
-  }
- );
-
- renderPins();
-}
-
-
-function submitPins(){
-
- pins=[...pinDraft];
- splitPins=[...splitDraft];
-
- sendState();
- update();
-}
-
-
-/* =========================
+/* =========================================================
    BACKGROUND
-========================= */
+   ========================================================= */
 
-function applyBackground(value){
+function changeBackground(value){
 
- const backgrounds={
+    if(value==="dark"){
+        document.body.style.background="#111";
+    }
 
-  midnight:
-   "linear-gradient(135deg,#071a33,#0b315c)",
+    if(value==="blue"){
+        document.body.style.background="#06152e";
+    }
 
-  black:"#050505",
+    if(value==="green"){
+        document.body.style.background="#062414";
+    }
 
-  purple:
-   "linear-gradient(135deg,#24103d,#581c87)",
+    if(value==="purple"){
+        document.body.style.background="#19062e";
+    }
 
-  green:
-   "linear-gradient(135deg,#052e16,#166534)",
-
-  blue:
-   "linear-gradient(135deg,#082f49,#0369a1)",
-
-  warm:
-   "linear-gradient(135deg,#431407,#9a3412)"
- };
-
- document.body.style.background=
-  backgrounds[value]||
-  backgrounds.midnight;
+    if(value==="red"){
+        document.body.style.background="#2e0606";
+    }
 }
 
 
-/* =========================
-   STATE
-========================= */
+/* =========================================================
+   PEERJS
+   ========================================================= */
+
+function generateCode(){
+
+    const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let code="";
+
+    for(let i=0;i<6;i++){
+        code += chars[Math.floor(Math.random()*chars.length)];
+    }
+
+    return code;
+}
+
+
+function setupPeer(){
+
+    const code=generateCode();
+
+    peer=new Peer(
+        "kgl-"+code,
+        {
+            debug:1
+        }
+    );
+
+    document.getElementById("remoteCode").textContent=code;
+
+    peer.on("open",()=>{
+        document.getElementById("connectionStatus").textContent=
+            "Remote ready — enter this code on the phone.";
+    });
+
+    peer.on("connection",conn=>{
+
+        connection=conn;
+
+        document.getElementById("connectionStatus").textContent=
+            "Phone remote connected ✓";
+
+        conn.on("open",()=>{
+            sendState();
+        });
+
+        conn.on("data",handleRemote);
+
+        conn.on("close",()=>{
+            connection=null;
+
+            document.getElementById("connectionStatus").textContent=
+                "Remote disconnected";
+        });
+    });
+
+    peer.on("error",err=>{
+
+        console.log(err);
+
+        document.getElementById("connectionStatus").textContent=
+            "Connection error — refresh the TV page.";
+    });
+}
+
 
 function sendState(){
 
- if(
-  !remoteConn||
-  !remoteConn.open
- )return;
+    if(!connection) return;
 
- remoteConn.send({
+    if(connection.open){
 
-  type:"state",
-
-  players:players,
-
-  currentPlayer:
-   currentPlayer,
-
-  gameStarted:
-   gameStarted,
-
-  frames:
-   frames,
-
-  pins:
-   pins,
-
-  splitPins:
-   splitPins
- });
+        connection.send({
+            type:"state",
+            players:players,
+            currentPlayer:currentPlayer,
+            gameStarted:gameStarted,
+            frames:frames,
+            pins:pins,
+            splitPins:splitPins
+        });
+    }
 }
 
 
-/* =========================
-   PEERJS
-========================= */
+/* =========================================================
+   REMOTE COMMANDS
+   ========================================================= */
 
-function createRemote(){
+function handleRemote(data){
 
- const code=
-  Math.random()
-   .toString(36)
-   .substring(2,8)
-   .toUpperCase();
+    if(!data || !data.type) return;
 
- const peerId="kgl-"+code;
+    switch(data.type){
 
- document.getElementById(
-  "remoteCode"
- ).textContent=code;
+        case "roll":
+            addRoll(data.value);
+            break;
 
- peer=new Peer(peerId,{
-  debug:1
- });
+        case "strike":
+            doStrike();
+            break;
 
- peer.on("open",()=>{
+        case "spare":
+            doSpare();
+            break;
 
-  document.getElementById(
-   "connectionStatus"
-  ).textContent=
-   "Waiting for phone remote...";
+        case "previous":
+            previousPlayer();
+            break;
 
- });
+        case "next":
+            nextPlayer();
+            break;
 
- peer.on("connection",conn=>{
+        case "reset":
+            resetGame();
+            break;
 
-  remoteConn=conn;
+        case "addPlayer":
 
-  conn.on("open",()=>{
+            if(
+                typeof data.name==="string" &&
+                data.name.trim()!==""
+            ){
 
-   document.getElementById(
-    "connectionStatus"
-   ).textContent=
-   "📱 Phone remote connected!";
+                const name=data.name.trim();
 
-   sendState();
-  });
+                if(!players.includes(name)){
 
-  conn.on("data",msg=>{
+                    players.push(name);
 
-   handleRemote(msg);
-  });
+                    frames[name]=createPlayerFrames();
 
-  conn.on("close",()=>{
+                    renderScore();
+                    sendState();
+                }
+            }
 
-   remoteConn=null;
+            break;
 
-   document.getElementById(
-    "connectionStatus"
-   ).textContent=
-   "Waiting for phone remote...";
-  });
+        case "removePlayer":
 
- });
+            if(
+                Number.isInteger(data.index) &&
+                data.index>=0 &&
+                data.index<players.length
+            ){
 
- peer.on("error",err=>{
+                const removed=players[data.index];
 
-  console.log("PeerJS error:",err);
+                players.splice(data.index,1);
 
-  document.getElementById(
-   "connectionStatus"
-  ).textContent=
-   "Remote error: "+err.type;
- });
+                delete frames[removed];
 
- peer.on("disconnected",()=>{
+                if(currentPlayer>=players.length){
+                    currentPlayer=Math.max(0,players.length-1);
+                }
 
-  try{
-   peer.reconnect();
-  }catch(e){}
+                renderScore();
+                sendState();
+            }
 
- });
+            break;
+
+        case "start":
+
+            if(players.length>0){
+
+                gameStarted=true;
+
+                currentPlayer=0;
+
+                renderScore();
+                sendState();
+
+                showScreen("score");
+            }
+
+            break;
+
+        case "pinSubmit":
+
+            if(Array.isArray(data.pins)){
+
+                pins=Array(PIN_COUNT).fill(true);
+
+                for(let i=0;i<PIN_COUNT;i++){
+
+                    if(data.pins[i]===false){
+                        pins[i]=false;
+                    }
+                }
+            }
+
+            if(Array.isArray(data.splitPins)){
+
+                splitPins=Array(PIN_COUNT).fill(false);
+
+                for(let i=0;i<PIN_COUNT;i++){
+
+                    splitPins[i]=Boolean(data.splitPins[i]);
+                }
+            }
+
+            renderPins();
+            sendState();
+
+            break;
+
+        case "rack":
+
+            pins=Array(PIN_COUNT).fill(true);
+            splitPins=Array(PIN_COUNT).fill(false);
+
+            renderPins();
+            sendState();
+
+            break;
+
+        case "clearPins":
+
+            pins=Array(PIN_COUNT).fill(false);
+
+            renderPins();
+            sendState();
+
+            break;
+
+        case "background":
+
+            changeBackground(data.value);
+            sendState();
+
+            break;
+
+        case "end":
+
+            gameStarted=false;
+            showScreen("welcome");
+
+            setTimeout(()=>{
+                showScreen("home");
+            },3000);
+
+            sendState();
+
+            break;
+    }
 }
 
 
-/* =========================
-   UPDATE
-========================= */
+/* =========================================================
+   START
+   ========================================================= */
 
-function update(){
-
- renderPlayers();
- renderScore();
- renderPins();
-
- document.getElementById(
-  "homePlayer"
- ).textContent=
-
-  players.length&&gameStarted
-
-   ? "Current Player: "+
-     players[currentPlayer]
-
-   : "No Game Started";
-}
-
-
-function escapeHtml(text){
-
- return String(text)
-  .replaceAll("&","&amp;")
-  .replaceAll("<","&lt;")
-  .replaceAll(">","&gt;")
-  .replaceAll('"',"&quot;")
-  .replaceAll("'","&#039;");
-}
-
-createRemote();
-update();
+renderPins();
+renderScore();
+setupPeer();
 
 </script>
 
