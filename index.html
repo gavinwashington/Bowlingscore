@@ -8,6 +8,7 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
  margin:0;
  font-family:Arial,sans-serif;
@@ -15,6 +16,7 @@ body{
  background:linear-gradient(135deg,#071a33,#0b315c);
  min-height:100vh;
 }
+
 header{
  height:70px;
  padding:15px 22px;
@@ -23,7 +25,9 @@ header{
  justify-content:space-between;
  background:rgba(0,0,0,.25);
 }
+
 .brand{font-size:24px;font-weight:bold}
+
 button{
  border:0;
  border-radius:12px;
@@ -34,39 +38,56 @@ button{
  background:#1677ff;
  color:white;
 }
+
 button:active{transform:scale(.97)}
-.container{padding:25px;max-width:1100px;margin:auto}
+
+.container{
+ padding:25px;
+ max-width:1200px;
+ margin:auto;
+}
+
 .page{display:none}
 .page.active{display:block}
+
 .card{
  background:rgba(255,255,255,.09);
  border-radius:18px;
  padding:25px;
  margin-bottom:20px;
 }
+
 .center{text-align:center}
+
 h1{margin-top:0}
+
 .bigcode{
  font-size:42px;
  font-weight:bold;
  letter-spacing:4px;
  margin:15px 0;
 }
-.status{font-size:18px;margin-top:10px}
+
+.status{
+ font-size:18px;
+ margin-top:10px;
+}
+
 .grid{
  display:grid;
  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
  gap:15px;
 }
-.menuBtn{min-height:100px;font-size:20px}
-input{
- width:100%;
- padding:14px;
- border:0;
- border-radius:10px;
- margin:8px 0;
- font-size:17px;
+
+.menuBtn{
+ min-height:100px;
+ font-size:20px;
 }
+
+.back{background:#444}
+.danger{background:#c62828}
+.submit{background:#16a34a}
+
 .player{
  display:flex;
  justify-content:space-between;
@@ -76,26 +97,109 @@ input{
  background:rgba(255,255,255,.08);
  border-radius:12px;
 }
-.scoreTable{
+
+/* =========================
+   BOWLING SCORECARD
+========================= */
+
+.scoreTitle{
+ text-align:center;
+ margin-bottom:20px;
+}
+
+.scorecardWrap{
  width:100%;
+ overflow-x:auto;
+}
+
+.scorecard{
+ width:100%;
+ min-width:850px;
  border-collapse:collapse;
- border-radius:14px;
- overflow:hidden;
+ table-layout:fixed;
 }
-.scoreTable th,.scoreTable td{
- border:1px solid rgba(255,255,255,.18);
- padding:12px;
+
+.scorecard th,
+.scorecard td{
+ border:2px solid rgba(255,255,255,.25);
  text-align:center;
 }
-.current{background:rgba(22,119,255,.35)}
-.currentScore{
- text-align:center;
- font-size:65px;
+
+.scorecard th{
+ height:38px;
+ background:rgba(0,0,0,.25);
+ font-size:14px;
+}
+
+.scorecard .playerName{
+ width:150px;
+ text-align:left;
+ padding-left:12px;
+ font-size:17px;
+}
+
+.scorecard .frame{
+ width:72px;
+ height:95px;
+}
+
+.frameNumber{
+ height:25px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:13px;
+ background:rgba(0,0,0,.2);
+}
+
+.rolls{
+ height:32px;
+ display:flex;
+ justify-content:flex-end;
+ align-items:stretch;
+}
+
+.rollBox{
+ width:50%;
+ border-left:1px solid rgba(255,255,255,.2);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:18px;
  font-weight:bold;
- margin:25px 0;
 }
-.back{background:#444}
-.danger{background:#c62828}
+
+.rollBox:first-child{
+ border-left:0;
+}
+
+.frameTotal{
+ height:38px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:16px;
+ font-weight:bold;
+}
+
+.activeFrame{
+ background:rgba(22,119,255,.35)!important;
+ box-shadow:inset 0 0 0 3px #1677ff;
+}
+
+.activePlayer{
+ background:rgba(22,119,255,.25)!important;
+}
+
+.totalColumn{
+ width:80px;
+ font-size:18px;
+ font-weight:bold;
+}
+
+/* =========================
+   PINSETTER
+========================= */
 
 .pinArea{
  position:relative;
@@ -103,6 +207,7 @@ input{
  height:240px;
  margin:20px auto;
 }
+
 .pin{
  position:absolute;
  width:55px;
@@ -119,15 +224,18 @@ input{
  cursor:pointer;
  transition:.15s;
 }
+
 .pin.down{
  background:#394651;
  color:#9ba5ad;
  border-color:#53616b;
 }
+
 .pin.split{
  border:4px solid red;
  box-shadow:0 0 12px rgba(255,0,0,.7);
 }
+
 .pin.split::after{
  content:"";
  position:absolute;
@@ -138,6 +246,7 @@ input{
  top:-7px;
  right:-7px;
 }
+
 .pin:nth-child(1){left:112px;top:5px}
 .pin:nth-child(2){left:75px;top:75px}
 .pin:nth-child(3){left:149px;top:75px}
@@ -152,10 +261,10 @@ input{
  max-width:500px;
  margin:auto;
 }
+
 .submit{
  width:100%;
  margin-top:15px;
- background:#16a34a;
 }
 </style>
 </head>
@@ -169,88 +278,211 @@ input{
 
 <div class="container">
 
+<!-- HOME -->
+
 <section id="home" class="page active">
  <div class="card center">
+
   <h1>🎳 King Gavin Lanes</h1>
-  <h2 id="homePlayer">No Game Started</h2>
+
+  <h2 id="homePlayer">
+   No Game Started
+  </h2>
 
   <p>Phone Remote Code</p>
-  <div class="bigcode" id="remoteCode">------</div>
+
+  <div class="bigcode" id="remoteCode">
+   ------
+  </div>
+
   <div class="status" id="connectionStatus">
    Starting remote...
   </div>
+
  </div>
 </section>
+
+<!-- MENU -->
 
 <section id="menu" class="page">
+
  <div class="card">
+
   <h1>Menu</h1>
+
   <div class="grid">
-   <button class="menuBtn" onclick="page('players')">👥 Players</button>
-   <button class="menuBtn" onclick="page('score')">📊 Score</button>
-   <button class="menuBtn" onclick="page('pinsetter')">🎳 Pinsetter</button>
-   <button class="menuBtn danger" onclick="endGame()">🛑 End Game</button>
+
+   <button class="menuBtn"
+    onclick="page('players')">
+    👥 Players
+   </button>
+
+   <button class="menuBtn"
+    onclick="page('score')">
+    📊 Score
+   </button>
+
+   <button class="menuBtn"
+    onclick="page('pinsetter')">
+    🎳 Pinsetter
+   </button>
+
+   <button class="menuBtn danger"
+    onclick="endGame()">
+    🛑 End Game
+   </button>
+
   </div>
+
  </div>
+
 </section>
+
+<!-- PLAYERS -->
 
 <section id="players" class="page">
+
  <div class="card">
+
   <h1>Players</h1>
+
   <div id="playersList"></div>
-  <button class="back" onclick="page('menu')">← Back</button>
+
+  <button class="back"
+   onclick="page('menu')">
+   ← Back
+  </button>
+
  </div>
+
 </section>
+
+<!-- SCORE -->
 
 <section id="score" class="page">
- <div class="card">
-  <h1>Score</h1>
-  <div class="currentScore" id="currentScore">0</div>
 
-  <table class="scoreTable">
-   <thead>
-    <tr>
-     <th>Player</th>
-     <th>Score</th>
-    </tr>
-   </thead>
-   <tbody id="scoreBody"></tbody>
-  </table>
+ <div class="card">
+
+  <h1 class="scoreTitle">
+   📊 Bowling Score
+  </h1>
+
+  <div class="scorecardWrap">
+
+   <table class="scorecard">
+
+    <thead>
+     <tr>
+      <th class="playerName">Player</th>
+
+      <th class="frame">1</th>
+      <th class="frame">2</th>
+      <th class="frame">3</th>
+      <th class="frame">4</th>
+      <th class="frame">5</th>
+      <th class="frame">6</th>
+      <th class="frame">7</th>
+      <th class="frame">8</th>
+      <th class="frame">9</th>
+      <th class="frame">10</th>
+
+      <th class="totalColumn">
+       Total
+      </th>
+     </tr>
+    </thead>
+
+    <tbody id="scoreBody"></tbody>
+
+   </table>
+
+  </div>
 
   <br>
-  <button class="back" onclick="page('menu')">← Back</button>
+
+  <button class="back"
+   onclick="page('menu')">
+   ← Back
+  </button>
+
  </div>
+
 </section>
 
+<!-- PINSETTER -->
+
 <section id="pinsetter" class="page">
+
  <div class="card center">
+
   <h1>🎳 Pinsetter</h1>
-  <p>Select unavailable pins, then press Submit.</p>
+
+  <p>
+   Select unavailable pins, then press Submit.
+  </p>
 
   <div class="pinArea" id="tvPins"></div>
 
   <div class="pinControls">
-   <button onclick="pinAction('rack')">Rack</button>
-   <button onclick="pinAction('clear')">Clear</button>
-   <button onclick="pinAction('sweep')">Sweep</button>
-   <button onclick="pinAction('nextBall')">Next Ball</button>
-   <button onclick="toggleSplit()">🔴 Split</button>
+
+   <button onclick="pinAction('rack')">
+    Rack
+   </button>
+
+   <button onclick="pinAction('clear')">
+    Clear
+   </button>
+
+   <button onclick="pinAction('sweep')">
+    Sweep
+   </button>
+
+   <button onclick="pinAction('nextBall')">
+    Next Ball
+   </button>
+
+   <button onclick="toggleSplit()">
+    🔴 Split
+   </button>
+
   </div>
 
-  <button class="submit" onclick="submitPins()">✅ Submit</button>
+  <button class="submit"
+   onclick="submitPins()">
+   ✅ Submit
+  </button>
 
   <br><br>
-  <button class="back" onclick="page('menu')">← Back</button>
+
+  <button class="back"
+   onclick="page('menu')">
+   ← Back
+  </button>
+
  </div>
+
 </section>
 
 </div>
 
 <script>
+
+/* =========================
+   GAME STATE
+========================= */
+
 let players=[];
 let currentPlayer=0;
 let gameStarted=false;
-let scores={};
+
+/*
+ Each player gets 10 frames.
+
+ Example:
+ frames["Gavin"][0] = [7,3]
+ frames["Gavin"][1] = [6]
+*/
+let frames={};
 
 let pins=Array(6).fill(true);
 let splitPins=[];
@@ -261,7 +493,13 @@ let splitDraft=[];
 let peer=null;
 let remoteConn=null;
 
+
+/* =========================
+   PAGE
+========================= */
+
 function page(name){
+
  document.querySelectorAll(".page")
   .forEach(p=>p.classList.remove("active"));
 
@@ -271,103 +509,432 @@ function page(name){
  update();
 }
 
-function update(){
- renderPlayers();
- renderScore();
- renderPins();
 
- document.getElementById("homePlayer").textContent=
-  players.length && gameStarted
-   ? "Current Player: "+players[currentPlayer]
-   : "No Game Started";
-}
+/* =========================
+   PLAYERS
+========================= */
 
 function renderPlayers(){
- const box=document.getElementById("playersList");
+
+ const box=
+  document.getElementById("playersList");
 
  if(!players.length){
-  box.innerHTML="<p>No players added yet.</p>";
+
+  box.innerHTML=
+   "<p>No players added yet.</p>";
+
   return;
  }
 
- box.innerHTML=players.map(name=>`
-  <div class="player">
-   <span>${escapeHtml(name)}</span>
-  </div>
- `).join("");
+ box.innerHTML=
+  players.map(name=>`
+
+   <div class="player">
+    <span>${escapeHtml(name)}</span>
+   </div>
+
+  `).join("");
 }
+
+
+/* =========================
+   SCORECARD
+========================= */
 
 function renderScore(){
- const body=document.getElementById("scoreBody");
 
- body.innerHTML=players.map((name,i)=>`
-  <tr class="${i===currentPlayer?'current':''}">
-   <td>${escapeHtml(name)}</td>
-   <td>${scores[name] ?? 0}</td>
-  </tr>
- `).join("");
+ const body=
+  document.getElementById("scoreBody");
 
- if(players.length){
-  document.getElementById("currentScore").textContent=
-   scores[players[currentPlayer]] ?? 0;
+ if(!players.length){
+
+  body.innerHTML="";
+  return;
+ }
+
+ body.innerHTML=
+  players.map((name,playerIndex)=>{
+
+   let html=`
+
+    <tr>
+
+     <td class="playerName
+       ${playerIndex===currentPlayer?'activePlayer':''}">
+       ${escapeHtml(name)}
+     </td>
+   `;
+
+   for(let frame=0;frame<10;frame++){
+
+    const rolls=
+     frames[name]?.[frame] || [];
+
+    const active=
+     gameStarted &&
+     playerIndex===currentPlayer &&
+     getCurrentFrame(name)===frame;
+
+    const first=formatRoll(
+     rolls,
+     0,
+     frame
+    );
+
+    const second=formatRoll(
+     rolls,
+     1,
+     frame
+    );
+
+    html+=`
+
+     <td class="frame
+       ${active?'activeFrame':''}">
+
+      <div class="frameNumber">
+       ${frame+1}
+      </div>
+
+      <div class="rolls">
+
+       <div class="rollBox">
+        ${first}
+       </div>
+
+       <div class="rollBox">
+        ${second}
+       </div>
+
+      </div>
+
+      <div class="frameTotal">
+       ${getFrameScore(name,frame)}
+      </div>
+
+     </td>
+    `;
+   }
+
+   html+=`
+
+     <td class="totalColumn">
+      ${getTotalScore(name)}
+     </td>
+
+    </tr>
+   `;
+
+   return html;
+
+  }).join("");
+}
+
+
+/*
+ Convert rolls into bowling symbols.
+
+ 6 = 6
+ 0 = -
+ Strike = X
+ Spare = /
+*/
+function formatRoll(rolls,index,frame){
+
+ const value=rolls[index];
+
+ if(value===undefined){
+  return "";
+ }
+
+ if(value==="X"){
+  return "X";
+ }
+
+ if(
+  index===1 &&
+  typeof rolls[0]==="number" &&
+  typeof value==="number" &&
+  rolls[0]+value===10
+ ){
+  return "/";
+ }
+
+ if(value===0){
+  return "-";
+ }
+
+ return value;
+}
+
+
+/* =========================
+   FRAME TRACKING
+========================= */
+
+function getCurrentFrame(name){
+
+ if(!frames[name])return 0;
+
+ for(let i=0;i<10;i++){
+
+  const rolls=frames[name][i]||[];
+
+  if(i<9){
+
+   if(rolls.length<2){
+
+    if(rolls.length===1 && rolls[0]==="X"){
+     continue;
+    }
+
+    return i;
+   }
+
+  }else{
+
+   if(rolls.length<2)return 9;
+  }
+ }
+
+ return 9;
+}
+
+
+/* =========================
+   SCORING
+========================= */
+
+function getFrameScore(name,frame){
+
+ const rolls=frames[name]?.[frame]||[];
+
+ if(!rolls.length)return "";
+
+ let total=0;
+
+ for(const r of rolls){
+
+  if(r==="X"){
+   total+=10;
+  }else if(typeof r==="number"){
+   total+=r;
+  }
+ }
+
+ /*
+   Show the running frame points.
+   Full strike/spare bonuses are added
+   when the following rolls are known.
+ */
+
+ if(frame<9){
+
+  if(rolls[0]==="X"){
+
+   const next=getAllRolls(name,frame+1);
+
+   if(next.length>=2){
+
+    total=10+
+     rollValue(next[0])+
+     rollValue(next[1]);
+
+   }
+  }
+
+  if(
+   rolls.length>=2 &&
+   typeof rolls[0]==="number" &&
+   typeof rolls[1]==="number" &&
+   rolls[0]+rolls[1]===10
+  ){
+
+   const next=getAllRolls(name,frame+1);
+
+   if(next.length>=1){
+
+    total=10+rollValue(next[0]);
+   }
+  }
+ }
+
+ return total;
+}
+
+
+function getTotalScore(name){
+
+ let total=0;
+
+ for(let i=0;i<10;i++){
+
+  total+=Number(
+   getFrameScore(name,i)
+  )||0;
+ }
+
+ return total;
+}
+
+
+function getAllRolls(name,startFrame){
+
+ const result=[];
+
+ for(let f=startFrame;f<10;f++){
+
+  const rolls=frames[name]?.[f]||[];
+
+  for(const r of rolls){
+   result.push(r);
+  }
+
+  if(result.length>=2)break;
+ }
+
+ return result;
+}
+
+
+function rollValue(value){
+
+ if(value==="X")return 10;
+
+ return Number(value)||0;
+}
+
+
+/* =========================
+   ADD ROLL
+========================= */
+
+function addRoll(value){
+
+ if(!gameStarted || !players.length){
+  return;
+ }
+
+ const name=players[currentPlayer];
+
+ const frame=getCurrentFrame(name);
+
+ if(!frames[name]){
+  frames[name]=Array.from(
+   {length:10},
+   ()=>[]
+  );
+ }
+
+ const rolls=frames[name][frame];
+
+ if(frame<9){
+
+  /*
+    Strike
+  */
+  if(value==="X"){
+
+   if(rolls.length===0){
+
+    rolls.push("X");
+
+    /*
+      Strike immediately ends
+      the player's frame.
+    */
+    nextPlayer();
+    return;
+   }
+
+   return;
+  }
+
+  /*
+    Normal roll
+  */
+  if(rolls.length<2){
+
+   rolls.push(value);
+
+   /*
+     Two rolls = frame complete
+   */
+   if(rolls.length===2){
+
+    nextPlayer();
+   }
+
+  }
+
  }else{
-  document.getElementById("currentScore").textContent="0";
+
+  /*
+    10th frame.
+    Allow up to 3 rolls if
+    strike/spare happens.
+  */
+
+  if(rolls.length>=3)return;
+
+  rolls.push(value);
+
+  if(rolls.length===2){
+
+   const first=rolls[0];
+   const second=rolls[1];
+
+   const firstValue=rollValue(first);
+   const secondValue=rollValue(second);
+
+   const bonus=
+    first==="X" ||
+    firstValue+secondValue===10;
+
+   if(!bonus){
+
+    nextPlayer();
+   }
+  }
+
+  if(rolls.length===3){
+
+   nextPlayer();
+  }
  }
-}
-
-function renderPins(){
- const box=document.getElementById("tvPins");
-
- box.innerHTML=pinDraft.map((available,i)=>`
-  <div
-   class="pin ${available?'':'down'} ${splitDraft.includes(i)?'split':''}"
-   onclick="togglePin(${i})"
-  >${i+1}</div>
- `).join("");
-}
-
-function togglePin(index){
- pinDraft[index]=!pinDraft[index];
-
- if(!pinDraft[index]){
-  splitDraft=splitDraft.filter(x=>x!==index);
- }
-
- renderPins();
-}
-
-function pinAction(action){
-
- if(action==="rack" || action==="nextBall"){
-  pinDraft=Array(6).fill(true);
-  splitDraft=[];
- }
-
- if(action==="clear" || action==="sweep"){
-  pinDraft=Array(6).fill(false);
-  splitDraft=[];
- }
-
- renderPins();
-}
-
-function toggleSplit(){
- splitDraft=[];
-
- pinDraft.forEach((available,i)=>{
-  if(available)splitDraft.push(i);
- });
-
- renderPins();
-}
-
-function submitPins(){
- pins=[...pinDraft];
- splitPins=[...splitDraft];
 
  sendState();
  update();
 }
+
+
+/* =========================
+   PLAYER TURN
+========================= */
+
+function nextPlayer(){
+
+ if(!players.length)return;
+
+ currentPlayer=
+  (currentPlayer+1)%players.length;
+}
+
+
+function previousPlayer(){
+
+ if(!players.length)return;
+
+ currentPlayer=
+  (currentPlayer-1+players.length)
+  %players.length;
+}
+
+
+/* =========================
+   GAME
+========================= */
 
 function startGame(){
 
@@ -376,20 +943,32 @@ function startGame(){
  gameStarted=true;
  currentPlayer=0;
 
- update();
+ players.forEach(name=>{
+
+  frames[name]=Array.from(
+   {length:10},
+   ()=>[]
+  );
+
+ });
+
  sendState();
+ update();
+
  page("score");
 }
+
 
 function endGame(){
 
  players=[];
  currentPlayer=0;
  gameStarted=false;
- scores={};
+ frames={};
 
  pins=Array(6).fill(true);
  splitPins=[];
+
  pinDraft=[...pins];
  splitDraft=[];
 
@@ -397,254 +976,473 @@ function endGame(){
  page("home");
 }
 
-function sendState(){
 
- if(!remoteConn || !remoteConn.open)return;
-
- remoteConn.send({
-  type:"state",
-  players:players,
-  currentPlayer:currentPlayer,
-  gameStarted:gameStarted,
-  scores:scores,
-  pins:pins,
-  splitPins:splitPins
- });
-}
+/* =========================
+   REMOTE COMMANDS
+========================= */
 
 function handleRemote(msg){
 
  if(msg.type==="roll"){
-  if(!gameStarted || !players.length)return;
 
-  const name=players[currentPlayer];
+  addRoll(
+   Number(msg.value)
+  );
 
-  scores[name]=(scores[name]||0)+Number(msg.value);
-
-  sendState();
-  update();
+  return;
  }
 
  if(msg.type==="strike"){
-  if(!gameStarted)return;
 
-  const name=players[currentPlayer];
+  addRoll("X");
 
-  scores[name]=(scores[name]||0)+10;
-
-  sendState();
-  update();
+  return;
  }
 
  if(msg.type==="spare"){
-  if(!gameStarted)return;
+
+  if(!gameStarted || !players.length)return;
 
   const name=players[currentPlayer];
+  const frame=getCurrentFrame(name);
 
-  scores[name]=(scores[name]||0)+10;
+  if(frame>=10)return;
 
-  sendState();
-  update();
+  const rolls=frames[name][frame];
+
+  if(
+   rolls.length===1 &&
+   typeof rolls[0]==="number"
+  ){
+
+   rolls[1]=10-rolls[0];
+
+   nextPlayer();
+
+   sendState();
+   update();
+  }
+
+  return;
  }
 
  if(msg.type==="previous"){
-  if(players.length){
-   currentPlayer=
-    (currentPlayer-1+players.length)%players.length;
 
-   sendState();
-   update();
-  }
+  previousPlayer();
+
+  sendState();
+  update();
+
+  return;
  }
 
  if(msg.type==="next"){
-  if(players.length){
-   currentPlayer=
-    (currentPlayer+1)%players.length;
 
-   sendState();
-   update();
-  }
+  nextPlayer();
+
+  sendState();
+  update();
+
+  return;
  }
 
  if(msg.type==="reset"){
-  scores={};
+
+  players.forEach(name=>{
+   frames[name]=Array.from(
+    {length:10},
+    ()=>[]
+   );
+  });
+
+  currentPlayer=0;
+
   sendState();
   update();
+
+  return;
  }
 
  if(msg.type==="addPlayer"){
 
-  const name=String(msg.name||"").trim();
+  const name=
+   String(msg.name||"").trim();
 
-  if(name && !players.includes(name)){
+  if(
+   name &&
+   !players.includes(name)
+  ){
+
    players.push(name);
-   scores[name]=0;
+
+   frames[name]=Array.from(
+    {length:10},
+    ()=>[]
+   );
 
    sendState();
    update();
   }
+
+  return;
  }
 
  if(msg.type==="removePlayer"){
 
   const index=Number(msg.index);
 
-  if(index>=0 && index<players.length){
+  if(
+   index>=0 &&
+   index<players.length
+  ){
 
-   const removed=players[index];
+   const removed=
+    players[index];
 
    players.splice(index,1);
-   delete scores[removed];
 
-   if(currentPlayer>=players.length){
-    currentPlayer=Math.max(0,players.length-1);
+   delete frames[removed];
+
+   if(
+    currentPlayer>=players.length
+   ){
+
+    currentPlayer=
+     Math.max(
+      0,
+      players.length-1
+     );
    }
 
    sendState();
    update();
   }
+
+  return;
  }
 
  if(msg.type==="start"){
+
   startGame();
+  return;
  }
 
  if(msg.type==="pinSubmit"){
 
   if(Array.isArray(msg.pins)){
-   pins=msg.pins.slice(0,6);
+   pins=
+    msg.pins.slice(0,6);
   }
 
-  while(pins.length<6)pins.push(true);
+  while(pins.length<6){
+   pins.push(true);
+  }
 
-  splitPins=Array.isArray(msg.splitPins)
-   ? msg.splitPins
-   : [];
+  splitPins=
+   Array.isArray(msg.splitPins)
+    ? msg.splitPins
+    : [];
 
   pinDraft=[...pins];
   splitDraft=[...splitPins];
 
   sendState();
   update();
+
+  return;
  }
 
  if(msg.type==="background"){
+
   applyBackground(msg.value);
+  return;
  }
 
  if(msg.type==="end"){
+
   endGame();
+  return;
  }
 }
+
+
+/* =========================
+   PINSETTER
+========================= */
+
+function renderPins(){
+
+ const box=
+  document.getElementById("tvPins");
+
+ box.innerHTML=
+  pinDraft.map((available,i)=>`
+
+   <div
+    class="pin
+     ${available?'':'down'}
+     ${splitDraft.includes(i)?'split':''}"
+    onclick="togglePin(${i})">
+
+    ${i+1}
+
+   </div>
+
+  `).join("");
+}
+
+
+function togglePin(index){
+
+ pinDraft[index]=
+  !pinDraft[index];
+
+ if(!pinDraft[index]){
+
+  splitDraft=
+   splitDraft.filter(
+    x=>x!==index
+   );
+ }
+
+ renderPins();
+}
+
+
+function pinAction(action){
+
+ if(
+  action==="rack" ||
+  action==="nextBall"
+ ){
+
+  pinDraft=
+   Array(6).fill(true);
+
+  splitDraft=[];
+ }
+
+ if(
+  action==="clear" ||
+  action==="sweep"
+ ){
+
+  pinDraft=
+   Array(6).fill(false);
+
+  splitDraft=[];
+ }
+
+ renderPins();
+}
+
+
+function toggleSplit(){
+
+ splitDraft=[];
+
+ pinDraft.forEach(
+  (available,i)=>{
+
+   if(available){
+    splitDraft.push(i);
+   }
+
+  }
+ );
+
+ renderPins();
+}
+
+
+function submitPins(){
+
+ pins=[...pinDraft];
+ splitPins=[...splitDraft];
+
+ sendState();
+ update();
+}
+
+
+/* =========================
+   BACKGROUND
+========================= */
 
 function applyBackground(value){
 
  const backgrounds={
-  midnight:"linear-gradient(135deg,#071a33,#0b315c)",
+
+  midnight:
+   "linear-gradient(135deg,#071a33,#0b315c)",
+
   black:"#050505",
-  purple:"linear-gradient(135deg,#24103d,#581c87)",
-  green:"linear-gradient(135deg,#052e16,#166534)",
-  blue:"linear-gradient(135deg,#082f49,#0369a1)",
-  warm:"linear-gradient(135deg,#431407,#9a3412)"
+
+  purple:
+   "linear-gradient(135deg,#24103d,#581c87)",
+
+  green:
+   "linear-gradient(135deg,#052e16,#166534)",
+
+  blue:
+   "linear-gradient(135deg,#082f49,#0369a1)",
+
+  warm:
+   "linear-gradient(135deg,#431407,#9a3412)"
  };
 
  document.body.style.background=
-  backgrounds[value]||backgrounds.midnight;
+  backgrounds[value] ||
+  backgrounds.midnight;
 }
 
-/* -----------------------------
-   FIXED PEERJS CONNECTION
------------------------------ */
+
+/* =========================
+   STATE SYNC
+========================= */
+
+function sendState(){
+
+ if(
+  !remoteConn ||
+  !remoteConn.open
+ )return;
+
+ remoteConn.send({
+
+  type:"state",
+
+  players:players,
+
+  currentPlayer:
+   currentPlayer,
+
+  gameStarted:
+   gameStarted,
+
+  frames:
+   frames,
+
+  pins:
+   pins,
+
+  splitPins:
+   splitPins
+ });
+}
+
+
+/* =========================
+   RECEIVE CONNECTION
+========================= */
 
 function createRemote(){
 
- const randomCode=
+ const code=
   Math.random()
    .toString(36)
    .substring(2,8)
    .toUpperCase();
 
- const peerId="kgl-"+randomCode;
+ const peerId=
+  "kgl-"+code;
 
- document.getElementById("remoteCode")
-  .textContent=randomCode;
+ document.getElementById(
+  "remoteCode"
+ ).textContent=code;
 
  peer=new Peer(peerId,{
   debug:1
  });
 
- peer.on("open",id=>{
+ peer.on("open",()=>{
 
-  console.log("TV Peer ID:",id);
-
-  document.getElementById("connectionStatus")
-   .textContent=
+  document.getElementById(
+   "connectionStatus"
+  ).textContent=
    "Waiting for phone remote...";
+
  });
 
  peer.on("connection",conn=>{
-
-  console.log("Phone is connecting...");
 
   remoteConn=conn;
 
   conn.on("open",()=>{
 
-   console.log("Phone connected!");
-
-   document.getElementById("connectionStatus")
-    .textContent=
+   document.getElementById(
+    "connectionStatus"
+   ).textContent=
     "📱 Phone remote connected!";
 
    sendState();
   });
 
   conn.on("data",msg=>{
-   console.log("Remote:",msg);
+
    handleRemote(msg);
   });
 
   conn.on("close",()=>{
 
-   console.log("Phone disconnected.");
-
    remoteConn=null;
 
-   document.getElementById("connectionStatus")
-    .textContent=
+   document.getElementById(
+    "connectionStatus"
+   ).textContent=
     "Waiting for phone remote...";
   });
 
-  conn.on("error",err=>{
-   console.log("Connection error:",err);
-  });
  });
 
  peer.on("error",err=>{
 
-  console.error("PeerJS error:",err);
+  console.log("PeerJS error:",err);
 
-  document.getElementById("connectionStatus")
-   .textContent=
+  document.getElementById(
+   "connectionStatus"
+  ).textContent=
    "Remote error: "+err.type;
  });
 
  peer.on("disconnected",()=>{
-
-  document.getElementById("connectionStatus")
-   .textContent=
-   "Remote disconnected — reconnecting...";
 
   try{
    peer.reconnect();
   }catch(e){
    console.log(e);
   }
+
  });
+
 }
 
+
+/* =========================
+   UPDATE
+========================= */
+
+function update(){
+
+ renderPlayers();
+ renderScore();
+ renderPins();
+
+ document.getElementById(
+  "homePlayer"
+ ).textContent=
+
+  players.length && gameStarted
+
+   ? "Current Player: "+
+     players[currentPlayer]
+
+   : "No Game Started";
+}
+
+
 function escapeHtml(text){
+
  return String(text)
   .replaceAll("&","&amp;")
   .replaceAll("<","&lt;")
@@ -653,8 +1451,10 @@ function escapeHtml(text){
   .replaceAll("'","&#039;");
 }
 
+
 createRemote();
 update();
+
 </script>
 
 </body>
