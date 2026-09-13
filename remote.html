@@ -61,9 +61,7 @@ button{
  cursor:pointer;
 }
 
-button:active{
- transform:scale(.97);
-}
+button:active{transform:scale(.97)}
 
 .grid{
  display:grid;
@@ -206,17 +204,13 @@ input{
 
 <div class="container">
 
-<!-- CONNECT -->
-
 <section id="connect" class="page active">
 
  <div class="card center">
 
   <h1>📱 Phone Remote</h1>
 
-  <p>
-   Enter the code shown on the TV/iPad.
-  </p>
+  <p>Enter the code shown on the TV/iPad.</p>
 
   <input
    id="codeInput"
@@ -239,8 +233,6 @@ input{
 
 </section>
 
-
-<!-- HOME -->
 
 <section id="home" class="page">
 
@@ -287,8 +279,6 @@ input{
 </section>
 
 
-<!-- PLAYERS -->
-
 <section id="players" class="page">
 
  <div class="card">
@@ -319,16 +309,19 @@ input{
 </section>
 
 
-<!-- SCORE -->
-
 <section id="score" class="page">
 
  <div class="card">
 
-  <h1>📊 Score</h1>
+  <h1>📊 Six-Pin Score</h1>
 
-  <div id="currentPlayer"
-   style="text-align:center;font-size:20px;margin-bottom:15px">
+  <p style="text-align:center">
+   Maximum Score: <b>180</b>
+  </p>
+
+  <div
+   id="currentPlayer"
+   style="text-align:center;font-size:20px;margin:15px">
    No player
   </div>
 
@@ -343,10 +336,6 @@ input{
    <button onclick="roll(5)">5</button>
 
    <button onclick="roll(6)">6</button>
-   <button onclick="roll(7)">7</button>
-   <button onclick="roll(8)">8</button>
-
-   <button onclick="roll(9)">9</button>
 
    <button onclick="send({type:'strike'})">
     STRIKE
@@ -381,17 +370,13 @@ input{
 </section>
 
 
-<!-- PINSETTER -->
-
 <section id="pinsetter" class="page">
 
  <div class="card center">
 
   <h1>🎳 Pinsetter</h1>
 
-  <p>
-   Select unavailable pins.
-  </p>
+  <p>Select unavailable pins.</p>
 
   <div
    class="pinArea"
@@ -438,8 +423,6 @@ input{
 
 </section>
 
-
-<!-- BACKGROUNDS -->
 
 <section id="backgrounds" class="page">
 
@@ -493,6 +476,8 @@ input{
 
 <script>
 
+const PIN_COUNT=6;
+
 let peer=null;
 let conn=null;
 
@@ -502,11 +487,11 @@ let gameStarted=false;
 
 let frames={};
 
-let pins=Array(6).fill(true);
+let pins=Array(PIN_COUNT).fill(true);
 let splitPins=[];
 
 let draftPins=[...pins];
-let draftSplit=[...splitPins];
+let draftSplit=[];
 
 
 /* =========================
@@ -526,7 +511,7 @@ function page(name){
 
 
 /* =========================
-   CONNECT
+   CONNECTION
 ========================= */
 
 function connectRemote(){
@@ -562,7 +547,6 @@ function connectRemote(){
   try{
    peer.destroy();
   }catch(e){}
-
  }
 
  peer=new Peer({
@@ -571,11 +555,10 @@ function connectRemote(){
 
  peer.on("open",()=>{
 
-  conn=
-   peer.connect(
-    peerId,
-    {reliable:true}
-   );
+  conn=peer.connect(
+   peerId,
+   {reliable:true}
+  );
 
   conn.on("open",()=>{
 
@@ -608,19 +591,14 @@ function connectRemote(){
 
   console.log(err);
 
-  let message=
-   "Connection failed.";
+  let message="Connection failed.";
 
   if(err.type==="peer-unavailable"){
-
-   message=
-    "TV code not found.";
+   message="TV code not found.";
   }
 
   if(err.type==="network"){
-
-   message=
-    "Network error. Check internet.";
+   message="Network error. Check internet.";
   }
 
   document.getElementById("status")
@@ -632,7 +610,6 @@ function connectRemote(){
   try{
    peer.reconnect();
   }catch(e){}
-
  });
 }
 
@@ -659,7 +636,7 @@ function send(message){
 
 
 /* =========================
-   RECEIVE STATE
+   STATE
 ========================= */
 
 function receiveState(msg){
@@ -678,12 +655,12 @@ function receiveState(msg){
   !!msg.gameStarted;
 
  frames=
-  msg.frames || {};
+  msg.frames||{};
 
  pins=
   Array.isArray(msg.pins)
    ? msg.pins
-   : Array(6).fill(true);
+   : Array(PIN_COUNT).fill(true);
 
  splitPins=
   Array.isArray(msg.splitPins)
@@ -797,10 +774,18 @@ function endGame(){
 
 
 /* =========================
-   SCORING
+   SIX-PIN SCORING
 ========================= */
 
 function roll(number){
+
+ /*
+   The phone only allows 0-6.
+ */
+ number=Math.max(
+  0,
+  Math.min(6,Number(number))
+ );
 
  send({
   type:"roll",
@@ -860,7 +845,7 @@ function pinAction(action){
  ){
 
   draftPins=
-   Array(6).fill(true);
+   Array(PIN_COUNT).fill(true);
 
   draftSplit=[];
  }
@@ -871,7 +856,7 @@ function pinAction(action){
  ){
 
   draftPins=
-   Array(6).fill(false);
+   Array(PIN_COUNT).fill(false);
 
   draftSplit=[];
  }
