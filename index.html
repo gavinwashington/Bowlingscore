@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>King Gavin Lanes</title>
 
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
@@ -16,17 +16,11 @@ body{
     background:#111;
     color:white;
     min-height:100vh;
-    overflow-x:hidden;
-}
-
-button{
-    font:inherit;
-    cursor:pointer;
 }
 
 .screen{
-    min-height:100vh;
     display:none;
+    min-height:100vh;
     padding:30px;
 }
 
@@ -34,18 +28,20 @@ button{
     display:block;
 }
 
-/* WELCOME */
+button{
+    font:inherit;
+    cursor:pointer;
+}
 
 #welcome{
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
-    background:#111;
 }
 
 .welcome-box{
-    animation:welcomeFade 3s forwards;
+    animation:fadeWelcome 3s forwards;
 }
 
 .welcome-box h1{
@@ -55,17 +51,14 @@ button{
 
 .welcome-box p{
     font-size:22px;
-    opacity:.8;
 }
 
-@keyframes welcomeFade{
+@keyframes fadeWelcome{
     0%{opacity:0}
     15%{opacity:1}
     75%{opacity:1}
     100%{opacity:0}
 }
-
-/* HOME */
 
 #home{
     text-align:center;
@@ -73,28 +66,25 @@ button{
 
 .logo{
     font-size:clamp(35px,6vw,70px);
-    margin:30px 0 10px;
-}
-
-.status{
-    font-size:18px;
-    opacity:.8;
-    margin:10px;
-}
-
-.code{
-    font-size:clamp(30px,5vw,55px);
-    font-weight:bold;
-    letter-spacing:5px;
-    margin:20px;
-}
-
-.current{
-    font-size:25px;
     margin-top:30px;
 }
 
-/* SCORE */
+.status{
+    opacity:.8;
+    font-size:20px;
+}
+
+.code{
+    font-size:clamp(32px,5vw,60px);
+    font-weight:bold;
+    letter-spacing:6px;
+    margin:25px;
+}
+
+.current{
+    font-size:26px;
+    margin-top:35px;
+}
 
 .score-title{
     text-align:center;
@@ -109,7 +99,7 @@ button{
 
 .score-table{
     width:100%;
-    min-width:1000px;
+    min-width:1100px;
     border-collapse:collapse;
     table-layout:fixed;
 }
@@ -118,29 +108,27 @@ button{
 .score-table td{
     border:2px solid white;
     text-align:center;
-    padding:8px;
+    padding:7px;
 }
 
 .score-table th{
     background:#222;
-    font-size:18px;
 }
 
 .player-name{
     width:170px;
     text-align:left!important;
-    font-weight:bold;
     font-size:20px;
+    font-weight:bold;
 }
 
 .frame-cell{
     height:100px;
-    position:relative;
 }
 
-.frame-cell.current-frame{
+.current-frame{
     background:#333;
-    box-shadow:inset 0 0 0 4px #fff;
+    box-shadow:inset 0 0 0 4px white;
 }
 
 .rolls{
@@ -150,9 +138,9 @@ button{
 }
 
 .roll{
-    border:1px solid #aaa;
-    width:30px;
+    width:31px;
     height:30px;
+    border:1px solid #aaa;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -160,21 +148,25 @@ button{
 }
 
 .frame-score{
-    font-size:25px;
-    margin-top:10px;
+    font-size:24px;
+    margin-top:9px;
 }
 
 .total-cell{
-    width:100px;
     font-size:28px;
     font-weight:bold;
+    width:100px;
 }
 
 .active-player{
     background:#333;
 }
 
-/* PINSETTER */
+.message{
+    text-align:center;
+    font-size:22px;
+    margin-top:25px;
+}
 
 .pinsetter{
     text-align:center;
@@ -185,7 +177,7 @@ button{
     flex-direction:column;
     align-items:center;
     gap:10px;
-    margin:35px auto;
+    margin-top:35px;
 }
 
 .pin-row{
@@ -196,11 +188,10 @@ button{
 .pin{
     width:55px;
     height:75px;
-    border-radius:50% 50% 45% 45%;
     border:4px solid white;
+    border-radius:50% 50% 45% 45%;
     background:white;
     position:relative;
-    transition:.2s;
 }
 
 .pin.down{
@@ -212,31 +203,22 @@ button{
     border-color:red;
 }
 
-.pin.split::after{
+.pin.split:after{
     content:"";
     width:12px;
     height:12px;
-    background:red;
     border-radius:50%;
+    background:red;
     position:absolute;
-    top:50%;
     left:50%;
+    top:50%;
     transform:translate(-50%,-50%);
-}
-
-/* MESSAGE */
-
-.message{
-    text-align:center;
-    font-size:22px;
-    margin-top:25px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- WELCOME -->
 <section id="welcome" class="screen active">
     <div class="welcome-box">
         <h1>Welcome To King Gavin Lanes</h1>
@@ -244,12 +226,12 @@ button{
     </div>
 </section>
 
-<!-- HOME -->
 <section id="home" class="screen">
+
     <h1 class="logo">🎳 King Gavin Lanes</h1>
 
     <div class="status" id="connectionStatus">
-        Starting remote connection...
+        Starting...
     </div>
 
     <div class="code" id="remoteCode">
@@ -257,17 +239,18 @@ button{
     </div>
 
     <div class="current" id="homeCurrent">
-        Game not started
+        No game started
     </div>
+
 </section>
 
-<!-- SCORE -->
 <section id="score" class="screen">
 
     <h1 class="score-title">🎳 King Gavin Lanes</h1>
 
     <div class="score-wrap">
         <table class="score-table">
+
             <thead>
                 <tr>
                     <th class="player-name">Player</th>
@@ -286,56 +269,46 @@ button{
             </thead>
 
             <tbody id="scoreBody"></tbody>
+
         </table>
     </div>
 
     <div class="message" id="scoreMessage"></div>
+
 </section>
 
-<!-- PINSETTER -->
 <section id="pinsetter" class="screen">
 
     <h1 class="score-title">Pinsetter</h1>
 
     <div class="pin-rack" id="tvPins"></div>
 
-    <div class="message">
-        Waiting for pinsetter command...
-    </div>
 </section>
 
 <script>
-/* =========================================================
-   KING GAVIN LANES — SIX PIN BOWLING ENGINE
-   ========================================================= */
 
-const PIN_COUNT = 6;
-const FRAME_COUNT = 10;
+const PIN_COUNT=6;
+const FRAME_COUNT=10;
 
-let players = [];
-let currentPlayer = 0;
-let gameStarted = false;
+let players=[];
+let currentPlayer=0;
+let gameStarted=false;
 
-/*
-frames[playerName] = [
-    { rolls:[...] },
-    ...
-]
-*/
-let frames = {};
+let frames={};
 
-let pins = Array(PIN_COUNT).fill(true);
-let splitPins = Array(PIN_COUNT).fill(false);
+let pins=Array(6).fill(true);
+let splitPins=Array(6).fill(false);
 
-let peer;
-let connection = null;
+let peer=null;
+let connection=null;
 
 
-/* =========================================================
-   SCREEN CONTROL
-   ========================================================= */
+/* =========================
+   SCREEN
+========================= */
 
 function showScreen(id){
+
     document.querySelectorAll(".screen").forEach(s=>{
         s.classList.remove("active");
     });
@@ -344,53 +317,29 @@ function showScreen(id){
 }
 
 
-/* =========================================================
-   WELCOME
-   ========================================================= */
+/* =========================
+   PLAYER FRAMES
+========================= */
 
-setTimeout(()=>{
-    showScreen("home");
-},3000);
+function newFrames(){
 
-
-/* =========================================================
-   PLAYER / FRAME SETUP
-   ========================================================= */
-
-function createPlayerFrames(){
-    const result=[];
-
-    for(let i=0;i<FRAME_COUNT;i++){
-        result.push({
-            rolls:[]
-        });
-    }
-
-    return result;
+    return Array.from(
+        {length:FRAME_COUNT},
+        ()=>({rolls:[]})
+    );
 }
-
 
 function ensurePlayer(name){
+
     if(!frames[name]){
-        frames[name]=createPlayerFrames();
+        frames[name]=newFrames();
     }
 }
 
 
-/* =========================================================
-   SIX PIN SCORING
-   ========================================================= */
-
-/*
-   Returns every roll as an object:
-
-   {
-      value: 0-6,
-      strike: true/false
-   }
-
-   A strike is worth 6.
-*/
+/* =========================
+   FLATTEN ROLLS
+========================= */
 
 function flattenRolls(name){
 
@@ -398,22 +347,14 @@ function flattenRolls(name){
 
     let result=[];
 
-    for(let frame=0;frame<FRAME_COUNT;frame++){
+    for(let f=0;f<10;f++){
 
-        const rolls=frames[name][frame].rolls;
+        for(const roll of frames[name][f].rolls){
 
-        for(const roll of rolls){
-
-            if(roll === "X"){
-                result.push({
-                    value:6,
-                    strike:true
-                });
+            if(roll==="X"){
+                result.push(6);
             }else{
-                result.push({
-                    value:Number(roll),
-                    strike:false
-                });
+                result.push(Number(roll));
             }
         }
     }
@@ -422,94 +363,98 @@ function flattenRolls(name){
 }
 
 
-/*
-   Calculate all ten frame scores.
-
-   Frame 1:
-   Strike = 6 + next two rolls
-   Spare  = 6 + next roll
-   Open   = first + second
-
-   Frame 10:
-   Simply adds its rolls.
-*/
+/* =========================
+   SCORING
+========================= */
 
 function calculateFrameScores(name){
 
-    const rolls=flattenRolls(name);
+    ensurePlayer(name);
 
-    const scores=Array(FRAME_COUNT).fill(null);
+    const all=flattenRolls(name);
+
+    const result=Array(10).fill(null);
 
     let index=0;
 
-    for(let frame=0;frame<FRAME_COUNT;frame++){
+    for(let frame=0;frame<10;frame++){
 
-        if(index >= rolls.length) break;
+        if(index>=all.length){
+            break;
+        }
 
-        const first=rolls[index];
+        /* 10TH FRAME */
 
-        /* 10th frame */
-        if(frame === 9){
+        if(frame===9){
 
             let total=0;
 
-            for(let i=index;i<rolls.length;i++){
-                total += rolls[i].value;
+            for(let i=index;i<all.length;i++){
+                total+=all[i];
             }
 
-            scores[frame]=Math.min(total,18);
+            result[frame]=Math.min(total,18);
 
             break;
         }
 
+        const first=all[index];
+
         /* STRIKE */
-        if(first.strike){
+
+        if(first===6){
 
             let score=6;
 
-            if(rolls[index+1]){
-                score += rolls[index+1].value;
+            if(all[index+1]!==undefined){
+                score+=all[index+1];
             }
 
-            if(rolls[index+2]){
-                score += rolls[index+2].value;
+            if(all[index+2]!==undefined){
+                score+=all[index+2];
             }
 
-            scores[frame]=score;
+            result[frame]=score;
 
-            index += 1;
+            index++;
+
             continue;
         }
 
-        /* Need second roll */
-        if(!rolls[index+1]){
-            scores[frame]=first.value;
+        /* ONE ROLL ONLY */
+
+        if(all[index+1]===undefined){
+
+            result[frame]=first;
+
             break;
         }
 
-        const second=rolls[index+1];
+        const second=all[index+1];
 
         /* SPARE */
-        if(first.value + second.value === PIN_COUNT){
 
-            let score=PIN_COUNT;
+        if(first+second===6){
 
-            if(rolls[index+2]){
-                score += rolls[index+2].value;
+            let score=6;
+
+            if(all[index+2]!==undefined){
+                score+=all[index+2];
             }
 
-            scores[frame]=score;
+            result[frame]=score;
 
         }else{
 
-            /* OPEN FRAME */
-            scores[frame]=first.value + second.value;
+            /* OPEN */
+
+            result[frame]=first+second;
         }
 
-        index += 2;
+        index+=2;
     }
 
-    return scores;
+    return result;
 }
 
 
@@ -521,8 +466,8 @@ function calculateTotal(name){
 
     for(const score of scores){
 
-        if(score !== null){
-            total += score;
+        if(score!==null){
+            total+=score;
         }
     }
 
@@ -530,37 +475,28 @@ function calculateTotal(name){
 }
 
 
-/* =========================================================
-   ROLL VALIDATION
-   ========================================================= */
+/* =========================
+   CURRENT FRAME
+========================= */
 
 function getCurrentFrame(name){
 
     ensurePlayer(name);
 
-    for(let i=0;i<10;i++){
+    for(let f=0;f<9;f++){
 
-        const rolls=frames[name][i].rolls;
+        const rolls=frames[name][f].rolls;
 
-        if(i===9){
+        if(rolls.length===0){
+            return f;
+        }
 
-            if(rolls.length < 3){
-                return i;
-            }
-
+        if(rolls[0]==="X"){
             continue;
         }
 
-        if(rolls.length === 0){
-            return i;
-        }
-
-        if(rolls[0] === "X"){
-            continue;
-        }
-
-        if(rolls.length < 2){
-            return i;
+        if(rolls.length<2){
+            return f;
         }
     }
 
@@ -568,11 +504,16 @@ function getCurrentFrame(name){
 }
 
 
+/* =========================
+   ROLL
+========================= */
+
 function addRoll(value){
 
+    if(!gameStarted) return;
     if(players.length===0) return;
 
-    value=Math.max(0,Math.min(PIN_COUNT,Number(value)));
+    value=Math.max(0,Math.min(6,Number(value)));
 
     const name=players[currentPlayer];
 
@@ -581,19 +522,13 @@ function addRoll(value){
     const frameIndex=getCurrentFrame(name);
     const frame=frames[name][frameIndex];
 
-    /* 10th frame */
-    if(frameIndex===9){
+    /* 10TH FRAME */
 
-        /*
-           In the 10th frame:
-           - normal open frame ends after 2 rolls
-           - spare gets a bonus roll
-           - strike gets 2 bonus rolls
-        */
+    if(frameIndex===9){
 
         if(frame.rolls.length===0){
 
-            if(value===PIN_COUNT){
+            if(value===6){
                 frame.rolls.push("X");
             }else{
                 frame.rolls.push(value);
@@ -606,9 +541,11 @@ function addRoll(value){
 
         if(frame.rolls.length===1){
 
-            if(frame.rolls[0]==="X"){
+            const first=frame.rolls[0];
 
-                if(value===PIN_COUNT){
+            if(first==="X"){
+
+                if(value===6){
                     frame.rolls.push("X");
                 }else{
                     frame.rolls.push(value);
@@ -619,149 +556,211 @@ function addRoll(value){
                 return;
             }
 
-            const first=Number(frame.rolls[0]);
+            const remaining=6-Number(first);
 
-            if(first+value===PIN_COUNT){
-                frame.rolls.push(value);
-                renderScore();
-                sendState();
-                return;
+            if(value>remaining){
+                value=remaining;
             }
 
             frame.rolls.push(value);
 
-            nextPlayer();
+            /*
+               Open 10th frame ends immediately.
+               Spare gets one bonus ball.
+            */
+
+            if(Number(first)+value<6){
+
+                nextPlayer();
+
+            }else{
+
+                renderScore();
+                sendState();
+            }
+
             return;
         }
 
         if(frame.rolls.length===2){
 
-            /*
-               Only a strike or spare earns a third ball.
-            */
             const first=frame.rolls[0];
             const second=frame.rolls[1];
 
-            const earnedBonus =
+            const bonus=
                 first==="X" ||
-                (first!=="X" &&
-                 Number(first)+Number(second)===PIN_COUNT);
+                (
+                    first!=="X" &&
+                    Number(first)+Number(second)===6
+                );
 
-            if(earnedBonus){
+            if(bonus){
 
-                if(value===PIN_COUNT){
+                if(value===6){
                     frame.rolls.push("X");
                 }else{
                     frame.rolls.push(value);
                 }
             }
 
-            renderScore();
-            sendState();
-
             nextPlayer();
             return;
         }
 
-        nextPlayer();
         return;
     }
 
-    /* STRIKE */
-    if(frame.rolls.length===0 && value===PIN_COUNT){
 
-        frame.rolls.push("X");
+    /* NORMAL FRAME — FIRST ROLL */
 
-        nextPlayer();
-        return;
-    }
-
-    /* First roll */
     if(frame.rolls.length===0){
+
+        /*
+           6 is ALWAYS a strike.
+        */
+
+        if(value===6){
+
+            frame.rolls.push("X");
+
+            /*
+               Render FIRST so the TV changes instantly.
+            */
+            renderScore();
+            sendState();
+
+            setTimeout(()=>{
+                nextPlayer();
+            },50);
+
+            return;
+        }
 
         frame.rolls.push(value);
 
         renderScore();
         sendState();
+
         return;
     }
 
-    /* Second roll */
+
+    /* NORMAL FRAME — SECOND ROLL */
+
     if(frame.rolls.length===1){
 
         const first=Number(frame.rolls[0]);
 
-        if(first+value>PIN_COUNT){
-            value=PIN_COUNT-first;
+        /*
+           Prevent going over six.
+        */
+
+        if(first+value>6){
+            value=6-first;
         }
 
         frame.rolls.push(value);
 
-        nextPlayer();
+        /*
+           Render immediately before changing player.
+        */
+        renderScore();
+        sendState();
+
+        setTimeout(()=>{
+            nextPlayer();
+        },50);
+
         return;
     }
 }
 
 
-/* =========================================================
-   STRIKE / SPARE COMMANDS
-   ========================================================= */
+/* =========================
+   STRIKE
+========================= */
 
 function doStrike(){
 
+    if(!gameStarted) return;
     if(players.length===0) return;
 
     const name=players[currentPlayer];
-    const frameIndex=getCurrentFrame(name);
 
-    if(frameIndex===9){
+    ensurePlayer(name);
+
+    const frameIndex=getCurrentFrame(name);
+    const frame=frames[name][frameIndex];
+
+    /*
+       Only allow strike when starting a frame
+       or when bonus ball is allowed.
+    */
+
+    if(frameIndex<9 && frame.rolls.length===0){
 
         addRoll(6);
-
-    }else{
-
-        addRoll(6);
-    }
-}
-
-
-function doSpare(){
-
-    if(players.length===0) return;
-
-    const name=players[currentPlayer];
-    const frameIndex=getCurrentFrame(name);
-
-    if(frameIndex===9){
-
-        const frame=frames[name][9];
-
-        if(frame.rolls.length===1 && frame.rolls[0]!=="X"){
-
-            const remaining=
-                PIN_COUNT-Number(frame.rolls[0]);
-
-            addRoll(remaining);
-        }
 
         return;
     }
 
-    const frame=frames[name][frameIndex];
+    if(frameIndex===9){
 
-    if(frame.rolls.length===1 && frame.rolls[0]!=="X"){
+        if(frame.rolls.length===0){
+            addRoll(6);
+            return;
+        }
 
-        const remaining=
-            PIN_COUNT-Number(frame.rolls[0]);
-
-        addRoll(remaining);
+        if(frame.rolls[0]==="X"){
+            addRoll(6);
+            return;
+        }
     }
 }
 
 
-/* =========================================================
+/* =========================
+   SPARE
+========================= */
+
+function doSpare(){
+
+    if(!gameStarted) return;
+    if(players.length===0) return;
+
+    const name=players[currentPlayer];
+
+    ensurePlayer(name);
+
+    const frameIndex=getCurrentFrame(name);
+    const frame=frames[name][frameIndex];
+
+    /*
+       SPARE IS DISABLED IF FIRST ROLL IS 6.
+    */
+
+    if(frame.rolls.length!==1) return;
+
+    if(frame.rolls[0]==="X") return;
+
+    const first=Number(frame.rolls[0]);
+
+    /*
+       If first roll was already 6,
+       there is no spare.
+    */
+
+    if(first===6) return;
+
+    const remaining=6-first;
+
+    addRoll(remaining);
+}
+
+
+/* =========================
    PLAYER TURN
-   ========================================================= */
+========================= */
 
 function nextPlayer(){
 
@@ -776,7 +775,6 @@ function nextPlayer(){
     renderScore();
     sendState();
 }
-
 
 function previousPlayer(){
 
@@ -793,43 +791,48 @@ function previousPlayer(){
 }
 
 
-/* =========================================================
+/* =========================
    RESET
-   ========================================================= */
+========================= */
 
 function resetGame(){
 
-    frames={};
-
     players.forEach(name=>{
-        frames[name]=createPlayerFrames();
+        frames[name]=newFrames();
     });
 
     currentPlayer=0;
-    gameStarted=false;
 
     renderScore();
     sendState();
-
-    showScreen("home");
 }
 
 
-/* =========================================================
-   SCORE DISPLAY
-   ========================================================= */
+/* =========================
+   DISPLAY ROLL
+========================= */
 
 function formatRoll(roll){
 
-    if(roll===undefined) return "";
+    if(roll===undefined){
+        return "";
+    }
 
-    if(roll==="X") return "X";
+    if(roll==="X"){
+        return "X";
+    }
 
-    if(Number(roll)===0) return "-";
+    if(Number(roll)===0){
+        return "-";
+    }
 
     return String(roll);
 }
 
+
+/* =========================
+   SCORE DISPLAY
+========================= */
 
 function renderScore(){
 
@@ -845,9 +848,11 @@ function renderScore(){
 
         const nameCell=document.createElement("td");
 
-        nameCell.className=
-            "player-name " +
-            (playerIndex===currentPlayer ? "active-player":"");
+        nameCell.className="player-name";
+
+        if(playerIndex===currentPlayer){
+            nameCell.classList.add("active-player");
+        }
 
         nameCell.textContent=name;
 
@@ -855,51 +860,50 @@ function renderScore(){
 
         const scores=calculateFrameScores(name);
 
-        for(let frameIndex=0;frameIndex<10;frameIndex++){
+        for(let f=0;f<10;f++){
 
             const cell=document.createElement("td");
 
             cell.className="frame-cell";
 
             if(
-                playerIndex===currentPlayer &&
                 gameStarted &&
-                getCurrentFrame(name)===frameIndex
+                playerIndex===currentPlayer &&
+                getCurrentFrame(name)===f
             ){
                 cell.classList.add("current-frame");
             }
 
-            const rolls=frames[name][frameIndex].rolls;
+            const rolls=frames[name][f].rolls;
 
             const rollsDiv=document.createElement("div");
+
             rollsDiv.className="rolls";
 
-            /*
-               Show up to 3 rolls in frame 10.
-            */
-            const maxRolls=frameIndex===9 ? 3 : 2;
+            const amount=f===9 ? 3 : 2;
 
-            for(let r=0;r<maxRolls;r++){
+            for(let r=0;r<amount;r++){
 
-                const rollDiv=document.createElement("div");
-                rollDiv.className="roll";
+                const roll=document.createElement("div");
 
-                rollDiv.textContent=
-                    formatRoll(rolls[r]);
+                roll.className="roll";
 
-                rollsDiv.appendChild(rollDiv);
+                roll.textContent=formatRoll(rolls[r]);
+
+                rollsDiv.appendChild(roll);
             }
 
             cell.appendChild(rollsDiv);
 
-            const scoreDiv=document.createElement("div");
-            scoreDiv.className="frame-score";
+            const score=document.createElement("div");
 
-            if(scores[frameIndex]!==null){
-                scoreDiv.textContent=scores[frameIndex];
+            score.className="frame-score";
+
+            if(scores[f]!==null){
+                score.textContent=scores[f];
             }
 
-            cell.appendChild(scoreDiv);
+            cell.appendChild(score);
 
             row.appendChild(cell);
         }
@@ -907,6 +911,7 @@ function renderScore(){
         const total=document.createElement("td");
 
         total.className="total-cell";
+
         total.textContent=calculateTotal(name);
 
         row.appendChild(total);
@@ -914,29 +919,30 @@ function renderScore(){
         body.appendChild(row);
     });
 
-    if(players.length>0){
+    if(players.length){
 
-        document.getElementById("scoreMessage").textContent =
-            "Current player: " + players[currentPlayer];
+        document.getElementById("scoreMessage").textContent=
+            "Current player: "+players[currentPlayer];
 
-        document.getElementById("homeCurrent").textContent =
+        document.getElementById("homeCurrent").textContent=
             gameStarted
-                ? "Current player: " + players[currentPlayer]
+                ? "Current player: "+players[currentPlayer]
                 : "Game not started";
+
     }else{
 
-        document.getElementById("scoreMessage").textContent =
-            "Add players from the phone remote.";
+        document.getElementById("scoreMessage").textContent=
+            "Add players from the phone.";
 
-        document.getElementById("homeCurrent").textContent =
+        document.getElementById("homeCurrent").textContent=
             "No players";
     }
 }
 
 
-/* =========================================================
-   PINSETTER
-   ========================================================= */
+/* =========================
+   PINS
+========================= */
 
 function renderPins(){
 
@@ -944,28 +950,27 @@ function renderPins(){
 
     rack.innerHTML="";
 
-    const rows=[
+    [
         [0],
         [1,2],
         [3,4,5]
-    ];
-
-    rows.forEach(rowIndexes=>{
+    ].forEach(indexes=>{
 
         const row=document.createElement("div");
+
         row.className="pin-row";
 
-        rowIndexes.forEach(index=>{
+        indexes.forEach(i=>{
 
             const pin=document.createElement("div");
 
             pin.className="pin";
 
-            if(!pins[index]){
+            if(!pins[i]){
                 pin.classList.add("down");
             }
 
-            if(splitPins[index]){
+            if(splitPins[i]){
                 pin.classList.add("split");
             }
 
@@ -977,100 +982,30 @@ function renderPins(){
 }
 
 
-/* =========================================================
+/* =========================
    BACKGROUND
-   ========================================================= */
+========================= */
 
 function changeBackground(value){
 
-    if(value==="dark"){
-        document.body.style.background="#111";
-    }
+    const backgrounds={
+        dark:"#111",
+        blue:"#06152e",
+        green:"#062414",
+        purple:"#19062e",
+        red:"#2e0606"
+    };
 
-    if(value==="blue"){
-        document.body.style.background="#06152e";
-    }
-
-    if(value==="green"){
-        document.body.style.background="#062414";
-    }
-
-    if(value==="purple"){
-        document.body.style.background="#19062e";
-    }
-
-    if(value==="red"){
-        document.body.style.background="#2e0606";
+    if(backgrounds[value]){
+        document.body.style.background=
+            backgrounds[value];
     }
 }
 
 
-/* =========================================================
-   PEERJS
-   ========================================================= */
-
-function generateCode(){
-
-    const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-    let code="";
-
-    for(let i=0;i<6;i++){
-        code += chars[Math.floor(Math.random()*chars.length)];
-    }
-
-    return code;
-}
-
-
-function setupPeer(){
-
-    const code=generateCode();
-
-    peer=new Peer(
-        "kgl-"+code,
-        {
-            debug:1
-        }
-    );
-
-    document.getElementById("remoteCode").textContent=code;
-
-    peer.on("open",()=>{
-        document.getElementById("connectionStatus").textContent=
-            "Remote ready — enter this code on the phone.";
-    });
-
-    peer.on("connection",conn=>{
-
-        connection=conn;
-
-        document.getElementById("connectionStatus").textContent=
-            "Phone remote connected ✓";
-
-        conn.on("open",()=>{
-            sendState();
-        });
-
-        conn.on("data",handleRemote);
-
-        conn.on("close",()=>{
-            connection=null;
-
-            document.getElementById("connectionStatus").textContent=
-                "Remote disconnected";
-        });
-    });
-
-    peer.on("error",err=>{
-
-        console.log(err);
-
-        document.getElementById("connectionStatus").textContent=
-            "Connection error — refresh the TV page.";
-    });
-}
-
+/* =========================
+   SEND STATE
+========================= */
 
 function sendState(){
 
@@ -1080,20 +1015,28 @@ function sendState(){
 
         connection.send({
             type:"state",
-            players:players,
+
+            players:[...players],
+
             currentPlayer:currentPlayer,
+
             gameStarted:gameStarted,
-            frames:frames,
-            pins:pins,
-            splitPins:splitPins
+
+            frames:JSON.parse(
+                JSON.stringify(frames)
+            ),
+
+            pins:[...pins],
+
+            splitPins:[...splitPins]
         });
     }
 }
 
 
-/* =========================================================
+/* =========================
    REMOTE COMMANDS
-   ========================================================= */
+========================= */
 
 function handleRemote(data){
 
@@ -1129,7 +1072,7 @@ function handleRemote(data){
 
             if(
                 typeof data.name==="string" &&
-                data.name.trim()!==""
+                data.name.trim()
             ){
 
                 const name=data.name.trim();
@@ -1137,8 +1080,7 @@ function handleRemote(data){
                 if(!players.includes(name)){
 
                     players.push(name);
-
-                    frames[name]=createPlayerFrames();
+                    frames[name]=newFrames();
 
                     renderScore();
                     sendState();
@@ -1162,7 +1104,10 @@ function handleRemote(data){
                 delete frames[removed];
 
                 if(currentPlayer>=players.length){
-                    currentPlayer=Math.max(0,players.length-1);
+                    currentPlayer=Math.max(
+                        0,
+                        players.length-1
+                    );
                 }
 
                 renderScore();
@@ -1176,7 +1121,6 @@ function handleRemote(data){
             if(players.length>0){
 
                 gameStarted=true;
-
                 currentPlayer=0;
 
                 renderScore();
@@ -1190,26 +1134,15 @@ function handleRemote(data){
         case "pinSubmit":
 
             if(Array.isArray(data.pins)){
-
-                pins=Array(PIN_COUNT).fill(true);
-
-                for(let i=0;i<PIN_COUNT;i++){
-
-                    if(data.pins[i]===false){
-                        pins[i]=false;
-                    }
-                }
+                pins=[...data.pins].slice(0,6);
             }
 
             if(Array.isArray(data.splitPins)){
-
-                splitPins=Array(PIN_COUNT).fill(false);
-
-                for(let i=0;i<PIN_COUNT;i++){
-
-                    splitPins[i]=Boolean(data.splitPins[i]);
-                }
+                splitPins=[...data.splitPins].slice(0,6);
             }
+
+            while(pins.length<6) pins.push(true);
+            while(splitPins.length<6) splitPins.push(false);
 
             renderPins();
             sendState();
@@ -1218,8 +1151,8 @@ function handleRemote(data){
 
         case "rack":
 
-            pins=Array(PIN_COUNT).fill(true);
-            splitPins=Array(PIN_COUNT).fill(false);
+            pins=Array(6).fill(true);
+            splitPins=Array(6).fill(false);
 
             renderPins();
             sendState();
@@ -1228,7 +1161,8 @@ function handleRemote(data){
 
         case "clearPins":
 
-            pins=Array(PIN_COUNT).fill(false);
+            pins=Array(6).fill(false);
+            splitPins=Array(6).fill(false);
 
             renderPins();
             sendState();
@@ -1245,6 +1179,7 @@ function handleRemote(data){
         case "end":
 
             gameStarted=false;
+
             showScreen("welcome");
 
             setTimeout(()=>{
@@ -1258,13 +1193,90 @@ function handleRemote(data){
 }
 
 
-/* =========================================================
+/* =========================
+   PEER
+========================= */
+
+function randomCode(){
+
+    const chars=
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let result="";
+
+    for(let i=0;i<6;i++){
+
+        result+=chars[
+            Math.floor(Math.random()*chars.length)
+        ];
+    }
+
+    return result;
+}
+
+
+function setupPeer(){
+
+    const code=randomCode();
+
+    peer=new Peer(
+        "kgl-"+code,
+        {
+            debug:0
+        }
+    );
+
+    document.getElementById("remoteCode").textContent=code;
+
+    peer.on("open",()=>{
+
+        document.getElementById("connectionStatus").textContent=
+            "Remote ready — enter this code on the phone.";
+    });
+
+    peer.on("connection",conn=>{
+
+        connection=conn;
+
+        document.getElementById("connectionStatus").textContent=
+            "Phone remote connected ✓";
+
+        conn.on("open",()=>{
+            sendState();
+        });
+
+        conn.on("data",handleRemote);
+
+        conn.on("close",()=>{
+
+            connection=null;
+
+            document.getElementById("connectionStatus").textContent=
+                "Remote disconnected";
+        });
+    });
+
+    peer.on("error",error=>{
+
+        console.log(error);
+
+        document.getElementById("connectionStatus").textContent=
+            "Connection error — refresh this page.";
+    });
+}
+
+
+/* =========================
    START
-   ========================================================= */
+========================= */
 
 renderPins();
 renderScore();
 setupPeer();
+
+setTimeout(()=>{
+    showScreen("home");
+},3000);
 
 </script>
 
