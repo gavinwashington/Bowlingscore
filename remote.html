@@ -99,13 +99,6 @@ input{
  font-weight:bold;
 }
 
-.score{
- font-size:60px;
- font-weight:bold;
- text-align:center;
- margin:20px;
-}
-
 .scoreButtons{
  display:grid;
  grid-template-columns:repeat(3,1fr);
@@ -126,6 +119,8 @@ input{
  border-radius:10px;
  margin:8px 0;
 }
+
+/* PINSETTER */
 
 .pinArea{
  position:relative;
@@ -211,13 +206,17 @@ input{
 
 <div class="container">
 
+<!-- CONNECT -->
+
 <section id="connect" class="page active">
 
  <div class="card center">
 
   <h1>📱 Phone Remote</h1>
 
-  <p>Enter the code shown on the TV/iPad.</p>
+  <p>
+   Enter the code shown on the TV/iPad.
+  </p>
 
   <input
    id="codeInput"
@@ -228,8 +227,7 @@ input{
 
   <button
    onclick="connectRemote()"
-   style="width:100%"
-  >
+   style="width:100%">
    Connect
   </button>
 
@@ -240,6 +238,9 @@ input{
  </div>
 
 </section>
+
+
+<!-- HOME -->
 
 <section id="home" class="page">
 
@@ -285,6 +286,9 @@ input{
 
 </section>
 
+
+<!-- PLAYERS -->
+
 <section id="players" class="page">
 
  <div class="card">
@@ -298,8 +302,7 @@ input{
 
   <button
    onclick="addPlayer()"
-   style="width:100%;margin-bottom:15px"
-  >
+   style="width:100%;margin-bottom:15px">
    ➕ Add Player
   </button>
 
@@ -315,14 +318,18 @@ input{
 
 </section>
 
+
+<!-- SCORE -->
+
 <section id="score" class="page">
 
  <div class="card">
 
   <h1>📊 Score</h1>
 
-  <div class="score" id="currentScore">
-   0
+  <div id="currentPlayer"
+   style="text-align:center;font-size:20px;margin-bottom:15px">
+   No player
   </div>
 
   <div class="scoreButtons">
@@ -361,10 +368,6 @@ input{
     Reset
    </button>
 
-   <button onclick="send({type:'split'})">
-    🔴 Split
-   </button>
-
   </div>
 
   <button
@@ -377,13 +380,18 @@ input{
 
 </section>
 
+
+<!-- PINSETTER -->
+
 <section id="pinsetter" class="page">
 
  <div class="card center">
 
   <h1>🎳 Pinsetter</h1>
 
-  <p>Select unavailable pins.</p>
+  <p>
+   Select unavailable pins.
+  </p>
 
   <div
    class="pinArea"
@@ -430,6 +438,9 @@ input{
 
 </section>
 
+
+<!-- BACKGROUNDS -->
+
 <section id="backgrounds" class="page">
 
  <div class="card">
@@ -437,7 +448,7 @@ input{
   <h1>🎨 TV Background</h1>
 
   <p>
-   Choose the background for the TV/iPad scoreboard.
+   Choose the background for the TV/iPad.
   </p>
 
   <div class="bgGrid">
@@ -488,7 +499,8 @@ let conn=null;
 let players=[];
 let currentPlayer=0;
 let gameStarted=false;
-let scores={};
+
+let frames={};
 
 let pins=Array(6).fill(true);
 let splitPins=[];
@@ -496,9 +508,10 @@ let splitPins=[];
 let draftPins=[...pins];
 let draftSplit=[...splitPins];
 
-/* -----------------------------
+
+/* =========================
    PAGE
------------------------------ */
+========================= */
 
 function page(name){
 
@@ -511,28 +524,19 @@ function page(name){
  update();
 }
 
-/* -----------------------------
+
+/* =========================
    CONNECT
------------------------------ */
+========================= */
 
 function connectRemote(){
 
- let code=document
-  .getElementById("codeInput")
-  .value
-  .trim()
-  .toUpperCase();
-
- if(!code){
-
-  document.getElementById("status")
-   .textContent=
-   "Enter the code first.";
-
-  return;
- }
-
- code=code.replace(/\s/g,"");
+ let code=
+  document.getElementById("codeInput")
+   .value
+   .trim()
+   .toUpperCase()
+   .replace(/\s/g,"");
 
  if(code.startsWith("KGL-")){
   code=code.substring(4);
@@ -551,7 +555,7 @@ function connectRemote(){
 
  document.getElementById("status")
   .textContent=
-  "Connecting to "+peerId+"...";
+  "Connecting...";
 
  if(peer){
 
@@ -559,7 +563,6 @@ function connectRemote(){
    peer.destroy();
   }catch(e){}
 
-  peer=null;
  }
 
  peer=new Peer({
@@ -568,27 +571,13 @@ function connectRemote(){
 
  peer.on("open",()=>{
 
-  console.log("Phone Peer ready.");
-
-  conn=peer.connect(
-   peerId,
-   {
-    reliable:true
-   }
-  );
-
-  if(!conn){
-
-   document.getElementById("status")
-    .textContent=
-    "Could not create connection.";
-
-   return;
-  }
+  conn=
+   peer.connect(
+    peerId,
+    {reliable:true}
+   );
 
   conn.on("open",()=>{
-
-   console.log("CONNECTED TO TV!");
 
    document.getElementById("status")
     .textContent=
@@ -598,8 +587,6 @@ function connectRemote(){
   });
 
   conn.on("data",msg=>{
-
-   console.log("TV:",msg);
 
    receiveState(msg);
   });
@@ -615,28 +602,25 @@ function connectRemote(){
    page("connect");
   });
 
-  conn.on("error",err=>{
-
-   console.error(err);
-
-   document.getElementById("status")
-    .textContent=
-    "Connection error.";
-  });
  });
 
  peer.on("error",err=>{
 
-  console.error("PeerJS:",err);
+  console.log(err);
 
-  let message="Connection failed.";
+  let message=
+   "Connection failed.";
 
   if(err.type==="peer-unavailable"){
-   message="TV code not found. Make sure the TV is open.";
+
+   message=
+    "TV code not found.";
   }
 
   if(err.type==="network"){
-   message="Network error. Check Wi-Fi/internet.";
+
+   message=
+    "Network error. Check internet.";
   }
 
   document.getElementById("status")
@@ -647,16 +631,15 @@ function connectRemote(){
 
   try{
    peer.reconnect();
-  }catch(e){
-   console.log(e);
-  }
- });
+  }catch(e){}
 
+ });
 }
 
-/* -----------------------------
+
+/* =========================
    SEND
------------------------------ */
+========================= */
 
 function send(message){
 
@@ -674,32 +657,38 @@ function send(message){
  conn.send(message);
 }
 
-/* -----------------------------
-   STATE
------------------------------ */
+
+/* =========================
+   RECEIVE STATE
+========================= */
 
 function receiveState(msg){
 
  if(msg.type!=="state")return;
 
- players=Array.isArray(msg.players)
-  ? msg.players
-  : [];
+ players=
+  Array.isArray(msg.players)
+   ? msg.players
+   : [];
 
  currentPlayer=
   Number(msg.currentPlayer)||0;
 
- gameStarted=!!msg.gameStarted;
+ gameStarted=
+  !!msg.gameStarted;
 
- scores=msg.scores||{};
+ frames=
+  msg.frames || {};
 
- pins=Array.isArray(msg.pins)
-  ? msg.pins
-  : Array(6).fill(true);
+ pins=
+  Array.isArray(msg.pins)
+   ? msg.pins
+   : Array(6).fill(true);
 
- splitPins=Array.isArray(msg.splitPins)
-  ? msg.splitPins
-  : [];
+ splitPins=
+  Array.isArray(msg.splitPins)
+   ? msg.splitPins
+   : [];
 
  draftPins=[...pins];
  draftSplit=[...splitPins];
@@ -707,16 +696,18 @@ function receiveState(msg){
  update();
 }
 
-/* -----------------------------
+
+/* =========================
    PLAYERS
------------------------------ */
+========================= */
 
 function addPlayer(){
 
  const input=
   document.getElementById("playerName");
 
- const name=input.value.trim();
+ const name=
+  input.value.trim();
 
  if(!name)return;
 
@@ -728,6 +719,7 @@ function addPlayer(){
  input.value="";
 }
 
+
 function removePlayer(index){
 
  send({
@@ -735,6 +727,7 @@ function removePlayer(index){
   index:index
  });
 }
+
 
 function renderPlayers(){
 
@@ -749,28 +742,30 @@ function renderPlayers(){
   return;
  }
 
- box.innerHTML=players.map((name,i)=>`
+ box.innerHTML=
+  players.map((name,i)=>`
 
-  <div class="player">
+   <div class="player">
 
-   <span>
-    ${i+1}. ${escapeHtml(name)}
-   </span>
+    <span>
+     ${i+1}. ${escapeHtml(name)}
+    </span>
 
-   <button
-    class="danger"
-    onclick="removePlayer(${i})">
-    Remove
-   </button>
+    <button
+     class="danger"
+     onclick="removePlayer(${i})">
+     Remove
+    </button>
 
-  </div>
+   </div>
 
- `).join("");
+  `).join("");
 }
 
-/* -----------------------------
+
+/* =========================
    GAME
------------------------------ */
+========================= */
 
 function startGame(){
 
@@ -790,6 +785,7 @@ function startGame(){
  page("score");
 }
 
+
 function endGame(){
 
  send({
@@ -799,9 +795,10 @@ function endGame(){
  page("home");
 }
 
-/* -----------------------------
+
+/* =========================
    SCORING
------------------------------ */
+========================= */
 
 function roll(number){
 
@@ -811,103 +808,113 @@ function roll(number){
  });
 }
 
-/* -----------------------------
+
+/* =========================
    PINSETTER
------------------------------ */
+========================= */
 
 function renderPins(){
 
  const box=
   document.getElementById("pins");
 
- box.innerHTML=draftPins.map((available,i)=>`
+ box.innerHTML=
+  draftPins.map((available,i)=>`
 
-  <div
-   class="pin
-   ${available?'':'down'}
-   ${draftSplit.includes(i)?'split':''}"
-   onclick="togglePin(${i})">
+   <div
+    class="pin
+     ${available?'':'down'}
+     ${draftSplit.includes(i)?'split':''}"
+    onclick="togglePin(${i})">
 
-   ${i+1}
+    ${i+1}
 
-  </div>
+   </div>
 
- `).join("");
+  `).join("");
 }
+
 
 function togglePin(index){
 
- draftPins[index]=!draftPins[index];
+ draftPins[index]=
+  !draftPins[index];
 
  if(!draftPins[index]){
 
   draftSplit=
-   draftSplit.filter(x=>x!==index);
+   draftSplit.filter(
+    x=>x!==index
+   );
  }
 
  renderPins();
 }
+
 
 function pinAction(action){
 
- if(action==="rack"){
+ if(
+  action==="rack" ||
+  action==="nextBall"
+ ){
 
-  draftPins=Array(6).fill(true);
+  draftPins=
+   Array(6).fill(true);
+
   draftSplit=[];
-
  }
 
- if(action==="nextBall"){
+ if(
+  action==="clear" ||
+  action==="sweep"
+ ){
 
-  draftPins=Array(6).fill(true);
+  draftPins=
+   Array(6).fill(false);
+
   draftSplit=[];
-
- }
-
- if(action==="clear"){
-
-  draftPins=Array(6).fill(false);
-  draftSplit=[];
-
- }
-
- if(action==="sweep"){
-
-  draftPins=Array(6).fill(false);
-  draftSplit=[];
-
  }
 
  renderPins();
 }
+
 
 function toggleSplit(){
 
  draftSplit=[];
 
- draftPins.forEach((available,i)=>{
+ draftPins.forEach(
+  (available,i)=>{
 
-  if(available){
-   draftSplit.push(i);
+   if(available){
+    draftSplit.push(i);
+   }
+
   }
-
- });
+ );
 
  renderPins();
 }
 
+
 function submitPins(){
 
  send({
+
   type:"pinSubmit",
+
   pins:draftPins,
+
   splitPins:draftSplit
+
  });
 }
 
-/* -----------------------------
+
+/* =========================
    BACKGROUNDS
------------------------------ */
+========================= */
 
 function background(value){
 
@@ -917,9 +924,10 @@ function background(value){
  });
 }
 
-/* -----------------------------
+
+/* =========================
    UPDATE
------------------------------ */
+========================= */
 
 function update(){
 
@@ -928,16 +936,21 @@ function update(){
 
  if(players.length){
 
-  document.getElementById("currentScore")
-   .textContent=
-   scores[players[currentPlayer]]??0;
+  document.getElementById(
+   "currentPlayer"
+  ).textContent=
+   "Current Player: "+
+   players[currentPlayer];
 
  }else{
 
-  document.getElementById("currentScore")
-   .textContent="0";
+  document.getElementById(
+   "currentPlayer"
+  ).textContent=
+   "No player";
  }
 }
+
 
 function escapeHtml(text){
 
