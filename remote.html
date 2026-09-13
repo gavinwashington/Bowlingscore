@@ -44,16 +44,13 @@ button{
     cursor:pointer;
 }
 
-.menu{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    max-width:500px;
-    margin:auto;
+button:disabled{
+    opacity:.3;
+    cursor:not-allowed;
 }
 
-.menu button{
-    min-height:70px;
+.back{
+    margin-bottom:20px;
 }
 
 .connect-box{
@@ -69,7 +66,7 @@ input{
     border:2px solid #555;
     background:#222;
     color:white;
-    font-size:24px;
+    font-size:22px;
     text-align:center;
     text-transform:uppercase;
     margin:15px 0;
@@ -77,12 +74,37 @@ input{
 
 .status{
     text-align:center;
-    margin:15px;
     opacity:.8;
+    margin:15px;
 }
 
-.back{
-    margin-bottom:20px;
+.menu{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    max-width:500px;
+    margin:auto;
+}
+
+.menu button{
+    min-height:70px;
+}
+
+.add-player{
+    display:flex;
+    gap:8px;
+    max-width:500px;
+    margin:20px auto;
+}
+
+.add-player input{
+    margin:0;
+    text-align:left;
+    font-size:18px;
+}
+
+.add-player button{
+    white-space:nowrap;
 }
 
 .player-list{
@@ -104,24 +126,11 @@ input{
     padding:10px 14px;
 }
 
-.add-player{
-    display:flex;
-    gap:8px;
-    max-width:500px;
-    margin:20px auto;
+.current-player{
+    text-align:center;
+    font-size:22px;
+    margin:20px;
 }
-
-.add-player input{
-    margin:0;
-    text-align:left;
-    font-size:18px;
-}
-
-.add-player button{
-    white-space:nowrap;
-}
-
-/* SCORE */
 
 .score-buttons{
     display:grid;
@@ -147,14 +156,6 @@ input{
     min-height:60px;
 }
 
-.current-player{
-    text-align:center;
-    font-size:22px;
-    margin:20px;
-}
-
-/* PINSETTER */
-
 .pin-rack{
     display:flex;
     flex-direction:column;
@@ -171,10 +172,9 @@ input{
 .pin{
     width:50px;
     height:68px;
-    border-radius:50% 50% 45% 45%;
     border:4px solid white;
+    border-radius:50% 50% 45% 45%;
     background:white;
-    cursor:pointer;
     position:relative;
 }
 
@@ -187,15 +187,15 @@ input{
     border-color:red;
 }
 
-.pin.split::after{
+.pin.split:after{
     content:"";
     width:11px;
     height:11px;
     background:red;
     border-radius:50%;
     position:absolute;
-    top:50%;
     left:50%;
+    top:50%;
     transform:translate(-50%,-50%);
 }
 
@@ -209,11 +209,7 @@ input{
 
 .submit{
     grid-column:1/-1;
-    background:white;
-    color:black;
 }
-
-/* BACKGROUNDS */
 
 .backgrounds{
     display:grid;
@@ -222,11 +218,11 @@ input{
     max-width:500px;
     margin:auto;
 }
-
 </style>
 </head>
 
 <body>
+
 
 <!-- CONNECT -->
 
@@ -263,7 +259,7 @@ input{
 
     <h1>🎳 Remote</h1>
 
-    <div class="status" id="homeStatus">
+    <div class="status">
         Connected ✓
     </div>
 
@@ -312,8 +308,8 @@ input{
 
         <input
             id="playerInput"
-            placeholder="Player name"
             maxlength="20"
+            placeholder="Player name"
         >
 
         <button onclick="addPlayer()">
@@ -341,29 +337,27 @@ input{
         No player
     </div>
 
-    <!-- ONLY 0-6 -->
-
     <div class="score-buttons">
 
-        <button onclick="roll(0)">0</button>
-        <button onclick="roll(1)">1</button>
-        <button onclick="roll(2)">2</button>
+        <button id="roll0" onclick="roll(0)">0</button>
+        <button id="roll1" onclick="roll(1)">1</button>
+        <button id="roll2" onclick="roll(2)">2</button>
 
-        <button onclick="roll(3)">3</button>
-        <button onclick="roll(4)">4</button>
-        <button onclick="roll(5)">5</button>
+        <button id="roll3" onclick="roll(3)">3</button>
+        <button id="roll4" onclick="roll(4)">4</button>
+        <button id="roll5" onclick="roll(5)">5</button>
 
-        <button onclick="roll(6)">6</button>
+        <button id="roll6" onclick="roll(6)">6</button>
 
     </div>
 
     <div class="special">
 
-        <button onclick="strike()">
+        <button id="strikeButton" onclick="strike()">
             X Strike
         </button>
 
-        <button onclick="spare()">
+        <button id="spareButton" onclick="spare()">
             / Spare
         </button>
 
@@ -454,10 +448,6 @@ input{
 
 <script>
 
-/* =========================================================
-   CONNECTION
-   ========================================================= */
-
 let peer=null;
 let connection=null;
 
@@ -468,6 +458,10 @@ let gameStarted=false;
 let pins=Array(6).fill(true);
 let splitPins=Array(6).fill(false);
 
+
+/* =========================
+   PAGE
+========================= */
 
 function page(id){
 
@@ -484,12 +478,16 @@ function page(id){
     if(id==="pinsetter"){
         renderPins();
     }
+
+    if(id==="score"){
+        updateScoreButtons();
+    }
 }
 
 
-/* =========================================================
+/* =========================
    CONNECT
-   ========================================================= */
+========================= */
 
 function connectToTV(){
 
@@ -497,9 +495,8 @@ function connectToTV(){
         document.getElementById("codeInput")
         .value
         .trim()
-        .toUpperCase();
-
-    code=code.replace(/\s/g,"");
+        .toUpperCase()
+        .replace(/\s/g,"");
 
     if(code.startsWith("KGL-")){
         code=code.substring(4);
@@ -508,7 +505,7 @@ function connectToTV(){
     if(code.length!==6){
 
         document.getElementById("connectStatus").textContent=
-            "Enter the 6-character TV code.";
+            "Enter the 6-character code.";
 
         return;
     }
@@ -517,7 +514,7 @@ function connectToTV(){
         "Connecting...";
 
     peer=new Peer({
-        debug:1
+        debug:0
     });
 
     peer.on("open",()=>{
@@ -545,23 +542,23 @@ function connectToTV(){
             connection=null;
 
             document.getElementById("connectStatus").textContent=
-                "Disconnected from TV.";
+                "Disconnected.";
         });
     });
 
-    peer.on("error",err=>{
+    peer.on("error",error=>{
 
-        console.log(err);
+        console.log(error);
 
         document.getElementById("connectStatus").textContent=
-            "Could not connect. Check the code.";
+            "Could not connect. Check the TV code.";
     });
 }
 
 
-/* =========================================================
+/* =========================
    SEND
-   ========================================================= */
+========================= */
 
 function send(data){
 
@@ -571,13 +568,15 @@ function send(data){
 }
 
 
-/* =========================================================
-   STATE
-   ========================================================= */
+/* =========================
+   RECEIVE STATE
+========================= */
 
 function handleState(data){
 
-    if(!data || data.type!=="state") return;
+    if(!data || data.type!=="state"){
+        return;
+    }
 
     players=data.players || [];
 
@@ -601,8 +600,13 @@ function handleState(data){
     updateCurrentPlayer();
     renderPlayers();
     renderPins();
+    updateScoreButtons();
 }
 
+
+/* =========================
+   CURRENT PLAYER
+========================= */
 
 function updateCurrentPlayer(){
 
@@ -611,20 +615,161 @@ function updateCurrentPlayer(){
 
     if(players.length===0){
 
-        el.textContent="No players";
-
+        el.textContent="No player";
         return;
     }
 
     el.textContent=
-        "Current player: " +
+        "Current player: "+
         players[currentPlayer];
 }
 
 
-/* =========================================================
+/* =========================
+   SCORE BUTTON STATE
+========================= */
+
+function updateScoreButtons(){
+
+    const spareButton=
+        document.getElementById("spareButton");
+
+    const strikeButton=
+        document.getElementById("strikeButton");
+
+    if(!gameStarted || players.length===0){
+
+        spareButton.disabled=true;
+        strikeButton.disabled=true;
+
+        return;
+    }
+
+    /*
+       We don't have the full frame data on the remote,
+       so the TV controls validity. The spare button
+       starts enabled and is disabled by the local
+       first-roll tracking below.
+    */
+
+    spareButton.disabled=false;
+    strikeButton.disabled=false;
+}
+
+
+/* =========================
+   LOCAL FIRST ROLL TRACKING
+========================= */
+
+let firstRollForTurn=null;
+
+function roll(value){
+
+    /*
+       If 6 is pressed, it is a strike.
+    */
+
+    if(value===6){
+
+        firstRollForTurn=6;
+
+        send({
+            type:"strike"
+        });
+
+        return;
+    }
+
+    firstRollForTurn=value;
+
+    send({
+        type:"roll",
+        value:value
+    });
+
+    /*
+       Once a non-6 first roll happens,
+       spare becomes available.
+    */
+
+    document.getElementById("spareButton").disabled=false;
+}
+
+
+function strike(){
+
+    firstRollForTurn=6;
+
+    /*
+       6 = strike.
+    */
+
+    send({
+        type:"strike"
+    });
+}
+
+
+function spare(){
+
+    /*
+       NEVER allow spare after a 6.
+    */
+
+    if(firstRollForTurn===6){
+        return;
+    }
+
+    if(firstRollForTurn===null){
+        return;
+    }
+
+    send({
+        type:"spare"
+    });
+}
+
+
+/* =========================
+   TURN BUTTONS
+========================= */
+
+function previousPlayer(){
+
+    firstRollForTurn=null;
+
+    send({
+        type:"previous"
+    });
+}
+
+function nextPlayer(){
+
+    firstRollForTurn=null;
+
+    send({
+        type:"next"
+    });
+}
+
+function resetGame(){
+
+    if(confirm("Reset the entire game?")){
+
+        firstRollForTurn=null;
+
+        send({
+            type:"reset"
+        });
+
+        page("home");
+    }
+}
+
+
+/* =========================
    PLAYERS
-   ========================================================= */
+========================= */
 
 function addPlayer(){
 
@@ -633,7 +778,7 @@ function addPlayer(){
 
     const name=input.value.trim();
 
-    if(name==="") return;
+    if(!name) return;
 
     send({
         type:"addPlayer",
@@ -668,31 +813,31 @@ function renderPlayers(){
 
         div.className="player";
 
-        const text=document.createElement("span");
+        const span=document.createElement("span");
 
-        text.textContent=
-            (index===currentPlayer ? "▶ " : "") +
+        span.textContent=
+            (index===currentPlayer ? "▶ " : "")+
             name;
 
-        const remove=document.createElement("button");
+        const button=document.createElement("button");
 
-        remove.textContent="Remove";
+        button.textContent="Remove";
 
-        remove.onclick=()=>{
+        button.onclick=()=>{
             removePlayer(index);
         };
 
-        div.appendChild(text);
-        div.appendChild(remove);
+        div.appendChild(span);
+        div.appendChild(button);
 
         list.appendChild(div);
     });
 }
 
 
-/* =========================================================
+/* =========================
    START / END
-   ========================================================= */
+========================= */
 
 function startGame(){
 
@@ -704,6 +849,8 @@ function startGame(){
 
         return;
     }
+
+    firstRollForTurn=null;
 
     send({
         type:"start"
@@ -719,71 +866,15 @@ function endGame(){
         type:"end"
     });
 
+    firstRollForTurn=null;
+
     page("home");
 }
 
 
-/* =========================================================
-   SCORE BUTTONS
-   ========================================================= */
-
-function roll(value){
-
-    send({
-        type:"roll",
-        value:value
-    });
-}
-
-
-function strike(){
-
-    send({
-        type:"strike"
-    });
-}
-
-
-function spare(){
-
-    send({
-        type:"spare"
-    });
-}
-
-
-function previousPlayer(){
-
-    send({
-        type:"previous"
-    });
-}
-
-
-function nextPlayer(){
-
-    send({
-        type:"next"
-    });
-}
-
-
-function resetGame(){
-
-    if(confirm("Reset the entire game?")){
-
-        send({
-            type:"reset"
-        });
-
-        page("home");
-    }
-}
-
-
-/* =========================================================
-   PINSETTER
-   ========================================================= */
+/* =========================
+   PINS
+========================= */
 
 function renderPins(){
 
@@ -794,19 +885,17 @@ function renderPins(){
 
     rack.innerHTML="";
 
-    const rows=[
+    [
         [0],
         [1,2],
         [3,4,5]
-    ];
-
-    rows.forEach(rowIndexes=>{
+    ].forEach(indexes=>{
 
         const row=document.createElement("div");
 
         row.className="pin-row";
 
-        rowIndexes.forEach(index=>{
+        indexes.forEach(index=>{
 
             const pin=document.createElement("div");
 
@@ -823,11 +912,6 @@ function renderPins(){
             pin.onclick=()=>{
 
                 pins[index]=!pins[index];
-
-                /*
-                   Tap twice to mark a standing pin
-                   as a split pin.
-                */
 
                 renderPins();
             };
@@ -865,7 +949,6 @@ function rackPins(){
 function clearPins(){
 
     pins=Array(6).fill(false);
-
     splitPins=Array(6).fill(false);
 
     renderPins();
@@ -880,15 +963,15 @@ function submitPins(){
 
     send({
         type:"pinSubmit",
-        pins:pins,
-        splitPins:splitPins
+        pins:[...pins],
+        splitPins:[...splitPins]
     });
 }
 
 
-/* =========================================================
+/* =========================
    BACKGROUNDS
-   ========================================================= */
+========================= */
 
 function background(value){
 
@@ -899,9 +982,9 @@ function background(value){
 }
 
 
-/* =========================================================
-   INITIAL
-   ========================================================= */
+/* =========================
+   START
+========================= */
 
 renderPins();
 renderPlayers();
