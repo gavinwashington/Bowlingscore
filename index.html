@@ -2,26 +2,41 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>King Gavin Lanes</title>
 
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
+html,
 body{
     margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
     font-family:Arial,Helvetica,sans-serif;
     background:#111;
     color:white;
+}
+
+body{
     min-height:100vh;
+    min-height:100dvh;
+    overscroll-behavior:none;
 }
 
 .screen{
     display:none;
-    min-height:100vh;
-    padding:30px;
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    min-height:0;
+    padding:clamp(10px,2vw,30px);
+    overflow:hidden;
 }
 
 .screen.active{
@@ -33,11 +48,20 @@ button{
     cursor:pointer;
 }
 
+
+/* =========================
+   WELCOME
+========================= */
+
 #welcome{
-    display:flex;
+    display:none;
     align-items:center;
     justify-content:center;
     text-align:center;
+}
+
+#welcome.active{
+    display:flex;
 }
 
 .welcome-box{
@@ -54,11 +78,28 @@ button{
 }
 
 @keyframes fadeWelcome{
-    0%{opacity:0}
-    15%{opacity:1}
-    75%{opacity:1}
-    100%{opacity:0}
+
+    0%{
+        opacity:0;
+    }
+
+    15%{
+        opacity:1;
+    }
+
+    75%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0;
+    }
 }
+
+
+/* =========================
+   HOME
+========================= */
 
 #home{
     text-align:center;
@@ -66,40 +107,70 @@ button{
 
 .logo{
     font-size:clamp(35px,6vw,70px);
-    margin-top:30px;
+    margin-top:3vh;
+    margin-bottom:2vh;
 }
 
 .status{
     opacity:.8;
-    font-size:20px;
+    font-size:clamp(15px,2vw,20px);
 }
 
 .code{
     font-size:clamp(32px,5vw,60px);
     font-weight:bold;
     letter-spacing:6px;
-    margin:25px;
+    margin:2vh 25px;
 }
 
 .current{
-    font-size:26px;
-    margin-top:35px;
+    font-size:clamp(20px,2.5vw,26px);
+    margin-top:4vh;
+}
+
+
+/* =========================
+   SCOREBOARD
+========================= */
+
+#score{
+    display:none;
+    flex-direction:column;
+    padding:clamp(7px,1.2vh,15px) clamp(7px,1.2vw,20px);
+}
+
+#score.active{
+    display:flex;
 }
 
 .score-title{
+    flex:0 0 auto;
     text-align:center;
-    font-size:40px;
-    margin:0 0 25px;
+    font-size:clamp(25px,4vw,40px);
+    margin:0 0 clamp(6px,1vh,12px);
 }
 
+
+/*
+   The scoreboard itself now takes
+   the remaining iPad screen height.
+*/
+
 .score-wrap{
+    flex:1 1 auto;
+    min-height:0;
     width:100%;
+
     overflow-x:auto;
+    overflow-y:hidden;
+
+    display:flex;
+    align-items:flex-start;
 }
 
 .score-table{
     width:100%;
-    min-width:1100px;
+    min-width:1000px;
     border-collapse:collapse;
     table-layout:fixed;
 }
@@ -108,54 +179,60 @@ button{
 .score-table td{
     border:2px solid white;
     text-align:center;
-    padding:7px;
+    padding:clamp(2px,0.4vh,7px);
 }
 
 .score-table th{
     background:#222;
+    height:clamp(25px,5vh,55px);
+    font-size:clamp(11px,1.6vw,20px);
 }
 
 .player-name{
-    width:170px;
+    width:13%;
     text-align:left!important;
-    font-size:20px;
+    font-size:clamp(12px,1.8vw,20px);
     font-weight:bold;
 }
 
 .frame-cell{
-    height:100px;
+    height:clamp(55px,10vh,100px);
 }
 
 .current-frame{
     background:#333;
-    box-shadow:inset 0 0 0 4px white;
+    box-shadow:inset 0 0 0 3px white;
 }
 
 .rolls{
     display:flex;
     justify-content:center;
-    gap:3px;
+    gap:2px;
 }
 
 .roll{
-    width:31px;
-    height:30px;
+    width:clamp(20px,2.7vw,31px);
+    height:clamp(20px,3vh,30px);
+
     border:1px solid #aaa;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
+    font-size:clamp(10px,1.4vw,16px);
     font-weight:bold;
 }
 
 .frame-score{
-    font-size:24px;
-    margin-top:9px;
+    font-size:clamp(15px,2.2vw,24px);
+    margin-top:clamp(2px,0.7vh,9px);
 }
 
 .total-cell{
-    font-size:28px;
+    width:9%;
+    font-size:clamp(17px,2.5vw,28px);
     font-weight:bold;
-    width:100px;
 }
 
 .active-player{
@@ -163,10 +240,20 @@ button{
 }
 
 .message{
+    flex:0 0 auto;
     text-align:center;
-    font-size:22px;
-    margin-top:25px;
+    font-size:clamp(14px,1.8vw,22px);
+    margin-top:clamp(5px,1vh,12px);
+    height:clamp(22px,4vh,35px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
+
+
+/* =========================
+   PINSETTER
+========================= */
 
 .pinsetter{
     text-align:center;
@@ -214,46 +301,161 @@ button{
     top:50%;
     transform:translate(-50%,-50%);
 }
+
+
+/* =========================
+   IPAD LANDSCAPE
+========================= */
+
+@media (orientation:landscape){
+
+    #score{
+        padding-top:6px;
+    }
+
+    .score-title{
+        margin-bottom:6px;
+    }
+
+    .score-table th{
+        height:clamp(25px,5vh,48px);
+    }
+
+    .frame-cell{
+        height:clamp(50px,9vh,85px);
+    }
+
+    .message{
+        margin-top:4px;
+        height:25px;
+    }
+}
+
+
+/* =========================
+   SMALL HEIGHT SCREENS
+========================= */
+
+@media (max-height:600px){
+
+    #score{
+        padding:4px 7px;
+    }
+
+    .score-title{
+        font-size:28px;
+        margin-bottom:4px;
+    }
+
+    .score-table th{
+        height:30px;
+        padding:2px;
+    }
+
+    .frame-cell{
+        height:55px;
+        padding:2px;
+    }
+
+    .roll{
+        width:22px;
+        height:21px;
+    }
+
+    .frame-score{
+        font-size:15px;
+        margin-top:2px;
+    }
+
+    .message{
+        font-size:14px;
+        height:20px;
+        margin-top:2px;
+    }
+}
 </style>
 </head>
 
 <body>
 
+
+<!-- =========================
+     WELCOME
+========================= -->
+
 <section id="welcome" class="screen active">
+
     <div class="welcome-box">
-        <h1>Welcome To King Gavin Lanes</h1>
-        <p>6-Pin Bowling</p>
+
+        <h1>
+            Welcome To King Gavin Lanes
+        </h1>
+
+        <p>
+            6-Pin Bowling
+        </p>
+
     </div>
+
 </section>
+
+
+<!-- =========================
+     HOME
+========================= -->
 
 <section id="home" class="screen">
 
-    <h1 class="logo">🎳 King Gavin Lanes</h1>
+    <h1 class="logo">
+        🎳 King Gavin Lanes
+    </h1>
 
-    <div class="status" id="connectionStatus">
+    <div
+        class="status"
+        id="connectionStatus"
+    >
         Starting...
     </div>
 
-    <div class="code" id="remoteCode">
+    <div
+        class="code"
+        id="remoteCode"
+    >
         ------
     </div>
 
-    <div class="current" id="homeCurrent">
+    <div
+        class="current"
+        id="homeCurrent"
+    >
         No game started
     </div>
 
 </section>
 
+
+<!-- =========================
+     SCORE
+========================= -->
+
 <section id="score" class="screen">
 
-    <h1 class="score-title">🎳 King Gavin Lanes</h1>
+    <h1 class="score-title">
+        🎳 King Gavin Lanes
+    </h1>
 
     <div class="score-wrap">
+
         <table class="score-table">
 
             <thead>
+
                 <tr>
-                    <th class="player-name">Player</th>
+
+                    <th class="player-name">
+                        Player
+                    </th>
+
                     <th>1</th>
                     <th>2</th>
                     <th>3</th>
@@ -264,26 +466,46 @@ button{
                     <th>8</th>
                     <th>9</th>
                     <th>10</th>
-                    <th>Total</th>
+
+                    <th>
+                        Total
+                    </th>
+
                 </tr>
+
             </thead>
 
             <tbody id="scoreBody"></tbody>
 
         </table>
+
     </div>
 
-    <div class="message" id="scoreMessage"></div>
+    <div
+        class="message"
+        id="scoreMessage"
+    ></div>
 
 </section>
+
+
+<!-- =========================
+     PINSETTER
+========================= -->
 
 <section id="pinsetter" class="screen">
 
-    <h1 class="score-title">Pinsetter</h1>
+    <h1 class="score-title">
+        Pinsetter
+    </h1>
 
-    <div class="pin-rack" id="tvPins"></div>
+    <div
+        class="pin-rack"
+        id="tvPins"
+    ></div>
 
 </section>
+
 
 <script>
 
@@ -309,11 +531,15 @@ let connection=null;
 
 function showScreen(id){
 
-    document.querySelectorAll(".screen").forEach(s=>{
-        s.classList.remove("active");
-    });
+    document
+        .querySelectorAll(".screen")
+        .forEach(s=>{
+            s.classList.remove("active");
+        });
 
-    document.getElementById(id).classList.add("active");
+    document
+        .getElementById(id)
+        .classList.add("active");
 }
 
 
@@ -349,7 +575,10 @@ function flattenRolls(name){
 
     for(let f=0;f<10;f++){
 
-        for(const roll of frames[name][f].rolls){
+        for(
+            const roll
+            of frames[name][f].rolls
+        ){
 
             if(roll==="X"){
                 result.push(6);
@@ -389,11 +618,16 @@ function calculateFrameScores(name){
 
             let total=0;
 
-            for(let i=index;i<all.length;i++){
+            for(
+                let i=index;
+                i<all.length;
+                i++
+            ){
                 total+=all[i];
             }
 
-            result[frame]=Math.min(total,18);
+            result[frame]=
+                Math.min(total,18);
 
             break;
         }
@@ -406,11 +640,15 @@ function calculateFrameScores(name){
 
             let score=6;
 
-            if(all[index+1]!==undefined){
+            if(
+                all[index+1]!==undefined
+            ){
                 score+=all[index+1];
             }
 
-            if(all[index+2]!==undefined){
+            if(
+                all[index+2]!==undefined
+            ){
                 score+=all[index+2];
             }
 
@@ -423,7 +661,9 @@ function calculateFrameScores(name){
 
         /* ONE ROLL ONLY */
 
-        if(all[index+1]===undefined){
+        if(
+            all[index+1]===undefined
+        ){
 
             result[frame]=first;
 
@@ -438,7 +678,9 @@ function calculateFrameScores(name){
 
             let score=6;
 
-            if(all[index+2]!==undefined){
+            if(
+                all[index+2]!==undefined
+            ){
                 score+=all[index+2];
             }
 
@@ -448,7 +690,8 @@ function calculateFrameScores(name){
 
             /* OPEN */
 
-            result[frame]=first+second;
+            result[frame]=
+                first+second;
         }
 
         index+=2;
@@ -460,11 +703,15 @@ function calculateFrameScores(name){
 
 function calculateTotal(name){
 
-    const scores=calculateFrameScores(name);
+    const scores=
+        calculateFrameScores(name);
 
     let total=0;
 
-    for(const score of scores){
+    for(
+        const score
+        of scores
+    ){
 
         if(score!==null){
             total+=score;
@@ -485,7 +732,8 @@ function getCurrentFrame(name){
 
     for(let f=0;f<9;f++){
 
-        const rolls=frames[name][f].rolls;
+        const rolls=
+            frames[name][f].rolls;
 
         if(rolls.length===0){
             return f;
@@ -513,14 +761,22 @@ function addRoll(value){
     if(!gameStarted) return;
     if(players.length===0) return;
 
-    value=Math.max(0,Math.min(6,Number(value)));
+    value=Math.max(
+        0,
+        Math.min(6,Number(value))
+    );
 
-    const name=players[currentPlayer];
+    const name=
+        players[currentPlayer];
 
     ensurePlayer(name);
 
-    const frameIndex=getCurrentFrame(name);
-    const frame=frames[name][frameIndex];
+    const frameIndex=
+        getCurrentFrame(name);
+
+    const frame=
+        frames[name][frameIndex];
+
 
     /* 10TH FRAME */
 
@@ -536,12 +792,15 @@ function addRoll(value){
 
             renderScore();
             sendState();
+
             return;
         }
 
+
         if(frame.rolls.length===1){
 
-            const first=frame.rolls[0];
+            const first=
+                frame.rolls[0];
 
             if(first==="X"){
 
@@ -553,10 +812,12 @@ function addRoll(value){
 
                 renderScore();
                 sendState();
+
                 return;
             }
 
-            const remaining=6-Number(first);
+            const remaining=
+                6-Number(first);
 
             if(value>remaining){
                 value=remaining;
@@ -564,12 +825,10 @@ function addRoll(value){
 
             frame.rolls.push(value);
 
-            /*
-               Open 10th frame ends immediately.
-               Spare gets one bonus ball.
-            */
 
-            if(Number(first)+value<6){
+            if(
+                Number(first)+value<6
+            ){
 
                 nextPlayer();
 
@@ -582,16 +841,21 @@ function addRoll(value){
             return;
         }
 
+
         if(frame.rolls.length===2){
 
-            const first=frame.rolls[0];
-            const second=frame.rolls[1];
+            const first=
+                frame.rolls[0];
+
+            const second=
+                frame.rolls[1];
 
             const bonus=
                 first==="X" ||
                 (
                     first!=="X" &&
-                    Number(first)+Number(second)===6
+                    Number(first)+
+                    Number(second)===6
                 );
 
             if(bonus){
@@ -604,6 +868,7 @@ function addRoll(value){
             }
 
             nextPlayer();
+
             return;
         }
 
@@ -611,21 +876,18 @@ function addRoll(value){
     }
 
 
-    /* NORMAL FRAME — FIRST ROLL */
+    /* FIRST ROLL */
 
     if(frame.rolls.length===0){
 
         /*
-           6 is ALWAYS a strike.
+           SIX IS ALWAYS A STRIKE.
         */
 
         if(value===6){
 
             frame.rolls.push("X");
 
-            /*
-               Render FIRST so the TV changes instantly.
-            */
             renderScore();
             sendState();
 
@@ -645,14 +907,16 @@ function addRoll(value){
     }
 
 
-    /* NORMAL FRAME — SECOND ROLL */
+    /* SECOND ROLL */
 
     if(frame.rolls.length===1){
 
-        const first=Number(frame.rolls[0]);
+        const first=
+            Number(frame.rolls[0]);
 
         /*
-           Prevent going over six.
+           Never allow a frame
+           to exceed six pins.
         */
 
         if(first+value>6){
@@ -661,9 +925,6 @@ function addRoll(value){
 
         frame.rolls.push(value);
 
-        /*
-           Render immediately before changing player.
-        */
         renderScore();
         sendState();
 
@@ -685,34 +946,42 @@ function doStrike(){
     if(!gameStarted) return;
     if(players.length===0) return;
 
-    const name=players[currentPlayer];
+    const name=
+        players[currentPlayer];
 
     ensurePlayer(name);
 
-    const frameIndex=getCurrentFrame(name);
-    const frame=frames[name][frameIndex];
+    const frameIndex=
+        getCurrentFrame(name);
 
-    /*
-       Only allow strike when starting a frame
-       or when bonus ball is allowed.
-    */
+    const frame=
+        frames[name][frameIndex];
 
-    if(frameIndex<9 && frame.rolls.length===0){
+
+    if(
+        frameIndex<9 &&
+        frame.rolls.length===0
+    ){
 
         addRoll(6);
 
         return;
     }
 
+
     if(frameIndex===9){
 
         if(frame.rolls.length===0){
+
             addRoll(6);
+
             return;
         }
 
         if(frame.rolls[0]==="X"){
+
             addRoll(6);
+
             return;
         }
     }
@@ -728,31 +997,52 @@ function doSpare(){
     if(!gameStarted) return;
     if(players.length===0) return;
 
-    const name=players[currentPlayer];
+    const name=
+        players[currentPlayer];
 
     ensurePlayer(name);
 
-    const frameIndex=getCurrentFrame(name);
-    const frame=frames[name][frameIndex];
+    const frameIndex=
+        getCurrentFrame(name);
+
+    const frame=
+        frames[name][frameIndex];
+
 
     /*
-       SPARE IS DISABLED IF FIRST ROLL IS 6.
+       A spare requires exactly
+       one first roll.
     */
 
-    if(frame.rolls.length!==1) return;
-
-    if(frame.rolls[0]==="X") return;
-
-    const first=Number(frame.rolls[0]);
+    if(frame.rolls.length!==1){
+        return;
+    }
 
     /*
-       If first roll was already 6,
-       there is no spare.
+       A strike cannot become
+       a spare.
     */
 
-    if(first===6) return;
+    if(frame.rolls[0]==="X"){
+        return;
+    }
 
-    const remaining=6-first;
+    const first=
+        Number(frame.rolls[0]);
+
+
+    /*
+       SIX = STRIKE.
+       Spare is impossible.
+    */
+
+    if(first===6){
+        return;
+    }
+
+
+    const remaining=
+        6-first;
 
     addRoll(remaining);
 }
@@ -764,11 +1054,15 @@ function doSpare(){
 
 function nextPlayer(){
 
-    if(players.length===0) return;
+    if(players.length===0){
+        return;
+    }
 
     currentPlayer++;
 
-    if(currentPlayer>=players.length){
+    if(
+        currentPlayer>=players.length
+    ){
         currentPlayer=0;
     }
 
@@ -776,14 +1070,18 @@ function nextPlayer(){
     sendState();
 }
 
+
 function previousPlayer(){
 
-    if(players.length===0) return;
+    if(players.length===0){
+        return;
+    }
 
     currentPlayer--;
 
     if(currentPlayer<0){
-        currentPlayer=players.length-1;
+        currentPlayer=
+            players.length-1;
     }
 
     renderScore();
@@ -798,7 +1096,9 @@ function previousPlayer(){
 function resetGame(){
 
     players.forEach(name=>{
-        frames[name]=newFrames();
+
+        frames[name]=
+            newFrames();
     });
 
     currentPlayer=0;
@@ -836,105 +1136,180 @@ function formatRoll(roll){
 
 function renderScore(){
 
-    const body=document.getElementById("scoreBody");
+    const body=
+        document.getElementById(
+            "scoreBody"
+        );
 
     body.innerHTML="";
 
-    players.forEach((name,playerIndex)=>{
+
+    players.forEach(
+        (name,playerIndex)=>{
 
         ensurePlayer(name);
 
-        const row=document.createElement("tr");
+        const row=
+            document.createElement("tr");
 
-        const nameCell=document.createElement("td");
 
-        nameCell.className="player-name";
+        /* PLAYER */
 
-        if(playerIndex===currentPlayer){
-            nameCell.classList.add("active-player");
+        const nameCell=
+            document.createElement("td");
+
+        nameCell.className=
+            "player-name";
+
+        if(
+            playerIndex===currentPlayer
+        ){
+            nameCell.classList.add(
+                "active-player"
+            );
         }
 
         nameCell.textContent=name;
 
         row.appendChild(nameCell);
 
-        const scores=calculateFrameScores(name);
+
+        /* FRAMES */
+
+        const scores=
+            calculateFrameScores(name);
+
 
         for(let f=0;f<10;f++){
 
-            const cell=document.createElement("td");
+            const cell=
+                document.createElement("td");
 
-            cell.className="frame-cell";
+            cell.className=
+                "frame-cell";
+
 
             if(
                 gameStarted &&
                 playerIndex===currentPlayer &&
                 getCurrentFrame(name)===f
             ){
-                cell.classList.add("current-frame");
+
+                cell.classList.add(
+                    "current-frame"
+                );
             }
 
-            const rolls=frames[name][f].rolls;
 
-            const rollsDiv=document.createElement("div");
+            const rolls=
+                frames[name][f].rolls;
+
+
+            const rollsDiv=
+                document.createElement("div");
 
             rollsDiv.className="rolls";
 
-            const amount=f===9 ? 3 : 2;
 
-            for(let r=0;r<amount;r++){
+            const amount=
+                f===9 ? 3 : 2;
 
-                const roll=document.createElement("div");
+
+            for(
+                let r=0;
+                r<amount;
+                r++
+            ){
+
+                const roll=
+                    document.createElement(
+                        "div"
+                    );
 
                 roll.className="roll";
 
-                roll.textContent=formatRoll(rolls[r]);
+                roll.textContent=
+                    formatRoll(
+                        rolls[r]
+                    );
 
-                rollsDiv.appendChild(roll);
+                rollsDiv.appendChild(
+                    roll
+                );
             }
 
-            cell.appendChild(rollsDiv);
 
-            const score=document.createElement("div");
+            cell.appendChild(
+                rollsDiv
+            );
 
-            score.className="frame-score";
+
+            const score=
+                document.createElement("div");
+
+            score.className=
+                "frame-score";
+
 
             if(scores[f]!==null){
-                score.textContent=scores[f];
+
+                score.textContent=
+                    scores[f];
             }
 
-            cell.appendChild(score);
+
+            cell.appendChild(
+                score
+            );
 
             row.appendChild(cell);
         }
 
-        const total=document.createElement("td");
 
-        total.className="total-cell";
+        /* TOTAL */
 
-        total.textContent=calculateTotal(name);
+        const total=
+            document.createElement("td");
+
+        total.className=
+            "total-cell";
+
+        total.textContent=
+            calculateTotal(name);
 
         row.appendChild(total);
 
         body.appendChild(row);
     });
 
+
     if(players.length){
 
-        document.getElementById("scoreMessage").textContent=
-            "Current player: "+players[currentPlayer];
+        document.getElementById(
+            "scoreMessage"
+        ).textContent=
+            "Current player: "+
+            players[currentPlayer];
 
-        document.getElementById("homeCurrent").textContent=
+
+        document.getElementById(
+            "homeCurrent"
+        ).textContent=
             gameStarted
-                ? "Current player: "+players[currentPlayer]
+                ? "Current player: "+
+                  players[currentPlayer]
                 : "Game not started";
 
     }else{
 
-        document.getElementById("scoreMessage").textContent=
+        document.getElementById(
+            "scoreMessage"
+        ).textContent=
             "Add players from the phone.";
 
-        document.getElementById("homeCurrent").textContent=
+        document.getElementById(
+            "homeCurrent"
+        ).textContent=
             "No players";
     }
 }
@@ -946,9 +1321,13 @@ function renderScore(){
 
 function renderPins(){
 
-    const rack=document.getElementById("tvPins");
+    const rack=
+        document.getElementById(
+            "tvPins"
+        );
 
     rack.innerHTML="";
+
 
     [
         [0],
@@ -956,26 +1335,37 @@ function renderPins(){
         [3,4,5]
     ].forEach(indexes=>{
 
-        const row=document.createElement("div");
+        const row=
+            document.createElement(
+                "div"
+            );
 
         row.className="pin-row";
 
+
         indexes.forEach(i=>{
 
-            const pin=document.createElement("div");
+            const pin=
+                document.createElement(
+                    "div"
+                );
 
             pin.className="pin";
+
 
             if(!pins[i]){
                 pin.classList.add("down");
             }
 
+
             if(splitPins[i]){
                 pin.classList.add("split");
             }
 
+
             row.appendChild(pin);
         });
+
 
         rack.appendChild(row);
     });
@@ -989,6 +1379,7 @@ function renderPins(){
 function changeBackground(value){
 
     const backgrounds={
+
         dark:"#111",
         blue:"#06152e",
         green:"#062414",
@@ -996,7 +1387,9 @@ function changeBackground(value){
         red:"#2e0606"
     };
 
+
     if(backgrounds[value]){
+
         document.body.style.background=
             backgrounds[value];
     }
@@ -1014,17 +1407,21 @@ function sendState(){
     if(connection.open){
 
         connection.send({
+
             type:"state",
 
             players:[...players],
 
-            currentPlayer:currentPlayer,
+            currentPlayer:
+                currentPlayer,
 
-            gameStarted:gameStarted,
+            gameStarted:
+                gameStarted,
 
-            frames:JSON.parse(
-                JSON.stringify(frames)
-            ),
+            frames:
+                JSON.parse(
+                    JSON.stringify(frames)
+                ),
 
             pins:[...pins],
 
@@ -1040,33 +1437,54 @@ function sendState(){
 
 function handleRemote(data){
 
-    if(!data || !data.type) return;
+    if(!data || !data.type){
+        return;
+    }
+
 
     switch(data.type){
 
         case "roll":
+
             addRoll(data.value);
+
             break;
+
 
         case "strike":
+
             doStrike();
+
             break;
+
 
         case "spare":
+
             doSpare();
+
             break;
+
 
         case "previous":
+
             previousPlayer();
+
             break;
+
 
         case "next":
+
             nextPlayer();
+
             break;
 
+
         case "reset":
+
             resetGame();
+
             break;
+
 
         case "addPlayer":
 
@@ -1075,12 +1493,16 @@ function handleRemote(data){
                 data.name.trim()
             ){
 
-                const name=data.name.trim();
+                const name=
+                    data.name.trim();
+
 
                 if(!players.includes(name)){
 
                     players.push(name);
-                    frames[name]=newFrames();
+
+                    frames[name]=
+                        newFrames();
 
                     renderScore();
                     sendState();
@@ -1088,6 +1510,7 @@ function handleRemote(data){
             }
 
             break;
+
 
         case "removePlayer":
 
@@ -1097,18 +1520,29 @@ function handleRemote(data){
                 data.index<players.length
             ){
 
-                const removed=players[data.index];
+                const removed=
+                    players[data.index];
 
-                players.splice(data.index,1);
+                players.splice(
+                    data.index,
+                    1
+                );
 
                 delete frames[removed];
 
-                if(currentPlayer>=players.length){
-                    currentPlayer=Math.max(
-                        0,
-                        players.length-1
-                    );
+
+                if(
+                    currentPlayer>=
+                    players.length
+                ){
+
+                    currentPlayer=
+                        Math.max(
+                            0,
+                            players.length-1
+                        );
                 }
+
 
                 renderScore();
                 sendState();
@@ -1116,11 +1550,13 @@ function handleRemote(data){
 
             break;
 
+
         case "start":
 
             if(players.length>0){
 
                 gameStarted=true;
+
                 currentPlayer=0;
 
                 renderScore();
@@ -1131,50 +1567,82 @@ function handleRemote(data){
 
             break;
 
+
         case "pinSubmit":
 
             if(Array.isArray(data.pins)){
-                pins=[...data.pins].slice(0,6);
+
+                pins=
+                    [...data.pins]
+                    .slice(0,6);
             }
 
-            if(Array.isArray(data.splitPins)){
-                splitPins=[...data.splitPins].slice(0,6);
+
+            if(
+                Array.isArray(
+                    data.splitPins
+                )
+            ){
+
+                splitPins=
+                    [...data.splitPins]
+                    .slice(0,6);
             }
 
-            while(pins.length<6) pins.push(true);
-            while(splitPins.length<6) splitPins.push(false);
+
+            while(pins.length<6){
+                pins.push(true);
+            }
+
+            while(splitPins.length<6){
+                splitPins.push(false);
+            }
+
 
             renderPins();
             sendState();
 
             break;
+
 
         case "rack":
 
-            pins=Array(6).fill(true);
-            splitPins=Array(6).fill(false);
+            pins=
+                Array(6).fill(true);
+
+            splitPins=
+                Array(6).fill(false);
 
             renderPins();
             sendState();
 
             break;
+
 
         case "clearPins":
 
-            pins=Array(6).fill(false);
-            splitPins=Array(6).fill(false);
+            pins=
+                Array(6).fill(false);
+
+            splitPins=
+                Array(6).fill(false);
 
             renderPins();
             sendState();
 
             break;
 
+
         case "background":
 
-            changeBackground(data.value);
+            changeBackground(
+                data.value
+            );
+
             sendState();
 
             break;
+
 
         case "end":
 
@@ -1183,7 +1651,9 @@ function handleRemote(data){
             showScreen("welcome");
 
             setTimeout(()=>{
+
                 showScreen("home");
+
             },3000);
 
             sendState();
@@ -1204,12 +1674,18 @@ function randomCode(){
 
     let result="";
 
+
     for(let i=0;i<6;i++){
 
-        result+=chars[
-            Math.floor(Math.random()*chars.length)
-        ];
+        result+=
+            chars[
+                Math.floor(
+                    Math.random()*
+                    chars.length
+                )
+            ];
     }
+
 
     return result;
 }
@@ -1217,7 +1693,9 @@ function randomCode(){
 
 function setupPeer(){
 
-    const code=randomCode();
+    const code=
+        randomCode();
+
 
     peer=new Peer(
         "kgl-"+code,
@@ -1226,41 +1704,68 @@ function setupPeer(){
         }
     );
 
-    document.getElementById("remoteCode").textContent=code;
+
+    document.getElementById(
+        "remoteCode"
+    ).textContent=code;
+
 
     peer.on("open",()=>{
 
-        document.getElementById("connectionStatus").textContent=
+        document.getElementById(
+            "connectionStatus"
+        ).textContent=
             "Remote ready — enter this code on the phone.";
     });
 
-    peer.on("connection",conn=>{
+
+    peer.on(
+        "connection",
+        conn=>{
 
         connection=conn;
 
-        document.getElementById("connectionStatus").textContent=
+
+        document.getElementById(
+            "connectionStatus"
+        ).textContent=
             "Phone remote connected ✓";
 
+
         conn.on("open",()=>{
+
             sendState();
         });
 
-        conn.on("data",handleRemote);
+
+        conn.on(
+            "data",
+            handleRemote
+        );
+
 
         conn.on("close",()=>{
 
             connection=null;
 
-            document.getElementById("connectionStatus").textContent=
+
+            document.getElementById(
+                "connectionStatus"
+            ).textContent=
                 "Remote disconnected";
         });
+
     });
+
 
     peer.on("error",error=>{
 
         console.log(error);
 
-        document.getElementById("connectionStatus").textContent=
+
+        document.getElementById(
+            "connectionStatus"
+        ).textContent=
             "Connection error — refresh this page.";
     });
 }
@@ -1274,8 +1779,11 @@ renderPins();
 renderScore();
 setupPeer();
 
+
 setTimeout(()=>{
+
     showScreen("home");
+
 },3000);
 
 </script>
