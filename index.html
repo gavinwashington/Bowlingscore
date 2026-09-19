@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0,viewport-fit=cover"
+>
+
 <title>King Gavin Lanes</title>
 
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
@@ -17,26 +23,30 @@ body{
     margin:0;
     width:100%;
     height:100%;
-    overflow:hidden;
+
     font-family:Arial,Helvetica,sans-serif;
+
     background:#111;
     color:white;
 }
 
 body{
-    min-height:100vh;
-    min-height:100dvh;
-    overscroll-behavior:none;
+    overflow:hidden;
 }
+
+
+/* =========================================================
+   SCREENS
+========================================================= */
 
 .screen{
     display:none;
+
     width:100%;
     height:100vh;
     height:100dvh;
-    min-height:0;
-    padding:clamp(10px,2vw,30px);
-    overflow:hidden;
+
+    padding:30px;
 }
 
 .screen.active{
@@ -49,14 +59,16 @@ button{
 }
 
 
-/* =========================
+/* =========================================================
    WELCOME
-========================= */
+========================================================= */
 
 #welcome{
     display:none;
+
     align-items:center;
     justify-content:center;
+
     text-align:center;
 }
 
@@ -97,215 +109,493 @@ button{
 }
 
 
-/* =========================
-   HOME
-========================= */
+/* =========================================================
+   PRE-GAME / HOME
+========================================================= */
+
+/*
+   IMPORTANT:
+   This screen is intentionally scrollable.
+
+   The Brunswick picture stays at the top.
+   The wireless code is underneath it.
+*/
 
 #home{
     text-align:center;
+
+    height:100vh;
+    height:100dvh;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    padding:0 20px 60px;
 }
+
+
+/* Brunswick picture */
+
+.brunswick-area{
+    width:100%;
+
+    display:flex;
+    justify-content:center;
+
+    padding-top:25px;
+}
+
+
+.brunswick-image{
+    display:block;
+
+    width:min(100%,900px);
+
+    height:auto;
+
+    object-fit:contain;
+
+    border-radius:2px;
+}
+
+
+/* Wireless information */
+
+.home-info{
+    width:min(900px,100%);
+
+    margin:35px auto 0;
+}
+
 
 .logo{
     font-size:clamp(35px,6vw,70px);
-    margin-top:3vh;
-    margin-bottom:2vh;
+
+    margin:0 0 15px;
 }
+
 
 .status{
     opacity:.8;
+
     font-size:clamp(15px,2vw,20px);
+
+    margin-top:15px;
 }
+
+
+.code-label{
+    font-size:clamp(18px,2.5vw,28px);
+
+    font-weight:bold;
+
+    margin-top:35px;
+}
+
 
 .code{
-    font-size:clamp(32px,5vw,60px);
+    font-size:clamp(40px,7vw,75px);
+
     font-weight:bold;
-    letter-spacing:6px;
-    margin:2vh 25px;
+
+    letter-spacing:8px;
+
+    margin:15px 0 25px;
+
+    color:#ffc400;
 }
+
 
 .current{
-    font-size:clamp(20px,2.5vw,26px);
-    margin-top:4vh;
+    font-size:clamp(20px,2.5vw,28px);
+
+    margin-top:35px;
+
+    padding-bottom:40px;
 }
 
 
-/* =========================
+/* =========================================================
+   WARNING OVERLAY
+========================================================= */
+
+#warningOverlay{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:9999;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:25px;
+
+    background:rgba(0,0,0,.88);
+
+    overflow-y:auto;
+}
+
+
+#warningOverlay.active{
+    display:flex;
+}
+
+
+.warning-box{
+
+    width:min(1100px,100%);
+
+    max-height:95vh;
+
+    overflow-y:auto;
+
+    background:#17070a;
+
+    border:5px solid #ff2438;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    box-shadow:
+        0 0 50px rgba(255,0,30,.35);
+}
+
+
+.warning-title{
+
+    text-align:center;
+
+    color:#ff3045;
+
+    font-size:clamp(35px,6vw,70px);
+
+    font-weight:900;
+
+    margin:0 0 25px;
+}
+
+
+.warning-list{
+
+    margin:0;
+
+    padding-left:40px;
+
+    text-align:left;
+
+    font-size:clamp(18px,2.5vw,30px);
+
+    line-height:1.35;
+}
+
+
+.warning-list li{
+    margin-bottom:20px;
+}
+
+
+.warning-final{
+
+    border-top:2px solid #ff3045;
+
+    margin-top:25px;
+
+    padding-top:25px;
+
+    text-align:center;
+
+    font-size:clamp(20px,3vw,34px);
+
+    font-weight:bold;
+
+    color:#ffd900;
+}
+
+
+/* =========================================================
    SCOREBOARD
-========================= */
+========================================================= */
 
 #score{
+
     display:none;
+
     flex-direction:column;
-    padding:clamp(7px,1.2vh,15px) clamp(7px,1.2vw,20px);
+
+    padding:
+        clamp(7px,1.2vh,15px)
+        clamp(7px,1.2vw,20px);
+
+    height:100vh;
+    height:100dvh;
+
+    overflow:hidden;
 }
 
 #score.active{
     display:flex;
 }
 
+
 .score-title{
+
     flex:0 0 auto;
+
     text-align:center;
+
     font-size:clamp(25px,4vw,40px);
-    margin:0 0 clamp(6px,1vh,12px);
+
+    margin:
+        0
+        0
+        clamp(6px,1vh,12px);
 }
 
 
-/*
-   The scoreboard itself now takes
-   the remaining iPad screen height.
-*/
-
 .score-wrap{
+
     flex:1 1 auto;
+
     min-height:0;
+
     width:100%;
 
     overflow-x:auto;
     overflow-y:hidden;
 
     display:flex;
+
     align-items:flex-start;
 }
 
+
 .score-table{
+
     width:100%;
+
     min-width:1000px;
+
     border-collapse:collapse;
+
     table-layout:fixed;
 }
 
+
 .score-table th,
 .score-table td{
+
     border:2px solid white;
+
     text-align:center;
-    padding:clamp(2px,0.4vh,7px);
+
+    padding:clamp(2px,.4vh,7px);
 }
 
+
 .score-table th{
+
     background:#222;
+
     height:clamp(25px,5vh,55px);
+
     font-size:clamp(11px,1.6vw,20px);
 }
 
+
 .player-name{
+
     width:13%;
+
     text-align:left!important;
+
     font-size:clamp(12px,1.8vw,20px);
+
     font-weight:bold;
 }
 
+
 .frame-cell{
+
     height:clamp(55px,10vh,100px);
 }
 
+
 .current-frame{
+
     background:#333;
-    box-shadow:inset 0 0 0 3px white;
+
+    box-shadow:
+        inset 0 0 0 3px white;
 }
 
+
 .rolls{
+
     display:flex;
+
     justify-content:center;
+
     gap:2px;
 }
 
+
 .roll{
+
     width:clamp(20px,2.7vw,31px);
+
     height:clamp(20px,3vh,30px);
 
     border:1px solid #aaa;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
     font-size:clamp(10px,1.4vw,16px);
+
     font-weight:bold;
 }
+
 
 .frame-score{
+
     font-size:clamp(15px,2.2vw,24px);
-    margin-top:clamp(2px,0.7vh,9px);
+
+    margin-top:
+        clamp(2px,.7vh,9px);
 }
 
+
 .total-cell{
+
     width:9%;
+
     font-size:clamp(17px,2.5vw,28px);
+
     font-weight:bold;
 }
+
 
 .active-player{
     background:#333;
 }
 
+
 .message{
+
     flex:0 0 auto;
+
     text-align:center;
+
     font-size:clamp(14px,1.8vw,22px);
-    margin-top:clamp(5px,1vh,12px);
-    height:clamp(22px,4vh,35px);
+
+    margin-top:
+        clamp(5px,1vh,12px);
+
+    height:
+        clamp(22px,4vh,35px);
+
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 }
 
 
-/* =========================
+/* =========================================================
    PINSETTER
-========================= */
+========================================================= */
 
-.pinsetter{
+#pinsetter{
     text-align:center;
 }
 
 .pin-rack{
+
     display:flex;
+
     flex-direction:column;
+
     align-items:center;
+
     gap:10px;
+
     margin-top:35px;
 }
 
+
 .pin-row{
+
     display:flex;
+
     gap:18px;
 }
 
+
 .pin{
+
     width:55px;
+
     height:75px;
+
     border:4px solid white;
+
     border-radius:50% 50% 45% 45%;
+
     background:white;
+
     position:relative;
 }
 
+
 .pin.down{
+
     background:#555;
+
     border-color:#777;
 }
 
+
 .pin.split{
+
     border-color:red;
 }
 
+
 .pin.split:after{
+
     content:"";
+
     width:12px;
+
     height:12px;
+
     border-radius:50%;
+
     background:red;
+
     position:absolute;
+
     left:50%;
+
     top:50%;
-    transform:translate(-50%,-50%);
+
+    transform:
+        translate(-50%,-50%);
 }
 
 
-/* =========================
-   IPAD LANDSCAPE
-========================= */
+/* =========================================================
+   LANDSCAPE / SHORT SCREENS
+========================================================= */
 
 @media (orientation:landscape){
 
@@ -331,10 +621,6 @@ button{
     }
 }
 
-
-/* =========================
-   SMALL HEIGHT SCREENS
-========================= */
 
 @media (max-height:600px){
 
@@ -373,17 +659,22 @@ button{
         margin-top:2px;
     }
 }
+
 </style>
 </head>
+
 
 <body>
 
 
-<!-- =========================
+<!-- =======================================================
      WELCOME
-========================= -->
+======================================================= -->
 
-<section id="welcome" class="screen active">
+<section
+    id="welcome"
+    class="screen active"
+>
 
     <div class="welcome-box">
 
@@ -400,49 +691,96 @@ button{
 </section>
 
 
-<!-- =========================
-     HOME
-========================= -->
 
-<section id="home" class="screen">
+<!-- =======================================================
+     HOME / BRUNSWICK SCREEN
+======================================================= -->
 
-    <h1 class="logo">
-        🎳 King Gavin Lanes
-    </h1>
+<section
+    id="home"
+    class="screen"
+>
 
-    <div
-        class="status"
-        id="connectionStatus"
-    >
-        Starting...
+
+    <!-- Brunswick picture -->
+
+    <div class="brunswick-area">
+
+        <img
+            class="brunswick-image"
+            src="IMG_0419(1).jpeg"
+            alt="Brunswick Experience is Everything"
+        >
+
     </div>
 
-    <div
-        class="code"
-        id="remoteCode"
-    >
-        ------
-    </div>
 
-    <div
-        class="current"
-        id="homeCurrent"
-    >
-        No game started
+
+    <!-- Information BELOW picture -->
+
+    <div class="home-info">
+
+
+        <h1 class="logo">
+            🎳 King Gavin Lanes
+        </h1>
+
+
+        <div
+            class="status"
+            id="connectionStatus"
+        >
+            Starting...
+        </div>
+
+
+        <div class="code-label">
+            WIRELESS REMOTE CODE
+        </div>
+
+
+        <div
+            class="code"
+            id="remoteCode"
+        >
+            ------
+        </div>
+
+
+        <div class="status">
+            Open the remote on your phone
+            and enter this code to connect.
+        </div>
+
+
+        <div
+            class="current"
+            id="homeCurrent"
+        >
+            Waiting for players...
+        </div>
+
+
     </div>
 
 </section>
 
 
-<!-- =========================
-     SCORE
-========================= -->
 
-<section id="score" class="screen">
+<!-- =======================================================
+     SCOREBOARD
+======================================================= -->
+
+<section
+    id="score"
+    class="screen"
+>
+
 
     <h1 class="score-title">
         🎳 King Gavin Lanes
     </h1>
+
 
     <div class="score-wrap">
 
@@ -475,11 +813,15 @@ button{
 
             </thead>
 
-            <tbody id="scoreBody"></tbody>
+
+            <tbody
+                id="scoreBody"
+            ></tbody>
 
         </table>
 
     </div>
+
 
     <div
         class="message"
@@ -489,15 +831,20 @@ button{
 </section>
 
 
-<!-- =========================
-     PINSETTER
-========================= -->
 
-<section id="pinsetter" class="screen">
+<!-- =======================================================
+     PINSETTER
+======================================================= -->
+
+<section
+    id="pinsetter"
+    class="screen"
+>
 
     <h1 class="score-title">
         Pinsetter
     </h1>
+
 
     <div
         class="pin-rack"
@@ -507,35 +854,139 @@ button{
 </section>
 
 
+
+<!-- =======================================================
+     WARNING POPUP
+======================================================= -->
+
+<div
+    id="warningOverlay"
+>
+
+    <div class="warning-box">
+
+
+        <h1 class="warning-title">
+            ⚠️ WARNING
+        </h1>
+
+
+        <ol class="warning-list">
+
+            <li>
+                Do not throw the ball higher than
+                the human bowling.
+            </li>
+
+
+            <li>
+                Please do not cross the foul line.
+                You can risk injuring yourself and
+                may end up worse depending on your
+                mistake.
+            </li>
+
+
+            <li>
+                Once the game is done
+                <strong>ITS DONE.</strong>
+                Do not throw your ball again or else
+                you won't get it back until the next
+                game is paid for.
+            </li>
+
+
+            <li>
+                <strong>
+                    No diving into the machine.
+                </strong>
+                You could risk serious injuries
+                requiring emergency services or
+                potentially life-threatening harm.
+            </li>
+
+        </ol>
+
+
+        <div class="warning-final">
+
+            You may press
+            <strong>
+                Start Bowling Again
+            </strong>
+            to begin.
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
 <script>
 
+
+/* =========================================================
+   CONSTANTS
+========================================================= */
+
 const PIN_COUNT=6;
+
 const FRAME_COUNT=10;
 
+
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
 let players=[];
+
 let currentPlayer=0;
+
 let gameStarted=false;
 
 let frames={};
 
 let pins=Array(6).fill(true);
+
 let splitPins=Array(6).fill(false);
 
 let peer=null;
+
 let connection=null;
 
 
-/* =========================
+/*
+   This controls the new two-step
+   Start Bowling system.
+
+   false = warning has not appeared yet
+
+   true = warning already shown,
+          second Start Bowling can begin
+*/
+
+let warningShown=false;
+
+
+
+/* =========================================================
    SCREEN
-========================= */
+========================================================= */
 
 function showScreen(id){
 
     document
         .querySelectorAll(".screen")
         .forEach(s=>{
+
             s.classList.remove("active");
+
         });
+
 
     document
         .getElementById(id)
@@ -543,35 +994,72 @@ function showScreen(id){
 }
 
 
-/* =========================
+
+/* =========================================================
+   WARNING
+========================================================= */
+
+function showWarning(){
+
+    document
+        .getElementById(
+            "warningOverlay"
+        )
+        .classList.add("active");
+
+}
+
+
+function hideWarning(){
+
+    document
+        .getElementById(
+            "warningOverlay"
+        )
+        .classList.remove("active");
+
+}
+
+
+
+/* =========================================================
    PLAYER FRAMES
-========================= */
+========================================================= */
 
 function newFrames(){
 
     return Array.from(
         {length:FRAME_COUNT},
-        ()=>({rolls:[]})
+
+        ()=>({
+            rolls:[]
+        })
     );
 }
+
 
 function ensurePlayer(name){
 
     if(!frames[name]){
-        frames[name]=newFrames();
+
+        frames[name]=
+            newFrames();
+
     }
 }
 
 
-/* =========================
+
+/* =========================================================
    FLATTEN ROLLS
-========================= */
+========================================================= */
 
 function flattenRolls(name){
 
     ensurePlayer(name);
 
     let result=[];
+
 
     for(let f=0;f<10;f++){
 
@@ -581,36 +1069,57 @@ function flattenRolls(name){
         ){
 
             if(roll==="X"){
+
                 result.push(6);
+
             }else{
-                result.push(Number(roll));
+
+                result.push(
+                    Number(roll)
+                );
+
             }
         }
     }
+
 
     return result;
 }
 
 
-/* =========================
+
+/* =========================================================
    SCORING
-========================= */
+========================================================= */
 
 function calculateFrameScores(name){
 
     ensurePlayer(name);
 
-    const all=flattenRolls(name);
 
-    const result=Array(10).fill(null);
+    const all=
+        flattenRolls(name);
+
+
+    const result=
+        Array(10).fill(null);
+
 
     let index=0;
 
-    for(let frame=0;frame<10;frame++){
+
+    for(
+        let frame=0;
+        frame<10;
+        frame++
+    ){
 
         if(index>=all.length){
+
             break;
+
         }
+
 
         /* 10TH FRAME */
 
@@ -618,21 +1127,29 @@ function calculateFrameScores(name){
 
             let total=0;
 
+
             for(
                 let i=index;
                 i<all.length;
                 i++
             ){
+
                 total+=all[i];
+
             }
+
 
             result[frame]=
                 Math.min(total,18);
 
+
             break;
         }
 
-        const first=all[index];
+
+        const first=
+            all[index];
+
 
         /* STRIKE */
 
@@ -640,24 +1157,36 @@ function calculateFrameScores(name){
 
             let score=6;
 
+
             if(
                 all[index+1]!==undefined
             ){
-                score+=all[index+1];
+
+                score+=
+                    all[index+1];
+
             }
+
 
             if(
                 all[index+2]!==undefined
             ){
-                score+=all[index+2];
+
+                score+=
+                    all[index+2];
+
             }
+
 
             result[frame]=score;
 
+
             index++;
+
 
             continue;
         }
+
 
         /* ONE ROLL ONLY */
 
@@ -670,19 +1199,29 @@ function calculateFrameScores(name){
             break;
         }
 
-        const second=all[index+1];
+
+        const second=
+            all[index+1];
+
 
         /* SPARE */
 
-        if(first+second===6){
+        if(
+            first+second===6
+        ){
 
             let score=6;
+
 
             if(
                 all[index+2]!==undefined
             ){
-                score+=all[index+2];
+
+                score+=
+                    all[index+2];
+
             }
+
 
             result[frame]=score;
 
@@ -694,11 +1233,14 @@ function calculateFrameScores(name){
                 first+second;
         }
 
+
         index+=2;
     }
 
+
     return result;
 }
+
 
 
 function calculateTotal(name){
@@ -706,7 +1248,9 @@ function calculateTotal(name){
     const scores=
         calculateFrameScores(name);
 
+
     let total=0;
+
 
     for(
         const score
@@ -714,114 +1258,176 @@ function calculateTotal(name){
     ){
 
         if(score!==null){
+
             total+=score;
+
         }
     }
 
-    return Math.min(total,180);
+
+    return Math.min(
+        total,
+        180
+    );
 }
 
 
-/* =========================
+
+/* =========================================================
    CURRENT FRAME
-========================= */
+========================================================= */
 
 function getCurrentFrame(name){
 
     ensurePlayer(name);
 
-    for(let f=0;f<9;f++){
+
+    for(
+        let f=0;
+        f<9;
+        f++
+    ){
 
         const rolls=
             frames[name][f].rolls;
 
-        if(rolls.length===0){
+
+        if(
+            rolls.length===0
+        ){
+
             return f;
+
         }
 
-        if(rolls[0]==="X"){
+
+        if(
+            rolls[0]==="X"
+        ){
+
             continue;
+
         }
 
-        if(rolls.length<2){
+
+        if(
+            rolls.length<2
+        ){
+
             return f;
+
         }
     }
+
 
     return 9;
 }
 
 
-/* =========================
+
+/* =========================================================
    ROLL
-========================= */
+========================================================= */
 
 function addRoll(value){
 
     if(!gameStarted) return;
+
     if(players.length===0) return;
+
 
     value=Math.max(
         0,
-        Math.min(6,Number(value))
+        Math.min(
+            6,
+            Number(value)
+        )
     );
+
 
     const name=
         players[currentPlayer];
 
+
     ensurePlayer(name);
+
 
     const frameIndex=
         getCurrentFrame(name);
+
 
     const frame=
         frames[name][frameIndex];
 
 
-    /* 10TH FRAME */
+    /* =====================================================
+       10TH FRAME
+    ===================================================== */
 
     if(frameIndex===9){
 
-        if(frame.rolls.length===0){
+        if(
+            frame.rolls.length===0
+        ){
 
             if(value===6){
+
                 frame.rolls.push("X");
+
             }else{
+
                 frame.rolls.push(value);
+
             }
 
+
             renderScore();
+
             sendState();
 
             return;
         }
 
 
-        if(frame.rolls.length===1){
+        if(
+            frame.rolls.length===1
+        ){
 
             const first=
                 frame.rolls[0];
 
+
             if(first==="X"){
 
                 if(value===6){
+
                     frame.rolls.push("X");
+
                 }else{
+
                     frame.rolls.push(value);
+
                 }
 
+
                 renderScore();
+
                 sendState();
 
                 return;
             }
 
+
             const remaining=
                 6-Number(first);
 
+
             if(value>remaining){
+
                 value=remaining;
+
             }
+
 
             frame.rolls.push(value);
 
@@ -835,20 +1441,27 @@ function addRoll(value){
             }else{
 
                 renderScore();
+
                 sendState();
+
             }
+
 
             return;
         }
 
 
-        if(frame.rolls.length===2){
+        if(
+            frame.rolls.length===2
+        ){
 
             const first=
                 frame.rolls[0];
 
+
             const second=
                 frame.rolls[1];
+
 
             const bonus=
                 first==="X" ||
@@ -858,101 +1471,142 @@ function addRoll(value){
                     Number(second)===6
                 );
 
+
             if(bonus){
 
                 if(value===6){
+
                     frame.rolls.push("X");
+
                 }else{
+
                     frame.rolls.push(value);
+
                 }
             }
+
 
             nextPlayer();
 
             return;
         }
 
+
         return;
     }
 
 
-    /* FIRST ROLL */
 
-    if(frame.rolls.length===0){
+    /* =====================================================
+       FIRST ROLL
+    ===================================================== */
+
+    if(
+        frame.rolls.length===0
+    ){
 
         /*
-           SIX IS ALWAYS A STRIKE.
+           6 IS ALWAYS A STRIKE.
         */
 
         if(value===6){
 
             frame.rolls.push("X");
 
+
             renderScore();
+
             sendState();
 
+
             setTimeout(()=>{
+
                 nextPlayer();
+
             },50);
+
 
             return;
         }
 
+
         frame.rolls.push(value);
 
+
         renderScore();
+
         sendState();
+
 
         return;
     }
 
 
-    /* SECOND ROLL */
 
-    if(frame.rolls.length===1){
+    /* =====================================================
+       SECOND ROLL
+    ===================================================== */
+
+    if(
+        frame.rolls.length===1
+    ){
 
         const first=
             Number(frame.rolls[0]);
 
-        /*
-           Never allow a frame
-           to exceed six pins.
-        */
 
-        if(first+value>6){
-            value=6-first;
+        if(
+            first+value>6
+        ){
+
+            value=
+                6-first;
+
         }
+
 
         frame.rolls.push(value);
 
+
         renderScore();
+
         sendState();
 
+
         setTimeout(()=>{
+
             nextPlayer();
+
         },50);
+
 
         return;
     }
 }
 
 
-/* =========================
+
+/* =========================================================
    STRIKE
-========================= */
+========================================================= */
 
 function doStrike(){
 
     if(!gameStarted) return;
+
     if(players.length===0) return;
+
 
     const name=
         players[currentPlayer];
 
+
     ensurePlayer(name);
+
 
     const frameIndex=
         getCurrentFrame(name);
+
 
     const frame=
         frames[name][frameIndex];
@@ -971,14 +1625,19 @@ function doStrike(){
 
     if(frameIndex===9){
 
-        if(frame.rolls.length===0){
+        if(
+            frame.rolls.length===0
+        ){
 
             addRoll(6);
 
             return;
         }
 
-        if(frame.rolls[0]==="X"){
+
+        if(
+            frame.rolls[0]==="X"
+        ){
 
             addRoll(6);
 
@@ -988,110 +1647,130 @@ function doStrike(){
 }
 
 
-/* =========================
+
+/* =========================================================
    SPARE
-========================= */
+========================================================= */
 
 function doSpare(){
 
     if(!gameStarted) return;
+
     if(players.length===0) return;
+
 
     const name=
         players[currentPlayer];
 
+
     ensurePlayer(name);
+
 
     const frameIndex=
         getCurrentFrame(name);
+
 
     const frame=
         frames[name][frameIndex];
 
 
-    /*
-       A spare requires exactly
-       one first roll.
-    */
+    if(
+        frame.rolls.length!==1
+    ){
 
-    if(frame.rolls.length!==1){
         return;
+
     }
 
-    /*
-       A strike cannot become
-       a spare.
-    */
 
-    if(frame.rolls[0]==="X"){
+    if(
+        frame.rolls[0]==="X"
+    ){
+
         return;
+
     }
+
 
     const first=
         Number(frame.rolls[0]);
 
 
     /*
-       SIX = STRIKE.
-       Spare is impossible.
+       6 was already a strike.
+       It cannot become a spare.
     */
 
     if(first===6){
+
         return;
+
     }
 
 
     const remaining=
         6-first;
 
+
     addRoll(remaining);
 }
 
 
-/* =========================
+
+/* =========================================================
    PLAYER TURN
-========================= */
+========================================================= */
 
 function nextPlayer(){
 
-    if(players.length===0){
-        return;
-    }
+    if(players.length===0) return;
+
 
     currentPlayer++;
+
 
     if(
         currentPlayer>=players.length
     ){
+
         currentPlayer=0;
+
     }
 
+
     renderScore();
+
     sendState();
 }
+
 
 
 function previousPlayer(){
 
-    if(players.length===0){
-        return;
-    }
+    if(players.length===0) return;
+
 
     currentPlayer--;
 
+
     if(currentPlayer<0){
+
         currentPlayer=
             players.length-1;
+
     }
 
+
     renderScore();
+
     sendState();
 }
 
 
-/* =========================
+
+/* =========================================================
    RESET
-========================= */
+========================================================= */
 
 function resetGame(){
 
@@ -1099,40 +1778,61 @@ function resetGame(){
 
         frames[name]=
             newFrames();
+
     });
+
 
     currentPlayer=0;
 
+
     renderScore();
+
     sendState();
 }
 
 
-/* =========================
+
+/* =========================================================
    DISPLAY ROLL
-========================= */
+========================================================= */
 
 function formatRoll(roll){
 
-    if(roll===undefined){
+    if(
+        roll===undefined
+    ){
+
         return "";
+
     }
 
-    if(roll==="X"){
+
+    if(
+        roll==="X"
+    ){
+
         return "X";
+
     }
 
-    if(Number(roll)===0){
+
+    if(
+        Number(roll)===0
+    ){
+
         return "-";
+
     }
+
 
     return String(roll);
 }
 
 
-/* =========================
+
+/* =========================================================
    SCORE DISPLAY
-========================= */
+========================================================= */
 
 function renderScore(){
 
@@ -1141,37 +1841,54 @@ function renderScore(){
             "scoreBody"
         );
 
+
     body.innerHTML="";
 
 
     players.forEach(
         (name,playerIndex)=>{
 
+
         ensurePlayer(name);
 
+
         const row=
-            document.createElement("tr");
+            document.createElement(
+                "tr"
+            );
 
 
         /* PLAYER */
 
         const nameCell=
-            document.createElement("td");
+            document.createElement(
+                "td"
+            );
+
 
         nameCell.className=
             "player-name";
 
+
         if(
-            playerIndex===currentPlayer
+            playerIndex===
+            currentPlayer
         ){
+
             nameCell.classList.add(
                 "active-player"
             );
+
         }
+
 
         nameCell.textContent=name;
 
-        row.appendChild(nameCell);
+
+        row.appendChild(
+            nameCell
+        );
+
 
 
         /* FRAMES */
@@ -1180,10 +1897,17 @@ function renderScore(){
             calculateFrameScores(name);
 
 
-        for(let f=0;f<10;f++){
+        for(
+            let f=0;
+            f<10;
+            f++
+        ){
 
             const cell=
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
+
 
             cell.className=
                 "frame-cell";
@@ -1191,13 +1915,15 @@ function renderScore(){
 
             if(
                 gameStarted &&
-                playerIndex===currentPlayer &&
+                playerIndex===
+                    currentPlayer &&
                 getCurrentFrame(name)===f
             ){
 
                 cell.classList.add(
                     "current-frame"
                 );
+
             }
 
 
@@ -1206,9 +1932,13 @@ function renderScore(){
 
 
             const rollsDiv=
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
-            rollsDiv.className="rolls";
+
+            rollsDiv.className=
+                "rolls";
 
 
             const amount=
@@ -1226,12 +1956,16 @@ function renderScore(){
                         "div"
                     );
 
-                roll.className="roll";
+
+                roll.className=
+                    "roll";
+
 
                 roll.textContent=
                     formatRoll(
                         rolls[r]
                     );
+
 
                 rollsDiv.appendChild(
                     roll
@@ -1245,16 +1979,22 @@ function renderScore(){
 
 
             const score=
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             score.className=
                 "frame-score";
 
 
-            if(scores[f]!==null){
+            if(
+                scores[f]!==null
+            ){
 
                 score.textContent=
                     scores[f];
+
             }
 
 
@@ -1262,25 +2002,41 @@ function renderScore(){
                 score
             );
 
-            row.appendChild(cell);
+
+            row.appendChild(
+                cell
+            );
         }
+
 
 
         /* TOTAL */
 
         const total=
-            document.createElement("td");
+            document.createElement(
+                "td"
+            );
+
 
         total.className=
             "total-cell";
 
+
         total.textContent=
             calculateTotal(name);
 
-        row.appendChild(total);
 
-        body.appendChild(row);
+        row.appendChild(
+            total
+        );
+
+
+        body.appendChild(
+            row
+        );
+
     });
+
 
 
     if(players.length){
@@ -1298,7 +2054,7 @@ function renderScore(){
             gameStarted
                 ? "Current player: "+
                   players[currentPlayer]
-                : "Game not started";
+                : "Waiting to start...";
 
     }else{
 
@@ -1307,17 +2063,19 @@ function renderScore(){
         ).textContent=
             "Add players from the phone.";
 
+
         document.getElementById(
             "homeCurrent"
         ).textContent=
-            "No players";
+            "Waiting for players...";
     }
 }
 
 
-/* =========================
+
+/* =========================================================
    PINS
-========================= */
+========================================================= */
 
 function renderPins(){
 
@@ -1326,83 +2084,119 @@ function renderPins(){
             "tvPins"
         );
 
+
     rack.innerHTML="";
 
 
     [
+
         [0],
+
         [1,2],
+
         [3,4,5]
+
     ].forEach(indexes=>{
+
 
         const row=
             document.createElement(
                 "div"
             );
 
-        row.className="pin-row";
+
+        row.className=
+            "pin-row";
 
 
         indexes.forEach(i=>{
+
 
             const pin=
                 document.createElement(
                     "div"
                 );
 
-            pin.className="pin";
+
+            pin.className=
+                "pin";
 
 
             if(!pins[i]){
-                pin.classList.add("down");
+
+                pin.classList.add(
+                    "down"
+                );
+
             }
 
 
             if(splitPins[i]){
-                pin.classList.add("split");
+
+                pin.classList.add(
+                    "split"
+                );
+
             }
 
 
-            row.appendChild(pin);
+            row.appendChild(
+                pin
+            );
+
         });
 
 
-        rack.appendChild(row);
+        rack.appendChild(
+            row
+        );
+
     });
 }
 
 
-/* =========================
+
+/* =========================================================
    BACKGROUND
-========================= */
+========================================================= */
 
 function changeBackground(value){
 
     const backgrounds={
 
         dark:"#111",
+
         blue:"#06152e",
+
         green:"#062414",
+
         purple:"#19062e",
+
         red:"#2e0606"
+
     };
 
 
-    if(backgrounds[value]){
+    if(
+        backgrounds[value]
+    ){
 
         document.body.style.background=
             backgrounds[value];
+
     }
 }
 
 
-/* =========================
+
+/* =========================================================
    SEND STATE
-========================= */
+========================================================= */
 
 function sendState(){
 
     if(!connection) return;
+
 
     if(connection.open){
 
@@ -1410,7 +2204,9 @@ function sendState(){
 
             type:"state",
 
-            players:[...players],
+            players:[
+                ...players
+            ],
 
             currentPlayer:
                 currentPlayer,
@@ -1423,33 +2219,65 @@ function sendState(){
                     JSON.stringify(frames)
                 ),
 
-            pins:[...pins],
+            pins:[
+                ...pins
+            ],
 
-            splitPins:[...splitPins]
+            splitPins:[
+                ...splitPins
+            ],
+
+            /*
+               Tell the remote whether
+               the safety warning has already
+               been shown.
+            */
+
+            warningShown:
+                warningShown
         });
+
     }
 }
 
 
-/* =========================
+
+/* =========================================================
    REMOTE COMMANDS
-========================= */
+========================================================= */
 
 function handleRemote(data){
 
-    if(!data || !data.type){
+    if(
+        !data ||
+        !data.type
+    ){
+
         return;
+
     }
 
 
     switch(data.type){
 
+
+        /* =========================
+           ROLL
+        ========================= */
+
         case "roll":
 
-            addRoll(data.value);
+            addRoll(
+                data.value
+            );
 
             break;
 
+
+
+        /* =========================
+           STRIKE
+        ========================= */
 
         case "strike":
 
@@ -1458,12 +2286,22 @@ function handleRemote(data){
             break;
 
 
+
+        /* =========================
+           SPARE
+        ========================= */
+
         case "spare":
 
             doSpare();
 
             break;
 
+
+
+        /* =========================
+           PREVIOUS
+        ========================= */
 
         case "previous":
 
@@ -1472,12 +2310,22 @@ function handleRemote(data){
             break;
 
 
+
+        /* =========================
+           NEXT
+        ========================= */
+
         case "next":
 
             nextPlayer();
 
             break;
 
+
+
+        /* =========================
+           RESET
+        ========================= */
 
         case "reset":
 
@@ -1486,10 +2334,16 @@ function handleRemote(data){
             break;
 
 
+
+        /* =========================
+           ADD PLAYER
+        ========================= */
+
         case "addPlayer":
 
             if(
-                typeof data.name==="string" &&
+                typeof data.name===
+                    "string" &&
                 data.name.trim()
             ){
 
@@ -1497,25 +2351,43 @@ function handleRemote(data){
                     data.name.trim();
 
 
-                if(!players.includes(name)){
+                if(
+                    !players.includes(
+                        name
+                    )
+                ){
 
-                    players.push(name);
+                    players.push(
+                        name
+                    );
+
 
                     frames[name]=
                         newFrames();
 
+
                     renderScore();
+
                     sendState();
+
                 }
+
             }
 
             break;
 
 
+
+        /* =========================
+           REMOVE PLAYER
+        ========================= */
+
         case "removePlayer":
 
             if(
-                Number.isInteger(data.index) &&
+                Number.isInteger(
+                    data.index
+                ) &&
                 data.index>=0 &&
                 data.index<players.length
             ){
@@ -1523,12 +2395,16 @@ function handleRemote(data){
                 const removed=
                     players[data.index];
 
+
                 players.splice(
                     data.index,
                     1
                 );
 
-                delete frames[removed];
+
+                delete frames[
+                    removed
+                ];
 
 
                 if(
@@ -1541,40 +2417,118 @@ function handleRemote(data){
                             0,
                             players.length-1
                         );
+
                 }
 
 
                 renderScore();
+
                 sendState();
+
             }
 
             break;
 
 
+
+        /* =================================================
+           START BOWLING
+
+           FIRST PRESS:
+           Show warning.
+
+           SECOND PRESS:
+           Actually start game.
+        ================================================= */
+
         case "start":
 
-            if(players.length>0){
+
+            /*
+               If the game is already
+               running, ignore it.
+            */
+
+            if(gameStarted){
+
+                break;
+
+            }
+
+
+            /*
+               FIRST PRESS
+            */
+
+            if(!warningShown){
+
+                warningShown=true;
+
+
+                showWarning();
+
+
+                /*
+                   Send state so the remote
+                   can change its button.
+                */
+
+                sendState();
+
+
+                break;
+            }
+
+
+            /*
+               SECOND PRESS
+            */
+
+            warningShown=false;
+
+            hideWarning();
+
+
+            if(
+                players.length>0
+            ){
 
                 gameStarted=true;
 
                 currentPlayer=0;
 
+
                 renderScore();
+
                 sendState();
 
-                showScreen("score");
+
+                showScreen(
+                    "score"
+                );
+
             }
 
             break;
 
 
+
+        /* =========================
+           PIN SUBMIT
+        ========================= */
+
         case "pinSubmit":
 
-            if(Array.isArray(data.pins)){
+            if(
+                Array.isArray(
+                    data.pins
+                )
+            ){
 
                 pins=
                     [...data.pins]
                     .slice(0,6);
+
             }
 
 
@@ -1587,51 +2541,83 @@ function handleRemote(data){
                 splitPins=
                     [...data.splitPins]
                     .slice(0,6);
+
             }
 
 
-            while(pins.length<6){
+            while(
+                pins.length<6
+            ){
+
                 pins.push(true);
+
             }
 
-            while(splitPins.length<6){
+
+            while(
+                splitPins.length<6
+            ){
+
                 splitPins.push(false);
+
             }
 
 
             renderPins();
+
             sendState();
 
             break;
 
+
+
+        /* =========================
+           RACK
+        ========================= */
 
         case "rack":
 
             pins=
                 Array(6).fill(true);
 
+
             splitPins=
                 Array(6).fill(false);
 
+
             renderPins();
+
             sendState();
 
             break;
 
+
+
+        /* =========================
+           CLEAR PINS
+        ========================= */
 
         case "clearPins":
 
             pins=
                 Array(6).fill(false);
 
+
             splitPins=
                 Array(6).fill(false);
 
+
             renderPins();
+
             sendState();
 
             break;
 
+
+
+        /* =========================
+           BACKGROUND
+        ========================= */
 
         case "background":
 
@@ -1644,38 +2630,62 @@ function handleRemote(data){
             break;
 
 
+
+        /* =========================
+           END GAME
+        ========================= */
+
         case "end":
 
             gameStarted=false;
 
-            showScreen("welcome");
+            warningShown=false;
 
-            setTimeout(()=>{
 
-                showScreen("home");
+            hideWarning();
 
-            },3000);
+
+            /*
+               Return to the Brunswick
+               screen.
+
+               It stays there forever
+               until another Start Bowling
+               sequence begins.
+            */
+
+            showScreen(
+                "home"
+            );
+
 
             sendState();
 
             break;
+
     }
 }
 
 
-/* =========================
+
+/* =========================================================
    PEER
-========================= */
+========================================================= */
 
 function randomCode(){
 
     const chars=
         "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
+
     let result="";
 
 
-    for(let i=0;i<6;i++){
+    for(
+        let i=0;
+        i<6;
+        i++
+    ){
 
         result+=
             chars[
@@ -1684,11 +2694,13 @@ function randomCode(){
                     chars.length
                 )
             ];
+
     }
 
 
     return result;
 }
+
 
 
 function setupPeer(){
@@ -1707,21 +2719,29 @@ function setupPeer(){
 
     document.getElementById(
         "remoteCode"
-    ).textContent=code;
+    ).textContent=
+        code;
 
 
-    peer.on("open",()=>{
 
-        document.getElementById(
-            "connectionStatus"
-        ).textContent=
-            "Remote ready — enter this code on the phone.";
-    });
+    peer.on(
+        "open",
+        ()=>{
+
+            document.getElementById(
+                "connectionStatus"
+            ).textContent=
+                "Remote ready — enter this code on the phone.";
+
+        }
+    );
+
 
 
     peer.on(
         "connection",
         conn=>{
+
 
         connection=conn;
 
@@ -1732,10 +2752,14 @@ function setupPeer(){
             "Phone remote connected ✓";
 
 
-        conn.on("open",()=>{
+        conn.on(
+            "open",
+            ()=>{
 
-            sendState();
-        });
+                sendState();
+
+            }
+        );
 
 
         conn.on(
@@ -1744,47 +2768,69 @@ function setupPeer(){
         );
 
 
-        conn.on("close",()=>{
+        conn.on(
+            "close",
+            ()=>{
 
-            connection=null;
+                connection=null;
+
+
+                document.getElementById(
+                    "connectionStatus"
+                ).textContent=
+                    "Remote disconnected";
+
+            }
+        );
+
+    });
+
+
+
+    peer.on(
+        "error",
+        error=>{
+
+            console.log(
+                error
+            );
 
 
             document.getElementById(
                 "connectionStatus"
             ).textContent=
-                "Remote disconnected";
-        });
+                "Connection error — refresh this page.";
 
-    });
-
-
-    peer.on("error",error=>{
-
-        console.log(error);
-
-
-        document.getElementById(
-            "connectionStatus"
-        ).textContent=
-            "Connection error — refresh this page.";
-    });
+        }
+    );
 }
 
 
-/* =========================
+
+/* =========================================================
    START
-========================= */
+========================================================= */
 
 renderPins();
+
 renderScore();
+
 setupPeer();
 
 
-setTimeout(()=>{
+/*
+   IMPORTANT:
 
-    showScreen("home");
+   There is NO automatic switch
+   away from the Brunswick screen.
 
-},3000);
+   It stays until Start Bowling
+   is pressed from the remote.
+*/
+
+showScreen(
+    "home"
+);
 
 </script>
 
