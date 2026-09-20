@@ -2,18 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,initial-scale=1.0,viewport-fit=cover"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>King Gavin Lanes</title>
 
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
-
 *{
     box-sizing:border-box;
 }
@@ -23,13 +17,30 @@ body{
     margin:0;
     width:100%;
     height:100%;
+    overflow:hidden;
     font-family:Arial,Helvetica,sans-serif;
     background:#111;
     color:white;
 }
 
 body{
+    min-height:100vh;
+    min-height:100dvh;
+    overscroll-behavior:none;
+}
+
+.screen{
+    display:none;
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    min-height:0;
+    padding:clamp(10px,2vw,30px);
     overflow:hidden;
+}
+
+.screen.active{
+    display:block;
 }
 
 button{
@@ -38,210 +49,159 @@ button{
 }
 
 
-/* =====================================================
-   SCREENS
-===================================================== */
+/* =========================
+   WELCOME
+========================= */
 
-.screen{
+#welcome{
     display:none;
-    width:100%;
-    height:100vh;
-    height:100dvh;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
 }
 
-.screen.active{
-    display:block;
+#welcome.active{
+    display:flex;
+}
+
+.welcome-box{
+    animation:fadeWelcome 3s forwards;
+}
+
+.welcome-box h1{
+    font-size:clamp(38px,7vw,90px);
+    margin:0;
+}
+
+.welcome-box p{
+    font-size:22px;
+}
+
+@keyframes fadeWelcome{
+
+    0%{
+        opacity:0;
+    }
+
+    15%{
+        opacity:1;
+    }
+
+    75%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0;
+    }
 }
 
 
-/* =====================================================
-   HOME / BRUNSWICK
-===================================================== */
+/* =========================
+   HOME
+========================= */
 
 #home{
-    height:100vh;
-    height:100dvh;
-
-    overflow-y:auto;
-    overflow-x:hidden;
-
     text-align:center;
-
-    padding:0 20px 80px;
-}
-
-.brunswick-area{
-    width:100%;
-
-    display:flex;
-    justify-content:center;
-
-    padding-top:25px;
-}
-
-.brunswick-image{
-    display:block;
-
-    width:min(100%,1000px);
-
-    height:auto;
-
-    object-fit:contain;
-
-    border-radius:4px;
-}
-
-.home-info{
-    width:min(950px,100%);
-
-    margin:35px auto 0;
 }
 
 .logo{
     font-size:clamp(35px,6vw,70px);
-
-    margin:0 0 15px;
+    margin-top:3vh;
+    margin-bottom:2vh;
 }
 
 .status{
-    opacity:.85;
-
-    font-size:clamp(15px,2vw,21px);
-
-    margin:12px 0;
-}
-
-.code-label{
-    margin-top:35px;
-
-    font-size:clamp(18px,2.5vw,28px);
-
-    font-weight:bold;
+    opacity:.8;
+    font-size:clamp(15px,2vw,20px);
 }
 
 .code{
-    font-size:clamp(40px,7vw,75px);
-
+    font-size:clamp(32px,5vw,60px);
     font-weight:bold;
-
-    letter-spacing:8px;
-
-    color:#ffc400;
-
-    margin:12px 0 25px;
+    letter-spacing:6px;
+    margin:2vh 25px;
 }
 
 .current{
-    font-size:clamp(20px,2.5vw,28px);
-
-    margin-top:35px;
-
-    padding-bottom:50px;
+    font-size:clamp(20px,2.5vw,26px);
+    margin-top:4vh;
 }
 
 
-/* =====================================================
+/* =========================
    WARNING
-===================================================== */
+========================= */
 
-#warningOverlay{
-    position:fixed;
-
-    inset:0;
-
-    z-index:10000;
-
+#warning{
     display:none;
+    text-align:center;
+    padding:clamp(12px,2vw,30px);
+}
 
+#warning.active{
+    display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
-
-    padding:20px;
-
-    background:rgba(0,0,0,.92);
-
-    overflow:auto;
-}
-
-#warningOverlay.active{
-    display:flex;
-}
-
-.warning-box{
-    width:min(1100px,100%);
-
-    background:#18070a;
-
-    border:5px solid #ff2438;
-
-    border-radius:22px;
-
-    padding:clamp(20px,4vw,45px);
-
-    box-shadow:
-        0 0 60px rgba(255,0,40,.35);
 }
 
 .warning-title{
-    text-align:center;
-
-    color:#ff3045;
-
-    font-size:clamp(35px,6vw,70px);
-
-    margin:0 0 25px;
-
+    color:#ff3333;
+    font-size:clamp(32px,5vw,58px);
     font-weight:900;
+    margin:0 0 clamp(10px,2vh,22px);
 }
 
-.warning-list{
-    margin:0;
-
-    padding-left:35px;
-
+.warning-box{
+    width:min(100%,1100px);
     text-align:left;
-
-    font-size:clamp(17px,2.4vw,29px);
-
-    line-height:1.35;
+    border:3px solid #ff3333;
+    border-radius:14px;
+    padding:clamp(12px,2vw,28px);
+    background:#1b0000;
 }
 
-.warning-list li{
-    margin-bottom:20px;
+.warning-box ol{
+    margin:0;
+    padding-left:clamp(25px,4vw,45px);
 }
 
-.warning-final{
-    border-top:2px solid #ff3045;
+.warning-box li{
+    font-size:clamp(15px,2.1vw,25px);
+    font-weight:bold;
+    margin-bottom:clamp(8px,1.5vh,16px);
+    line-height:1.25;
+}
 
-    margin-top:25px;
+.warning-box li:last-child{
+    margin-bottom:0;
+}
 
-    padding-top:25px;
-
-    text-align:center;
-
-    color:#ffd900;
-
-    font-size:clamp(19px,3vw,34px);
-
+.warning-button{
+    margin-top:clamp(14px,2.5vh,25px);
+    padding:clamp(10px,1.5vh,16px) clamp(20px,4vw,45px);
+    border:0;
+    border-radius:10px;
+    background:#fff;
+    color:#111;
+    font-size:clamp(17px,2.2vw,27px);
     font-weight:bold;
 }
 
+.warning-button:active{
+    transform:scale(.97);
+}
 
-/* =====================================================
+
+/* =========================
    SCOREBOARD
-===================================================== */
+========================= */
 
 #score{
-    height:100vh;
-    height:100dvh;
-
-    padding:
-        8px
-        12px;
-
-    overflow:hidden;
-
+    display:none;
     flex-direction:column;
+    padding:clamp(7px,1.2vh,15px) clamp(7px,1.2vw,20px);
 }
 
 #score.active{
@@ -250,59 +210,45 @@ button{
 
 .score-title{
     flex:0 0 auto;
-
     text-align:center;
-
-    font-size:clamp(25px,4vw,42px);
-
-    margin:0 0 8px;
+    font-size:clamp(25px,4vw,40px);
+    margin:0 0 clamp(6px,1vh,12px);
 }
 
 .score-wrap{
     flex:1 1 auto;
-
     min-height:0;
-
     width:100%;
-
     overflow-x:auto;
     overflow-y:hidden;
+    display:flex;
+    align-items:flex-start;
 }
 
 .score-table{
     width:100%;
-
     min-width:1000px;
-
     border-collapse:collapse;
-
     table-layout:fixed;
 }
 
 .score-table th,
 .score-table td{
     border:2px solid white;
-
     text-align:center;
-
-    padding:4px;
+    padding:clamp(2px,0.4vh,7px);
 }
 
 .score-table th{
     background:#222;
-
-    height:45px;
-
+    height:clamp(25px,5vh,55px);
     font-size:clamp(11px,1.6vw,20px);
 }
 
 .player-name{
     width:13%;
-
     text-align:left!important;
-
     font-size:clamp(12px,1.8vw,20px);
-
     font-weight:bold;
 }
 
@@ -312,48 +258,34 @@ button{
 
 .current-frame{
     background:#333;
-
-    box-shadow:
-        inset 0 0 0 3px white;
+    box-shadow:inset 0 0 0 3px white;
 }
 
 .rolls{
     display:flex;
-
     justify-content:center;
-
     gap:2px;
 }
 
 .roll{
     width:clamp(20px,2.7vw,31px);
-
     height:clamp(20px,3vh,30px);
-
     border:1px solid #aaa;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
     font-size:clamp(10px,1.4vw,16px);
-
     font-weight:bold;
 }
 
 .frame-score{
     font-size:clamp(15px,2.2vw,24px);
-
-    margin-top:5px;
+    margin-top:clamp(2px,0.7vh,9px);
 }
 
 .total-cell{
     width:9%;
-
     font-size:clamp(17px,2.5vw,28px);
-
     font-weight:bold;
 }
 
@@ -363,65 +295,48 @@ button{
 
 .message{
     flex:0 0 auto;
-
     text-align:center;
-
-    height:28px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
     font-size:clamp(14px,1.8vw,22px);
+    margin-top:clamp(5px,1vh,12px);
+    height:clamp(22px,4vh,35px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 
-/* =====================================================
+/* =========================
    PINSETTER
-===================================================== */
+========================= */
 
-#pinsetter{
+.pinsetter{
     text-align:center;
-
-    padding:30px;
 }
 
 .pin-rack{
     display:flex;
-
     flex-direction:column;
-
     align-items:center;
-
     gap:10px;
-
     margin-top:35px;
 }
 
 .pin-row{
     display:flex;
-
     gap:18px;
 }
 
 .pin{
     width:55px;
     height:75px;
-
     border:4px solid white;
-
     border-radius:50% 50% 45% 45%;
-
     background:white;
-
     position:relative;
 }
 
 .pin.down{
     background:#555;
-
     border-color:#777;
 }
 
@@ -431,41 +346,69 @@ button{
 
 .pin.split:after{
     content:"";
-
     width:12px;
     height:12px;
-
     border-radius:50%;
-
     background:red;
-
     position:absolute;
-
     left:50%;
     top:50%;
-
-    transform:
-        translate(-50%,-50%);
+    transform:translate(-50%,-50%);
 }
 
 
-/* =====================================================
-   SMALL SCREENS
-===================================================== */
+/* =========================
+   IPAD LANDSCAPE
+========================= */
 
-@media(max-height:600px){
+@media (orientation:landscape){
+
+    #score{
+        padding-top:6px;
+    }
+
+    .score-title{
+        margin-bottom:6px;
+    }
+
+    .score-table th{
+        height:clamp(25px,5vh,48px);
+    }
+
+    .frame-cell{
+        height:clamp(50px,9vh,85px);
+    }
+
+    .message{
+        margin-top:4px;
+        height:25px;
+    }
+}
+
+
+/* =========================
+   SMALL HEIGHT
+========================= */
+
+@media (max-height:600px){
+
+    #score{
+        padding:4px 7px;
+    }
 
     .score-title{
         font-size:28px;
-        margin-bottom:3px;
+        margin-bottom:4px;
     }
 
     .score-table th{
         height:30px;
+        padding:2px;
     }
 
     .frame-cell{
         height:55px;
+        padding:2px;
     }
 
     .roll{
@@ -479,97 +422,135 @@ button{
     }
 
     .message{
-        height:20px;
         font-size:14px;
+        height:20px;
+        margin-top:2px;
+    }
+
+    .warning-box li{
+        margin-bottom:5px;
+        line-height:1.15;
     }
 }
-
 </style>
 </head>
 
 <body>
 
 
-<!-- =====================================================
-     HOME
-===================================================== -->
+<!-- =========================
+     WELCOME
+========================= -->
 
-<section
-    id="home"
-    class="screen active"
->
+<section id="welcome" class="screen active">
 
-    <div class="brunswick-area">
+    <div class="welcome-box">
 
-        <img
-            src="brunswick.jpeg"
-            class="brunswick-image"
-            alt="Brunswick Experience is Everything"
-        >
-
-    </div>
-
-
-    <div class="home-info">
-
-        <h1 class="logo">
-            🎳 King Gavin Lanes
+        <h1>
+            Welcome To King Gavin Lanes
         </h1>
 
-
-        <div
-            class="status"
-            id="connectionStatus"
-        >
-            Starting...
-        </div>
-
-
-        <div class="code-label">
-            WIRELESS REMOTE CODE
-        </div>
-
-
-        <div
-            class="code"
-            id="remoteCode"
-        >
-            ------
-        </div>
-
-
-        <div class="status">
-            Open the remote on your phone
-            and enter this code to connect.
-        </div>
-
-
-        <div
-            class="current"
-            id="homeCurrent"
-        >
-            Waiting for players...
-        </div>
+        <p>
+            6-Pin Bowling
+        </p>
 
     </div>
 
 </section>
 
 
+<!-- =========================
+     HOME
+========================= -->
 
-<!-- =====================================================
+<section id="home" class="screen">
+
+    <h1 class="logo">
+        🎳 King Gavin Lanes
+    </h1>
+
+    <div
+        class="status"
+        id="connectionStatus"
+    >
+        Starting...
+    </div>
+
+    <div
+        class="code"
+        id="remoteCode"
+    >
+        ------
+    </div>
+
+    <div
+        class="current"
+        id="homeCurrent"
+    >
+        No game started
+    </div>
+
+</section>
+
+
+<!-- =========================
+     WARNING
+========================= -->
+
+<section id="warning" class="screen">
+
+    <h1 class="warning-title">
+        ⚠️ WARNING ⚠️
+    </h1>
+
+    <div class="warning-box">
+
+        <ol>
+
+            <li>
+                Do not throw the ball higher than a human bowling.
+            </li>
+
+            <li>
+                Please do not cross the foul line.
+                You can risk injuring yourself and may end up
+                worse depending on your mistake.
+            </li>
+
+            <li>
+                Once the game is done, IT'S DONE.
+                Do not throw your ball again or else you won't
+                get it back until the next game is paid for.
+            </li>
+
+            <li>
+                No diving into the machine.
+                You could risk serious injury or even death.
+            </li>
+
+        </ol>
+
+    </div>
+
+    <button
+        class="warning-button"
+        onclick="startBowlingAfterWarning()"
+    >
+        Start Bowling Again
+    </button>
+
+</section>
+
+
+<!-- =========================
      SCORE
-===================================================== -->
+========================= -->
 
-<section
-    id="score"
-    class="screen"
->
+<section id="score" class="screen">
 
     <h1 class="score-title">
         🎳 King Gavin Lanes
     </h1>
-
 
     <div class="score-wrap">
 
@@ -602,13 +583,11 @@ button{
 
             </thead>
 
-
             <tbody id="scoreBody"></tbody>
 
         </table>
 
     </div>
-
 
     <div
         class="message"
@@ -618,15 +597,11 @@ button{
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      PINSETTER
-===================================================== -->
+========================= -->
 
-<section
-    id="pinsetter"
-    class="screen"
->
+<section id="pinsetter" class="screen">
 
     <h1 class="score-title">
         Pinsetter
@@ -640,85 +615,10 @@ button{
 </section>
 
 
-
-<!-- =====================================================
-     WARNING
-===================================================== -->
-
-<div id="warningOverlay">
-
-    <div class="warning-box">
-
-        <h1 class="warning-title">
-            ⚠️ WARNING:
-        </h1>
-
-
-        <ol class="warning-list">
-
-            <li>
-                Do not throw the ball higher than
-                the human bowling.
-            </li>
-
-
-            <li>
-                Please do not cross the foul line.
-                You can risk injuring yourself and
-                may end up worse depending on your
-                mistake.
-            </li>
-
-
-            <li>
-                Once the game is done
-                <strong>ITS DONE.</strong>
-                Do not throw your ball again or else
-                you won't get it back until the next
-                game is paid for.
-            </li>
-
-
-            <li>
-                <strong>
-                    No diving into the machine.
-                </strong>
-                You could risk serious injuries
-                requiring emergency services or
-                potentially life-threatening harm.
-            </li>
-
-        </ol>
-
-
-        <div class="warning-final">
-
-            You may press
-            <strong>
-                Start Bowling Again
-            </strong>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-
 <script>
-
-/* =====================================================
-   CONSTANTS
-===================================================== */
 
 const PIN_COUNT=6;
 const FRAME_COUNT=10;
-
-
-/* =====================================================
-   GAME STATE
-===================================================== */
 
 let players=[];
 let currentPlayer=0;
@@ -733,21 +633,9 @@ let peer=null;
 let connection=null;
 
 
-/*
-   IMPORTANT:
-
-   false = warning has not been shown
-
-   true = first Start Bowling press
-           already happened
-*/
-
-let warningShown=false;
-
-
-/* =====================================================
+/* =========================
    SCREEN
-===================================================== */
+========================= */
 
 function showScreen(id){
 
@@ -763,29 +651,30 @@ function showScreen(id){
 }
 
 
-/* =====================================================
-   WARNING
-===================================================== */
+/* =========================
+   START AFTER WARNING
+========================= */
 
-function showWarning(){
+function startBowlingAfterWarning(){
 
-    document
-        .getElementById("warningOverlay")
-        .classList.add("active");
+    if(players.length===0){
+        showScreen("home");
+        return;
+    }
+
+    gameStarted=true;
+    currentPlayer=0;
+
+    renderScore();
+    sendState();
+
+    showScreen("score");
 }
 
 
-function hideWarning(){
-
-    document
-        .getElementById("warningOverlay")
-        .classList.remove("active");
-}
-
-
-/* =====================================================
-   FRAMES
-===================================================== */
+/* =========================
+   PLAYER FRAMES
+========================= */
 
 function newFrames(){
 
@@ -795,7 +684,6 @@ function newFrames(){
     );
 }
 
-
 function ensurePlayer(name){
 
     if(!frames[name]){
@@ -804,9 +692,9 @@ function ensurePlayer(name){
 }
 
 
-/* =====================================================
-   FLATTEN
-===================================================== */
+/* =========================
+   FLATTEN ROLLS
+========================= */
 
 function flattenRolls(name){
 
@@ -833,11 +721,13 @@ function flattenRolls(name){
 }
 
 
-/* =====================================================
+/* =========================
    SCORING
-===================================================== */
+========================= */
 
 function calculateFrameScores(name){
+
+    ensurePlayer(name);
 
     const all=flattenRolls(name);
 
@@ -875,11 +765,15 @@ function calculateFrameScores(name){
 
             let score=6;
 
-            if(all[index+1]!==undefined){
+            if(
+                all[index+1]!==undefined
+            ){
                 score+=all[index+1];
             }
 
-            if(all[index+2]!==undefined){
+            if(
+                all[index+2]!==undefined
+            ){
                 score+=all[index+2];
             }
 
@@ -890,7 +784,9 @@ function calculateFrameScores(name){
             continue;
         }
 
-        if(all[index+1]===undefined){
+        if(
+            all[index+1]===undefined
+        ){
 
             result[frame]=first;
 
@@ -903,7 +799,9 @@ function calculateFrameScores(name){
 
             let score=6;
 
-            if(all[index+2]!==undefined){
+            if(
+                all[index+2]!==undefined
+            ){
                 score+=all[index+2];
             }
 
@@ -929,7 +827,10 @@ function calculateTotal(name){
 
     let total=0;
 
-    for(const score of scores){
+    for(
+        const score
+        of scores
+    ){
 
         if(score!==null){
             total+=score;
@@ -940,9 +841,9 @@ function calculateTotal(name){
 }
 
 
-/* =====================================================
+/* =========================
    CURRENT FRAME
-===================================================== */
+========================= */
 
 function getCurrentFrame(name){
 
@@ -970,9 +871,9 @@ function getCurrentFrame(name){
 }
 
 
-/* =====================================================
-   ADD ROLL
-===================================================== */
+/* =========================
+   ROLL
+========================= */
 
 function addRoll(value){
 
@@ -996,8 +897,6 @@ function addRoll(value){
         frames[name][frameIndex];
 
 
-    /* 10TH FRAME */
-
     if(frameIndex===9){
 
         if(frame.rolls.length===0){
@@ -1013,7 +912,6 @@ function addRoll(value){
 
             return;
         }
-
 
         if(frame.rolls.length===1){
 
@@ -1058,7 +956,6 @@ function addRoll(value){
             return;
         }
 
-
         if(frame.rolls.length===2){
 
             const first=
@@ -1093,8 +990,6 @@ function addRoll(value){
     }
 
 
-    /* FIRST ROLL */
-
     if(frame.rolls.length===0){
 
         if(value===6){
@@ -1120,8 +1015,6 @@ function addRoll(value){
     }
 
 
-    /* SECOND ROLL */
-
     if(frame.rolls.length===1){
 
         const first=
@@ -1145,9 +1038,9 @@ function addRoll(value){
 }
 
 
-/* =====================================================
+/* =========================
    STRIKE
-===================================================== */
+========================= */
 
 function doStrike(){
 
@@ -1178,20 +1071,25 @@ function doStrike(){
     if(frameIndex===9){
 
         if(frame.rolls.length===0){
+
             addRoll(6);
+
             return;
         }
 
         if(frame.rolls[0]==="X"){
+
             addRoll(6);
+
+            return;
         }
     }
 }
 
 
-/* =====================================================
+/* =========================
    SPARE
-===================================================== */
+========================= */
 
 function doSpare(){
 
@@ -1209,30 +1107,43 @@ function doSpare(){
     const frame=
         frames[name][frameIndex];
 
-    if(frame.rolls.length!==1) return;
+    if(frame.rolls.length!==1){
+        return;
+    }
 
-    if(frame.rolls[0]==="X") return;
+    if(frame.rolls[0]==="X"){
+        return;
+    }
 
     const first=
         Number(frame.rolls[0]);
 
-    if(first===6) return;
+    if(first===6){
+        return;
+    }
 
-    addRoll(6-first);
+    const remaining=
+        6-first;
+
+    addRoll(remaining);
 }
 
 
-/* =====================================================
+/* =========================
    PLAYER TURN
-===================================================== */
+========================= */
 
 function nextPlayer(){
 
-    if(players.length===0) return;
+    if(players.length===0){
+        return;
+    }
 
     currentPlayer++;
 
-    if(currentPlayer>=players.length){
+    if(
+        currentPlayer>=players.length
+    ){
         currentPlayer=0;
     }
 
@@ -1243,12 +1154,15 @@ function nextPlayer(){
 
 function previousPlayer(){
 
-    if(players.length===0) return;
+    if(players.length===0){
+        return;
+    }
 
     currentPlayer--;
 
     if(currentPlayer<0){
-        currentPlayer=players.length-1;
+        currentPlayer=
+            players.length-1;
     }
 
     renderScore();
@@ -1256,14 +1170,16 @@ function previousPlayer(){
 }
 
 
-/* =====================================================
+/* =========================
    RESET
-===================================================== */
+========================= */
 
 function resetGame(){
 
     players.forEach(name=>{
-        frames[name]=newFrames();
+
+        frames[name]=
+            newFrames();
     });
 
     currentPlayer=0;
@@ -1273,9 +1189,9 @@ function resetGame(){
 }
 
 
-/* =====================================================
+/* =========================
    DISPLAY ROLL
-===================================================== */
+========================= */
 
 function formatRoll(roll){
 
@@ -1295,14 +1211,16 @@ function formatRoll(roll){
 }
 
 
-/* =====================================================
+/* =========================
    SCORE DISPLAY
-===================================================== */
+========================= */
 
 function renderScore(){
 
     const body=
-        document.getElementById("scoreBody");
+        document.getElementById(
+            "scoreBody"
+        );
 
     body.innerHTML="";
 
@@ -1320,7 +1238,9 @@ function renderScore(){
         nameCell.className=
             "player-name";
 
-        if(playerIndex===currentPlayer){
+        if(
+            playerIndex===currentPlayer
+        ){
             nameCell.classList.add(
                 "active-player"
             );
@@ -1377,20 +1297,28 @@ function renderScore(){
                 roll.className="roll";
 
                 roll.textContent=
-                    formatRoll(rolls[r]);
+                    formatRoll(
+                        rolls[r]
+                    );
 
-                rollsDiv.appendChild(roll);
+                rollsDiv.appendChild(
+                    roll
+                );
             }
 
-            cell.appendChild(rollsDiv);
+            cell.appendChild(
+                rollsDiv
+            );
 
             const score=
                 document.createElement("div");
 
-            score.className="frame-score";
+            score.className=
+                "frame-score";
 
             if(scores[f]!==null){
-                score.textContent=scores[f];
+                score.textContent=
+                    scores[f];
             }
 
             cell.appendChild(score);
@@ -1401,7 +1329,8 @@ function renderScore(){
         const total=
             document.createElement("td");
 
-        total.className="total-cell";
+        total.className=
+            "total-cell";
 
         total.textContent=
             calculateTotal(name);
@@ -1426,7 +1355,7 @@ function renderScore(){
             gameStarted
                 ? "Current player: "+
                   players[currentPlayer]
-                : "Players ready";
+                : "Game not started";
 
     }else{
 
@@ -1438,19 +1367,21 @@ function renderScore(){
         document.getElementById(
             "homeCurrent"
         ).textContent=
-            "Waiting for players...";
+            "No players";
     }
 }
 
 
-/* =====================================================
+/* =========================
    PINS
-===================================================== */
+========================= */
 
 function renderPins(){
 
     const rack=
-        document.getElementById("tvPins");
+        document.getElementById(
+            "tvPins"
+        );
 
     rack.innerHTML="";
 
@@ -1461,14 +1392,18 @@ function renderPins(){
     ].forEach(indexes=>{
 
         const row=
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         row.className="pin-row";
 
         indexes.forEach(i=>{
 
             const pin=
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             pin.className="pin";
 
@@ -1488,48 +1423,42 @@ function renderPins(){
 }
 
 
-/* =====================================================
+/* =========================
    BACKGROUND
-===================================================== */
+========================= */
 
 function changeBackground(value){
 
     const backgrounds={
-
         dark:"#111",
         blue:"#06152e",
         green:"#062414",
         purple:"#19062e",
         red:"#2e0606"
-
     };
 
     if(backgrounds[value]){
-
         document.body.style.background=
             backgrounds[value];
     }
 }
 
 
-/* =====================================================
+/* =========================
    SEND STATE
-===================================================== */
+========================= */
 
 function sendState(){
 
-    if(
-        connection &&
-        connection.open
-    ){
+    if(!connection) return;
+
+    if(connection.open){
 
         connection.send({
 
             type:"state",
 
-            players:[
-                ...players
-            ],
+            players:[...players],
 
             currentPlayer:
                 currentPlayer,
@@ -1542,24 +1471,17 @@ function sendState(){
                     JSON.stringify(frames)
                 ),
 
-            pins:[
-                ...pins
-            ],
+            pins:[...pins],
 
-            splitPins:[
-                ...splitPins
-            ],
-
-            warningShown:
-                warningShown
+            splitPins:[...splitPins]
         });
     }
 }
 
 
-/* =====================================================
+/* =========================
    REMOTE COMMANDS
-===================================================== */
+========================= */
 
 function handleRemote(data){
 
@@ -1570,46 +1492,28 @@ function handleRemote(data){
     switch(data.type){
 
         case "roll":
-
             addRoll(data.value);
-
             break;
-
 
         case "strike":
-
             doStrike();
-
             break;
-
 
         case "spare":
-
             doSpare();
-
             break;
-
 
         case "previous":
-
             previousPlayer();
-
             break;
-
 
         case "next":
-
             nextPlayer();
-
             break;
-
 
         case "reset":
-
             resetGame();
-
             break;
-
 
         case "addPlayer":
 
@@ -1634,7 +1538,6 @@ function handleRemote(data){
             }
 
             break;
-
 
         case "removePlayer":
 
@@ -1674,49 +1577,21 @@ function handleRemote(data){
 
 
         /*
-           FIRST PRESS:
-           show warning
-
-           SECOND PRESS:
-           start game
+           IMPORTANT:
+           The phone's Start Bowling command
+           ONLY opens the warning now.
         */
 
         case "start":
 
-            if(gameStarted){
-                break;
+            if(players.length>0){
+
+                gameStarted=false;
+
+                renderScore();
+
+                showScreen("warning");
             }
-
-            if(players.length===0){
-
-                sendState();
-
-                break;
-            }
-
-            if(!warningShown){
-
-                warningShown=true;
-
-                showWarning();
-
-                sendState();
-
-                break;
-            }
-
-            warningShown=false;
-
-            hideWarning();
-
-            gameStarted=true;
-
-            currentPlayer=0;
-
-            renderScore();
-            sendState();
-
-            showScreen("score");
 
             break;
 
@@ -1724,12 +1599,18 @@ function handleRemote(data){
         case "pinSubmit":
 
             if(Array.isArray(data.pins)){
+
                 pins=
                     [...data.pins]
                     .slice(0,6);
             }
 
-            if(Array.isArray(data.splitPins)){
+            if(
+                Array.isArray(
+                    data.splitPins
+                )
+            ){
+
                 splitPins=
                     [...data.splitPins]
                     .slice(0,6);
@@ -1792,15 +1673,13 @@ function handleRemote(data){
 
             gameStarted=false;
 
-            warningShown=false;
+            showScreen("welcome");
 
-            hideWarning();
+            setTimeout(()=>{
 
-            /*
-               Back to Brunswick screen.
-            */
+                showScreen("home");
 
-            showScreen("home");
+            },3000);
 
             sendState();
 
@@ -1809,9 +1688,9 @@ function handleRemote(data){
 }
 
 
-/* =====================================================
+/* =========================
    PEER
-===================================================== */
+========================= */
 
 function randomCode(){
 
@@ -1851,7 +1730,6 @@ function setupPeer(){
         "remoteCode"
     ).textContent=code;
 
-
     peer.on("open",()=>{
 
         document.getElementById(
@@ -1859,7 +1737,6 @@ function setupPeer(){
         ).textContent=
             "Remote ready — enter this code on the phone.";
     });
-
 
     peer.on(
         "connection",
@@ -1873,7 +1750,6 @@ function setupPeer(){
             "Phone remote connected ✓";
 
         conn.on("open",()=>{
-
             sendState();
         });
 
@@ -1894,7 +1770,6 @@ function setupPeer(){
 
     });
 
-
     peer.on("error",error=>{
 
         console.log(error);
@@ -1907,23 +1782,19 @@ function setupPeer(){
 }
 
 
-/* =====================================================
+/* =========================
    START
-===================================================== */
+========================= */
 
 renderPins();
-
 renderScore();
-
 setupPeer();
 
-/*
-   NO 3-second timeout anymore.
+setTimeout(()=>{
 
-   Brunswick screen stays forever.
-*/
+    showScreen("home");
 
-showScreen("home");
+},3000);
 
 </script>
 
