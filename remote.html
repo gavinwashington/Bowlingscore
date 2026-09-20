@@ -2,424 +2,838 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0,user-scalable=no"
+>
 
 <title>King Gavin Lanes Remote</title>
 
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
 
+html,
 body{
     margin:0;
-    background:#111;
-    color:white;
+
+    width:100%;
+    min-height:100%;
+
     font-family:Arial,Helvetica,sans-serif;
+
+    background:#111;
+
+    color:white;
 }
 
-.screen{
-    display:none;
-    min-height:100vh;
-    padding:20px;
+body{
+    padding:18px;
 }
 
-.screen.active{
-    display:block;
-}
-
-h1{
-    text-align:center;
+button,
+input{
+    font:inherit;
 }
 
 button{
-    border:0;
-    border-radius:12px;
-    padding:16px;
-    font-size:18px;
-    font-weight:bold;
     cursor:pointer;
 }
 
-button:disabled{
-    opacity:.3;
-    cursor:not-allowed;
+.container{
+    width:min(600px,100%);
+
+    margin:auto;
 }
 
-.back{
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+h1{
+    text-align:center;
+
+    font-size:clamp(28px,8vw,45px);
+
+    margin:10px 0 25px;
+}
+
+.subtitle{
+    text-align:center;
+
+    opacity:.7;
+
     margin-bottom:20px;
 }
 
+
+/* =====================================================
+   CONNECTION
+===================================================== */
+
 .connect-box{
-    max-width:450px;
-    margin:80px auto;
-    text-align:center;
+
+    background:#1d1d1d;
+
+    padding:20px;
+
+    border-radius:16px;
+
+    margin-bottom:20px;
 }
 
 input{
+
     width:100%;
-    padding:18px;
+
+    padding:15px;
+
     border-radius:10px;
-    border:2px solid #555;
-    background:#222;
+
+    border:2px solid #444;
+
+    background:#080808;
+
     color:white;
-    font-size:22px;
-    text-align:center;
+
+    margin-bottom:10px;
+
     text-transform:uppercase;
-    margin:15px 0;
 }
+
+.primary{
+
+    width:100%;
+
+    padding:16px;
+
+    border:0;
+
+    border-radius:12px;
+
+    background:#ffc400;
+
+    color:#111;
+
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
 
 .status{
+
     text-align:center;
-    opacity:.8;
-    margin:15px;
+
+    padding:12px;
+
+    margin-bottom:18px;
+
+    border-radius:10px;
+
+    background:#222;
 }
 
+
+/* =====================================================
+   HOME
+===================================================== */
+
 .menu{
+
     display:grid;
-    grid-template-columns:1fr 1fr;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
     gap:12px;
-    max-width:500px;
-    margin:auto;
 }
 
 .menu button{
-    min-height:70px;
+
+    min-height:75px;
+
+    border:0;
+
+    border-radius:15px;
+
+    background:#242424;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:bold;
 }
 
-.add-player{
-    display:flex;
-    gap:8px;
-    max-width:500px;
-    margin:20px auto;
+
+/* START BUTTON */
+
+.start-button{
+
+    grid-column:
+        1 / -1;
+
+    min-height:90px!important;
+
+    background:#ffc400!important;
+
+    color:#111!important;
+
+    font-size:23px!important;
 }
 
-.add-player input{
-    margin:0;
-    text-align:left;
-    font-size:18px;
+
+/* WARNING STATE */
+
+.start-button.warning-ready{
+
+    background:#ff3347!important;
+
+    color:white!important;
+
 }
 
-.add-player button{
-    white-space:nowrap;
+
+/* =====================================================
+   PANELS
+===================================================== */
+
+.panel{
+
+    background:#1b1b1b;
+
+    border-radius:16px;
+
+    padding:18px;
+
+    margin-bottom:15px;
 }
 
-.player-list{
-    max-width:500px;
-    margin:auto;
-}
+.panel h2{
 
-.player{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:#222;
-    padding:12px;
-    border-radius:10px;
-    margin:8px 0;
-}
+    margin-top:0;
 
-.player button{
-    padding:10px 14px;
-}
-
-.current-player{
     text-align:center;
-    font-size:22px;
-    margin:20px;
 }
 
-.score-buttons{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    max-width:500px;
-    margin:auto;
-}
 
-.score-buttons button{
-    min-height:65px;
-}
+/* =====================================================
+   PLAYERS
+===================================================== */
 
-.special{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    max-width:500px;
-    margin:15px auto;
-}
+.player-row{
 
-.special button{
-    min-height:60px;
-}
-
-.pin-rack{
     display:flex;
-    flex-direction:column;
-    align-items:center;
+
+    gap:8px;
+
+    margin-bottom:10px;
+}
+
+.player-row input{
+
+    margin:0;
+
+    flex:1;
+}
+
+.small-button{
+
+    border:0;
+
+    border-radius:10px;
+
+    padding:12px 15px;
+
+    background:#333;
+
+    color:white;
+}
+
+.danger{
+
+    background:#b51f2d!important;
+}
+
+
+/* =====================================================
+   SCORE CONTROLS
+===================================================== */
+
+.number-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:10px;
-    margin:25px auto;
+}
+
+.number-grid button{
+
+    height:70px;
+
+    border:0;
+
+    border-radius:14px;
+
+    background:#292929;
+
+    color:white;
+
+    font-size:24px;
+
+    font-weight:bold;
+}
+
+.strike{
+
+    background:#e53935!important;
+}
+
+.spare{
+
+    background:#1976d2!important;
+}
+
+
+/* =====================================================
+   NAV
+===================================================== */
+
+.nav-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:10px;
+}
+
+.nav-grid button{
+
+    min-height:55px;
+
+    border:0;
+
+    border-radius:12px;
+
+    background:#333;
+
+    color:white;
+
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   PINSETTER
+===================================================== */
+
+.pin-controls{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:12px;
 }
 
 .pin-row{
+
     display:flex;
-    gap:14px;
+
+    gap:15px;
 }
 
-.pin{
-    width:50px;
-    height:68px;
+.remote-pin{
+
+    width:65px;
+
+    height:80px;
+
+    border-radius:
+        50% 50% 45% 45%;
+
     border:4px solid white;
-    border-radius:50% 50% 45% 45%;
+
     background:white;
-    position:relative;
 }
 
-.pin.down{
+.remote-pin.down{
+
     background:#555;
+
     border-color:#777;
 }
 
-.pin.split{
+.remote-pin.split{
+
     border-color:red;
 }
 
-.pin.split:after{
-    content:"";
-    width:11px;
-    height:11px;
-    background:red;
-    border-radius:50%;
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-}
 
-.pin-actions{
+/* =====================================================
+   BACKGROUNDS
+===================================================== */
+
+.background-grid{
+
     display:grid;
-    grid-template-columns:1fr 1fr;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
     gap:10px;
-    max-width:500px;
-    margin:auto;
 }
 
-.submit{
-    grid-column:1/-1;
+.background-grid button{
+
+    min-height:60px;
+
+    border:0;
+
+    border-radius:12px;
+
+    color:white;
+
+    background:#333;
 }
 
-.backgrounds{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    max-width:500px;
-    margin:auto;
+
+/* =====================================================
+   HIDDEN
+===================================================== */
+
+.hidden{
+    display:none!important;
 }
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:420px){
+
+    body{
+        padding:12px;
+    }
+
+    .menu{
+        grid-template-columns:1fr;
+    }
+
+    .start-button{
+        grid-column:auto;
+    }
+
+    .number-grid button{
+        height:62px;
+    }
+}
+
 </style>
 </head>
 
 <body>
 
+<div class="container">
 
-<!-- CONNECT -->
 
-<section id="connect" class="screen active">
+<h1>
+    🎳 King Gavin Lanes
+</h1>
 
-    <div class="connect-box">
+<div class="subtitle">
+    Wireless Bowling Remote
+</div>
 
-        <h1>🎳 King Gavin Lanes</h1>
 
-        <p>TV Remote</p>
 
-        <input
-            id="codeInput"
-            maxlength="10"
-            placeholder="KGL-XXXXXX"
-        >
+<!-- =====================================================
+     CONNECT
+===================================================== -->
 
-        <button onclick="connectToTV()">
-            Connect
-        </button>
+<div
+    class="connect-box"
+    id="connectBox"
+>
 
-        <div class="status" id="connectStatus">
-            Enter the code shown on the TV.
+    <input
+        id="codeInput"
+        maxlength="6"
+        placeholder="Enter TV Code"
+        autocomplete="off"
+    >
+
+    <button
+        class="primary"
+        onclick="connectToTV()"
+    >
+        Connect To TV
+    </button>
+
+</div>
+
+
+
+<div
+    class="status"
+    id="status"
+>
+    Not connected
+</div>
+
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<div
+    id="homePanel"
+    class="hidden"
+>
+
+    <div class="panel">
+
+        <h2>
+            Bowling Control
+        </h2>
+
+
+        <div class="menu">
+
+            <button
+                onclick="showPanel('playersPanel')"
+            >
+                👥 Players
+            </button>
+
+
+            <button
+                onclick="showPanel('scorePanel')"
+            >
+                🎳 Score
+            </button>
+
+
+            <button
+                onclick="showPanel('pinsPanel')"
+            >
+                🎯 Pinsetter
+            </button>
+
+
+            <button
+                onclick="showPanel('backgroundPanel')"
+            >
+                🖼️ Backgrounds
+            </button>
+
+
+            <button
+                id="startButton"
+                class="start-button"
+                onclick="startBowling()"
+            >
+                ▶ Start Bowling
+            </button>
+
+
+            <button
+                onclick="endGame()"
+                style="
+                    background:#b51f2d;
+                    color:white;
+                "
+            >
+                🛑 End Game
+            </button>
+
         </div>
 
     </div>
 
-</section>
+</div>
 
 
-<!-- HOME -->
 
-<section id="home" class="screen">
+<!-- =====================================================
+     PLAYERS
+===================================================== -->
 
-    <h1>🎳 Remote</h1>
+<div
+    id="playersPanel"
+    class="panel hidden"
+>
 
-    <div class="status">
-        Connected ✓
-    </div>
-
-    <div class="menu">
-
-        <button onclick="page('players')">
-            👥 Players
-        </button>
-
-        <button onclick="page('score')">
-            🎳 Score
-        </button>
-
-        <button onclick="page('pinsetter')">
-            ⚙️ Pinsetter
-        </button>
-
-        <button onclick="page('backgrounds')">
-            🖼️ Backgrounds
-        </button>
-
-        <button onclick="startGame()">
-            ▶️ Start Bowling
-        </button>
-
-        <button onclick="endGame()">
-            🛑 End Game
-        </button>
-
-    </div>
-
-</section>
+    <h2>
+        Players
+    </h2>
 
 
-<!-- PLAYERS -->
+    <div
+        id="playerList"
+    ></div>
 
-<section id="players" class="screen">
 
-    <button class="back" onclick="page('home')">
-        ← Back
-    </button>
-
-    <h1>Players</h1>
-
-    <div class="add-player">
+    <div class="player-row">
 
         <input
-            id="playerInput"
-            maxlength="20"
+            id="playerName"
             placeholder="Player name"
+            maxlength="20"
         >
 
-        <button onclick="addPlayer()">
+        <button
+            class="small-button"
+            onclick="addPlayer()"
+        >
             Add
         </button>
 
     </div>
 
-    <div class="player-list" id="playerList"></div>
 
-</section>
-
-
-<!-- SCORE -->
-
-<section id="score" class="screen">
-
-    <button class="back" onclick="page('home')">
-        ← Menu
+    <button
+        class="primary"
+        onclick="showPanel('homePanel')"
+    >
+        Back
     </button>
 
-    <h1>Score</h1>
+</div>
 
-    <div class="current-player" id="currentPlayer">
-        No player
-    </div>
 
-    <div class="score-buttons">
 
-        <button id="roll0" onclick="roll(0)">0</button>
-        <button id="roll1" onclick="roll(1)">1</button>
-        <button id="roll2" onclick="roll(2)">2</button>
+<!-- =====================================================
+     SCORE
+===================================================== -->
 
-        <button id="roll3" onclick="roll(3)">3</button>
-        <button id="roll4" onclick="roll(4)">4</button>
-        <button id="roll5" onclick="roll(5)">5</button>
+<div
+    id="scorePanel"
+    class="panel hidden"
+>
 
-        <button id="roll6" onclick="roll(6)">6</button>
+    <h2>
+        Score Controls
+    </h2>
 
-    </div>
 
-    <div class="special">
+    <div class="number-grid">
 
-        <button id="strikeButton" onclick="strike()">
-            X Strike
+        <button onclick="roll(0)">
+            0
         </button>
 
-        <button id="spareButton" onclick="spare()">
-            / Spare
+        <button onclick="roll(1)">
+            1
         </button>
+
+        <button onclick="roll(2)">
+            2
+        </button>
+
+        <button onclick="roll(3)">
+            3
+        </button>
+
+        <button onclick="roll(4)">
+            4
+        </button>
+
+        <button onclick="roll(5)">
+            5
+        </button>
+
+        <button
+            class="strike"
+            onclick="strike()"
+        >
+            STRIKE
+        </button>
+
+        <button
+            class="spare"
+            onclick="spare()"
+        >
+            SPARE
+        </button>
+
+        <button onclick="roll(6)">
+            6
+        </button>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="nav-grid">
 
         <button onclick="previousPlayer()">
-            ← Previous
+            ◀ Previous
         </button>
 
         <button onclick="nextPlayer()">
-            Next →
+            Next ▶
         </button>
 
-        <button onclick="resetGame()">
-            🔄 Reset Game
+        <button
+            class="danger"
+            onclick="resetGame()"
+        >
+            Reset Game
         </button>
 
-    </div>
-
-</section>
-
-
-<!-- PINSETTER -->
-
-<section id="pinsetter" class="screen">
-
-    <button class="back" onclick="page('home')">
-        ← Menu
-    </button>
-
-    <h1>Pinsetter</h1>
-
-    <div class="pin-rack" id="pins"></div>
-
-    <div class="pin-actions">
-
-        <button onclick="rackPins()">
-            🎳 Rack
-        </button>
-
-        <button onclick="clearPins()">
-            🧹 Sweep
-        </button>
-
-        <button class="submit" onclick="submitPins()">
-            ✓ Submit
+        <button
+            onclick="showPanel('homePanel')"
+        >
+            Back
         </button>
 
     </div>
 
-</section>
+</div>
 
 
-<!-- BACKGROUNDS -->
 
-<section id="backgrounds" class="screen">
+<!-- =====================================================
+     PINSETTER
+===================================================== -->
 
-    <button class="back" onclick="page('home')">
-        ← Menu
-    </button>
+<div
+    id="pinsPanel"
+    class="panel hidden"
+>
 
-    <h1>TV Background</h1>
+    <h2>
+        Pinsetter
+    </h2>
 
-    <div class="backgrounds">
+
+    <div class="pin-controls">
+
+
+        <div class="pin-row">
+
+            <div
+                class="remote-pin"
+                id="pin0"
+                onclick="togglePin(0)"
+            ></div>
+
+        </div>
+
+
+        <div class="pin-row">
+
+            <div
+                class="remote-pin"
+                id="pin1"
+                onclick="togglePin(1)"
+            ></div>
+
+            <div
+                class="remote-pin"
+                id="pin2"
+                onclick="togglePin(2)"
+            ></div>
+
+        </div>
+
+
+        <div class="pin-row">
+
+            <div
+                class="remote-pin"
+                id="pin3"
+                onclick="togglePin(3)"
+            ></div>
+
+            <div
+                class="remote-pin"
+                id="pin4"
+                onclick="togglePin(4)"
+            ></div>
+
+            <div
+                class="remote-pin"
+                id="pin5"
+                onclick="togglePin(5)"
+            ></div>
+
+        </div>
+
+
+        <button
+            class="primary"
+            onclick="submitPins()"
+        >
+            Submit Pins
+        </button>
+
+
+        <button
+            class="small-button"
+            onclick="rackPins()"
+        >
+            Rack
+        </button>
+
+
+        <button
+            class="small-button"
+            onclick="clearPins()"
+        >
+            Sweep / Clear
+        </button>
+
+
+        <button
+            class="small-button"
+            onclick="showPanel('homePanel')"
+        >
+            Back
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     BACKGROUNDS
+===================================================== -->
+
+<div
+    id="backgroundPanel"
+    class="panel hidden"
+>
+
+    <h2>
+        Backgrounds
+    </h2>
+
+
+    <div class="background-grid">
 
         <button onclick="background('dark')">
             Dark
@@ -443,347 +857,350 @@ input{
 
     </div>
 
-</section>
+
+    <br>
+
+
+    <button
+        class="primary"
+        onclick="showPanel('homePanel')"
+    >
+        Back
+    </button>
+
+</div>
+
+
+</div>
+
 
 
 <script>
 
+/* =====================================================
+   PEER
+===================================================== */
+
 let peer=null;
 let connection=null;
 
+
+/* =====================================================
+   STATE
+===================================================== */
+
 let players=[];
+
 let currentPlayer=0;
+
 let gameStarted=false;
 
-let pins=Array(6).fill(true);
-let splitPins=Array(6).fill(false);
+let warningShown=false;
+
+let pins=
+    Array(6).fill(true);
 
 
-/* =========================
-   PAGE
-========================= */
-
-function page(id){
-
-    document.querySelectorAll(".screen").forEach(s=>{
-        s.classList.remove("active");
-    });
-
-    document.getElementById(id).classList.add("active");
-
-    if(id==="players"){
-        renderPlayers();
-    }
-
-    if(id==="pinsetter"){
-        renderPins();
-    }
-
-    if(id==="score"){
-        updateScoreButtons();
-    }
-}
-
-
-/* =========================
+/* =====================================================
    CONNECT
-========================= */
+===================================================== */
 
 function connectToTV(){
 
     let code=
-        document.getElementById("codeInput")
+        document
+        .getElementById("codeInput")
         .value
         .trim()
-        .toUpperCase()
-        .replace(/\s/g,"");
+        .toUpperCase();
 
-    if(code.startsWith("KGL-")){
-        code=code.substring(4);
-    }
 
-    if(code.length!==6){
+    if(!code){
 
-        document.getElementById("connectStatus").textContent=
-            "Enter the 6-character code.";
+        setStatus(
+            "Enter the TV code first."
+        );
 
         return;
     }
 
-    document.getElementById("connectStatus").textContent=
-        "Connecting...";
 
-    peer=new Peer({
-        debug:0
-    });
+    setStatus(
+        "Connecting..."
+    );
+
+
+    peer=new Peer();
+
 
     peer.on("open",()=>{
 
         connection=
             peer.connect(
-                "kgl-"+code,
-                {
-                    reliable:true
-                }
+                "kgl-"+code
             );
 
-        connection.on("open",()=>{
 
-            document.getElementById("connectStatus").textContent=
-                "Connected ✓";
+        connection.on(
+            "open",
+            ()=>{
 
-            page("home");
-        });
+                setStatus(
+                    "Connected to TV ✓"
+                );
 
-        connection.on("data",handleState);
 
-        connection.on("close",()=>{
+                document
+                    .getElementById(
+                        "connectBox"
+                    )
+                    .classList.add(
+                        "hidden"
+                    );
 
-            connection=null;
 
-            document.getElementById("connectStatus").textContent=
-                "Disconnected.";
-        });
+                document
+                    .getElementById(
+                        "homePanel"
+                    )
+                    .classList.remove(
+                        "hidden"
+                    );
+
+
+                updateStartButton();
+
+                sendStateRequest();
+            }
+        );
+
+
+        connection.on(
+            "data",
+            handleTVState
+        );
+
+
+        connection.on(
+            "close",
+            ()=>{
+
+                setStatus(
+                    "TV disconnected"
+                );
+
+            }
+        );
+
     });
 
-    peer.on("error",error=>{
 
-        console.log(error);
+    peer.on(
+        "error",
+        error=>{
 
-        document.getElementById("connectStatus").textContent=
-            "Could not connect. Check the TV code.";
-    });
+            console.log(error);
+
+            setStatus(
+                "Could not connect. Check the code."
+            );
+
+        }
+    );
 }
 
 
-/* =========================
+/* =====================================================
+   STATUS
+===================================================== */
+
+function setStatus(text){
+
+    document
+        .getElementById("status")
+        .textContent=text;
+}
+
+
+/* =====================================================
+   PANELS
+===================================================== */
+
+function showPanel(id){
+
+    [
+        "homePanel",
+        "playersPanel",
+        "scorePanel",
+        "pinsPanel",
+        "backgroundPanel"
+    ].forEach(panel=>{
+
+        document
+            .getElementById(panel)
+            .classList.add("hidden");
+
+    });
+
+
+    document
+        .getElementById(id)
+        .classList.remove("hidden");
+
+
+    if(id==="playersPanel"){
+        renderPlayers();
+    }
+}
+
+
+/* =====================================================
    SEND
-========================= */
+===================================================== */
 
 function send(data){
 
-    if(connection && connection.open){
+    if(
+        connection &&
+        connection.open
+    ){
+
         connection.send(data);
+
+    }else{
+
+        setStatus(
+            "Not connected to TV."
+        );
     }
 }
 
 
-/* =========================
-   RECEIVE STATE
-========================= */
+/*
+   PeerJS doesn't require a state request
+   for the current TV implementation,
+   but this safely asks for a fresh state
+   by sending a harmless state-request command.
+*/
 
-function handleState(data){
+function sendStateRequest(){
 
-    if(!data || data.type!=="state"){
-        return;
-    }
-
-    players=data.players || [];
-
-    currentPlayer=
-        Number.isInteger(data.currentPlayer)
-            ? data.currentPlayer
-            : 0;
-
-    gameStarted=Boolean(data.gameStarted);
-
-    pins=
-        Array.isArray(data.pins)
-            ? data.pins
-            : Array(6).fill(true);
-
-    splitPins=
-        Array.isArray(data.splitPins)
-            ? data.splitPins
-            : Array(6).fill(false);
-
-    updateCurrentPlayer();
-    renderPlayers();
-    renderPins();
-    updateScoreButtons();
+    send({
+        type:"stateRequest"
+    });
 }
 
 
-/* =========================
-   CURRENT PLAYER
-========================= */
+/* =====================================================
+   START BOWLING
+===================================================== */
 
-function updateCurrentPlayer(){
-
-    const el=
-        document.getElementById("currentPlayer");
-
-    if(players.length===0){
-
-        el.textContent="No player";
-        return;
-    }
-
-    el.textContent=
-        "Current player: "+
-        players[currentPlayer];
-}
-
-
-/* =========================
-   SCORE BUTTON STATE
-========================= */
-
-function updateScoreButtons(){
-
-    const spareButton=
-        document.getElementById("spareButton");
-
-    const strikeButton=
-        document.getElementById("strikeButton");
-
-    if(!gameStarted || players.length===0){
-
-        spareButton.disabled=true;
-        strikeButton.disabled=true;
-
-        return;
-    }
+function startBowling(){
 
     /*
-       We don't have the full frame data on the remote,
-       so the TV controls validity. The spare button
-       starts enabled and is disabled by the local
-       first-roll tracking below.
+       First press:
+       TV displays warning.
     */
 
-    spareButton.disabled=false;
-    strikeButton.disabled=false;
-}
-
-
-/* =========================
-   LOCAL FIRST ROLL TRACKING
-========================= */
-
-let firstRollForTurn=null;
-
-function roll(value){
-
-    /*
-       If 6 is pressed, it is a strike.
-    */
-
-    if(value===6){
-
-        firstRollForTurn=6;
+    if(!warningShown){
 
         send({
-            type:"strike"
+            type:"start"
         });
 
         return;
     }
 
-    firstRollForTurn=value;
-
-    send({
-        type:"roll",
-        value:value
-    });
 
     /*
-       Once a non-6 first roll happens,
-       spare becomes available.
-    */
-
-    document.getElementById("spareButton").disabled=false;
-}
-
-
-function strike(){
-
-    firstRollForTurn=6;
-
-    /*
-       6 = strike.
+       Second press:
+       TV starts game.
     */
 
     send({
-        type:"strike"
+        type:"start"
     });
 }
 
 
-function spare(){
+/* =====================================================
+   UPDATE START BUTTON
+===================================================== */
 
-    /*
-       NEVER allow spare after a 6.
-    */
+function updateStartButton(){
 
-    if(firstRollForTurn===6){
+    const button=
+        document.getElementById(
+            "startButton"
+        );
+
+
+    if(gameStarted){
+
+        button.textContent=
+            "🎳 Bowling In Progress";
+
+        button.disabled=true;
+
+        button.classList.remove(
+            "warning-ready"
+        );
+
         return;
     }
 
-    if(firstRollForTurn===null){
-        return;
-    }
 
-    send({
-        type:"spare"
-    });
-}
+    button.disabled=false;
 
 
-/* =========================
-   TURN BUTTONS
-========================= */
+    if(warningShown){
 
-function previousPlayer(){
+        button.textContent=
+            "⚠️ Start Bowling Again";
 
-    firstRollForTurn=null;
+        button.classList.add(
+            "warning-ready"
+        );
 
-    send({
-        type:"previous"
-    });
-}
+    }else{
 
-function nextPlayer(){
+        button.textContent=
+            "▶ Start Bowling";
 
-    firstRollForTurn=null;
-
-    send({
-        type:"next"
-    });
-}
-
-function resetGame(){
-
-    if(confirm("Reset the entire game?")){
-
-        firstRollForTurn=null;
-
-        send({
-            type:"reset"
-        });
-
-        page("home");
+        button.classList.remove(
+            "warning-ready"
+        );
     }
 }
 
 
-/* =========================
+/* =====================================================
    PLAYERS
-========================= */
+===================================================== */
 
 function addPlayer(){
 
     const input=
-        document.getElementById("playerInput");
+        document.getElementById(
+            "playerName"
+        );
 
-    const name=input.value.trim();
 
-    if(!name) return;
+    const name=
+        input.value.trim();
+
+
+    if(!name){
+
+        return;
+    }
+
 
     send({
         type:"addPlayer",
         name:name
     });
+
 
     input.value="";
 }
@@ -801,142 +1218,188 @@ function removePlayer(index){
 function renderPlayers(){
 
     const list=
-        document.getElementById("playerList");
+        document.getElementById(
+            "playerList"
+        );
 
-    if(!list) return;
 
     list.innerHTML="";
 
-    players.forEach((name,index)=>{
 
-        const div=document.createElement("div");
+    players.forEach(
+        (name,index)=>{
 
-        div.className="player";
+        const row=
+            document.createElement(
+                "div"
+            );
 
-        const span=document.createElement("span");
 
-        span.textContent=
-            (index===currentPlayer ? "▶ " : "")+
-            name;
+        row.className=
+            "player-row";
 
-        const button=document.createElement("button");
 
-        button.textContent="Remove";
+        const label=
+            document.createElement(
+                "input"
+            );
 
-        button.onclick=()=>{
+
+        label.value=
+            `${index+1}. ${name}`;
+
+        label.disabled=true;
+
+
+        const remove=
+            document.createElement(
+                "button"
+            );
+
+
+        remove.className=
+            "small-button danger";
+
+
+        remove.textContent=
+            "Remove";
+
+
+        remove.onclick=()=>{
             removePlayer(index);
         };
 
-        div.appendChild(span);
-        div.appendChild(button);
 
-        list.appendChild(div);
+        row.appendChild(label);
+
+        row.appendChild(remove);
+
+        list.appendChild(row);
     });
 }
 
 
-/* =========================
-   START / END
-========================= */
+/* =====================================================
+   SCORE
+===================================================== */
 
-function startGame(){
+function roll(value){
 
-    if(players.length===0){
+    send({
+        type:"roll",
+        value:value
+    });
+}
 
-        alert("Add at least one player first.");
 
-        page("players");
+function strike(){
 
-        return;
+    send({
+        type:"strike"
+    });
+}
+
+
+function spare(){
+
+    send({
+        type:"spare"
+    });
+}
+
+
+function previousPlayer(){
+
+    send({
+        type:"previous"
+    });
+}
+
+
+function nextPlayer(){
+
+    send({
+        type:"next"
+    });
+}
+
+
+function resetGame(){
+
+    if(
+        confirm(
+            "Reset the entire game?"
+        )
+    ){
+
+        send({
+            type:"reset"
+        });
+
     }
-
-    firstRollForTurn=null;
-
-    send({
-        type:"start"
-    });
-
-    page("score");
 }
 
 
-function endGame(){
+/* =====================================================
+   PINSETTER
+===================================================== */
 
-    send({
-        type:"end"
-    });
+function togglePin(index){
 
-    firstRollForTurn=null;
+    pins[index]=
+        !pins[index];
 
-    page("home");
+    renderPins();
 }
 
-
-/* =========================
-   PINS
-========================= */
 
 function renderPins(){
 
-    const rack=
-        document.getElementById("pins");
+    for(let i=0;i<6;i++){
 
-    if(!rack) return;
+        const pin=
+            document.getElementById(
+                "pin"+i
+            );
 
-    rack.innerHTML="";
 
-    [
-        [0],
-        [1,2],
-        [3,4,5]
-    ].forEach(indexes=>{
+        if(pins[i]){
 
-        const row=document.createElement("div");
+            pin.classList.remove(
+                "down"
+            );
 
-        row.className="pin-row";
+        }else{
 
-        indexes.forEach(index=>{
+            pin.classList.add(
+                "down"
+            );
+        }
+    }
+}
 
-            const pin=document.createElement("div");
 
-            pin.className="pin";
+function submitPins(){
 
-            if(!pins[index]){
-                pin.classList.add("down");
-            }
+    send({
 
-            if(splitPins[index]){
-                pin.classList.add("split");
-            }
+        type:"pinSubmit",
 
-            pin.onclick=()=>{
+        pins:[
+            ...pins
+        ],
 
-                pins[index]=!pins[index];
+        splitPins:
+            Array(6).fill(false)
 
-                renderPins();
-            };
-
-            pin.oncontextmenu=(event)=>{
-
-                event.preventDefault();
-
-                splitPins[index]=!splitPins[index];
-
-                renderPins();
-            };
-
-            row.appendChild(pin);
-        });
-
-        rack.appendChild(row);
     });
 }
 
 
 function rackPins(){
 
-    pins=Array(6).fill(true);
-    splitPins=Array(6).fill(false);
+    pins=
+        Array(6).fill(true);
 
     renderPins();
 
@@ -948,8 +1411,8 @@ function rackPins(){
 
 function clearPins(){
 
-    pins=Array(6).fill(false);
-    splitPins=Array(6).fill(false);
+    pins=
+        Array(6).fill(false);
 
     renderPins();
 
@@ -959,35 +1422,128 @@ function clearPins(){
 }
 
 
-function submitPins(){
-
-    send({
-        type:"pinSubmit",
-        pins:[...pins],
-        splitPins:[...splitPins]
-    });
-}
-
-
-/* =========================
+/* =====================================================
    BACKGROUNDS
-========================= */
+===================================================== */
 
 function background(value){
 
     send({
+
         type:"background",
+
         value:value
+
     });
 }
 
 
-/* =========================
-   START
-========================= */
+/* =====================================================
+   END GAME
+===================================================== */
+
+function endGame(){
+
+    if(
+        confirm(
+            "End the bowling game?"
+        )
+    ){
+
+        send({
+            type:"end"
+        });
+
+    }
+}
+
+
+/* =====================================================
+   RECEIVE TV STATE
+===================================================== */
+
+function handleTVState(data){
+
+    if(
+        !data ||
+        data.type!=="state"
+    ){
+
+        return;
+    }
+
+
+    players=
+        Array.isArray(data.players)
+            ? [...data.players]
+            : [];
+
+
+    currentPlayer=
+        Number.isInteger(
+            data.currentPlayer
+        )
+        ? data.currentPlayer
+        : 0;
+
+
+    gameStarted=
+        Boolean(
+            data.gameStarted
+        );
+
+
+    warningShown=
+        Boolean(
+            data.warningShown
+        );
+
+
+    if(
+        Array.isArray(data.pins)
+    ){
+
+        pins=
+            [...data.pins]
+            .slice(0,6);
+
+    }
+
+
+    renderPins();
+
+    renderPlayers();
+
+    updateStartButton();
+
+
+    /*
+       If game starts, automatically
+       show score controls.
+    */
+
+    if(gameStarted){
+
+        showPanel(
+            "scorePanel"
+        );
+
+    }else{
+
+        showPanel(
+            "homePanel"
+        );
+    }
+}
+
+
+/* =====================================================
+   INITIAL
+===================================================== */
 
 renderPins();
-renderPlayers();
+
+updateStartButton();
 
 </script>
 
