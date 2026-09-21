@@ -413,6 +413,114 @@ input{
     background:#333;
 }
 
+.bubble-button{
+
+    background:#ff69b4!important;
+
+    color:white!important;
+
+    text-shadow:
+        0 1px 2px #8b1555;
+}
+
+
+/* =====================================================
+   LANE HELP
+===================================================== */
+
+.help-options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    margin-bottom:18px;
+}
+
+.help-option{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    background:#292929;
+
+    border:2px solid #444;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    line-height:1.25;
+}
+
+.help-option input{
+
+    width:22px;
+
+    height:22px;
+
+    margin:0;
+
+    flex:0 0 auto;
+
+    accent-color:#ffc400;
+}
+
+.help-option.selected{
+
+    border-color:#ffc400;
+
+    background:#393000;
+}
+
+.report-button{
+
+    width:100%;
+
+    padding:16px;
+
+    border:0;
+
+    border-radius:12px;
+
+    background:#d32f2f;
+
+    color:white;
+
+    font-weight:bold;
+
+    font-size:18px;
+}
+
+.report-button:disabled{
+
+    opacity:.4;
+
+    cursor:not-allowed;
+}
+
+.help-note{
+
+    text-align:center;
+
+    font-size:13px;
+
+    opacity:.65;
+
+    margin-top:10px;
+}
+
 
 /* =====================================================
    HIDDEN
@@ -463,7 +571,6 @@ input{
 </div>
 
 
-
 <!-- =====================================================
      CONNECT
 ===================================================== -->
@@ -490,14 +597,12 @@ input{
 </div>
 
 
-
 <div
     class="status"
     id="status"
 >
     Not connected
 </div>
-
 
 
 <!-- =====================================================
@@ -515,7 +620,6 @@ input{
             Bowling Control
         </h2>
 
-
         <div class="menu">
 
             <button
@@ -524,13 +628,11 @@ input{
                 👥 Players
             </button>
 
-
             <button
                 onclick="showPanel('scorePanel')"
             >
                 🎳 Score
             </button>
-
 
             <button
                 onclick="showPanel('pinsPanel')"
@@ -538,13 +640,17 @@ input{
                 🎯 Pinsetter
             </button>
 
-
             <button
                 onclick="showPanel('backgroundPanel')"
             >
                 🖼️ Backgrounds
             </button>
 
+            <button
+                onclick="showPanel('laneHelpPanel')"
+            >
+                🆘 Lane Help
+            </button>
 
             <button
                 id="startButton"
@@ -553,7 +659,6 @@ input{
             >
                 ▶ Start Bowling
             </button>
-
 
             <button
                 onclick="endGame()"
@@ -572,7 +677,6 @@ input{
 </div>
 
 
-
 <!-- =====================================================
      PLAYERS
 ===================================================== -->
@@ -586,11 +690,9 @@ input{
         Players
     </h2>
 
-
     <div
         id="playerList"
     ></div>
-
 
     <div class="player-row">
 
@@ -609,7 +711,6 @@ input{
 
     </div>
 
-
     <button
         class="primary"
         onclick="showPanel('homePanel')"
@@ -618,7 +719,6 @@ input{
     </button>
 
 </div>
-
 
 
 <!-- =====================================================
@@ -633,7 +733,6 @@ input{
     <h2>
         Score Controls
     </h2>
-
 
     <div class="number-grid">
 
@@ -681,9 +780,7 @@ input{
 
     </div>
 
-
     <br>
-
 
     <div class="nav-grid">
 
@@ -713,7 +810,6 @@ input{
 </div>
 
 
-
 <!-- =====================================================
      PINSETTER
 ===================================================== -->
@@ -727,9 +823,7 @@ input{
         Pinsetter
     </h2>
 
-
     <div class="pin-controls">
-
 
         <div class="pin-row">
 
@@ -740,7 +834,6 @@ input{
             ></div>
 
         </div>
-
 
         <div class="pin-row">
 
@@ -757,7 +850,6 @@ input{
             ></div>
 
         </div>
-
 
         <div class="pin-row">
 
@@ -781,14 +873,12 @@ input{
 
         </div>
 
-
         <button
             class="primary"
             onclick="submitPins()"
         >
             Submit Pins
         </button>
-
 
         <button
             class="small-button"
@@ -797,14 +887,12 @@ input{
             Rack
         </button>
 
-
         <button
             class="small-button"
             onclick="clearPins()"
         >
             Sweep / Clear
         </button>
-
 
         <button
             class="small-button"
@@ -816,7 +904,6 @@ input{
     </div>
 
 </div>
-
 
 
 <!-- =====================================================
@@ -831,7 +918,6 @@ input{
     <h2>
         Backgrounds
     </h2>
-
 
     <div class="background-grid">
 
@@ -855,11 +941,16 @@ input{
             Red
         </button>
 
+        <button
+            class="bubble-button"
+            onclick="background('bubblegum')"
+        >
+            🍬 Bubble Gum
+        </button>
+
     </div>
 
-
     <br>
-
 
     <button
         class="primary"
@@ -871,8 +962,144 @@ input{
 </div>
 
 
+<!-- =====================================================
+     LANE HELP
+===================================================== -->
+
+<div
+    id="laneHelpPanel"
+    class="panel hidden"
+>
+
+    <h2>
+        🆘 Lane Help
+    </h2>
+
+    <p>
+        What are you reporting?
+    </p>
+
+    <div class="help-options">
+
+        <label class="help-option">
+
+            <input
+                type="checkbox"
+                value="Machine did not detect first/second throw"
+                onchange="updateHelpSelection(this)"
+            >
+
+            <span>
+                1. Machine did not detect first/second throw
+            </span>
+
+        </label>
+
+
+        <label class="help-option">
+
+            <input
+                type="checkbox"
+                value="Lane Blackout"
+                onchange="updateHelpSelection(this)"
+            >
+
+            <span>
+                2. Lane Blackout
+            </span>
+
+        </label>
+
+
+        <label class="help-option">
+
+            <input
+                type="checkbox"
+                value="Bowling Ball Stuck"
+                onchange="updateHelpSelection(this)"
+            >
+
+            <span>
+                3. Bowling Ball Stuck
+            </span>
+
+        </label>
+
+
+        <label class="help-option">
+
+            <input
+                type="checkbox"
+                value="Lane Frozen"
+                onchange="updateHelpSelection(this)"
+            >
+
+            <span>
+                4. Lane Frozen
+            </span>
+
+        </label>
+
+
+        <label class="help-option">
+
+            <input
+                type="checkbox"
+                value="Pin Jam"
+                onchange="updateHelpSelection(this)"
+            >
+
+            <span>
+                5. Pin Jam
+            </span>
+
+        </label>
+
+
+        <label class="help-option">
+
+            <input
+                type="checkbox"
+                value="Unresponsive Pinsetter"
+                onchange="updateHelpSelection(this)"
+            >
+
+            <span>
+                6. Unresponsive Pinsetter
+            </span>
+
+        </label>
+
+    </div>
+
+
+    <button
+        id="reportButton"
+        class="report-button"
+        onclick="submitLaneHelp()"
+        disabled
+    >
+        🚨 Report
+    </button>
+
+    <div class="help-note">
+        Select at least one problem before reporting.
+    </div>
+
+    <br>
+
+    <button
+        class="small-button"
+        onclick="showPanel('homePanel')"
+        style="width:100%;"
+    >
+        Back
+    </button>
+
 </div>
 
+
+</div>
 
 
 <script>
@@ -1033,7 +1260,8 @@ function showPanel(id){
         "playersPanel",
         "scorePanel",
         "pinsPanel",
-        "backgroundPanel"
+        "backgroundPanel",
+        "laneHelpPanel"
     ].forEach(panel=>{
 
         document
@@ -1050,6 +1278,10 @@ function showPanel(id){
 
     if(id==="playersPanel"){
         renderPlayers();
+    }
+
+    if(id==="laneHelpPanel"){
+        resetLaneHelp();
     }
 }
 
@@ -1076,13 +1308,6 @@ function send(data){
 }
 
 
-/*
-   PeerJS doesn't require a state request
-   for the current TV implementation,
-   but this safely asks for a fresh state
-   by sending a harmless state-request command.
-*/
-
 function sendStateRequest(){
 
     send({
@@ -1096,26 +1321,6 @@ function sendStateRequest(){
 ===================================================== */
 
 function startBowling(){
-
-    /*
-       First press:
-       TV displays warning.
-    */
-
-    if(!warningShown){
-
-        send({
-            type:"start"
-        });
-
-        return;
-    }
-
-
-    /*
-       Second press:
-       TV starts game.
-    */
 
     send({
         type:"start"
@@ -1439,6 +1644,126 @@ function background(value){
 
 
 /* =====================================================
+   LANE HELP
+===================================================== */
+
+function updateHelpSelection(checkbox){
+
+    const option=
+        checkbox.closest(
+            ".help-option"
+        );
+
+    if(checkbox.checked){
+
+        option.classList.add(
+            "selected"
+        );
+
+    }else{
+
+        option.classList.remove(
+            "selected"
+        );
+    }
+
+
+    const selected=
+        document.querySelectorAll(
+            "#laneHelpPanel input[type='checkbox']:checked"
+        );
+
+
+    document.getElementById(
+        "reportButton"
+    ).disabled=
+        selected.length===0;
+}
+
+
+function submitLaneHelp(){
+
+    const selected=
+        Array.from(
+            document.querySelectorAll(
+                "#laneHelpPanel input[type='checkbox']:checked"
+            )
+        );
+
+
+    if(selected.length===0){
+
+        setStatus(
+            "Select at least one problem first."
+        );
+
+        return;
+    }
+
+
+    const reports=
+        selected.map(
+            checkbox=>checkbox.value
+        );
+
+
+    send({
+
+        type:"laneHelp",
+
+        reports:reports
+
+    });
+
+
+    setStatus(
+        "Lane Help report sent ✓"
+    );
+
+
+    resetLaneHelp();
+
+    showPanel("homePanel");
+}
+
+
+function resetLaneHelp(){
+
+    document
+        .querySelectorAll(
+            "#laneHelpPanel input[type='checkbox']"
+        )
+        .forEach(checkbox=>{
+
+            checkbox.checked=false;
+
+            const option=
+                checkbox.closest(
+                    ".help-option"
+                );
+
+            if(option){
+
+                option.classList.remove(
+                    "selected"
+                );
+            }
+        });
+
+
+    const reportButton=
+        document.getElementById(
+            "reportButton"
+        );
+
+    if(reportButton){
+
+        reportButton.disabled=true;
+    }
+}
+
+
+/* =====================================================
    END GAME
 ===================================================== */
 
@@ -1516,11 +1841,6 @@ function handleTVState(data){
 
     updateStartButton();
 
-
-    /*
-       If game starts, automatically
-       show score controls.
-    */
 
     if(gameStarted){
 
