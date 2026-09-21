@@ -27,6 +27,7 @@ body{
     min-height:100vh;
     min-height:100dvh;
     overscroll-behavior:none;
+    transition:background .25s ease;
 }
 
 .screen{
@@ -254,6 +255,10 @@ button{
 
 .frame-cell{
     height:clamp(55px,10vh,100px);
+    transition:
+        background .25s ease,
+        border-radius .25s ease,
+        box-shadow .25s ease;
 }
 
 .current-frame{
@@ -298,10 +303,85 @@ button{
     text-align:center;
     font-size:clamp(14px,1.8vw,22px);
     margin-top:clamp(5px,1vh,12px);
-    height:clamp(22px,4vh,35px);
+    min-height:clamp(22px,4vh,35px);
     display:flex;
     align-items:center;
     justify-content:center;
+}
+
+
+/* =========================
+   BUBBLE GUM THEME
+========================= */
+
+body.bubble-gum-theme{
+    background:#ff8fc7;
+}
+
+body.bubble-gum-theme .score-title{
+    text-shadow:
+        0 3px 0 #c72f7d,
+        0 0 15px rgba(255,255,255,.5);
+}
+
+body.bubble-gum-theme .score-table th{
+    background:#c72f7d;
+    border-color:#fff;
+}
+
+body.bubble-gum-theme .score-table td{
+    border-color:#fff;
+}
+
+body.bubble-gum-theme .frame-cell{
+    background:
+        radial-gradient(
+            circle at 25% 20%,
+            rgba(255,255,255,.75) 0 4%,
+            transparent 5%
+        ),
+        linear-gradient(
+            145deg,
+            #ffb1da,
+            #ff69b4
+        );
+    border-radius:18px;
+    border:3px solid #fff;
+    box-shadow:
+        inset 0 -8px 15px rgba(190,30,110,.18),
+        inset 0 5px 10px rgba(255,255,255,.35),
+        0 3px 7px rgba(130,20,80,.3);
+    transform:scale(.96);
+}
+
+body.bubble-gum-theme .current-frame{
+    background:
+        radial-gradient(
+            circle at 25% 20%,
+            rgba(255,255,255,.85) 0 4%,
+            transparent 5%
+        ),
+        linear-gradient(
+            145deg,
+            #ffd0e8,
+            #ff4fa8
+        );
+    box-shadow:
+        inset 0 -8px 15px rgba(190,30,110,.18),
+        inset 0 5px 10px rgba(255,255,255,.45),
+        0 0 0 4px #fff,
+        0 5px 15px rgba(130,20,80,.35);
+}
+
+body.bubble-gum-theme .roll{
+    background:#fff0f8;
+    border-color:#c72f7d;
+    color:#8b1555;
+}
+
+body.bubble-gum-theme .total-cell{
+    background:#ff9dce;
+    border-color:#fff;
 }
 
 
@@ -438,10 +518,6 @@ button{
 <body>
 
 
-<!-- =========================
-     WELCOME
-========================= -->
-
 <section id="welcome" class="screen active">
 
     <div class="welcome-box">
@@ -458,10 +534,6 @@ button{
 
 </section>
 
-
-<!-- =========================
-     HOME
-========================= -->
 
 <section id="home" class="screen">
 
@@ -492,10 +564,6 @@ button{
 
 </section>
 
-
-<!-- =========================
-     WARNING
-========================= -->
 
 <section id="warning" class="screen">
 
@@ -541,10 +609,6 @@ button{
 
 </section>
 
-
-<!-- =========================
-     SCORE
-========================= -->
 
 <section id="score" class="screen">
 
@@ -597,10 +661,6 @@ button{
 </section>
 
 
-<!-- =========================
-     PINSETTER
-========================= -->
-
 <section id="pinsetter" class="screen">
 
     <h1 class="score-title">
@@ -624,10 +684,14 @@ let players=[];
 let currentPlayer=0;
 let gameStarted=false;
 
+let warningShown=false;
+
 let frames={};
 
 let pins=Array(6).fill(true);
 let splitPins=Array(6).fill(false);
+
+let laneReport="";
 
 let peer=null;
 let connection=null;
@@ -662,6 +726,7 @@ function startBowlingAfterWarning(){
         return;
     }
 
+    warningShown=false;
     gameStarted=true;
     currentPlayer=0;
 
@@ -1343,19 +1408,30 @@ function renderScore(){
 
     if(players.length){
 
-        document.getElementById(
-            "scoreMessage"
-        ).textContent=
+        let message=
             "Current player: "+
             players[currentPlayer];
+
+        if(laneReport){
+
+            message=
+                "🆘 Lane Help: "+
+                laneReport;
+        }
+
+        document.getElementById(
+            "scoreMessage"
+        ).textContent=message;
 
         document.getElementById(
             "homeCurrent"
         ).textContent=
-            gameStarted
-                ? "Current player: "+
-                  players[currentPlayer]
-                : "Game not started";
+            laneReport
+                ? "🆘 Lane Help: "+laneReport
+                : gameStarted
+                    ? "Current player: "+
+                      players[currentPlayer]
+                    : "Game not started";
 
     }else{
 
@@ -1434,8 +1510,22 @@ function changeBackground(value){
         blue:"#06152e",
         green:"#062414",
         purple:"#19062e",
-        red:"#2e0606"
+        red:"#2e0606",
+        bubblegum:"#ff8fc7"
     };
+
+    document.body.classList.remove(
+        "bubble-gum-theme"
+    );
+
+    if(value==="bubblegum"){
+
+        document.body.classList.add(
+            "bubble-gum-theme"
+        );
+
+        return;
+    }
 
     if(backgrounds[value]){
         document.body.style.background=
@@ -1466,6 +1556,9 @@ function sendState(){
             gameStarted:
                 gameStarted,
 
+            warningShown:
+                warningShown,
+
             frames:
                 JSON.parse(
                     JSON.stringify(frames)
@@ -1473,7 +1566,10 @@ function sendState(){
 
             pins:[...pins],
 
-            splitPins:[...splitPins]
+            splitPins:[...splitPins],
+
+            laneReport:
+                laneReport
         });
     }
 }
@@ -1513,6 +1609,10 @@ function handleRemote(data){
 
         case "reset":
             resetGame();
+            break;
+
+        case "stateRequest":
+            sendState();
             break;
 
         case "addPlayer":
@@ -1576,21 +1676,24 @@ function handleRemote(data){
             break;
 
 
-        /*
-           IMPORTANT:
-           The phone's Start Bowling command
-           ONLY opens the warning now.
-        */
-
         case "start":
 
             if(players.length>0){
 
-                gameStarted=false;
+                if(warningShown){
 
-                renderScore();
+                    startBowlingAfterWarning();
 
-                showScreen("warning");
+                }else{
+
+                    gameStarted=false;
+                    warningShown=true;
+
+                    renderScore();
+                    sendState();
+
+                    showScreen("warning");
+                }
             }
 
             break;
@@ -1669,9 +1772,28 @@ function handleRemote(data){
             break;
 
 
+        case "laneHelp":
+
+            if(
+                Array.isArray(data.reports) &&
+                data.reports.length>0
+            ){
+
+                laneReport=
+                    data.reports.join(", ");
+
+                renderScore();
+                sendState();
+            }
+
+            break;
+
+
         case "end":
 
             gameStarted=false;
+            warningShown=false;
+            laneReport="";
 
             showScreen("welcome");
 
