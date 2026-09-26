@@ -251,6 +251,7 @@ button{
     text-align:left!important;
     font-size:clamp(12px,1.8vw,20px);
     font-weight:bold;
+    vertical-align:middle;
 }
 
 .frame-cell{
@@ -307,6 +308,36 @@ button{
     display:flex;
     align-items:center;
     justify-content:center;
+}
+
+
+/* =========================
+   LANE BUDDY
+========================= */
+
+.lane-buddy{
+    display:none;
+    align-items:center;
+    gap:7px;
+    margin-top:6px;
+    padding:5px 8px;
+    border-radius:12px;
+    background:rgba(255,255,255,.12);
+    font-size:clamp(10px,1.25vw,15px);
+    line-height:1.15;
+}
+
+.lane-buddy.active{
+    display:flex;
+}
+
+.lane-buddy-face{
+    font-size:clamp(20px,2.2vw,30px);
+    flex:0 0 auto;
+}
+
+.lane-buddy-text{
+    font-weight:bold;
 }
 
 
@@ -382,6 +413,196 @@ body.bubble-gum-theme .roll{
 body.bubble-gum-theme .total-cell{
     background:#ff9dce;
     border-color:#fff;
+}
+
+
+/* =========================
+   PBA-INSPIRED THEME
+========================= */
+
+body.pba-theme{
+    background:
+        linear-gradient(
+            135deg,
+            #050505,
+            #17202a 50%,
+            #050505
+        );
+}
+
+body.pba-theme .score-title{
+    font-weight:900;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    text-shadow:0 3px 8px #000;
+}
+
+body.pba-theme .score-table{
+    border-collapse:separate;
+    border-spacing:2px;
+}
+
+body.pba-theme .score-table th{
+    background:#101820;
+    color:#fff;
+    border:2px solid #e5e5e5;
+    font-weight:900;
+    text-transform:uppercase;
+}
+
+body.pba-theme .score-table td{
+    background:#f2f2f2;
+    color:#111;
+    border:2px solid #111;
+}
+
+body.pba-theme .score-table .player-name{
+    background:#111;
+    color:#fff;
+    font-size:clamp(13px,2vw,22px);
+}
+
+body.pba-theme .score-table .active-player{
+    background:#283747;
+    color:#fff;
+}
+
+body.pba-theme .frame-cell{
+    border-radius:0;
+    box-shadow:none;
+    transform:none;
+}
+
+body.pba-theme .current-frame{
+    background:#dfe8ef!important;
+    box-shadow:
+        inset 0 0 0 4px #111!important;
+}
+
+body.pba-theme .roll{
+    background:#fff;
+    border-color:#333;
+    color:#111;
+}
+
+body.pba-theme .frame-score{
+    font-weight:900;
+}
+
+body.pba-theme .total-cell{
+    background:#101820!important;
+    color:#fff!important;
+    border-color:#fff!important;
+}
+
+
+/* =========================
+   LOTTERY THEME
+========================= */
+
+body.lottery-theme{
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            #315f35 0 2%,
+            transparent 2.5%
+        ),
+        radial-gradient(
+            circle at 75% 70%,
+            #315f35 0 2%,
+            transparent 2.5%
+        ),
+        linear-gradient(
+            135deg,
+            #0a3215,
+            #116522,
+            #082b12
+        );
+}
+
+body.lottery-theme .score-title{
+    color:#ffe36e;
+    font-weight:900;
+    text-shadow:
+        0 3px 0 #563d00,
+        0 0 12px rgba(255,220,50,.5);
+}
+
+body.lottery-theme .score-table th{
+    background:#123c1a;
+    color:#ffe36e;
+    border-color:#ffe36e;
+    font-weight:900;
+}
+
+body.lottery-theme .score-table td{
+    background:#e6f3df;
+    color:#102414;
+    border-color:#ffe36e;
+}
+
+body.lottery-theme .frame-cell{
+    box-shadow:
+        inset 0 0 0 2px rgba(255,220,50,.25);
+}
+
+body.lottery-theme .current-frame{
+    background:#fff4b0!important;
+    box-shadow:
+        inset 0 0 0 4px #ffe36e!important;
+}
+
+body.lottery-theme .player-name{
+    background:#0c3d18!important;
+    color:#ffe36e!important;
+}
+
+body.lottery-theme .total-cell{
+    background:#0c3d18!important;
+    color:#ffe36e!important;
+}
+
+body.lottery-theme .roll{
+    background:#fff;
+    color:#111;
+    border-color:#c7a900;
+}
+
+.money-decoration{
+    display:inline-block;
+    color:#2e9b45;
+    font-weight:900;
+    margin-right:3px;
+}
+
+.money-decoration.gold{
+    color:#ffe36e;
+}
+
+.lottery-money{
+    font-weight:900;
+}
+
+
+/* =========================
+   LANE HELP MESSAGE
+========================= */
+
+.lane-help-display{
+    position:fixed;
+    left:50%;
+    bottom:clamp(35px,6vh,70px);
+    transform:translateX(-50%);
+    width:min(90%,1000px);
+    padding:12px 20px;
+    background:#b51f2d;
+    border:3px solid white;
+    border-radius:15px;
+    text-align:center;
+    font-size:clamp(15px,2vw,25px);
+    font-weight:bold;
+    z-index:50;
+    box-shadow:0 5px 20px rgba(0,0,0,.5);
 }
 
 
@@ -510,6 +731,16 @@ body.bubble-gum-theme .total-cell{
     .warning-box li{
         margin-bottom:5px;
         line-height:1.15;
+    }
+
+    .lane-buddy{
+        margin-top:2px;
+        padding:3px 5px;
+    }
+
+    .lane-help-display{
+        bottom:25px;
+        padding:7px 12px;
     }
 }
 </style>
@@ -692,6 +923,13 @@ let pins=Array(6).fill(true);
 let splitPins=Array(6).fill(false);
 
 let laneReport="";
+
+let laneBuddy={
+    enabled:false,
+    text:""
+};
+
+let currentTheme="dark";
 
 let peer=null;
 let connection=null;
@@ -1277,6 +1515,34 @@ function formatRoll(roll){
 
 
 /* =========================
+   MONEY DECORATION
+========================= */
+
+function addMoneyDecorations(element,count=2){
+
+    if(currentTheme!=="lottery"){
+        return;
+    }
+
+    for(let i=0;i<count;i++){
+
+        const money=
+            document.createElement("span");
+
+        money.className=
+            "money-decoration";
+
+        money.textContent=
+            Math.random()>.5
+                ? "$"
+                : "💲";
+
+        element.prepend(money);
+    }
+}
+
+
+/* =========================
    SCORE DISPLAY
 ========================= */
 
@@ -1311,7 +1577,70 @@ function renderScore(){
             );
         }
 
-        nameCell.textContent=name;
+        const nameText=
+            document.createElement("div");
+
+        nameText.textContent=name;
+
+        if(currentTheme==="lottery"){
+            addMoneyDecorations(
+                nameText,
+                2
+            );
+        }
+
+        nameCell.appendChild(
+            nameText
+        );
+
+
+        /*
+           Lane Buddy only appears when
+           there is exactly one player.
+        */
+
+        if(
+            players.length===1 &&
+            laneBuddy.enabled &&
+            laneBuddy.text
+        ){
+
+            const buddy=
+                document.createElement(
+                    "div"
+                );
+
+            buddy.className=
+                "lane-buddy active";
+
+            const face=
+                document.createElement(
+                    "span"
+                );
+
+            face.className=
+                "lane-buddy-face";
+
+            face.textContent="😻";
+
+            const buddyText=
+                document.createElement(
+                    "span"
+                );
+
+            buddyText.className=
+                "lane-buddy-text";
+
+            buddyText.textContent=
+                laneBuddy.text;
+
+            buddy.appendChild(face);
+            buddy.appendChild(buddyText);
+
+            nameCell.appendChild(
+                buddy
+            );
+        }
 
         row.appendChild(nameCell);
 
@@ -1382,8 +1711,37 @@ function renderScore(){
                 "frame-score";
 
             if(scores[f]!==null){
-                score.textContent=
+
+                if(
+                    currentTheme==="lottery"
+                ){
+
+                    const money=
+                        document.createElement(
+                            "span"
+                        );
+
+                    money.className=
+                        "money-decoration gold";
+
+                    money.textContent="$";
+
+                    score.appendChild(
+                        money
+                    );
+                }
+
+                const scoreText=
+                    document.createElement(
+                        "span"
+                    );
+
+                scoreText.textContent=
                     scores[f];
+
+                score.appendChild(
+                    scoreText
+                );
             }
 
             cell.appendChild(score);
@@ -1397,8 +1755,28 @@ function renderScore(){
         total.className=
             "total-cell";
 
-        total.textContent=
+        if(currentTheme==="lottery"){
+
+            const money=
+                document.createElement(
+                    "span"
+                );
+
+            money.className=
+                "money-decoration gold";
+
+            money.textContent="$";
+
+            total.appendChild(money);
+        }
+
+        const totalText=
+            document.createElement("span");
+
+        totalText.textContent=
             calculateTotal(name);
+
+        total.appendChild(totalText);
 
         row.appendChild(total);
 
@@ -1445,6 +1823,45 @@ function renderScore(){
         ).textContent=
             "No players";
     }
+
+
+    renderLaneHelpDisplay();
+}
+
+
+/* =========================
+   LANE HELP DISPLAY
+========================= */
+
+function renderLaneHelpDisplay(){
+
+    const old=
+        document.getElementById(
+            "laneHelpDisplay"
+        );
+
+    if(old){
+        old.remove();
+    }
+
+    if(!laneReport){
+        return;
+    }
+
+    const display=
+        document.createElement("div");
+
+    display.id=
+        "laneHelpDisplay";
+
+    display.className=
+        "lane-help-display";
+
+    display.textContent=
+        "🆘 LANE HELP: "+
+        laneReport;
+
+    document.body.appendChild(display);
 }
 
 
@@ -1500,37 +1917,82 @@ function renderPins(){
 
 
 /* =========================
-   BACKGROUND
+   BACKGROUND / THEME
 ========================= */
 
 function changeBackground(value){
+
+    document.body.classList.remove(
+        "bubble-gum-theme",
+        "pba-theme",
+        "lottery-theme"
+    );
 
     const backgrounds={
         dark:"#111",
         blue:"#06152e",
         green:"#062414",
         purple:"#19062e",
-        red:"#2e0606",
-        bubblegum:"#ff8fc7"
+        red:"#2e0606"
     };
 
-    document.body.classList.remove(
-        "bubble-gum-theme"
-    );
+    if(
+        value==="bubblegum"
+    ){
 
-    if(value==="bubblegum"){
+        currentTheme="bubblegum";
 
         document.body.classList.add(
             "bubble-gum-theme"
         );
 
+        renderScore();
+
         return;
     }
 
+
+    if(
+        value==="pba"
+    ){
+
+        currentTheme="pba";
+
+        document.body.classList.add(
+            "pba-theme"
+        );
+
+        renderScore();
+
+        return;
+    }
+
+
+    if(
+        value==="lottery"
+    ){
+
+        currentTheme="lottery";
+
+        document.body.classList.add(
+            "lottery-theme"
+        );
+
+        renderScore();
+
+        return;
+    }
+
+
+    currentTheme=value;
+
     if(backgrounds[value]){
+
         document.body.style.background=
             backgrounds[value];
     }
+
+    renderScore();
 }
 
 
@@ -1569,7 +2031,17 @@ function sendState(){
             splitPins:[...splitPins],
 
             laneReport:
-                laneReport
+                laneReport,
+
+            laneBuddy:
+                JSON.parse(
+                    JSON.stringify(
+                        laneBuddy
+                    )
+                ),
+
+            theme:
+                currentTheme
         });
     }
 }
@@ -1615,6 +2087,7 @@ function handleRemote(data){
             sendState();
             break;
 
+
         case "addPlayer":
 
             if(
@@ -1632,12 +2105,26 @@ function handleRemote(data){
                     frames[name]=
                         newFrames();
 
+                    /*
+                       Lane Buddy is only allowed
+                       with one player.
+                    */
+
+                    if(players.length>1){
+
+                        laneBuddy={
+                            enabled:false,
+                            text:""
+                        };
+                    }
+
                     renderScore();
                     sendState();
                 }
             }
 
             break;
+
 
         case "removePlayer":
 
@@ -1772,6 +2259,10 @@ function handleRemote(data){
             break;
 
 
+        /* =====================
+           LANE HELP
+        ===================== */
+
         case "laneHelp":
 
             if(
@@ -1789,11 +2280,84 @@ function handleRemote(data){
             break;
 
 
+        case "cancelLaneHelp":
+
+            laneReport="";
+
+            renderScore();
+            sendState();
+
+            break;
+
+
+        /* =====================
+           LANE BUDDY
+        ===================== */
+
+        case "laneBuddy":
+
+            if(players.length!==1){
+
+                laneBuddy={
+                    enabled:false,
+                    text:""
+                };
+
+                renderScore();
+                sendState();
+
+                break;
+            }
+
+
+            let buddyText=
+                typeof data.text==="string"
+                    ? data.text.trim()
+                    : "";
+
+
+            if(!buddyText){
+
+                buddyText=
+                    "You got this! Just take your time!!";
+            }
+
+
+            laneBuddy={
+                enabled:true,
+                text:buddyText
+            };
+
+
+            renderScore();
+            sendState();
+
+            break;
+
+
+        case "deleteLaneBuddy":
+
+            laneBuddy={
+                enabled:false,
+                text:""
+            };
+
+            renderScore();
+            sendState();
+
+            break;
+
+
         case "end":
 
             gameStarted=false;
             warningShown=false;
             laneReport="";
+
+            laneBuddy={
+                enabled:false,
+                text:""
+            };
 
             showScreen("welcome");
 
